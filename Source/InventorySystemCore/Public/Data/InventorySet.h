@@ -10,8 +10,13 @@
 struct FInventorySet_ItemSet;
 class UItemDefinition;
 class UInventorySystemComponent;
+
 /**
- *
+ * @class UInventorySet
+ * @see UPrimaryDataAsset
+ * @brief Data asset storing a predefined set of items to be granted together
+ * @details Used to define groups of items that can be given to an inventory system component at once.
+ * Commonly used for starting equipment, loot drops, or quest rewards.
  */
 UCLASS()
 class INVENTORYSYSTEMCORE_API UInventorySet : public UPrimaryDataAsset
@@ -20,12 +25,17 @@ class INVENTORYSYSTEMCORE_API UInventorySet : public UPrimaryDataAsset
 
 public:
 	/**
-	 * Give the items set to the specified inventory system component.
+	 * Grants all items defined in this set to the specified inventory system component
+	 * @param InventorySystemComp The target inventory component that will receive the items
+	 * @see UInventorySystemComponent
 	 */
 	void GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 
 protected:
-	/** Gameplay abilities to grant when this ability set is given. */
+	/**
+	 * Collection of item definitions and their quantities to be granted together
+	 * Each entry specifies an item type and how many of that item should be given
+	 */
 	UPROPERTY(EditDefaultsOnly, Category = "Items", meta = (TitleProperty = "[{Quantity}] {ItemDefinition}"))
 	TArray<FInventorySet_ItemSet> Items;
 };

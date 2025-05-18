@@ -9,12 +9,13 @@
 class UItemDefinition;
 
 /**
- * UInventoryCache
- * 
- * A cache system for ItemDefinitions to improve performance by reducing object creation.
- * This class manages a thread-safe cache of ItemDefinitions.
+ * @class UInventoryCache
+ * @see UObject
+ * @brief A thread-safe cache system for ItemDefinitions
+ * @details This class manages a cache of ItemDefinitions to improve performance by reducing object creation 
+ * and providing thread-safe access to cached objects.
  */
-UCLASS()
+UCLASS(HideDropdown, Hidden)
 class INVENTORYSYSTEMCORE_API UInventoryCache : public UObject
 {
 	GENERATED_BODY()
@@ -22,39 +23,46 @@ class INVENTORYSYSTEMCORE_API UInventoryCache : public UObject
 	friend class UInventorySystemComponent;
 
 public:
-
 	UInventoryCache();
 	virtual ~UInventoryCache() override;
 
 	/**
-	 * Get a cached ItemDefinitionClass.
-	 * If the ItemDefinitionClass is not in the cache, it creates a new one and adds it to the cache.
-	 * 
-	 * @param ItemDefinitionClass The class of the ItemDefinition to retrieve or create.
-	 * @return A pointer to the cached or newly created ItemDefinition.
+	 * Gets or creates a cached ItemDefinition instance in a thread-safe manner
+	 * If the ItemDefinition is not in the cache, creates a new one and adds it to the cache
+	 *
+	 * @param ItemDefinitionClass The class of the ItemDefinition to retrieve or create
+	 * @return A pointer to the cached or newly created ItemDefinition instance
+	 * @see UItemDefinition
 	 */
 	UItemDefinition* GetCachedDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass);
-	
-	/**
-	 * Check if the cache contains a cached default object of the given class.
-	 * 
-	 * @param ItemDefinitionClass The class of the ItemDefinition.
-	 * @return True if the cache contains a default object of the given class.
-	 */
-	bool IsCachedDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const;
-	
-private:
 
 	/**
-	 * Clears the cache of any ItemDefinitions that are no longer rooted.
-	 * This method is called after garbage collection.
+	 * Checks if an ItemDefinition of the specified class exists in the cache
+	 *
+	 * @param ItemDefinitionClass The class of the ItemDefinition to check
+	 * @return True if the cache contains a valid instance of the specified class, false otherwise
+	 * @see UItemDefinition
+	 */
+	bool IsCachedDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const;
+
+private:
+	/**
+	 * Clears the cache of any ItemDefinitions that are no longer rooted
+	 * This method is called after garbage collection and is thread-safe
+	 * @see CacheLock
 	 */
 	void Clear();
 
-	/** Map to store cached ItemDefinitions */
+	/**
+	 * Storage for cached ItemDefinition instances
+	 * Maps ItemDefinition classes to their corresponding cached instances
+	 */
 	UPROPERTY()
-	TMap<TSubclassOf<UItemDefinition>, UItemDefinition*> CachedDefinitionMap;
+	TMap<TSubclassOf<UItemDefinition>, TWeakObjectPtr<UItemDefinition>> CachedDefinitionMap;
 
-	/** Critical section to ensure thread-safe access to the cache */
+	/**
+	 * Synchronization primitive for thread-safe access to the CachedDefinitionMap
+	 * Used to prevent concurrent modifications to the cache
+	 */
 	FCriticalSection CacheLock;
 };

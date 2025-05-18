@@ -110,7 +110,7 @@ $(function(){initNavTree('class_u_item_component___consumable.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p>Component for consumable items, adding usage-related functionality. This component adds properties and behaviors specific to consumable items, such as tracking current usage.  
+<p>Component for items that can be consumed or used over time.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_item_component___consumable_8h_source.html">ItemComponent_Consumable.h</a>&gt;</code></p>
@@ -135,9 +135,11 @@ Public Attributes</h2></td></tr>
 <tr class="separator:abe783cb9dc711f71cc5a6c48cb421539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Component for consumable items, adding usage-related functionality. This component adds properties and behaviors specific to consumable items, such as tracking current usage. </p>
+<div class="textblock"><p>Component for items that can be consumed or used over time. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_component.html" title="Base class for modular components that can be added to item instances.">UItemComponent</a></dd></dl>
+<p>This component tracks the usage state of consumable items, such as potions, food, or other items that can be depleted. It maintains a replicated current use value that represents the item's consumption progress. </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_component___consumable_8h_source.html#l00016">16</a> of file <a class="el" href="_item_component___consumable_8h_source.html">ItemComponent_Consumable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_component___consumable_8h_source.html#l00018">18</a> of file <a class="el" href="_item_component___consumable_8h_source.html">ItemComponent_Consumable.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8c90f05fd6c5ba7c7ee1260f5f9a5db3" name="a8c90f05fd6c5ba7c7ee1260f5f9a5db3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c90f05fd6c5ba7c7ee1260f5f9a5db3">&#9670;&#160;</a></span>GetLifetimeReplicatedProps()</h2>
@@ -161,16 +163,25 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets up property replication for the consumable component </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">OutLifetimeProps</td><td>Array of properties to be replicated </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Reimplemented from <a class="el" href="class_u_item_component.html">UItemComponent</a>.</p>
+<p>Reimplemented from <a class="el" href="class_u_item_component.html#aecedefa4a6c58f4468570ac93b4faa94">UItemComponent</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_item_component___consumable_8cpp_source.html#l00007">7</a> of file <a class="el" href="_item_component___consumable_8cpp_source.html">ItemComponent_Consumable.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
 <div class="line"><span class="lineno">    9</span>    Super::GetLifetimeReplicatedProps(OutLifetimeProps);</div>
 <div class="line"><span class="lineno">   10</span> </div>
-<div class="line"><span class="lineno">   11</span>    DOREPLIFETIME(ThisClass, CurrentUse);</div>
+<div class="line"><span class="lineno">   11</span>    DOREPLIFETIME(ThisClass, <a class="code hl_variable" href="#abe783cb9dc711f71cc5a6c48cb421539">CurrentUse</a>);</div>
 <div class="line"><span class="lineno">   12</span>}</div>
+<div class="ttc" id="aclass_u_item_component___consumable_html_abe783cb9dc711f71cc5a6c48cb421539"><div class="ttname"><a href="#abe783cb9dc711f71cc5a6c48cb421539">UItemComponent_Consumable::CurrentUse</a></div><div class="ttdeci">float CurrentUse</div><div class="ttdef"><b>Definition</b> <a href="_item_component___consumable_8h_source.html#l00033">ItemComponent_Consumable.h:33</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_component___consumable_8h_source.html#l00033">CurrentUse</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -185,8 +196,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Tracks the current usage progress of the consumable item. 0 means unused, higher values indicate usage progress </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_component___consumable_8h_source.html#l00022">22</a> of file <a class="el" href="_item_component___consumable_8h_source.html">ItemComponent_Consumable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_component___consumable_8h_source.html#l00033">33</a> of file <a class="el" href="_item_component___consumable_8h_source.html">ItemComponent_Consumable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_item_component___consumable_8cpp_source.html#l00007">GetLifetimeReplicatedProps()</a>.</p>
 
 </div>
 </div>

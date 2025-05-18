@@ -110,6 +110,9 @@ $(function(){initNavTree('class_u_inventory_cache.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
+<p>A thread-safe cache system for ItemDefinitions.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_inventory_cache_8h_source.html">InventoryCache.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for UInventoryCache:</div>
@@ -131,10 +134,11 @@ Friends</h2></td></tr>
 <tr class="separator:a2aa2eaf3d7d50dd9c4a4df7377c016ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="class_u_inventory_cache.html">UInventoryCache</a></p>
-<p>A cache system for ItemDefinitions to improve performance by reducing object creation. This class manages a thread-safe cache of ItemDefinitions. </p>
+<div class="textblock"><p>A thread-safe cache system for ItemDefinitions. </p>
+<dl class="section see"><dt>See also</dt><dd>UObject</dd></dl>
+<p>This class manages a cache of ItemDefinitions to improve performance by reducing object creation and providing thread-safe access to cached objects. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_cache_8h_source.html#l00018">18</a> of file <a class="el" href="_inventory_cache_8h_source.html">InventoryCache.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_cache_8h_source.html#l00019">19</a> of file <a class="el" href="_inventory_cache_8h_source.html">InventoryCache.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a48aef99b294309f77071e8e7b42913ae" name="a48aef99b294309f77071e8e7b42913ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a48aef99b294309f77071e8e7b42913ae">&#9670;&#160;</a></span>UInventoryCache()</h2>
@@ -205,14 +209,15 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get a cached ItemDefinitionClass. If the ItemDefinitionClass is not in the cache, it creates a new one and adds it to the cache.</p>
+<p>Gets or creates a cached ItemDefinition instance in a thread-safe manner If the ItemDefinition is not in the cache, creates a new one and adds it to the cache</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ItemDefinitionClass</td><td>The class of the ItemDefinition to retrieve or create. </td></tr>
+    <tr><td class="paramname">ItemDefinitionClass</td><td>The class of the ItemDefinition to retrieve or create </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the cached or newly created ItemDefinition. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the cached or newly created ItemDefinition instance </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_definition.html" title="Data asset definition of an item that can be given/owned by a character.">UItemDefinition</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_cache_8cpp_source.html#l00019">19</a> of file <a class="el" href="_inventory_cache_8cpp_source.html">InventoryCache.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   20</span>{</div>
@@ -255,14 +260,15 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Check if the cache contains a cached default object of the given class.</p>
+<p>Checks if an ItemDefinition of the specified class exists in the cache</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ItemDefinitionClass</td><td>The class of the ItemDefinition. </td></tr>
+    <tr><td class="paramname">ItemDefinitionClass</td><td>The class of the ItemDefinition to check </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the cache contains a default object of the given class. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the cache contains a valid instance of the specified class, false otherwise </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_definition.html" title="Data asset definition of an item that can be given/owned by a character.">UItemDefinition</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_cache_8cpp_source.html#l00044">44</a> of file <a class="el" href="_inventory_cache_8cpp_source.html">InventoryCache.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   45</span>{</div>
@@ -282,7 +288,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class UInventorySystemComponent</td>
+          <td class="memname">friend class <a class="el" href="class_u_inventory_system_component.html">UInventorySystemComponent</a></td>
         </tr>
       </table>
   </td>
@@ -292,7 +298,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_cache_8h_source.html#l00022">22</a> of file <a class="el" href="_inventory_cache_8h_source.html">InventoryCache.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_cache_8h_source.html#l00023">23</a> of file <a class="el" href="_inventory_cache_8h_source.html">InventoryCache.h</a>.</p>
 
 </div>
 </div>

@@ -119,7 +119,7 @@ Inheritance diagram for UItemComponent:</div>
  <div class="center">
   <img src="class_u_item_component.png" usemap="#UItemComponent_map" alt=""/>
   <map id="UItemComponent_map" name="UItemComponent_map">
-<area href="class_u_item_component___consumable.html" title="Component for consumable items, adding usage-related functionality. This component adds properties an..." alt="UItemComponent_Consumable" shape="rect" coords="0,112,181,136"/>
+<area href="class_u_item_component___consumable.html" title="Component for items that can be consumed or used over time." alt="UItemComponent_Consumable" shape="rect" coords="0,112,181,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -130,8 +130,8 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for modular components that can be added to item instances. </p>
-<dl class="section see"><dt>See also</dt><dd>UObject </dd></dl>
-<p>This class serves as the foundation for creating specialized components that add specific functionalities to item instances. It allows for a flexible and extensible item system. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a></dd></dl>
+<p>This class serves as the foundation for creating specialized components that add specific functionalities to item instances. Components are attached to item instances to extend their capabilities. Each component can implement its own replication logic and functionality while maintaining a modular design approach. </p>
 
 <p class="definition">Definition at line <a class="el" href="_item_component_8h_source.html#l00021">21</a> of file <a class="el" href="_item_component_8h_source.html">ItemComponent.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -157,9 +157,17 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Sets up property replication for the component </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">OutLifetimeProps</td><td>Array of lifetime properties to be filled with replication properties </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_item_component_8h_source.html#l00027">27</a> of file <a class="el" href="_item_component_8h_source.html">ItemComponent.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{ Super::GetLifetimeReplicatedProps(OutLifetimeProps); };</div>
+<p>Reimplemented in <a class="el" href="class_u_item_component___consumable.html#a8c90f05fd6c5ba7c7ee1260f5f9a5db3">UItemComponent_Consumable</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_item_component_8h_source.html#l00032">32</a> of file <a class="el" href="_item_component_8h_source.html">ItemComponent.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>{ Super::GetLifetimeReplicatedProps(OutLifetimeProps); };</div>
 </div><!-- fragment -->
 </div>
 </div>

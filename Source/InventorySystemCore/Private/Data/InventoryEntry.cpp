@@ -12,8 +12,6 @@ void FInventoryEntry::PreReplicatedRemove(const FInventoryList& InArraySerialize
 	if (InArraySerializer.OwnerComponent)
 	{
 		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnRemoveEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
-
-		// TODO : Lock scope to stop us from removing entries from our inventory
 	}
 }
 

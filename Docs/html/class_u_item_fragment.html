@@ -110,7 +110,7 @@ $(function(){initNavTree('class_u_item_fragment.html',''); initResizable(true); 
 </div><!--header-->
 <div class="contents">
 
-<p>Represents a fragment of an item definition, allow definition extension.  
+<p>Represents a fragment of an item definition, allowing definition extension.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_item_fragment_8h_source.html">ItemFragment.h</a>&gt;</code></p>
@@ -120,7 +120,7 @@ Inheritance diagram for UItemFragment:</div>
  <div class="center">
   <img src="class_u_item_fragment.png" usemap="#UItemFragment_map" alt=""/>
   <map id="UItemFragment_map" name="UItemFragment_map">
-<area href="class_u_item_fragment___consumable.html" alt="UItemFragment_Consumable" shape="rect" coords="0,112,179,136"/>
+<area href="class_u_item_fragment___consumable.html" title="Fragment that adds consumable behavior to an item." alt="UItemFragment_Consumable" shape="rect" coords="0,112,179,136"/>
 <area href="class_u_item_fragment___dropable.html" alt="UItemFragment_Dropable" shape="rect" coords="189,112,368,136"/>
 <area href="class_u_item_fragment___equipable_item.html" alt="UItemFragment_EquipableItem" shape="rect" coords="378,112,557,136"/>
 <area href="class_u_item_fragment___storable.html" title="UItemFragment_Storable defines storage properties for an item. This fragment can be attached to item ..." alt="UItemFragment_Storable" shape="rect" coords="567,112,746,136"/>
@@ -141,10 +141,11 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a39b3fd50e9e027803cedf19dee74278a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a fragment of an item definition, allow definition extension. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_definition.html" title="Data asset definition of an item that can be given/owned by a character.">UItemDefinition</a> </dd></dl>
+<div class="textblock"><p>Represents a fragment of an item definition, allowing definition extension. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_definition.html" title="Data asset definition of an item that can be given/owned by a character.">UItemDefinition</a></dd></dl>
+<p>Item fragments are components that can be attached to item definitions to extend their functionality. They are instantiated along with the item instance and can contain both data and behavior. </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment_8h_source.html#l00018">18</a> of file <a class="el" href="_item_fragment_8h_source.html">ItemFragment.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment_8h_source.html#l00020">20</a> of file <a class="el" href="_item_fragment_8h_source.html">ItemFragment.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a782cddd7b9c287a548e33a47530dd7d5" name="a782cddd7b9c287a548e33a47530dd7d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a782cddd7b9c287a548e33a47530dd7d5">&#9670;&#160;</a></span>GetOwningInstance()</h2>
@@ -160,13 +161,16 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns the owning item instance of the fragment. </p>
+<p>Returns the item instance that owns this fragment </p><dl class="section return"><dt>Returns</dt><dd>The owning item instance, or nullptr if not attached </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment_8cpp_source.html#l00011">11</a> of file <a class="el" href="_item_fragment_8cpp_source.html">ItemFragment.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   12</span>{</div>
-<div class="line"><span class="lineno">   13</span>    <span class="keywordflow">return</span> OwningInstance;</div>
+<div class="line"><span class="lineno">   13</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a39b3fd50e9e027803cedf19dee74278a">OwningInstance</a>;</div>
 <div class="line"><span class="lineno">   14</span>}</div>
+<div class="ttc" id="aclass_u_item_fragment_html_a39b3fd50e9e027803cedf19dee74278a"><div class="ttname"><a href="#a39b3fd50e9e027803cedf19dee74278a">UItemFragment::OwningInstance</a></div><div class="ttdeci">TObjectPtr&lt; UItemInstance &gt; OwningInstance</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment_8h_source.html#l00041">ItemFragment.h:41</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment_8h_source.html#l00041">OwningInstance</a>.</p>
+
 </div>
 </div>
 <a id="a4e3a8f21c4ce8febeaf0d8d52a886d44" name="a4e3a8f21c4ce8febeaf0d8d52a886d44"></a>
@@ -191,16 +195,23 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Called when the ItemInstance is created </p>
+<p>Called when the ItemInstance is created and this fragment is attached to it </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Instance</td><td>The item instance that owns this fragment </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="class_u_item_fragment___consumable.html#adebe593aadac9cde8a08032ceab4750d">UItemFragment_Consumable</a>, and <a class="el" href="class_u_item_fragment___equipable_item.html#a801b44adfb25fb662a2a749662cc45db">UItemFragment_EquipableItem</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment_8cpp_source.html#l00005">5</a> of file <a class="el" href="_item_fragment_8cpp_source.html">ItemFragment.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
 <div class="line"><span class="lineno">    7</span>    check(Instance);</div>
-<div class="line"><span class="lineno">    8</span>    OwningInstance = Instance;</div>
+<div class="line"><span class="lineno">    8</span>    <a class="code hl_variable" href="#a39b3fd50e9e027803cedf19dee74278a">OwningInstance</a> = Instance;</div>
 <div class="line"><span class="lineno">    9</span>}</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment_8h_source.html#l00041">OwningInstance</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -223,8 +234,11 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>The item instance that owns this fragment instance </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment_8h_source.html#l00032">32</a> of file <a class="el" href="_item_fragment_8h_source.html">ItemFragment.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment_8h_source.html#l00041">41</a> of file <a class="el" href="_item_fragment_8h_source.html">ItemFragment.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_item_fragment_8cpp_source.html#l00011">GetOwningInstance()</a>, and <a class="el" href="_item_fragment_8cpp_source.html#l00005">OnInstanceCreated()</a>.</p>
 
 </div>
 </div>

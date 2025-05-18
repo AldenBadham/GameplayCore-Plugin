@@ -143,7 +143,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a single inventory entry with item instance and stack management. </p>
-<dl class="section see"><dt>See also</dt><dd>FFastArraySerializerItem, <a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a>, <a class="el" href="struct_f_inventory_list.html" title="Manages the list of items in the inventory.">FInventoryList</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>FFastArraySerializerItem, <a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a>, <a class="el" href="struct_f_inventory_list.html" title="A replicated container that manages a list of inventory entries.">FInventoryList</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00018">18</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -243,11 +243,12 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00018">18</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   19</span>{</div>
-<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">if</span> (InArraySerializer.OwnerComponent)</div>
+<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">if</span> (InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>)</div>
 <div class="line"><span class="lineno">   21</span>    {</div>
-<div class="line"><span class="lineno">   22</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.OwnerComponent-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
+<div class="line"><span class="lineno">   22</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
 <div class="line"><span class="lineno">   23</span>    }</div>
 <div class="line"><span class="lineno">   24</span>}</div>
+<div class="ttc" id="astruct_f_inventory_list_html_a211a6e05939766ade86e0d9908ac8940"><div class="ttname"><a href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">FInventoryList::OwnerComponent</a></div><div class="ttdeci">TObjectPtr&lt; UInventorySystemComponent &gt; OwnerComponent</div><div class="ttdef"><b>Definition</b> <a href="_inventory_list_8h_source.html#l00119">InventoryList.h:119</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -268,9 +269,9 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00010">10</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">if</span> (InArraySerializer.OwnerComponent)</div>
+<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">if</span> (InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>)</div>
 <div class="line"><span class="lineno">   13</span>    {</div>
-<div class="line"><span class="lineno">   14</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnRemoveEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.OwnerComponent-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
+<div class="line"><span class="lineno">   14</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnRemoveEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
 <div class="line"><span class="lineno">   15</span>    }</div>
 <div class="line"><span class="lineno">   16</span>}</div>
 </div><!-- fragment -->
@@ -359,7 +360,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class UInventorySystemComponent</td>
+          <td class="memname">friend class <a class="el" href="class_u_inventory_system_component.html">UInventorySystemComponent</a></td>
         </tr>
       </table>
   </td>

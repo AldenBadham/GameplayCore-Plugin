@@ -1,10 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Data/InventoryCache.h"
 
 #include "Definitions/ItemDefinition.h"
-
 
 UInventoryCache::UInventoryCache()
 {
@@ -20,15 +18,20 @@ UInventoryCache::~UInventoryCache()
 
 UItemDefinition* UInventoryCache::GetCachedDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass)
 {
-	if(!IsValid(ItemDefinitionClass))
+	if (!IsValid(ItemDefinitionClass))
+	{
 		return nullptr;
-	
+	}
+
 	// Lock the critical section to ensure thread-safe access to the cache
 	FScopeLock Lock(&CacheLock);
-	
-	if (UItemDefinition** FoundDefinition = CachedDefinitionMap.Find(ItemDefinitionClass))
+
+	if (const TWeakObjectPtr<UItemDefinition>* FoundDefinition = CachedDefinitionMap.Find(ItemDefinitionClass))
 	{
-		return *FoundDefinition;
+		if (UItemDefinition* Definition = FoundDefinition->Get(); IsValid(Definition))
+		{
+			return Definition;
+		}
 	}
 
 	// If the definition is not cached, create a new instance
@@ -50,7 +53,7 @@ void UInventoryCache::Clear()
 
 	for (auto& Pair : CachedDefinitionMap)
 	{
-		if (Pair.Value && !Pair.Value->IsRooted())
+		if (Pair.Value != nullptr && !Pair.Value->IsRooted())
 		{
 			CachedDefinitionMap.Remove(Pair.Key);
 		}

@@ -1,6 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Components/InventorySystemComponent.h"
 
 #include "Data/InventoryCache.h"
@@ -9,12 +8,13 @@
 #include "Instances/ItemInstance.h"
 #include "Net/UnrealNetwork.h"
 
-
-UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get()), InventoryList(this)
+UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
+	, InventoryList(this)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	SetIsReplicatedByDefault(true);
-	
+
 	bReplicateUsingRegisteredSubObjectList = true;
 	bWantsInitializeComponent = true;
 }
@@ -22,7 +22,9 @@ UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& O
 UInventorySystemComponent::~UInventorySystemComponent()
 {
 	if (Cache.IsValid())
+	{
 		Cache->Clear();
+	}
 }
 
 void UInventorySystemComponent::InitializeComponent()
@@ -72,22 +74,28 @@ void UInventorySystemComponent::ReadyForReplication()
 	}
 }
 
-UItemInstance* UInventorySystemComponent::AddItemDefinition(TSubclassOf<UItemDefinition> ItemDefinition, int32 Count)
+TArray<UItemInstance*> UInventorySystemComponent::AddItemDefinition(TSubclassOf<UItemDefinition> ItemDefinition, int32 Count)
 {
 	if (!IsValid(ItemDefinition))
 	{
-		return nullptr;
+		return {};
 	}
 
-	UItemInstance* Instance = InventoryList.Add(ItemDefinition, Count);
+	TArray<UItemInstance*> Instances = InventoryList.Add(ItemDefinition, Count);
 
 	// Register new instances for replication
-	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication() && IsValid(Instance))
+	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
 	{
-		AddReplicatedSubObject(Instance);
+		for (UItemInstance* Instance : Instances)
+		{
+			if (IsValid(Instance))
+			{
+				AddReplicatedSubObject(Instance);
+			}
+		}
 	}
 
-	return Instance;
+	return Instances;
 }
 
 void UInventorySystemComponent::AddItemInstance(UItemInstance* ItemInstance)
@@ -111,7 +119,24 @@ TArray<FInventoryEntryHandle> UInventorySystemComponent::GetAllStacks() const
 	return InventoryList.GetAllHandles();
 }
 
-int32 UInventorySystemComponent::GetTotalItemCountByDefinition(TSubclassOf<UItemDefinition> ItemDefinitionClass) const
+int32 UInventorySystemComponent::GetStackCountByDefinition(const TSubclassOf<UItemDefinition> DefinitionClass) const
+{
+	int32 Count = 0;
+	for (const FInventoryEntry& Entry : InventoryList.Entries)
+	{
+		if (const UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+		{
+			if (Instance->GetDefinitionClass() == DefinitionClass)
+			{
+				++Count;
+			}
+		}
+	}
+
+	return Count;
+}
+
+int32 UInventorySystemComponent::GetTotalCountByDefinition(const TSubclassOf<UItemDefinition> ItemDefinitionClass) const
 {
 	int32 TotalCount = 0;
 	for (const FInventoryEntry& Entry : InventoryList.Entries)
@@ -120,7 +145,7 @@ int32 UInventorySystemComponent::GetTotalItemCountByDefinition(TSubclassOf<UItem
 		{
 			if (Instance->GetDefinitionClass() == ItemDefinitionClass)
 			{
-				++TotalCount;
+				TotalCount += Entry.StackCount;
 			}
 		}
 	}
@@ -128,11 +153,11 @@ int32 UInventorySystemComponent::GetTotalItemCountByDefinition(TSubclassOf<UItem
 	return TotalCount;
 }
 
-UItemDefinition* UInventorySystemComponent::GetItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const
+UItemDefinition* UInventorySystemComponent::GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const
 {
-	if(Cache.IsValid())
+	if (Cache.IsValid())
 	{
-		return Cache->GetCachedDefinition(ItemDefinitionClass);
+		return Cache->GetCachedDefinition(DefinitionClass);
 	}
 	return nullptr;
 }

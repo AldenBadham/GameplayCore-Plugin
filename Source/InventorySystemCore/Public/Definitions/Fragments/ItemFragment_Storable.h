@@ -31,24 +31,34 @@ class INVENTORYSYSTEMCORE_API UItemFragment_Storable : public UItemFragment
 	GENERATED_BODY()
 
 public:
+	
+	/** Visual representation of the item in the UI */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appearance")
 	FSlateBrush UIBrush;
 
-	/** Maximum number of items that can be stacked together */
+	/** Determines how many items can be grouped in a single inventory slot. The minimum value is 1 for unstackable items */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Storage", meta = (ClampMin = 1))
 	int MaxStackCount = 1;
 
-	/** Weight of a single item in the appropriate unit (e.g., kilograms) */
+	/** Individual item weight in kilograms. Used for inventory weight calculations. Minimum value is 0 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Storage", meta = (ClampMin = 0, Units = "kg"))
 	float Weight = 0.f;
 
-	/** Flags defining various storage properties of the item */
+	/** Combination of EItemStorageFlags that define special storage behaviors like uniqueness or persistence */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Storage", meta = (Bitmask, BitmaskEnum = "/Script/InventorySystemCore.EItemStorageFlags"))
 	int32 StorageFlags;
 
+	/**
+	 * Checks if this item can be stacked with others of the same type
+	 * @return True if the item can be stacked (MaxStackCount > 1), false otherwise
+	 */
 	UFUNCTION(BlueprintCallable)
 	bool CanStack() const;
 
+	/**
+	 * Checks if this item is marked as unique in storage
+	 * @return True if the item has the Unique storage flag set
+	 */
 	UFUNCTION(BlueprintCallable)
 	bool IsUnique() const;
 };

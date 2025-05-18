@@ -25,7 +25,9 @@ var hierarchy =
     [ "FInventoryChangeData", "struct_f_inventory_change_data.html", null ],
     [ "FInventoryEntryHandle", "struct_f_inventory_entry_handle.html", null ],
     [ "FInventorySet_ItemSet", "struct_f_inventory_set___item_set.html", null ],
+    [ "FItemFragmentRule", "struct_f_item_fragment_rule.html", null ],
     [ "IGameInitStateInterface", "class_i_game_init_state_interface.html", null ],
+    [ "IInventorySystemInterface", "class_i_inventory_system_interface.html", null ],
     [ "IModuleInterface", null, [
       [ "FAbilitySystemCoreModule", "class_f_ability_system_core_module.html", null ],
       [ "FEquipmentSystemCoreModule", "class_f_equipment_system_core_module.html", null ],
@@ -65,7 +67,8 @@ var hierarchy =
       [ "UInputConfig", "class_u_input_config.html", null ]
     ] ],
     [ "UDeveloperSettings", null, [
-      [ "UEquipmentSystemSettings", "class_u_equipment_system_settings.html", null ]
+      [ "UEquipmentSystemSettings", "class_u_equipment_system_settings.html", null ],
+      [ "UInventorySystemSettings", "class_u_inventory_system_settings.html", null ]
     ] ],
     [ "UGameInstanceSubsystem", null, [
       [ "UGameInitStateSubsystem", "class_u_game_init_state_subsystem.html", null ]
@@ -76,8 +79,10 @@ var hierarchy =
       ] ]
     ] ],
     [ "UInterface", null, [
-      [ "UGameInitStateInterface", "class_u_game_init_state_interface.html", null ]
+      [ "UGameInitStateInterface", "class_u_game_init_state_interface.html", null ],
+      [ "UInventorySystemInterface", "class_u_inventory_system_interface.html", null ]
     ] ],
+    [ "UInventorySystemComponent", "class_u_inventory_system_component.html", null ],
     [ "UObject", null, [
       [ "UEquipmentCache", "class_u_equipment_cache.html", null ],
       [ "UEquipmentComponent", "class_u_equipment_component.html", [

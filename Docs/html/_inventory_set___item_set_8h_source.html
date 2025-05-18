@@ -111,24 +111,27 @@ $(function(){initNavTree('_inventory_set___item_set_8h_source.html',''); initRes
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;InventorySet_ItemSet.generated.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>USTRUCT(BlueprintType)</div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="struct_f_inventory_set___item_set.html">   13</a></span>struct <a class="code hl_struct" href="struct_f_inventory_set___item_set.html">FInventorySet_ItemSet</a></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    GENERATED_BODY()</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">bool</span> IsEquipable() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>USTRUCT(BlueprintType)</div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="struct_f_inventory_set___item_set.html">   15</a></span>struct <a class="code hl_class" href="struct_f_inventory_set___item_set.html">FInventorySet_ItemSet</a></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    GENERATED_BODY()</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="comment">// Item&#39;s definition to give</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    UPROPERTY(EditDefaultsOnly, DisplayName = <span class="stringliteral">&quot;Definition&quot;</span>)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    TSubclassOf&lt;UItemDefinition&gt; ItemDefinition = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// Quantity to give</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    UPROPERTY(EditDefaultsOnly)</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">int</span> Quantity = 1.0f;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>};</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="struct_f_inventory_set___item_set.html#a5d07ddc03bcd59ec2b934449a7f56595">   23</a></span>    bool <a class="code hl_function" href="struct_f_inventory_set___item_set.html#a5d07ddc03bcd59ec2b934449a7f56595">IsEquipable</a>() const;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    UPROPERTY(EditDefaultsOnly, DisplayName = <span class="stringliteral">&quot;Definition&quot;</span>)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="struct_f_inventory_set___item_set.html#a8db109eadb0acea7eae569d8608965b3">   27</a></span>    TSubclassOf&lt;<a class="code hl_class" href="class_u_item_definition.html">UItemDefinition</a>&gt; <a class="code hl_variable" href="struct_f_inventory_set___item_set.html#a8db109eadb0acea7eae569d8608965b3">ItemDefinition</a> = <span class="keywordtype">nullptr</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    UPROPERTY(EditDefaultsOnly)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="struct_f_inventory_set___item_set.html#a504d496af5e67b04bce0b8472ecdd509">   31</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_f_inventory_set___item_set.html#a504d496af5e67b04bce0b8472ecdd509">Quantity</a> = 1.0f;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>};</div>
 </div>
-<div class="ttc" id="astruct_f_inventory_set___item_set_html"><div class="ttname"><a href="struct_f_inventory_set___item_set.html">FInventorySet_ItemSet</a></div><div class="ttdef"><b>Definition</b> <a href="#l00013">InventorySet_ItemSet.h:14</a></div></div>
+<div class="ttc" id="aclass_u_item_definition_html"><div class="ttname"><a href="class_u_item_definition.html">UItemDefinition</a></div><div class="ttdoc">Data asset definition of an item that can be given/owned by a character.</div><div class="ttdef"><b>Definition</b> <a href="_item_definition_8h_source.html#l00022">ItemDefinition.h:23</a></div></div>
+<div class="ttc" id="astruct_f_inventory_set___item_set_html"><div class="ttname"><a href="struct_f_inventory_set___item_set.html">FInventorySet_ItemSet</a></div><div class="ttdoc">Data structure used by the InventorySet to manage item definitions and quantities.</div><div class="ttdef"><b>Definition</b> <a href="#l00015">InventorySet_ItemSet.h:16</a></div></div>
+<div class="ttc" id="astruct_f_inventory_set___item_set_html_a504d496af5e67b04bce0b8472ecdd509"><div class="ttname"><a href="struct_f_inventory_set___item_set.html#a504d496af5e67b04bce0b8472ecdd509">FInventorySet_ItemSet::Quantity</a></div><div class="ttdeci">int Quantity</div><div class="ttdef"><b>Definition</b> <a href="#l00031">InventorySet_ItemSet.h:31</a></div></div>
+<div class="ttc" id="astruct_f_inventory_set___item_set_html_a5d07ddc03bcd59ec2b934449a7f56595"><div class="ttname"><a href="struct_f_inventory_set___item_set.html#a5d07ddc03bcd59ec2b934449a7f56595">FInventorySet_ItemSet::IsEquipable</a></div><div class="ttdeci">bool IsEquipable() const</div></div>
+<div class="ttc" id="astruct_f_inventory_set___item_set_html_a8db109eadb0acea7eae569d8608965b3"><div class="ttname"><a href="struct_f_inventory_set___item_set.html#a8db109eadb0acea7eae569d8608965b3">FInventorySet_ItemSet::ItemDefinition</a></div><div class="ttdeci">TSubclassOf&lt; UItemDefinition &gt; ItemDefinition</div><div class="ttdef"><b>Definition</b> <a href="#l00027">InventorySet_ItemSet.h:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

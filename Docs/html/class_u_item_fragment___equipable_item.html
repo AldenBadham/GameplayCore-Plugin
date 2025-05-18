@@ -116,7 +116,7 @@ Inheritance diagram for UItemFragment_EquipableItem:</div>
  <div class="center">
   <img src="class_u_item_fragment___equipable_item.png" usemap="#UItemFragment_5FEquipableItem_map" alt=""/>
   <map id="UItemFragment_5FEquipableItem_map" name="UItemFragment_5FEquipableItem_map">
-<area href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allow definition extension." alt="UItemFragment" shape="rect" coords="0,56,179,80"/>
+<area href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allowing definition extension." alt="UItemFragment" shape="rect" coords="0,56,179,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -173,9 +173,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8cpp_source.html#l00017">17</a> of file <a class="el" href="_item_fragment___equippable_8cpp_source.html">ItemFragment_Equippable.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
-<div class="line"><span class="lineno">   19</span>    check(OwningInstance);</div>
+<div class="line"><span class="lineno">   19</span>    check(<a class="code hl_variable" href="class_u_item_fragment.html#a39b3fd50e9e027803cedf19dee74278a">OwningInstance</a>);</div>
 <div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> APlayerController* PlayerController = OwningInstance-&gt;GetOwningController(); IsValid(PlayerController))</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> APlayerController* PlayerController = <a class="code hl_variable" href="class_u_item_fragment.html#a39b3fd50e9e027803cedf19dee74278a">OwningInstance</a>-&gt;GetOwningController(); IsValid(PlayerController))</div>
 <div class="line"><span class="lineno">   22</span>    {</div>
 <div class="line"><span class="lineno">   23</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> APawn* OwnedPawn = PlayerController-&gt;GetPawn(); IsValid(OwnedPawn))</div>
 <div class="line"><span class="lineno">   24</span>        {</div>
@@ -184,6 +184,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   27</span>    }</div>
 <div class="line"><span class="lineno">   28</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><span class="lineno">   29</span>}</div>
+<div class="ttc" id="aclass_u_item_fragment_html_a39b3fd50e9e027803cedf19dee74278a"><div class="ttname"><a href="class_u_item_fragment.html#a39b3fd50e9e027803cedf19dee74278a">UItemFragment::OwningInstance</a></div><div class="ttdeci">TObjectPtr&lt; UItemInstance &gt; OwningInstance</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment_8h_source.html#l00041">ItemFragment.h:41</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -209,7 +210,12 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Called when the ItemInstance is created </p>
+<p>Called when the ItemInstance is created and this fragment is attached to it </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Instance</td><td>The item instance that owns this fragment </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented from <a class="el" href="class_u_item_fragment.html#a4e3a8f21c4ce8febeaf0d8d52a886d44">UItemFragment</a>.</p>
 

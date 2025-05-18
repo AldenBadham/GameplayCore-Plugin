@@ -8,9 +8,11 @@
 
 /**
  * @class UItemComponent_Consumable
- * @brief Component for consumable items, adding usage-related functionality.
- * This component adds properties and behaviors specific to consumable items,
- * such as tracking current usage.
+ * @see UItemComponent
+ * @brief Component for items that can be consumed or used over time.
+ * @details This component tracks the usage state of consumable items, such as 
+ * potions, food, or other items that can be depleted. It maintains a replicated 
+ * current use value that represents the item's consumption progress.
  */
 UCLASS()
 class INVENTORYSYSTEMCORE_API UItemComponent_Consumable : public UItemComponent
@@ -18,10 +20,16 @@ class INVENTORYSYSTEMCORE_API UItemComponent_Consumable : public UItemComponent
 	GENERATED_BODY()
 
 public:
+
+	// UObject
+	/**
+	 * Sets up property replication for the consumable component
+	 * @param OutLifetimeProps Array of properties to be replicated
+	 */
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	
+	/** Tracks the current usage progress of the consumable item. 0 means unused, higher values indicate usage progress */
 	UPROPERTY(Replicated)
 	float CurrentUse = 0.0f;
 
-	// UObject
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
-	// ~UObject
 };

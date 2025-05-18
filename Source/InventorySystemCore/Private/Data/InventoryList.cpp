@@ -8,7 +8,6 @@
 #include "Definitions/Fragments/ItemFragment_Storable.h"
 #include "Instances/ItemInstance.h"
 
-
 FInventoryList::FInventoryList()
 	: OwnerComponent(nullptr)
 {
@@ -52,97 +51,85 @@ void FInventoryList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 	}
 }
 
-UItemInstance* FInventoryList::Add(const TSubclassOf<UItemDefinition>& DefinitionClass, const int32 Count)
+TArray<UItemInstance*> FInventoryList::Add(const TSubclassOf<UItemDefinition>& DefinitionClass, const int32 Count)
 {
 	if (!IsValid(DefinitionClass) || !OwnerComponent)
 	{
-		return nullptr;
+		return {};
 	}
 
-	AActor* OwnerActor = OwnerComponent->GetOwner();
+	const AActor* OwnerActor = OwnerComponent->GetOwner();
 	if (!OwnerActor->HasAuthority())
 	{
-		return nullptr;
+		return {};
 	}
 
-	UItemDefinition* CachedDefinition = OwnerComponent->GetItemDefinition(DefinitionClass);
-	
-	if(!CachedDefinition->CanGive(OwnerComponent))
-		return nullptr;
-	
-	// If the object has no storable fragment, it cannot be added to the inventory
+	// Check validity of the definition instance, and storable fragments
+	if (!CanAdd(DefinitionClass))
+	{
+		return {};
+	}
+
+	TArray<UItemInstance*> Stacks = {};
+	int32 RemainingCount = Count;
+
+	const UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	if (!IsValid(CachedDefinition))
+	{
+		return {};
+	}
+
 	const UItemFragment_Storable* StorableFragment = CachedDefinition->FindFragmentByClass<UItemFragment_Storable>();
-	if (!IsValid(StorableFragment))
-	{
-		return nullptr;
-	}
-
-	// Check if the object is unique
-	if (StorableFragment->IsUnique())
-	{
-		if (FindHandleOfType(DefinitionClass).IsValid())
-		{
-			return nullptr;
-		}
-	}
 
 	// Handles stacking if the object is stackable
 	if (StorableFragment->CanStack())
 	{
-		for (int Index = 0; Index < Entries.Num(); ++Index)
+		for (int32 Index = 0; Index < Entries.Num() && RemainingCount > 0; ++Index)
 		{
 			FInventoryEntry& Entry = Entries[Index];
-
-			if(Entry.Instance->DefinitionClass != DefinitionClass)
+			if (Entry.Instance->DefinitionClass != DefinitionClass)
+			{
 				continue;
+			}
 
 			const int32 FreeCount = StorableFragment->MaxStackCount - Entry.StackCount;
-			if (const int32 ToAddCount = FMath::Min(Count, FreeCount); ToAddCount > 0)
+			const int32 ToAdd = FMath::Min(RemainingCount, FreeCount);
+
+			if (ToAdd > 0)
 			{
-				Entry.StackCount += ToAddCount;
+				Entry.StackCount += ToAdd;
+				RemainingCount -= ToAdd;
+
 				Internal_OnEntryChanged(Index, Entry);
 				Entry.LastStackCount = Entry.StackCount;
-
 				MarkItemDirty(Entry);
 
-				// If there is any item count to be added call it recursively
-				if (ToAddCount < Count)
-				{
-					return Add(DefinitionClass, Count - ToAddCount);
-				}
-
-				return Entry.Instance;
+				Stacks.Add(Entry.Instance);
 			}
 		}
 	}
 
-	// Create a new entry if remaining
-	FInventoryEntry& Entry = Entries.AddDefaulted_GetRef();
-	const int32 Index = Entries.Num();
+	// Calculate the number of new stacks required
+	const int32 MaxStackCount = StorableFragment->CanStack() ? StorableFragment->MaxStackCount : 1;
+	const int32 NeededStacks = FMath::DivideAndRoundUp(RemainingCount, MaxStackCount);
 
-	Entry.Instance = NewObject<UItemInstance>(OwnerActor);
-	Entry.Instance->SetDefinition(CachedDefinition);
-	
-	Entry.StackCount = StorableFragment->CanStack() ? FMath::Min(Count, StorableFragment->MaxStackCount) : 1;
-
-	for (auto Fragment : CachedDefinition->Fragments)
+	// Create new stacks for the rest
+	for (int32 i = 0; i < NeededStacks && RemainingCount > 0; ++i)
 	{
-		if (IsValid(Fragment))
+		if (!CanAdd(DefinitionClass))
 		{
-			Fragment->OnInstanceCreated(Entry.Instance);
+			break;
+		}
+
+		int32 CurrentCount = RemainingCount;
+		if (UItemInstance* NewInstance = CreateItemInstance(DefinitionClass, CurrentCount))
+		{
+			Stacks.Add(NewInstance);
+			RemainingCount = CurrentCount;
 		}
 	}
 
-	Internal_OnEntryAdded(Index, Entry);
-	MarkItemDirty(Entry);
-
-	// If there still remaining items to be added call it recursively
-	if (Count > Entry.StackCount)
-	{
-		return Add(DefinitionClass, Count - Entry.StackCount);
-	}
-
-	return Entry.Instance;
+	return Stacks;
 }
 
 void FInventoryList::Remove(UItemInstance* Instance)
@@ -167,16 +154,11 @@ FInventoryEntryHandle FInventoryList::FindHandleOfType(const TSubclassOf<UItemDe
 		return {};
 	}
 
-	for (int i = 0; i < Entries.Num(); ++i)
+	for (int Index = 0; Index < Entries.Num(); ++Index)
 	{
-		if (const FInventoryEntry& Entry = Entries[i]; IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition))
+		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass() == ItemDefinition)
 		{
-			FInventoryEntryHandle Handle;
-			Handle.EntryIndex = i;
-			Handle.ItemInstance = Entry.Instance;
-			Handle.StackCount = Entry.StackCount;
-
-			return Handle;
+			return FInventoryEntryHandle(Index, Entry);
 		}
 	}
 	return {};
@@ -191,15 +173,11 @@ TArray<FInventoryEntryHandle> FInventoryList::GetHandlesOfType(const TSubclassOf
 		return Handles;
 	}
 
-	for (int i = 0; i < Entries.Num(); ++i)
+	for (int32 Index = 0; Index < Entries.Num(); ++Index)
 	{
-		if (const FInventoryEntry& Entry = Entries[i]; IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition))
+		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition))
 		{
-			FInventoryEntryHandle Handle;
-			Handle.EntryIndex = i;
-			Handle.ItemInstance = Entry.Instance;
-			Handle.StackCount = Entry.StackCount;
-
+			FInventoryEntryHandle Handle = FInventoryEntryHandle(Index, Entry);
 			Handles.Add(Handle);
 		}
 	}
@@ -213,15 +191,11 @@ TArray<FInventoryEntryHandle> FInventoryList::GetAllHandles() const
 	// Pre-reserve memory for the array
 	Handles.Reserve(Entries.Num());
 
-	for (int i = 0; i < Entries.Num(); ++i)
+	for (int32 Index = 0; Index < Entries.Num(); ++Index)
 	{
-		if (const FInventoryEntry& Entry = Entries[i]; IsValid(Entry.Instance))
+		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance))
 		{
-			FInventoryEntryHandle Handle;
-			Handle.EntryIndex = i;
-			Handle.ItemInstance = Entry.Instance;
-			Handle.StackCount = Entry.StackCount;
-
+			FInventoryEntryHandle Handle = FInventoryEntryHandle(Index, Entry);
 			Handles.Add(Handle);
 		}
 	}
@@ -269,6 +243,72 @@ TArray<FInventoryEntry*> FInventoryList::GetAllEntries()
 		InventoryEntries.Add(Entry);
 	}
 	return InventoryEntries;
+}
+
+UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinition>& DefinitionClass, int32& Count)
+{
+	AActor* OwnerActor = OwnerComponent->GetOwner();
+	if (!OwnerActor->HasAuthority())
+	{
+		return nullptr;
+	}
+
+	// Get item definition instance
+	UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	const UItemFragment_Storable* StorableFragment = CachedDefinition->FindFragmentByClass<UItemFragment_Storable>();
+	if (!IsValid(StorableFragment))
+	{
+		return nullptr;
+	}
+
+	// Create a new entry
+	FInventoryEntry& Entry = Entries.AddDefaulted_GetRef();
+	const int32 Index = Entries.Num();
+
+	Entry.Instance = NewObject<UItemInstance>(OwnerActor);
+	Entry.Instance->SetDefinition(CachedDefinition);
+
+	Entry.StackCount = StorableFragment->CanStack() ? FMath::Min(Count, StorableFragment->MaxStackCount) : 1;
+	Count -= Entry.StackCount;
+
+	for (auto Fragment : CachedDefinition->Fragments)
+	{
+		if (IsValid(Fragment))
+		{
+			Fragment->OnInstanceCreated(Entry.Instance);
+		}
+	}
+
+	Internal_OnEntryAdded(Index, Entry);
+	MarkItemDirty(Entry);
+
+	return Entry.Instance;
+}
+
+bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass)
+{
+	UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	if (!IsValid(CachedDefinition) || !CachedDefinition->CanBeGiven(OwnerComponent))
+	{
+		return false;
+	}
+
+	// If the object has no storable fragment, it cannot be added to the inventory
+	const UItemFragment_Storable* StorableFragment = CachedDefinition->FindFragmentByClass<UItemFragment_Storable>();
+	if (!IsValid(StorableFragment))
+	{
+		return false;
+	}
+
+	// Check if the object is unique
+	if (StorableFragment->IsUnique())
+	{
+		if (const FInventoryEntryHandle Handle = FindHandleOfType(DefinitionClass); Handle.IsValid())
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 void FInventoryList::Internal_OnEntryChanged(const int32 Index, const FInventoryEntry& Entry) const

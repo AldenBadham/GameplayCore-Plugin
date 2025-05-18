@@ -7,6 +7,7 @@ var searchData=
   ['inputreleasedspechandles_4',['InputReleasedSpecHandles',['../class_u_ability_system_component_base.html#af01f562b94750d6b246eb3a7ae3e057b',1,'UAbilitySystemComponentBase']]],
   ['instance_5',['Instance',['../struct_f_inventory_change_data.html#ae10f34328a888073edee396c1b0d925c',1,'FInventoryChangeData']]],
   ['instanceclass_6',['InstanceClass',['../class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449',1,'UEquipmentDefinition']]],
-  ['iteminstance_7',['ItemInstance',['../struct_f_inventory_entry_handle.html#ae6462aba1e8ed494fa9e7b50ee4d180e',1,'FInventoryEntryHandle']]],
-  ['items_8',['Items',['../class_u_inventory_set.html#a9d7e9cf07f9e51159da524dd055ec658',1,'UInventorySet']]]
+  ['itemdefinition_7',['ItemDefinition',['../struct_f_inventory_set___item_set.html#a8db109eadb0acea7eae569d8608965b3',1,'FInventorySet_ItemSet']]],
+  ['iteminstance_8',['ItemInstance',['../struct_f_inventory_entry_handle.html#ae6462aba1e8ed494fa9e7b50ee4d180e',1,'FInventoryEntryHandle']]],
+  ['items_9',['Items',['../class_u_inventory_set.html#a9d7e9cf07f9e51159da524dd055ec658',1,'UInventorySet']]]
 ];

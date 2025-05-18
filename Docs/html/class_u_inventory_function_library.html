@@ -108,6 +108,11 @@ $(function(){initNavTree('class_u_inventory_function_library.html',''); initResi
   <div class="headertitle"><div class="title">UInventoryFunctionLibrary Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Function library containing utility functions for the Inventory System.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_inventory_function_library_8h_source.html">InventoryFunctionLibrary.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for UInventoryFunctionLibrary:</div>
 <div class="dyncontent">
@@ -121,8 +126,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a71d5537f30e5277fb0ccdbbfad903fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_inventory_function_library_8h_source.html#l00015">15</a> of file <a class="el" href="_inventory_function_library_8h_source.html">InventoryFunctionLibrary.h</a>.</p>
+<div class="textblock"><p>Function library containing utility functions for the Inventory System. </p>
+<dl class="section see"><dt>See also</dt><dd>UBlueprintFunctionLibrary</dd></dl>
+<p>Provides helper functions to interact with item definitions and their fragments. </p>
+
+<p class="definition">Definition at line <a class="el" href="_inventory_function_library_8h_source.html#l00020">20</a> of file <a class="el" href="_inventory_function_library_8h_source.html">InventoryFunctionLibrary.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a71d5537f30e5277fb0ccdbbfad903fee" name="a71d5537f30e5277fb0ccdbbfad903fee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a71d5537f30e5277fb0ccdbbfad903fee">&#9670;&#160;</a></span>FindItemDefinitionFragment()</h2>
@@ -150,6 +158,14 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Finds a specific fragment in an item definition </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ItemDef</td><td>The item definition class to search in </td></tr>
+    <tr><td class="paramname">FragmentClass</td><td>The type of fragment to find </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found fragment instance, or nullptr if not found </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_function_library_8cpp_source.html#l00008">8</a> of file <a class="el" href="_inventory_function_library_8cpp_source.html">InventoryFunctionLibrary.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">    9</span>{</div>

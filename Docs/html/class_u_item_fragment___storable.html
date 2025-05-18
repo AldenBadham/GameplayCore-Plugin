@@ -120,7 +120,7 @@ Inheritance diagram for UItemFragment_Storable:</div>
  <div class="center">
   <img src="class_u_item_fragment___storable.png" usemap="#UItemFragment_5FStorable_map" alt=""/>
   <map id="UItemFragment_5FStorable_map" name="UItemFragment_5FStorable_map">
-<area href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allow definition extension." alt="UItemFragment" shape="rect" coords="0,56,149,80"/>
+<area href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allowing definition extension." alt="UItemFragment" shape="rect" coords="0,56,149,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -155,7 +155,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_u_item_fragment___storable.html" title="UItemFragment_Storable defines storage properties for an item. This fragment can be attached to item ...">UItemFragment_Storable</a> defines storage properties for an item. This fragment can be attached to item definitions to specify how they behave in inventory systems. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allow definition extension.">UItemFragment</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_fragment.html" title="Represents a fragment of an item definition, allowing definition extension.">UItemFragment</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00029">29</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -173,13 +173,18 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Checks if this item can be stacked with others of the same type </p><dl class="section return"><dt>Returns</dt><dd>True if the item can be stacked (MaxStackCount &gt; 1), false otherwise </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8cpp_source.html#l00005">5</a> of file <a class="el" href="_item_fragment___storable_8cpp_source.html">ItemFragment_Storable.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
 <div class="line"><span class="lineno">    7</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#af0344efcf10975fbcb7d25173bc1eb84">MaxStackCount</a> &gt; 1;</div>
 <div class="line"><span class="lineno">    8</span>}</div>
-<div class="ttc" id="aclass_u_item_fragment___storable_html_af0344efcf10975fbcb7d25173bc1eb84"><div class="ttname"><a href="#af0344efcf10975fbcb7d25173bc1eb84">UItemFragment_Storable::MaxStackCount</a></div><div class="ttdeci">int MaxStackCount</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment___storable_8h_source.html#l00039">ItemFragment_Storable.h:39</a></div></div>
+<div class="ttc" id="aclass_u_item_fragment___storable_html_af0344efcf10975fbcb7d25173bc1eb84"><div class="ttname"><a href="#af0344efcf10975fbcb7d25173bc1eb84">UItemFragment_Storable::MaxStackCount</a></div><div class="ttdeci">int MaxStackCount</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment___storable_8h_source.html#l00041">ItemFragment_Storable.h:41</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment___storable_8h_source.html#l00041">MaxStackCount</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_list_8cpp_source.html#l00054">FInventoryList::Add()</a>.</p>
+
 </div>
 </div>
 <a id="a70c2253186622da7242b23d6550061cc" name="a70c2253186622da7242b23d6550061cc"></a>
@@ -196,13 +201,18 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Checks if this item is marked as unique in storage </p><dl class="section return"><dt>Returns</dt><dd>True if the item has the Unique storage flag set </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8cpp_source.html#l00010">10</a> of file <a class="el" href="_item_fragment___storable_8cpp_source.html">ItemFragment_Storable.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
 <div class="line"><span class="lineno">   12</span>    <span class="keywordflow">return</span> (<a class="code hl_variable" href="#af98ddf3e3fb2518d49ac1b7a6f07fb77">StorageFlags</a> &amp; <span class="keyword">static_cast&lt;</span>int32<span class="keyword">&gt;</span>(EItemStorageFlags::Unique)) != 0;</div>
 <div class="line"><span class="lineno">   13</span>}</div>
-<div class="ttc" id="aclass_u_item_fragment___storable_html_af98ddf3e3fb2518d49ac1b7a6f07fb77"><div class="ttname"><a href="#af98ddf3e3fb2518d49ac1b7a6f07fb77">UItemFragment_Storable::StorageFlags</a></div><div class="ttdeci">int32 StorageFlags</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment___storable_8h_source.html#l00047">ItemFragment_Storable.h:47</a></div></div>
+<div class="ttc" id="aclass_u_item_fragment___storable_html_af98ddf3e3fb2518d49ac1b7a6f07fb77"><div class="ttname"><a href="#af98ddf3e3fb2518d49ac1b7a6f07fb77">UItemFragment_Storable::StorageFlags</a></div><div class="ttdeci">int32 StorageFlags</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment___storable_8h_source.html#l00049">ItemFragment_Storable.h:49</a></div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment___storable_8h_source.html#l00049">StorageFlags</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_list_8cpp_source.html#l00288">FInventoryList::CanAdd()</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -217,9 +227,11 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Maximum number of items that can be stacked together </p>
+<p>Determines how many items can be grouped in a single inventory slot. The minimum value is 1 for unstackable items </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00039">39</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00041">41</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_list_8cpp_source.html#l00054">FInventoryList::Add()</a>, and <a class="el" href="_item_fragment___storable_8cpp_source.html#l00005">CanStack()</a>.</p>
 
 </div>
 </div>
@@ -234,9 +246,11 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Flags defining various storage properties of the item </p>
+<p>Combination of EItemStorageFlags that define special storage behaviors like uniqueness or persistence </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00047">47</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00049">49</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_item_fragment___storable_8cpp_source.html#l00010">IsUnique()</a>.</p>
 
 </div>
 </div>
@@ -251,8 +265,9 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Visual representation of the item in the UI </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00035">35</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00037">37</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
 
 </div>
 </div>
@@ -267,9 +282,9 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Weight of a single item in the appropriate unit (e.g., kilograms) </p>
+<p>Individual item weight in kilograms. Used for inventory weight calculations. Minimum value is 0 </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00043">43</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___storable_8h_source.html#l00045">45</a> of file <a class="el" href="_item_fragment___storable_8h_source.html">ItemFragment_Storable.h</a>.</p>
 
 </div>
 </div>

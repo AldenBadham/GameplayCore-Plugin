@@ -8,6 +8,8 @@ var class_u_item_instance =
     [ "FindFragmentByClass", "class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f", null ],
     [ "GetDefinition", "class_u_item_instance.html#a7ed73793677db0d65e1c14d2bafddce6", null ],
     [ "GetDefinitionClass", "class_u_item_instance.html#a9eadae10afb03886d8622d08d0736be1", null ],
+    [ "GetInventorySystemComponent", "class_u_item_instance.html#a047ac62c6c731d3c8e997c6a82829c23", null ],
+    [ "GetOwningController", "class_u_item_instance.html#ac2e7b63614741af5468f93ad77c9c6f9", null ],
     [ "GetOwningController", "class_u_item_instance.html#aba00a25bda1d8e029516c4af3e686d09", null ],
     [ "SetDefinition", "class_u_item_instance.html#a1e103a423bb25331da0b95d011d8ebe3", null ],
     [ "Components", "class_u_item_instance.html#ac57a6c3a85e4950cc1dd64c34cc3fe2f", null ],

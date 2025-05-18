@@ -135,9 +135,10 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a handle to an inventory entry, providing access to its index, item instance, and stack count. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a></dd></dl>
+<p>This structure acts as a lightweight wrapper around inventory entry data, allowing access to the entry's position in the inventory, its associated item instance, and the current stack count. Used throughout the inventory system to reference and manipulate inventory entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00017">17</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00020">20</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab3473b4de778f203eb7aeb807bb82478" name="ab3473b4de778f203eb7aeb807bb82478"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3473b4de778f203eb7aeb807bb82478">&#9670;&#160;</a></span>FInventoryEntryHandle() <span class="overload">[1/3]</span></h2>
@@ -162,15 +163,15 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00023">23</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(INDEX_NONE)</div>
-<div class="line"><span class="lineno">   25</span>        , <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a>(<span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   26</span>        , <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a>(0)</div>
-<div class="line"><span class="lineno">   27</span>    {</div>
-<div class="line"><span class="lineno">   28</span>    }</div>
-<div class="ttc" id="astruct_f_inventory_entry_handle_html_a2017241ab5fd1c4e74cf1f5b3b1ed244"><div class="ttname"><a href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">FInventoryEntryHandle::StackCount</a></div><div class="ttdeci">int32 StackCount</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00060">InventoryEntryHandle.h:60</a></div></div>
-<div class="ttc" id="astruct_f_inventory_entry_handle_html_a35f31c8462e2c0cddd97a3eb77e9aed3"><div class="ttname"><a href="#a35f31c8462e2c0cddd97a3eb77e9aed3">FInventoryEntryHandle::EntryIndex</a></div><div class="ttdeci">int32 EntryIndex</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00052">InventoryEntryHandle.h:52</a></div></div>
-<div class="ttc" id="astruct_f_inventory_entry_handle_html_ae6462aba1e8ed494fa9e7b50ee4d180e"><div class="ttname"><a href="#ae6462aba1e8ed494fa9e7b50ee4d180e">FInventoryEntryHandle::ItemInstance</a></div><div class="ttdeci">UItemInstance * ItemInstance</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00056">InventoryEntryHandle.h:56</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00026">26</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(INDEX_NONE)</div>
+<div class="line"><span class="lineno">   28</span>        , <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a>(<span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">   29</span>        , <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a>(0)</div>
+<div class="line"><span class="lineno">   30</span>    {</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="ttc" id="astruct_f_inventory_entry_handle_html_a2017241ab5fd1c4e74cf1f5b3b1ed244"><div class="ttname"><a href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">FInventoryEntryHandle::StackCount</a></div><div class="ttdeci">int32 StackCount</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00086">InventoryEntryHandle.h:86</a></div></div>
+<div class="ttc" id="astruct_f_inventory_entry_handle_html_a35f31c8462e2c0cddd97a3eb77e9aed3"><div class="ttname"><a href="#a35f31c8462e2c0cddd97a3eb77e9aed3">FInventoryEntryHandle::EntryIndex</a></div><div class="ttdeci">int32 EntryIndex</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00072">InventoryEntryHandle.h:72</a></div></div>
+<div class="ttc" id="astruct_f_inventory_entry_handle_html_ae6462aba1e8ed494fa9e7b50ee4d180e"><div class="ttname"><a href="#ae6462aba1e8ed494fa9e7b50ee4d180e">FInventoryEntryHandle::ItemInstance</a></div><div class="ttdeci">UItemInstance * ItemInstance</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_handle_8h_source.html#l00079">InventoryEntryHandle.h:79</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -200,15 +201,24 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Creates a handle from an existing inventory entry </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">InIndex</td><td>Index of the entry in the inventory </td></tr>
+    <tr><td class="paramname">InEntry</td><td>The inventory entry to reference </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00030">30</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(InIndex)</div>
-<div class="line"><span class="lineno">   32</span>    {</div>
-<div class="line"><span class="lineno">   33</span>        <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a> = InIndex;</div>
-<div class="line"><span class="lineno">   34</span>        <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a> = InEntry.Instance;</div>
-<div class="line"><span class="lineno">   35</span>        <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a> = InEntry.StackCount;</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00038">38</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(InIndex)</div>
+<div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>        <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a> = InIndex;</div>
+<div class="line"><span class="lineno">   42</span>        <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a> = InEntry.Instance;</div>
+<div class="line"><span class="lineno">   43</span>        <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a> = InEntry.StackCount;</div>
+<div class="line"><span class="lineno">   44</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_inventory_entry_handle_8h_source.html#l00072">EntryIndex</a>, <a class="el" href="_inventory_entry_handle_8h_source.html#l00079">ItemInstance</a>, and <a class="el" href="_inventory_entry_handle_8h_source.html#l00086">StackCount</a>.</p>
+
 </div>
 </div>
 <a id="ae97ea0c8674ca161ff9bbce65cdae456" name="ae97ea0c8674ca161ff9bbce65cdae456"></a>
@@ -242,14 +252,24 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Creates a handle with specified values </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">InIndex</td><td>Index of the entry in the inventory </td></tr>
+    <tr><td class="paramname">InInstance</td><td>The item instance to reference </td></tr>
+    <tr><td class="paramname">InStackCount</td><td>Number of items in the stack </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00039">39</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(InIndex)</div>
-<div class="line"><span class="lineno">   41</span>        , <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a>(InInstance)</div>
-<div class="line"><span class="lineno">   42</span>        , <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a>(InStackCount)</div>
-<div class="line"><span class="lineno">   43</span>    {</div>
-<div class="line"><span class="lineno">   44</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00052">52</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>        : <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a>(InIndex)</div>
+<div class="line"><span class="lineno">   54</span>        , <a class="code hl_variable" href="#ae6462aba1e8ed494fa9e7b50ee4d180e">ItemInstance</a>(InInstance)</div>
+<div class="line"><span class="lineno">   55</span>        , <a class="code hl_variable" href="#a2017241ab5fd1c4e74cf1f5b3b1ed244">StackCount</a>(InStackCount)</div>
+<div class="line"><span class="lineno">   56</span>    {</div>
+<div class="line"><span class="lineno">   57</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_inventory_entry_handle_8h_source.html#l00072">EntryIndex</a>, <a class="el" href="_inventory_entry_handle_8h_source.html#l00079">ItemInstance</a>, and <a class="el" href="_inventory_entry_handle_8h_source.html#l00086">StackCount</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -275,10 +295,15 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Checks if this handle references a valid inventory entry </p><dl class="section return"><dt>Returns</dt><dd>true if the handle points to a valid entry, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00046">46</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a> != INDEX_NONE; }</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00063">63</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a35f31c8462e2c0cddd97a3eb77e9aed3">EntryIndex</a> != INDEX_NONE; }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_inventory_entry_handle_8h_source.html#l00072">EntryIndex</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_list_8cpp_source.html#l00288">FInventoryList::CanAdd()</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -293,9 +318,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Index of the inventory entry in the list. Defaults to -1 if invalid. </p>
+<p>Index of the inventory entry in the inventory list Defaults to INDEX_NONE (-1) if the handle is invalid </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00052">52</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00072">72</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_entry_handle_8h_source.html#l00038">FInventoryEntryHandle()</a>, <a class="el" href="_inventory_entry_handle_8h_source.html#l00052">FInventoryEntryHandle()</a>, and <a class="el" href="_inventory_entry_handle_8h_source.html#l00063">IsValid()</a>.</p>
 
 </div>
 </div>
@@ -310,9 +337,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Pointer to the item instance associated with this inventory entry. </p>
+<p>The item instance associated with this inventory entry Contains the actual item data and properties </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00056">56</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00079">79</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_entry_handle_8h_source.html#l00038">FInventoryEntryHandle()</a>, and <a class="el" href="_inventory_entry_handle_8h_source.html#l00052">FInventoryEntryHandle()</a>.</p>
 
 </div>
 </div>
@@ -327,9 +356,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Number of items in the stack for this entry. </p>
+<p>Current number of items in this stack Represents how many items of this type are grouped together </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00060">60</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_handle_8h_source.html#l00086">86</a> of file <a class="el" href="_inventory_entry_handle_8h_source.html">InventoryEntryHandle.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_entry_handle_8h_source.html#l00038">FInventoryEntryHandle()</a>, and <a class="el" href="_inventory_entry_handle_8h_source.html#l00052">FInventoryEntryHandle()</a>.</p>
 
 </div>
 </div>

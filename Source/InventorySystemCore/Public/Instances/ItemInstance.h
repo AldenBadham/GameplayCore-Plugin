@@ -36,13 +36,22 @@ public:
 	virtual bool IsSupportedForNetworking() const override { return true; }
 	// ~UObject
 
+	/**
+	 * Gets the inventory system component that owns this item instance
+	 * @return The owning inventory system component
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	UInventorySystemComponent* GetInventorySystemComponent() const;
-
+	
+	/**
+	 * Gets the player controller that owns this item instance
+	 * @return The owning player controller
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	APlayerController* GetOwningController() const;
 	/**
-	 * Try to find fragment of class FragmentClass in this item's definition
+	 * Gets the owning controller cast to the specified type
+	 * @return The owning controller cast to type T, or nullptr if cast fails
 	 */
 	template <typename T> const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
 
@@ -92,7 +101,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = ComponentClass))
 	const UItemComponent* FindComponentByClass(TSubclassOf<UItemComponent> ComponentClass) const;
 	/**
-	 *	Try to find fragment of class ComponentClass of this item instance
+	 * Try to find a component of type T attached to this item instance
+	 * @return The found component cast to type T, or nullptr if not found or cast fails
 	 */
 	template <typename T> const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
@@ -113,11 +123,11 @@ protected:
 	UPROPERTY()
 	TWeakObjectPtr<UItemDefinition> Definition;
 
-	/** Array of components attached to this item instance. */
+	/** Components attached to this item instance providing additional functionality */
 	UPROPERTY(Replicated)
 	TArray<UItemComponent*> Components;
 
-	/** Cached pointer to owning inventory system component */
+	/** Cached pointer to the player controller that owns this item instance */
 	UPROPERTY(Transient)
 	mutable APlayerController* OwningController;
 };

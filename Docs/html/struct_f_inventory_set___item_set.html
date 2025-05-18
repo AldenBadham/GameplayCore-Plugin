@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GameplayCore Plugin: FInventorySet_ItemSet Struct Reference</title>
+<title>GameplayCore Plugin: FInventorySet_ItemSet Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -106,16 +106,18 @@ $(function(){initNavTree('struct_f_inventory_set___item_set.html',''); initResiz
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="struct_f_inventory_set___item_set-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">FInventorySet_ItemSet Struct Reference</div></div>
+  <div class="headertitle"><div class="title">FInventorySet_ItemSet Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Data structure used by the InventorySet to manage item definitions and quantities.  
+ <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5d07ddc03bcd59ec2b934449a7f56595" id="r_a5d07ddc03bcd59ec2b934449a7f56595"><td class="memItemLeft" align="right" valign="top"><a id="a5d07ddc03bcd59ec2b934449a7f56595" name="a5d07ddc03bcd59ec2b934449a7f56595"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsEquipable</b> () const</td></tr>
+<tr class="memitem:a5d07ddc03bcd59ec2b934449a7f56595" id="r_a5d07ddc03bcd59ec2b934449a7f56595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d07ddc03bcd59ec2b934449a7f56595">IsEquipable</a> () const</td></tr>
 <tr class="separator:a5d07ddc03bcd59ec2b934449a7f56595"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -126,11 +128,35 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a504d496af5e67b04bce0b8472ecdd509"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="struct_f_inventory_set___item_set.html">FInventorySet_ItemSet</a></p>
-<p>Data used by the InventorySet to give items </p>
+<div class="textblock"><p>Data structure used by the InventorySet to manage item definitions and quantities. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_definition.html" title="Data asset definition of an item that can be given/owned by a character.">UItemDefinition</a></dd></dl>
+<p>Represents a set of items to be added to an inventory, containing both the item definition and the quantity to be given. Used primarily for initial inventory setup and item grants. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00013">13</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00015">15</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5d07ddc03bcd59ec2b934449a7f56595" name="a5d07ddc03bcd59ec2b934449a7f56595"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d07ddc03bcd59ec2b934449a7f56595">&#9670;&#160;</a></span>IsEquipable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FInventorySet_ItemSet::IsEquipable </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if the item in this set can be equipped </p><dl class="section return"><dt>Returns</dt><dd>True if the item definition is valid and represents an equippable item </dd></dl>
+
+<p class="reference">References <a class="el" href="#a5d07ddc03bcd59ec2b934449a7f56595">IsEquipable()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="#a5d07ddc03bcd59ec2b934449a7f56595">IsEquipable()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="a8db109eadb0acea7eae569d8608965b3" name="a8db109eadb0acea7eae569d8608965b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8db109eadb0acea7eae569d8608965b3">&#9670;&#160;</a></span>ItemDefinition</h2>
 
@@ -142,8 +168,9 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The item definition class that defines the type of item to be given </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00021">21</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00027">27</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
 
 </div>
 </div>
@@ -158,12 +185,13 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The number of items of this type to give </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00025">25</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_set___item_set_8h_source.html#l00031">31</a> of file <a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>Source/InventorySystemCore/Public/Data/<a class="el" href="_inventory_set___item_set_8h_source.html">InventorySet_ItemSet.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -109,6 +109,11 @@ $(function(){initNavTree('class_u_inventory_set.html',''); initResizable(true); 
   <div class="headertitle"><div class="title">UInventorySet Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Data asset storing a predefined set of items to be granted together.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_inventory_set_8h_source.html">InventorySet.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for UInventorySet:</div>
 <div class="dyncontent">
@@ -118,7 +123,7 @@ Inheritance diagram for UInventorySet:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab7e425b116cd0ec4ba5309e803c25356" id="r_ab7e425b116cd0ec4ba5309e803c25356"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7e425b116cd0ec4ba5309e803c25356">GiveToInventorySystem</a> (UInventorySystemComponent *InventorySystemComp)</td></tr>
+<tr class="memitem:ab7e425b116cd0ec4ba5309e803c25356" id="r_ab7e425b116cd0ec4ba5309e803c25356"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7e425b116cd0ec4ba5309e803c25356">GiveToInventorySystem</a> (<a class="el" href="class_u_inventory_system_component.html">UInventorySystemComponent</a> *InventorySystemComp)</td></tr>
 <tr class="separator:ab7e425b116cd0ec4ba5309e803c25356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
@@ -127,8 +132,11 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a9d7e9cf07f9e51159da524dd055ec658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_inventory_set_8h_source.html#l00017">17</a> of file <a class="el" href="_inventory_set_8h_source.html">InventorySet.h</a>.</p>
+<div class="textblock"><p>Data asset storing a predefined set of items to be granted together. </p>
+<dl class="section see"><dt>See also</dt><dd>UPrimaryDataAsset</dd></dl>
+<p>Used to define groups of items that can be given to an inventory system component at once. Commonly used for starting equipment, loot drops, or quest rewards. </p>
+
+<p class="definition">Definition at line <a class="el" href="_inventory_set_8h_source.html#l00022">22</a> of file <a class="el" href="_inventory_set_8h_source.html">InventorySet.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab7e425b116cd0ec4ba5309e803c25356" name="ab7e425b116cd0ec4ba5309e803c25356"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab7e425b116cd0ec4ba5309e803c25356">&#9670;&#160;</a></span>GiveToInventorySystem()</h2>
@@ -139,12 +147,18 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">void UInventorySet::GiveToInventorySystem </td>
           <td>(</td>
-          <td class="paramtype">UInventorySystemComponent *</td>          <td class="paramname"><span class="paramname"><em>InventorySystemComp</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_u_inventory_system_component.html">UInventorySystemComponent</a> *</td>          <td class="paramname"><span class="paramname"><em>InventorySystemComp</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Give the items set to the specified inventory system component. </p>
+<p>Grants all items defined in this set to the specified inventory system component </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">InventorySystemComp</td><td>The target inventory component that will receive the items </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_inventory_system_component.html" title="A component that manages an actor&#39;s inventory system with network replication support.">UInventorySystemComponent</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_inventory_set_8cpp_source.html#l00009">9</a> of file <a class="el" href="_inventory_set_8cpp_source.html">InventorySet.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   10</span>{</div>
@@ -163,9 +177,9 @@ Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   23</span>        InventorySystemComp-&gt;AddItemDefinition(ItemDefinition, Quantity);</div>
 <div class="line"><span class="lineno">   24</span>    }</div>
 <div class="line"><span class="lineno">   25</span>}</div>
-<div class="ttc" id="aclass_u_inventory_set_html_a9d7e9cf07f9e51159da524dd055ec658"><div class="ttname"><a href="#a9d7e9cf07f9e51159da524dd055ec658">UInventorySet::Items</a></div><div class="ttdeci">TArray&lt; FInventorySet_ItemSet &gt; Items</div><div class="ttdef"><b>Definition</b> <a href="_inventory_set_8h_source.html#l00030">InventorySet.h:30</a></div></div>
+<div class="ttc" id="aclass_u_inventory_set_html_a9d7e9cf07f9e51159da524dd055ec658"><div class="ttname"><a href="#a9d7e9cf07f9e51159da524dd055ec658">UInventorySet::Items</a></div><div class="ttdeci">TArray&lt; FInventorySet_ItemSet &gt; Items</div><div class="ttdef"><b>Definition</b> <a href="_inventory_set_8h_source.html#l00040">InventorySet.h:40</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_inventory_set_8h_source.html#l00030">Items</a>.</p>
+<p class="reference">References <a class="el" href="_inventory_set_8h_source.html#l00040">Items</a>.</p>
 
 </div>
 </div>
@@ -189,9 +203,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Gameplay abilities to grant when this ability set is given. </p>
+<p>Collection of item definitions and their quantities to be granted together Each entry specifies an item type and how many of that item should be given </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_set_8h_source.html#l00030">30</a> of file <a class="el" href="_inventory_set_8h_source.html">InventorySet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_set_8h_source.html#l00040">40</a> of file <a class="el" href="_inventory_set_8h_source.html">InventorySet.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_inventory_set_8cpp_source.html#l00009">GiveToInventorySystem()</a>.</p>
 
