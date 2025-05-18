@@ -3,9 +3,9 @@
 #pragma once
 
 #include "Components/EquipmentComponent.h"
-#include "Engine/World.h"
 #include "Data/EquipmentActorSet.h"
 #include "Definitions/EquipmentDefinition.h"
+#include "Engine/World.h"
 #include "Instances/Components/ItemComponent.h"
 
 #include "EquipmentInstance.generated.h"
@@ -37,42 +37,32 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Equipment")
 	APawn* GetPawn() const;
 	/** Get the pawn that this equipment instance is attached to, if applicable. */
-	UFUNCTION(BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType=PawnType))
+	UFUNCTION(BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = PawnType))
 	APawn* GetTypedPawn(const TSubclassOf<APawn> PawnType) const;
 	/** Get the pawn that this equipment instance is attached to, if applicable. */
-	template <class T>
-	T* GetPawn() const { return Cast<T>(GetPawn()); }
-
+	template <class T> T* GetPawn() const { return Cast<T>(GetPawn()); }
 
 	/**
 	 *	Add a new component object of class ComponentClass to this EquipmentInstance
 	 *	@param ComponentClass Class of the EquipmentComponent to search
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure=false, meta=(DeterminesOutputType=FragmentClass))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = FragmentClass))
 	UEquipmentComponent* AddComponent(TSubclassOf<UEquipmentComponent> ComponentClass);
 	/**
 	 *	Add a new component object of class ComponentClass to this EquipmentInstance
 	 */
-	template <typename T>
-	T* AddComponent()
-	{
-		return Cast<T>(AddComponent(T::StaticClass()));
-	}
+	template <typename T> T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
 
 	/**
 	 *	Try to find component of class ComponentClass of this equipment instance
 	 *	@param ComponentClass Class of the Equipment Instance's component to search
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure=false, meta=(DeterminesOutputType=ComponentClass))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = ComponentClass))
 	const UEquipmentComponent* FindComponentByClass(TSubclassOf<UEquipmentComponent> ComponentClass) const;
 	/**
 	 *	Try to find fragment of class ComponentClass of this equipment instance
 	 */
-	template <typename T>
-	const T* FindComponentByClass() const
-	{
-		return Cast<T*>(FindComponentByClass(T::StaticClass()));
-	}
+	template <typename T> const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 	/** Get the instigator object that caused this equipment instance to be equipped. */
 	UFUNCTION(BlueprintPure, Category = "Equipment")
@@ -83,7 +73,7 @@ public:
 	/** Get the source object that caused this equipment instance to be equipped.  (ItemInstance class)*/
 	UFUNCTION(BlueprintPure, Category = "Equipment")
 	UItemInstance* GetSourceItem() const;
-	
+
 	/**
 	 * Gets the equipment definition class associated with this instance.
 	 * @return The equipment definition class.
@@ -117,7 +107,6 @@ public:
 	virtual void OnSpawned();
 
 protected:
-	
 	/** Set the source object for this equipment instance. (ItemInstance class)*/
 	void SetSourceItem(UItemInstance* InSourceObject);
 
@@ -127,7 +116,6 @@ protected:
 	 */
 	void SetDefinition(UEquipmentDefinition* InDefinition);
 
-	
 	/** Blueprint event called when this equipment instance is equipped. */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Equipment", meta = (DisplayName = "OnEquipped"))
 	void K2_OnEquipped();
@@ -139,7 +127,6 @@ protected:
 	UFUNCTION()
 	virtual void OnRep_Instigator();
 
-	
 	UPROPERTY(Replicated)
 	TArray<AActor*> SpawnedActors;
 
@@ -155,12 +142,11 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UItemInstance> SourceItem;
-	
+
 	/** Array of components attached to this item instance. */
 	UPROPERTY(Replicated)
 	TArray<UEquipmentComponent*> Components;
 
 	UPROPERTY(Replicated, ReplicatedUsing = OnRep_Instigator)
 	TObjectPtr<UObject> Instigator;
-	
 };

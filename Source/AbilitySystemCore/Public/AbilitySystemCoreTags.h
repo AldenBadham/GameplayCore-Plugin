@@ -10,10 +10,10 @@ namespace AbilitySystemCoreTags
 
 	// Declare all of the custom native tags that the plugin will use
 	ABILITYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InputTag);
-	
+
 	ABILITYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_AbilityTag);
-	
+
 	ABILITYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_AbilityTag_DeathPersistent);
 	// Gameplay tags
 	ABILITYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Gameplay_AbilitiesBlocked);
-}
+} // namespace AbilitySystemCoreTags

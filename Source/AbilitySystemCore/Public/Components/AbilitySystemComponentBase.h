@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "Components/ActorComponent.h"
+#include "CoreMinimal.h"
 
 #include "AbilitySystemComponentBase.generated.h"
 
@@ -13,7 +13,7 @@
  * @see UAbilitySystemComponent
  * @brief This class extends the base UAbilitySystemComponent to provide additional functionality.
  */
-UCLASS(BlueprintType, ClassGroup = "Abilities", meta=(BlueprintSpawnableComponent))
+UCLASS(BlueprintType, ClassGroup = "Abilities", meta = (BlueprintSpawnableComponent))
 class ABILITYSYSTEMCORE_API UAbilitySystemComponentBase : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
@@ -38,16 +38,15 @@ public:
 	virtual void NotifyAbilityEnded(FGameplayAbilitySpecHandle Handle, UGameplayAbility* Ability, bool bWasCancelled) override;
 	// ~UAbilitySystemComponent
 
-
 	/**
 	 * Handles the pressing of an ability input tag.
 	 * @param InputTag The input tag that was pressed.
 	 */
 	void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	/**
-	* Handles the release of an ability input tag.
-	* @param InputTag The input tag that was released.
-	*/
+	 * Handles the release of an ability input tag.
+	 * @param InputTag The input tag that was released.
+	 */
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 
 	/**
@@ -61,7 +60,6 @@ public:
 	void ClearAbilityInput();
 
 protected:
-
 	/** Initializes abilities when a new actor info is set. */
 	void InitAbilitiesOnNewActorInfo();
 
@@ -78,7 +76,6 @@ protected:
 	 * @param Spec The ability spec that had its input released.
 	 */
 	virtual void AbilitySpecInputReleased(FGameplayAbilitySpec& Spec) override;
-
 
 	/** Handles to abilities that had their input pressed this frame. */
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;

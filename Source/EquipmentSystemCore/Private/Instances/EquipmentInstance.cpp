@@ -1,6 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Instances/EquipmentInstance.h"
 
 #include "GameFramework/Character.h"
@@ -8,10 +7,11 @@
 #include "Net/UnrealNetwork.h"
 
 #if UE_WITH_IRIS
-#include "Iris/ReplicationSystem/ReplicationFragmentUtil.h"
+	#include "Iris/ReplicationSystem/ReplicationFragmentUtil.h"
 #endif
 
-UEquipmentInstance::UEquipmentInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+UEquipmentInstance::UEquipmentInstance(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
 {
 }
 
@@ -173,10 +173,6 @@ void UEquipmentInstance::OnUnequipped()
 	K2_OnUnequipped();
 }
 
-void UEquipmentInstance::OnSpawned()
-{
-}
+void UEquipmentInstance::OnSpawned() {}
 
-void UEquipmentInstance::OnRep_Instigator()
-{
-}
+void UEquipmentInstance::OnRep_Instigator() {}

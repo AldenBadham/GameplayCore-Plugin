@@ -134,7 +134,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p><a class="el" href="class_u_equipment_cache.html">UEquipmentCache</a></p>
 <p>A cache system for EquipmentDefinition to improve performance by reducing object creation. This class manages a thread-safe cache of EquipmentDefinitions. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_cache_8h_source.html#l00020">20</a> of file <a class="el" href="_equipment_cache_8h_source.html">EquipmentCache.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_cache_8h_source.html#l00019">19</a> of file <a class="el" href="_equipment_cache_8h_source.html">EquipmentCache.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abfde0f2a55c8ff483fd015fe7c46508d" name="abfde0f2a55c8ff483fd015fe7c46508d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abfde0f2a55c8ff483fd015fe7c46508d">&#9670;&#160;</a></span>UEquipmentCache()</h2>
@@ -151,11 +151,11 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00009">9</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>{</div>
-<div class="line"><span class="lineno">   11</span>    <span class="comment">// Register the cache for cleanup after garbage collection</span></div>
-<div class="line"><span class="lineno">   12</span>    FCoreUObjectDelegates::GetPostGarbageCollect().AddUObject(<span class="keyword">this</span>, &amp;UEquipmentCache::Clear);</div>
-<div class="line"><span class="lineno">   13</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00007">7</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
+<div class="line"><span class="lineno">    9</span>    <span class="comment">// Register the cache for cleanup after garbage collection</span></div>
+<div class="line"><span class="lineno">   10</span>    FCoreUObjectDelegates::GetPostGarbageCollect().AddUObject(<span class="keyword">this</span>, &amp;UEquipmentCache::Clear);</div>
+<div class="line"><span class="lineno">   11</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -182,11 +182,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00015">15</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
-<div class="line"><span class="lineno">   17</span>    <span class="comment">// Unregister from the garbage collection delegate</span></div>
-<div class="line"><span class="lineno">   18</span>    FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   19</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00013">13</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>{</div>
+<div class="line"><span class="lineno">   15</span>    <span class="comment">// Unregister from the garbage collection delegate</span></div>
+<div class="line"><span class="lineno">   16</span>    FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   17</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -214,14 +214,16 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the cached or newly created EquipmentDefinition. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00021">21</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>{</div>
-<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span>(!IsValid(Class))</div>
-<div class="line"><span class="lineno">   24</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   25</span>    </div>
+<p class="definition">Definition at line <a class="el" href="_equipment_cache_8cpp_source.html#l00019">19</a> of file <a class="el" href="_equipment_cache_8cpp_source.html">EquipmentCache.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">if</span> (!IsValid(Class))</div>
+<div class="line"><span class="lineno">   22</span>    {</div>
+<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   24</span>    }</div>
+<div class="line"><span class="lineno">   25</span> </div>
 <div class="line"><span class="lineno">   26</span>    <span class="comment">// Lock the critical section to ensure thread-safe access to the cache</span></div>
 <div class="line"><span class="lineno">   27</span>    FScopeLock Lock(&amp;CacheLock);</div>
-<div class="line"><span class="lineno">   28</span>    </div>
+<div class="line"><span class="lineno">   28</span> </div>
 <div class="line"><span class="lineno">   29</span>    <span class="keywordflow">if</span> (UEquipmentDefinition** FoundDefinition = CachedDefinitionMap.Find(Class))</div>
 <div class="line"><span class="lineno">   30</span>    {</div>
 <div class="line"><span class="lineno">   31</span>        <span class="keywordflow">return</span> *FoundDefinition;</div>
@@ -287,7 +289,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_cache_8h_source.html#l00024">24</a> of file <a class="el" href="_equipment_cache_8h_source.html">EquipmentCache.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_cache_8h_source.html#l00023">23</a> of file <a class="el" href="_equipment_cache_8h_source.html">EquipmentCache.h</a>.</p>
 
 </div>
 </div>

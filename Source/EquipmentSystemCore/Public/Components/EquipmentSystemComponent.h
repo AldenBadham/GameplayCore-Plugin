@@ -21,9 +21,8 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentSystemComponent : public UActorComponent
 	GENERATED_BODY()
 
 	friend FEquipmentList;
-	
+
 public:
-	
 	explicit UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	virtual ~UEquipmentSystemComponent() override;
 
@@ -37,7 +36,7 @@ public:
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
 	// ~UActorComponent
-	
+
 	/**
 	 * Equips an item based on the provided equipment definition.
 	 * @param EquipmentDefinition The class of the equipment to equip.
@@ -51,7 +50,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly)
 	void UnequipItem(UEquipmentInstance* ItemInstance);
-	
+
 	/**
 	 * Gets an instance of the specified equipment type.
 	 * @param InstanceClass The class of the equipment instance to find.
@@ -67,9 +66,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
 	TArray<UEquipmentInstance*> GetAllEquipmentInstancesOfType(TSubclassOf<UEquipmentInstance> InstanceClass);
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory", meta=(DeterminesOutputType = Class))
+	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (DeterminesOutputType = Class))
 	UEquipmentDefinition* GetEquipmentDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const;
-	
+
 	/**
 	 * Gets the equipment instance of the associated ItemInstance
 	 * @param ItemInstance The instance of the source item
@@ -81,14 +80,10 @@ public:
 	 * Template function to get an instance of a specific equipment type.
 	 * @return The first found instance of the specified type.
 	 */
-	template <typename T>
-	T* GetInstanceOfType()
-	{
-		return Cast<T>(GetInstanceOfType(T::StaticClass()));
-	}
+	template <typename T> T* GetInstanceOfType() { return Cast<T>(GetInstanceOfType(T::StaticClass())); }
+
 protected:
-	
-    /** The list of equipped items. */
+	/** The list of equipped items. */
 	UPROPERTY(Replicated)
 	FEquipmentList EquipmentList;
 

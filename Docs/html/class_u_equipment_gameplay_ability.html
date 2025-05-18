@@ -187,11 +187,11 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00013">13</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>                                                                                                : Super(ObjectInitializer)</div>
-<div class="line"><span class="lineno">   14</span>{</div>
-<div class="line"><span class="lineno">   15</span>    InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;</div>
-<div class="line"><span class="lineno">   16</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00011">11</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   12</span>    : Super(ObjectInitializer)</div>
+<div class="line"><span class="lineno">   13</span>{</div>
+<div class="line"><span class="lineno">   14</span>    InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;</div>
+<div class="line"><span class="lineno">   15</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -212,16 +212,16 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Gets the source equipment instance for this ability. </p><dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_u_equipment_instance.html" title="Represents an instance of equipment that can be equipped by a pawn.">UEquipmentInstance</a> associated with this ability. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00018">18</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{</div>
-<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">if</span>(FGameplayAbilitySpec* Spec = UGameplayAbility::GetCurrentAbilitySpec())</div>
-<div class="line"><span class="lineno">   21</span>    {</div>
-<div class="line"><span class="lineno">   22</span>        <span class="keywordflow">return</span> Cast&lt;UEquipmentInstance&gt;(Spec-&gt;SourceObject.Get());</div>
-<div class="line"><span class="lineno">   23</span>    }</div>
-<div class="line"><span class="lineno">   24</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   25</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00017">17</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
+<div class="line"><span class="lineno">   19</span>    <span class="keywordflow">if</span> (FGameplayAbilitySpec* Spec = GetCurrentAbilitySpec())</div>
+<div class="line"><span class="lineno">   20</span>    {</div>
+<div class="line"><span class="lineno">   21</span>        <span class="keywordflow">return</span> Cast&lt;UEquipmentInstance&gt;(Spec-&gt;SourceObject.Get());</div>
+<div class="line"><span class="lineno">   22</span>    }</div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   24</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00027">GetSourceItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00026">GetSourceItem()</a>.</p>
 
 </div>
 </div>
@@ -241,17 +241,17 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 <p>Gets the source item instance for this ability. </p><dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a> associated with this ability's equipment. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00027">27</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span>{</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">if</span> (UEquipmentInstance* Equipment = <a class="code hl_function" href="#a22f2467753bee17f6127d0b1835b562b">GetSourceEquipment</a>())</div>
-<div class="line"><span class="lineno">   30</span>    {</div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">return</span> Cast&lt;UItemInstance&gt;(Equipment-&gt;GetInstigator());</div>
-<div class="line"><span class="lineno">   32</span>    }</div>
-<div class="line"><span class="lineno">   33</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   34</span>}</div>
-<div class="ttc" id="aclass_u_equipment_gameplay_ability_html_a22f2467753bee17f6127d0b1835b562b"><div class="ttname"><a href="#a22f2467753bee17f6127d0b1835b562b">UEquipmentGameplayAbility::GetSourceEquipment</a></div><div class="ttdeci">UEquipmentInstance * GetSourceEquipment() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_gameplay_ability_8cpp_source.html#l00018">EquipmentGameplayAbility.cpp:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00026">26</a> of file <a class="el" href="_equipment_gameplay_ability_8cpp_source.html">EquipmentGameplayAbility.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">if</span> (UEquipmentInstance* Equipment = <a class="code hl_function" href="#a22f2467753bee17f6127d0b1835b562b">GetSourceEquipment</a>())</div>
+<div class="line"><span class="lineno">   29</span>    {</div>
+<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">return</span> Cast&lt;UItemInstance&gt;(Equipment-&gt;GetInstigator());</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   33</span>}</div>
+<div class="ttc" id="aclass_u_equipment_gameplay_ability_html_a22f2467753bee17f6127d0b1835b562b"><div class="ttname"><a href="#a22f2467753bee17f6127d0b1835b562b">UEquipmentGameplayAbility::GetSourceEquipment</a></div><div class="ttdeci">UEquipmentInstance * GetSourceEquipment() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_gameplay_ability_8cpp_source.html#l00017">EquipmentGameplayAbility.cpp:17</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00018">GetSourceEquipment()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_gameplay_ability_8cpp_source.html#l00017">GetSourceEquipment()</a>.</p>
 
 </div>
 </div>

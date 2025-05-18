@@ -20,7 +20,5 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentFragment : public UObject
 	GENERATED_BODY()
 
 public:
-	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const
-	{
-	}
+	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const {}
 };

@@ -146,7 +146,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00028">28</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00025">25</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3bc7abafa19f88dc581d14cfa0ce08f9" name="a3bc7abafa19f88dc581d14cfa0ce08f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3bc7abafa19f88dc581d14cfa0ce08f9">&#9670;&#160;</a></span>BindOnActorInitStateChanged()</h2>
@@ -181,32 +181,28 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Call to bind the OnActorInitStateChanged function to the appropriate delegate on the component manager </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">113</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  114</span>{</div>
-<div class="line"><span class="lineno">  115</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  116</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">111</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  112</span>{</div>
+<div class="line"><span class="lineno">  113</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  114</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
 <div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
-<div class="line"><span class="lineno">  119</span>    </div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">if</span> (ensure(OwningActor &amp;&amp; Manager))</div>
-<div class="line"><span class="lineno">  121</span>    {</div>
-<div class="line"><span class="lineno">  122</span>        <span class="comment">// Bind as a weak lambda because this is not a UObject but is guaranteed to be valid as long as ThisObject is</span></div>
-<div class="line"><span class="lineno">  123</span>        FActorInitStateChangedDelegate Delegate = FActorInitStateChangedDelegate::CreateWeakLambda(ThisObject,</div>
-<div class="line"><span class="lineno">  124</span>            [<span class="keyword">this</span>](<span class="keyword">const</span> FActorInitStateChangedParams&amp; Params)</div>
-<div class="line"><span class="lineno">  125</span>            {</div>
-<div class="line"><span class="lineno">  126</span>                this-&gt;<a class="code hl_function" href="#a501a9282c85c1ef9fbdf5d956146d5c2">OnActorInitStateChanged</a>(Params);</div>
-<div class="line"><span class="lineno">  127</span>            });</div>
-<div class="line"><span class="lineno">  128</span> </div>
-<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a> = Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee">RegisterAndCallForActorInitState</a>(OwningActor, FeatureName, RequiredState, MoveTemp(Delegate), bCallIfReached);</div>
-<div class="line"><span class="lineno">  130</span>    }</div>
-<div class="line"><span class="lineno">  131</span>}</div>
-<div class="ttc" id="aclass_i_game_init_state_interface_html_a3b45a410a93077f98670da4e1d761ce6"><div class="ttname"><a href="#a3b45a410a93077f98670da4e1d761ce6">IGameInitStateInterface::GetOwningActor</a></div><div class="ttdeci">virtual AActor * GetOwningActor() const</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8cpp_source.html#l00012">GameInitStateInterface.cpp:12</a></div></div>
-<div class="ttc" id="aclass_i_game_init_state_interface_html_a501a9282c85c1ef9fbdf5d956146d5c2"><div class="ttname"><a href="#a501a9282c85c1ef9fbdf5d956146d5c2">IGameInitStateInterface::OnActorInitStateChanged</a></div><div class="ttdeci">virtual void OnActorInitStateChanged(const FActorInitStateChangedParams &amp;Params)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8h_source.html#l00059">GameInitStateInterface.h:59</a></div></div>
-<div class="ttc" id="aclass_i_game_init_state_interface_html_afaee384e6da77c184aa64caf20d3e587"><div class="ttname"><a href="#afaee384e6da77c184aa64caf20d3e587">IGameInitStateInterface::ActorInitStateChangedHandle</a></div><div class="ttdeci">FDelegateHandle ActorInitStateChangedHandle</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8h_source.html#l00087">GameInitStateInterface.h:87</a></div></div>
+<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">if</span> (ensure(OwningActor &amp;&amp; Manager))</div>
+<div class="line"><span class="lineno">  119</span>    {</div>
+<div class="line"><span class="lineno">  120</span>        <span class="comment">// Bind as a weak lambda because this is not a UObject but is guaranteed to be valid as long as ThisObject is</span></div>
+<div class="line"><span class="lineno">  121</span>        FActorInitStateChangedDelegate Delegate = FActorInitStateChangedDelegate::CreateWeakLambda(ThisObject, [<span class="keyword">this</span>](<span class="keyword">const</span> FActorInitStateChangedParams&amp; Params) { this-&gt;<a class="code hl_function" href="#a501a9282c85c1ef9fbdf5d956146d5c2">OnActorInitStateChanged</a>(Params); });</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>        <a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a> = Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee">RegisterAndCallForActorInitState</a>(OwningActor, FeatureName, RequiredState, MoveTemp(Delegate), bCallIfReached);</div>
+<div class="line"><span class="lineno">  124</span>    }</div>
+<div class="line"><span class="lineno">  125</span>}</div>
+<div class="ttc" id="aclass_i_game_init_state_interface_html_a3b45a410a93077f98670da4e1d761ce6"><div class="ttname"><a href="#a3b45a410a93077f98670da4e1d761ce6">IGameInitStateInterface::GetOwningActor</a></div><div class="ttdeci">virtual AActor * GetOwningActor() const</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8cpp_source.html#l00010">GameInitStateInterface.cpp:10</a></div></div>
+<div class="ttc" id="aclass_i_game_init_state_interface_html_a501a9282c85c1ef9fbdf5d956146d5c2"><div class="ttname"><a href="#a501a9282c85c1ef9fbdf5d956146d5c2">IGameInitStateInterface::OnActorInitStateChanged</a></div><div class="ttdeci">virtual void OnActorInitStateChanged(const FActorInitStateChangedParams &amp;Params)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8h_source.html#l00053">GameInitStateInterface.h:53</a></div></div>
+<div class="ttc" id="aclass_i_game_init_state_interface_html_afaee384e6da77c184aa64caf20d3e587"><div class="ttname"><a href="#afaee384e6da77c184aa64caf20d3e587">IGameInitStateInterface::ActorInitStateChangedHandle</a></div><div class="ttdeci">FDelegateHandle ActorInitStateChangedHandle</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8h_source.html#l00077">GameInitStateInterface.h:77</a></div></div>
 <div class="ttc" id="aclass_u_game_init_state_subsystem_html_ac666ccf0c962e766bc7123edc56ca7ee"><div class="ttname"><a href="class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee">UGameInitStateSubsystem::RegisterAndCallForActorInitState</a></div><div class="ttdeci">FDelegateHandle RegisterAndCallForActorInitState(AActor *Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedDelegate Delegate, bool bCallImmediately=true)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00147">GameInitStateSubsystem.cpp:147</a></div></div>
-<div class="ttc" id="aclass_u_game_init_state_subsystem_html_af4bfdb95a854d9bbf8cda16a3a1bc59a"><div class="ttname"><a href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a></div><div class="ttdeci">static UGameInitStateSubsystem * GetForActor(const AActor *Actor, bool bOnlyGameWorlds=true)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00026">GameInitStateSubsystem.cpp:26</a></div></div>
+<div class="ttc" id="aclass_u_game_init_state_subsystem_html_af4bfdb95a854d9bbf8cda16a3a1bc59a"><div class="ttname"><a href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a></div><div class="ttdeci">static UGameInitStateSubsystem * GetForActor(const AActor *Actor, bool bOnlyGameWorlds=true)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00024">GameInitStateSubsystem.cpp:24</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_interface_8h_source.html#l00087">ActorInitStateChangedHandle</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>, <a class="el" href="_game_init_state_interface_8h_source.html#l00059">OnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_interface_8h_source.html#l00077">ActorInitStateChangedHandle</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>, <a class="el" href="_game_init_state_interface_8h_source.html#l00053">OnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>.</p>
 
 </div>
 </div>
@@ -234,8 +230,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Override to try and progress the default initialization path, likely using ContinueInitStateChain </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00056">56</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00050">50</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -263,19 +259,19 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the current feature state of this object, the default behavior is to query the manager </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00063">63</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>{</div>
-<div class="line"><span class="lineno">   65</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
-<div class="line"><span class="lineno">   68</span>    {</div>
-<div class="line"><span class="lineno">   69</span>        <span class="keywordflow">return</span> Manager-&gt;GetAllInitStatesForFeature(OwningActor, FeatureName);</div>
-<div class="line"><span class="lineno">   70</span>    }</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">return</span> {};</div>
-<div class="line"><span class="lineno">   73</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00061">61</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>{</div>
+<div class="line"><span class="lineno">   63</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
+<div class="line"><span class="lineno">   66</span>    {</div>
+<div class="line"><span class="lineno">   67</span>        <span class="keywordflow">return</span> Manager-&gt;GetAllInitStatesForFeature(OwningActor, FeatureName);</div>
+<div class="line"><span class="lineno">   68</span>    }</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">return</span> {};</div>
+<div class="line"><span class="lineno">   71</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
 </div>
 </div>
@@ -303,21 +299,21 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the current feature state of this object, the default behavior is to query the manager </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00039">39</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{</div>
-<div class="line"><span class="lineno">   41</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
-<div class="line"><span class="lineno">   44</span>    {</div>
-<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">return</span> Manager-&gt;GetInitStateForFeature(OwningActor, FeatureName);</div>
-<div class="line"><span class="lineno">   46</span>    }</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">return</span> FGameplayTag();</div>
-<div class="line"><span class="lineno">   49</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00037">37</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>{</div>
+<div class="line"><span class="lineno">   39</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
+<div class="line"><span class="lineno">   42</span>    {</div>
+<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">return</span> Manager-&gt;GetInitStateForFeature(OwningActor, FeatureName);</div>
+<div class="line"><span class="lineno">   44</span>    }</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">return</span> FGameplayTag();</div>
+<div class="line"><span class="lineno">   47</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00159">GetDebugState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00153">GetDebugState()</a>.</p>
 
 </div>
 </div>
@@ -345,13 +341,13 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns Current state and any additional debug information for the active state </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00159">159</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  160</span>{</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;CurrentState: %s&quot;</span>), *<a class="code hl_function" href="#a27711c63f12b2f50f16b5d73bbb4db07">GetCurrentInitStateFor</a>(FeatureName).ToString());</div>
-<div class="line"><span class="lineno">  162</span>}</div>
-<div class="ttc" id="aclass_i_game_init_state_interface_html_a27711c63f12b2f50f16b5d73bbb4db07"><div class="ttname"><a href="#a27711c63f12b2f50f16b5d73bbb4db07">IGameInitStateInterface::GetCurrentInitStateFor</a></div><div class="ttdeci">virtual FGameplayTag GetCurrentInitStateFor(FName &amp;FeatureName) const</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8cpp_source.html#l00039">GameInitStateInterface.cpp:39</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00153">153</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>{</div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;CurrentState: %s&quot;</span>), *<a class="code hl_function" href="#a27711c63f12b2f50f16b5d73bbb4db07">GetCurrentInitStateFor</a>(FeatureName).ToString());</div>
+<div class="line"><span class="lineno">  156</span>}</div>
+<div class="ttc" id="aclass_i_game_init_state_interface_html_a27711c63f12b2f50f16b5d73bbb4db07"><div class="ttname"><a href="#a27711c63f12b2f50f16b5d73bbb4db07">IGameInitStateInterface::GetCurrentInitStateFor</a></div><div class="ttdeci">virtual FGameplayTag GetCurrentInitStateFor(FName &amp;FeatureName) const</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_interface_8cpp_source.html#l00037">GameInitStateInterface.cpp:37</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_interface_8cpp_source.html#l00039">GetCurrentInitStateFor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_interface_8cpp_source.html#l00037">GetCurrentInitStateFor()</a>.</p>
 
 </div>
 </div>
@@ -371,12 +367,12 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Gets the component manager corresponding to this object based on owning actor </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00034">34</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{</div>
-<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(<a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>());</div>
-<div class="line"><span class="lineno">   37</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00032">32</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>{</div>
+<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(<a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>());</div>
+<div class="line"><span class="lineno">   35</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
 </div>
 </div>
@@ -404,29 +400,29 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the Actor this object is bound to, might be this object </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">12</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>{</div>
-<div class="line"><span class="lineno">   14</span>    <span class="comment">// Removing const because most AActor functions can&#39;t handle const</span></div>
-<div class="line"><span class="lineno">   15</span>    AActor* FoundActor = <span class="keyword">const_cast&lt;</span>AActor*<span class="keyword">&gt;</span>(Cast&lt;AActor&gt;(<span class="keyword">this</span>));</div>
-<div class="line"><span class="lineno">   16</span> </div>
-<div class="line"><span class="lineno">   17</span>    <span class="keywordflow">if</span> (!FoundActor)</div>
-<div class="line"><span class="lineno">   18</span>    {</div>
-<div class="line"><span class="lineno">   19</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> UActorComponent* FoundComponent = Cast&lt;UActorComponent&gt;(<span class="keyword">this</span>))</div>
-<div class="line"><span class="lineno">   20</span>        {</div>
-<div class="line"><span class="lineno">   21</span>            FoundActor = FoundComponent-&gt;GetOwner();</div>
-<div class="line"><span class="lineno">   22</span>        }</div>
-<div class="line"><span class="lineno">   23</span>    }</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">if</span> (ensure(FoundActor))</div>
-<div class="line"><span class="lineno">   26</span>    {</div>
-<div class="line"><span class="lineno">   27</span>        <span class="comment">// Subclasses must implement this if they are not actors or components</span></div>
-<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">return</span> FoundActor;</div>
-<div class="line"><span class="lineno">   29</span>    }</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   32</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">10</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
+<div class="line"><span class="lineno">   12</span>    <span class="comment">// Removing const because most AActor functions can&#39;t handle const</span></div>
+<div class="line"><span class="lineno">   13</span>    AActor* FoundActor = <span class="keyword">const_cast&lt;</span>AActor*<span class="keyword">&gt;</span>(Cast&lt;AActor&gt;(<span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   14</span> </div>
+<div class="line"><span class="lineno">   15</span>    <span class="keywordflow">if</span> (!FoundActor)</div>
+<div class="line"><span class="lineno">   16</span>    {</div>
+<div class="line"><span class="lineno">   17</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> UActorComponent* FoundComponent = Cast&lt;UActorComponent&gt;(<span class="keyword">this</span>))</div>
+<div class="line"><span class="lineno">   18</span>        {</div>
+<div class="line"><span class="lineno">   19</span>            FoundActor = FoundComponent-&gt;GetOwner();</div>
+<div class="line"><span class="lineno">   20</span>        }</div>
+<div class="line"><span class="lineno">   21</span>    }</div>
+<div class="line"><span class="lineno">   22</span> </div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span> (ensure(FoundActor))</div>
+<div class="line"><span class="lineno">   24</span>    {</div>
+<div class="line"><span class="lineno">   25</span>        <span class="comment">// Subclasses must implement this if they are not actors or components</span></div>
+<div class="line"><span class="lineno">   26</span>        <span class="keywordflow">return</span> FoundActor;</div>
+<div class="line"><span class="lineno">   27</span>    }</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   30</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">BindOnActorInitStateChanged()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00063">GetAllInitStatesFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00039">GetCurrentInitStateFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00034">GetGameInitStateSubsystem()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00051">HasReachedInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00133">RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00075">RegisterInitStateFeature()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00147">UnregisterInitStateDelegate()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00089">UnregisterInitStateFeature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">BindOnActorInitStateChanged()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00061">GetAllInitStatesFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00037">GetCurrentInitStateFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00032">GetGameInitStateSubsystem()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00049">HasReachedInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00127">RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00073">RegisterInitStateFeature()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00141">UnregisterInitStateDelegate()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00087">UnregisterInitStateFeature()</a>.</p>
 
 </div>
 </div>
@@ -458,19 +454,19 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks the component manager to see if we have already reached the desired state or a later one </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00051">51</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>{</div>
-<div class="line"><span class="lineno">   53</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">   54</span>    </div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
-<div class="line"><span class="lineno">   56</span>    {</div>
-<div class="line"><span class="lineno">   57</span>        <span class="keywordflow">return</span> Manager-&gt;HasFeatureReachedInitState(OwningActor, FeatureName, DesiredState);</div>
-<div class="line"><span class="lineno">   58</span>    }</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   61</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00049">49</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>{</div>
+<div class="line"><span class="lineno">   51</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
+<div class="line"><span class="lineno">   54</span>    {</div>
+<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">return</span> Manager-&gt;HasFeatureReachedInitState(OwningActor, FeatureName, DesiredState);</div>
+<div class="line"><span class="lineno">   56</span>    }</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   59</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
 </div>
 </div>
@@ -498,10 +494,10 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Signature for handling a game feature state, this is not registered by default </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00059">59</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00053">53</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">BindOnActorInitStateChanged()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">BindOnActorInitStateChanged()</a>.</p>
 
 </div>
 </div>
@@ -543,21 +539,21 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Binds a BP delegate to get called on a state change for this feature </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00133">133</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  134</span>{</div>
-<div class="line"><span class="lineno">  135</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
-<div class="line"><span class="lineno">  138</span>    </div>
-<div class="line"><span class="lineno">  139</span>    <span class="keywordflow">if</span> (ensure(OwningActor &amp;&amp; Manager))</div>
-<div class="line"><span class="lineno">  140</span>    {</div>
-<div class="line"><span class="lineno">  141</span>        <span class="keywordflow">return</span> Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee">RegisterAndCallForActorInitState</a>(OwningActor, FeatureName, RequiredState, Delegate, bCallImmediately);</div>
-<div class="line"><span class="lineno">  142</span>    }</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  145</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00127">127</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  128</span>{</div>
+<div class="line"><span class="lineno">  129</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">if</span> (ensure(OwningActor &amp;&amp; Manager))</div>
+<div class="line"><span class="lineno">  134</span>    {</div>
+<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">return</span> Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee">RegisterAndCallForActorInitState</a>(OwningActor, FeatureName, RequiredState, Delegate, bCallImmediately);</div>
+<div class="line"><span class="lineno">  136</span>    }</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  139</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>.</p>
 
 </div>
 </div>
@@ -585,22 +581,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Call to register with the component manager during spawn if this is a game world </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00075">75</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   76</span>{</div>
-<div class="line"><span class="lineno">   77</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   78</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">   79</span>    </div>
-<div class="line"><span class="lineno">   80</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (OwningActor &amp;&amp; Manager)</div>
-<div class="line"><span class="lineno">   83</span>    {</div>
-<div class="line"><span class="lineno">   84</span>        <span class="comment">// Manager will be null if this isn&#39;t in a game world</span></div>
-<div class="line"><span class="lineno">   85</span>        Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ab03a47bf6286cbed4e9b024fa4e957a7">RegisterFeatureImplementer</a>(OwningActor, FeatureName, ThisObject);</div>
-<div class="line"><span class="lineno">   86</span>    }</div>
-<div class="line"><span class="lineno">   87</span>}</div>
-<div class="ttc" id="aclass_u_game_init_state_subsystem_html_ab03a47bf6286cbed4e9b024fa4e957a7"><div class="ttname"><a href="class_u_game_init_state_subsystem.html#ab03a47bf6286cbed4e9b024fa4e957a7">UGameInitStateSubsystem::RegisterFeatureImplementer</a></div><div class="ttdeci">void RegisterFeatureImplementer(AActor *Actor, FName FeatureName, UObject *Implementer, const TArray&lt; FGameplayTag &gt; &amp;InitStateTags={})</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00044">GameInitStateSubsystem.cpp:44</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00073">73</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>{</div>
+<div class="line"><span class="lineno">   75</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   76</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor);</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">if</span> (OwningActor &amp;&amp; Manager)</div>
+<div class="line"><span class="lineno">   81</span>    {</div>
+<div class="line"><span class="lineno">   82</span>        <span class="comment">// Manager will be null if this isn&#39;t in a game world</span></div>
+<div class="line"><span class="lineno">   83</span>        Manager-&gt;<a class="code hl_function" href="class_u_game_init_state_subsystem.html#ab03a47bf6286cbed4e9b024fa4e957a7">RegisterFeatureImplementer</a>(OwningActor, FeatureName, ThisObject);</div>
+<div class="line"><span class="lineno">   84</span>    }</div>
+<div class="line"><span class="lineno">   85</span>}</div>
+<div class="ttc" id="aclass_u_game_init_state_subsystem_html_ab03a47bf6286cbed4e9b024fa4e957a7"><div class="ttname"><a href="class_u_game_init_state_subsystem.html#ab03a47bf6286cbed4e9b024fa4e957a7">UGameInitStateSubsystem::RegisterFeatureImplementer</a></div><div class="ttdeci">void RegisterFeatureImplementer(AActor *Actor, FName FeatureName, UObject *Implementer, const TArray&lt; FGameplayTag &gt; &amp;InitStateTags={})</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00042">GameInitStateSubsystem.cpp:42</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00044">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00042">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
 
 </div>
 </div>
@@ -628,19 +624,19 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Unbinds a BP delegate from changes to this feature </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00147">147</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>{</div>
-<div class="line"><span class="lineno">  149</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor); ensure(OwningActor &amp;&amp; Manager))</div>
-<div class="line"><span class="lineno">  152</span>    {</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">return</span> Manager-&gt;UnregisterActorInitStateDelegate(OwningActor, Delegate);</div>
-<div class="line"><span class="lineno">  154</span>    }</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00141">141</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>{</div>
+<div class="line"><span class="lineno">  143</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor); ensure(OwningActor &amp;&amp; Manager))</div>
+<div class="line"><span class="lineno">  146</span>    {</div>
+<div class="line"><span class="lineno">  147</span>        <span class="keywordflow">return</span> Manager-&gt;UnregisterActorInitStateDelegate(OwningActor, Delegate);</div>
+<div class="line"><span class="lineno">  148</span>    }</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  151</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
 </div>
 </div>
@@ -668,31 +664,31 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Unregisters state and delegate binding with component manager </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00089">89</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   90</span>{</div>
-<div class="line"><span class="lineno">   91</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   92</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
-<div class="line"><span class="lineno">   95</span>    {</div>
-<div class="line"><span class="lineno">   96</span>        <span class="keywordflow">if</span> (ThisObject == OwningActor)</div>
-<div class="line"><span class="lineno">   97</span>        {</div>
-<div class="line"><span class="lineno">   98</span>            <span class="comment">// This will clear all the feature states and delegates</span></div>
-<div class="line"><span class="lineno">   99</span>            Manager-&gt;RemoveActorFeatureData(OwningActor);</div>
-<div class="line"><span class="lineno">  100</span>        }</div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  102</span>        {</div>
-<div class="line"><span class="lineno">  103</span>            Manager-&gt;RemoveFeatureImplementer(OwningActor, ThisObject);</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a>.IsValid())</div>
-<div class="line"><span class="lineno">  107</span>        {</div>
-<div class="line"><span class="lineno">  108</span>            Manager-&gt;UnregisterActorInitStateDelegate(OwningActor, <a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a>);</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8cpp_source.html#l00087">87</a> of file <a class="el" href="_game_init_state_interface_8cpp_source.html">GameInitStateInterface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>{</div>
+<div class="line"><span class="lineno">   89</span>    UObject* ThisObject = Cast&lt;UObject&gt;(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   90</span>    AActor* OwningActor = <a class="code hl_function" href="#a3b45a410a93077f98670da4e1d761ce6">GetOwningActor</a>();</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">if</span> (UGameInitStateSubsystem* Manager = <a class="code hl_function" href="class_u_game_init_state_subsystem.html#af4bfdb95a854d9bbf8cda16a3a1bc59a">UGameInitStateSubsystem::GetForActor</a>(OwningActor))</div>
+<div class="line"><span class="lineno">   93</span>    {</div>
+<div class="line"><span class="lineno">   94</span>        <span class="keywordflow">if</span> (ThisObject == OwningActor)</div>
+<div class="line"><span class="lineno">   95</span>        {</div>
+<div class="line"><span class="lineno">   96</span>            <span class="comment">// This will clear all the feature states and delegates</span></div>
+<div class="line"><span class="lineno">   97</span>            Manager-&gt;RemoveActorFeatureData(OwningActor);</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
+<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  100</span>        {</div>
+<div class="line"><span class="lineno">  101</span>            Manager-&gt;RemoveFeatureImplementer(OwningActor, ThisObject);</div>
+<div class="line"><span class="lineno">  102</span>        }</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a>.IsValid())</div>
+<div class="line"><span class="lineno">  105</span>        {</div>
+<div class="line"><span class="lineno">  106</span>            Manager-&gt;UnregisterActorInitStateDelegate(OwningActor, <a class="code hl_variable" href="#afaee384e6da77c184aa64caf20d3e587">ActorInitStateChangedHandle</a>);</div>
+<div class="line"><span class="lineno">  107</span>        }</div>
+<div class="line"><span class="lineno">  108</span>    }</div>
+<div class="line"><span class="lineno">  109</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_game_init_state_interface_8h_source.html#l00087">ActorInitStateChangedHandle</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00012">GetOwningActor()</a>.</p>
+<p class="reference">References <a class="el" href="_game_init_state_interface_8h_source.html#l00077">ActorInitStateChangedHandle</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">UGameInitStateSubsystem::GetForActor()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00010">GetOwningActor()</a>.</p>
 
 </div>
 </div>
@@ -718,9 +714,9 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Default handle created from calling BindOnActorInitStateChanged </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00087">87</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_interface_8h_source.html#l00077">77</a> of file <a class="el" href="_game_init_state_interface_8h_source.html">GameInitStateInterface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">BindOnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00089">UnregisterInitStateFeature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">BindOnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00087">UnregisterInitStateFeature()</a>.</p>
 
 </div>
 </div>

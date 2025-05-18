@@ -109,14 +109,15 @@ $(function(){initNavTree('_attribute_set_base_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Components/AbilitySystemComponentBase.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>UAttributeSetBase::UAttributeSetBase(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer) : Super(ObjectInitializer.Get())</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>}</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><a class="code hl_class" href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a>* UAttributeSetBase::GetAbilitySystemComponentBase()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword"></span>{</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordflow">return</span> Cast&lt;UAbilitySystemComponentBase&gt;(GetOwningAbilitySystemComponent());</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>UAttributeSetBase::UAttributeSetBase(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer)</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    : Super(ObjectInitializer.Get())</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>}</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><a class="code hl_class" href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a>* UAttributeSetBase::GetAbilitySystemComponentBase()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword"></span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordflow">return</span> Cast&lt;UAbilitySystemComponentBase&gt;(GetOwningAbilitySystemComponent());</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>}</div>
 <div class="ttc" id="aclass_u_ability_system_component_base_html"><div class="ttname"><a href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a></div><div class="ttdoc">This class extends the base UAbilitySystemComponent to provide additional functionality.</div><div class="ttdef"><b>Definition</b> <a href="_ability_system_component_base_8h_source.html#l00017">AbilitySystemComponentBase.h:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

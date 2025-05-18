@@ -1,13 +1,12 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Input/InputConfig.h"
 #include "Input/InputTagSet.h"
 
 #include "Log/AbilitySystemLog.h"
 
-
-UInputConfig::UInputConfig(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+UInputConfig::UInputConfig(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
 {
 }
 

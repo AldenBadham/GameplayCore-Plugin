@@ -86,15 +86,16 @@ var NAVTREEINDEX0 =
 "_input_tag_set_8h_source.html":[1,0,0,0,1,7,1],
 "_inventory_cache_8cpp_source.html":[1,0,0,3,0,1,0],
 "_inventory_cache_8h_source.html":[1,0,0,3,1,1,0],
+"_inventory_change_data_8cpp_source.html":[1,0,0,3,0,1,1],
 "_inventory_change_data_8h_source.html":[1,0,0,3,1,1,1],
-"_inventory_entry_8cpp_source.html":[1,0,0,3,0,1,1],
+"_inventory_entry_8cpp_source.html":[1,0,0,3,0,1,2],
 "_inventory_entry_8h_source.html":[1,0,0,3,1,1,2],
 "_inventory_entry_handle_8h_source.html":[1,0,0,3,1,1,3],
 "_inventory_function_library_8cpp_source.html":[1,0,0,3,0,4,0],
 "_inventory_function_library_8h_source.html":[1,0,0,3,1,4,0],
-"_inventory_list_8cpp_source.html":[1,0,0,3,0,1,2],
+"_inventory_list_8cpp_source.html":[1,0,0,3,0,1,3],
 "_inventory_list_8h_source.html":[1,0,0,3,1,1,4],
-"_inventory_set_8cpp_source.html":[1,0,0,3,0,1,3],
+"_inventory_set_8cpp_source.html":[1,0,0,3,0,1,4],
 "_inventory_set_8h_source.html":[1,0,0,3,1,1,5],
 "_inventory_set___item_set_8h_source.html":[1,0,0,3,1,1,6],
 "_inventory_system_component_8cpp_source.html":[1,0,0,3,0,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "class_u_gameplay_ability_base.html#abf14468a06a770ace06dd24d6ba1f845":[0,0,49,4],
 "class_u_gameplay_ability_base.html#ac3af4b04e75926f91f8c339884f3e1ed":[0,0,49,2],
 "class_u_input_config.html":[0,0,50],
-"class_u_inventory_cache.html":[0,0,51],
-"class_u_inventory_cache.html#a763b9d2b1ddbecd79b3d3642ef756f13":[0,0,51,1]
+"class_u_inventory_cache.html":[0,0,51]
 };

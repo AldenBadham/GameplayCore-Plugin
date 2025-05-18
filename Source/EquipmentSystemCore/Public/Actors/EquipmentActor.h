@@ -12,6 +12,5 @@ class EQUIPMENTSYSTEMCORE_API AEquipmentActor : public AActor
 	GENERATED_BODY()
 
 public:
-
 	AEquipmentActor();
 };

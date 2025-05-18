@@ -9,7 +9,7 @@
 
 /**
  * @class FGameplayTagPropertyMap
- * 
+ *
  * @brief Struct used to manage gameplay tag blueprint property mappings.
  * It registers the properties with delegates on an ability system component.
  * This struct can not be used in containers (such as TArray) since it uses a raw pointer
@@ -19,8 +19,6 @@ USTRUCT()
 struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 {
 	GENERATED_BODY()
-
-public:
 
 	FGameplayTagPropertyMap();
 	FGameplayTagPropertyMap(const FGameplayTagPropertyMap& Other);
@@ -42,9 +40,8 @@ public:
 	/** This can optionally be called in the owner's IsDataValid() for data validation. */
 	EDataValidationResult IsDataValid(const UObject* ContainingAsset, class FDataValidationContext& Context) const;
 #endif
-	
-protected:
 
+protected:
 	void Unregister();
 
 	void GameplayTagEventCallback(const FGameplayTag Tag, int32 NewCount, TWeakObjectPtr<UObject> RegisteredOwner);

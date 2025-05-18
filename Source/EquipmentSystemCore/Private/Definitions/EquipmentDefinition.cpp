@@ -6,13 +6,11 @@
 #include "Definitions/Fragments/EquipmentFragment.h"
 #include "Instances/EquipmentInstance.h"
 
-
 UEquipmentDefinition::UEquipmentDefinition(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.Get())
 {
 	InstanceClass = UEquipmentInstance::StaticClass();
 }
-
 
 #if WITH_EDITOR
 void UEquipmentDefinition::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
@@ -27,7 +25,7 @@ void UEquipmentDefinition::PostEditChangeProperty(FPropertyChangedEvent& Propert
 		{
 			if (const UEquipmentFragment* Fragment = Fragments[i]; IsValid(Fragment) && FragmentClasses.Contains(Fragment->GetClass()))
 			{
-                // Remove duplicate fragments
+				// Remove duplicate fragments
 				Fragments.RemoveAt(i);
 
 				UE_LOG(LogTemp, Warning, TEXT("Only one fragment per class is allowed. Duplicate fragment removed."));

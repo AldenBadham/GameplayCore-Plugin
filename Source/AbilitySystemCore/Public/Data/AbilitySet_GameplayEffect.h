@@ -4,7 +4,6 @@
 
 #include "AbilitySet_GameplayEffect.generated.h"
 
-
 /**
  * FAbilitySet_GameplayEffect
  *

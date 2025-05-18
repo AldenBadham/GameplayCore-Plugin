@@ -1,13 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Components/AbilitySystemComponentBase.h"
 
-#include "AbilitySystemCoreTags.h"
 #include "Abilities/AbilityActivationPolicy.h"
 #include "Abilities/GameplayAbilityBase.h"
+#include "AbilitySystemCoreTags.h"
 
-UAbilitySystemComponentBase::UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+UAbilitySystemComponentBase::UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
 {
 }
 
@@ -78,7 +78,7 @@ void UAbilitySystemComponentBase::AbilityInputTagReleased(const FGameplayTag& In
 void UAbilitySystemComponentBase::ProcessAbilityInput(float DeltaTime, bool bGamePaused)
 {
 	// Check if abilities input activation is blocked
-	if(HasMatchingGameplayTag(AbilitySystemCoreTags::TAG_Gameplay_AbilitiesBlocked))
+	if (HasMatchingGameplayTag(AbilitySystemCoreTags::TAG_Gameplay_AbilitiesBlocked))
 	{
 		ClearAbilityInput();
 		return;

@@ -8,9 +8,7 @@
 
 struct FEquipmentSlotTemplate;
 
-
 // TODO : Add IDetailsCustomization class to handle it more properly. Will be enough for the moment
-
 
 /**
  *
@@ -21,7 +19,6 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentSystemSettings : public UDeveloperSettin
 	GENERATED_BODY()
 
 public:
-	
 	// UDeveloperSettings
 	virtual FName GetContainerName() const override;
 	virtual FName GetCategoryName() const override;
@@ -29,9 +26,8 @@ public:
 
 	/** Accessor and initializer */
 	static UEquipmentSystemSettings* Get();
-	
+
 private:
-	
 	// UObject
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 	// ~UObject

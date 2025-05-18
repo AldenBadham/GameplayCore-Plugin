@@ -8,7 +8,6 @@
 
 #include "AbilitySetHandles.generated.h"
 
-
 /**
  * FAbilitySetHandles
  *

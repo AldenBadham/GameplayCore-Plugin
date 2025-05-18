@@ -2,17 +2,17 @@
 
 #include "Components/ActorFeatureRegisteredDelegate.h"
 
-
-FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName, FGameplayTag InInitState) : Delegate(InDelegate)
+FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName, FGameplayTag InInitState)
+	: Delegate(InDelegate)
 	, DelegateHandle(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle)
 	, RequiredFeatureName(InFeatureName)
 	, RequiredInitState(InInitState)
 	, bRemoved(false)
 {
-	
 }
 
-FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName, FGameplayTag InInitState) : BPDelegate(InDelegate)
+FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName, FGameplayTag InInitState)
+	: BPDelegate(InDelegate)
 	, DelegateHandle(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle)
 	, RequiredFeatureName(InFeatureName)
 	, RequiredInitState(InInitState)

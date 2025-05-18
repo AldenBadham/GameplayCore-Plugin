@@ -31,17 +31,13 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	FEquipmentList(UEquipmentSystemComponent* InOwnerComponent);
 	~FEquipmentList();
 
-
 	// FFastArraySerializer
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
 	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
 	// void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
-	{
-		return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this);
-	}
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
 
 	// ~FFastArraySerializer
 
@@ -50,7 +46,7 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	 * @param Count Number of instances to add (default is 1).
 	 * @return Pointer to entry added */
 	UEquipmentInstance* Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, int32 Count = 1);
-	
+
 	/**
 	 * Remove the specified equipment instance from the list.
 	 * @param Instance The instance to remove.
@@ -58,10 +54,9 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	void Remove(UEquipmentInstance* Instance);
 
 private:
-
 	/** Get the ability system component of the owner. */
 	UAbilitySystemComponent* GetAbilitySystemComponent() const;
-	
+
 	/** Array of equipment entries */
 	UPROPERTY()
 	TArray<FEquipmentEntry> Entries;

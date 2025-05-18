@@ -3,9 +3,7 @@
 #include "GameplayTagContainer.h"
 #include "AbilitySet_GameplayAbility.generated.h"
 
-
 class UGameplayAbilityBase;
-
 
 /**
  * FAbilitySet_GameplayAbility

@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AbilitySystemGlobals.h"
+#include "CoreMinimal.h"
 
 #include "AbilitySystemGlobalsBase.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class ABILITYSYSTEMCORE_API UAbilitySystemGlobalsBase : public UAbilitySystemGlobals
@@ -16,12 +16,8 @@ class ABILITYSYSTEMCORE_API UAbilitySystemGlobalsBase : public UAbilitySystemGlo
 	GENERATED_BODY()
 
 public:
-	
 	/** Gets the single instance of the globals object, will create it as necessary. */
-	static UAbilitySystemGlobalsBase& Get()
-	{
-		return *Cast<UAbilitySystemGlobalsBase>(IGameplayAbilitiesModule::Get().GetAbilitySystemGlobals());
-	}
+	static UAbilitySystemGlobalsBase& Get() { return *Cast<UAbilitySystemGlobalsBase>(IGameplayAbilitiesModule::Get().GetAbilitySystemGlobals()); }
 
 	/** Initialize global tags by reading from config using the names and creating tags for use at runtime */
 	virtual void InitGlobalTags() override;

@@ -1,16 +1,12 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "GameplayTags/GameplayTagPropertyMap.h"
 
 #include "AbilitySystemComponent.h"
 #include "Log/AbilitySystemLog.h"
 #include "Misc/DataValidation.h"
 
-
-FGameplayTagPropertyMap::FGameplayTagPropertyMap()
-{
-}
+FGameplayTagPropertyMap::FGameplayTagPropertyMap() {}
 
 FGameplayTagPropertyMap::FGameplayTagPropertyMap(const FGameplayTagPropertyMap& Other)
 {
@@ -28,7 +24,7 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, class UAbilitySystemCom
 	UClass* OwnerClass = (Owner ? Owner->GetClass() : nullptr);
 	if (!OwnerClass)
 	{
-		UE_LOG( LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Initialize() called with an invalid Owner."));
+		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Initialize() called with an invalid Owner."));
 		return;
 	}
 
@@ -72,8 +68,14 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, class UAbilitySystemCom
 		}
 
 		// Entry was invalid.  Remove it from the array.
-		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]."),
-			MappingIndex, *Mapping.TagToMap.ToString(), *Mapping.PropertyName.ToString(), *GetNameSafe(Owner));
+		UE_LOG(
+			LogAbilitySystem,
+			Error,
+			TEXT("FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]."),
+			MappingIndex,
+			*Mapping.TagToMap.ToString(),
+			*Mapping.PropertyName.ToString(),
+			*GetNameSafe(Owner));
 
 		PropertyMappings.RemoveAtSwap(MappingIndex, EAllowShrinking::No);
 	}
@@ -101,7 +103,7 @@ void FGameplayTagPropertyMap::ApplyCurrentTags()
 		if (Mapping.PropertyToEdit.Get() && Mapping.TagToMap.IsValid())
 		{
 			int32 NewCount = AbilitySystemComp->GetTagCount(Mapping.TagToMap);
-			
+
 			if (const FBoolProperty* BoolProperty = CastField<const FBoolProperty>(Mapping.PropertyToEdit.Get()))
 			{
 				BoolProperty->SetPropertyValue_InContainer(Owner, NewCount > 0);
@@ -112,7 +114,7 @@ void FGameplayTagPropertyMap::ApplyCurrentTags()
 			}
 			else if (const FFloatProperty* FloatProperty = CastField<const FFloatProperty>(Mapping.PropertyToEdit.Get()))
 			{
-				FloatProperty->SetPropertyValue_InContainer(Owner, (float)NewCount);
+				FloatProperty->SetPropertyValue_InContainer(Owner, static_cast<float>(NewCount));
 			}
 		}
 	}
@@ -126,7 +128,7 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::AddTag called with an invalid Owner."));
 		return;
 	}
-	
+
 	UClass* OwnerClass = Owner->GetClass();
 
 	UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();
@@ -135,7 +137,7 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::AddTag called with an invalid AbilitySystemComponent."));
 		return;
 	}
-	
+
 	FProperty* Property = OwnerClass->FindPropertyByName(PropertyName);
 	if (!Property || !IsPropertyTypeValid(Property))
 	{
@@ -143,12 +145,12 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 		return;
 	}
 
-	if(!Tag.IsValid())
+	if (!Tag.IsValid())
 	{
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::AddTag called with an invalid gameplay tag."));
 		return;
 	}
-	
+
 	FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
 
 	FGameplayTagBlueprintPropertyMapping Mapping;
@@ -199,10 +201,7 @@ void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, i
 	}
 
 	// Find the property mapping corresponding to the given gameplay tag.
-	FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](const FGameplayTagBlueprintPropertyMapping& Test)
-	{
-		return (Tag == Test.TagToMap);
-	});
+	FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](const FGameplayTagBlueprintPropertyMapping& Test) { return (Tag == Test.TagToMap); });
 
 	// If found, update the bound property
 	if (Mapping && Mapping->PropertyToEdit.Get())
@@ -237,35 +236,36 @@ EGameplayTagEventType::Type FGameplayTagPropertyMap::GetGameplayTagEventType(con
 EDataValidationResult FGameplayTagPropertyMap::IsDataValid(const UObject* OwningAsset, FDataValidationContext& Context) const
 {
 	UClass* OwnerClass = ((OwningAsset != nullptr) ? OwningAsset->GetClass() : nullptr);
-    if (!OwnerClass)
-    {
-    	UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagBlueprintPropertyMap: IsDataValid() called with an invalid Owner."));
-    	return EDataValidationResult::Invalid;
-    }
+	if (!OwnerClass)
+	{
+		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagBlueprintPropertyMap: IsDataValid() called with an invalid Owner."));
+		return EDataValidationResult::Invalid;
+	}
 
-    for (const FGameplayTagBlueprintPropertyMapping& Mapping : PropertyMappings)
-    {
-    	if (!Mapping.TagToMap.IsValid())
-    	{
-    		Context.AddError(FText::Format(FText::FromString("The gameplay tag [{0}] for property [{1}] is empty or invalid."), FText::AsCultureInvariant(Mapping.TagToMap.ToString()), FText::FromName(Mapping.PropertyName)));
-    	}
+	for (const FGameplayTagBlueprintPropertyMapping& Mapping : PropertyMappings)
+	{
+		if (!Mapping.TagToMap.IsValid())
+		{
+			Context.AddError(
+				FText::Format(FText::FromString("The gameplay tag [{0}] for property [{1}] is empty or invalid."), FText::AsCultureInvariant(Mapping.TagToMap.ToString()), FText::FromName(Mapping.PropertyName)));
+		}
 
-    	if (FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName))
-    	{
-    		if (!IsPropertyTypeValid(Property))
-    		{
-    			Context.AddError(FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."),
-    				FText::FromName(Mapping.PropertyName),
-    				FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
-    		}
-    	}
-    	else
-    	{
-    		Context.AddError(FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] could not be found."),
-    			FText::FromName(Mapping.PropertyName),
-    			FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
-    	}
-    }
+		if (FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName))
+		{
+			if (!IsPropertyTypeValid(Property))
+			{
+				Context.AddError(FText::Format(
+					FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."),
+					FText::FromName(Mapping.PropertyName),
+					FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
+			}
+		}
+		else
+		{
+			Context.AddError(
+				FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] could not be found."), FText::FromName(Mapping.PropertyName), FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
+		}
+	}
 
-    return ((Context.GetNumErrors() > 0) ? EDataValidationResult::Invalid : EDataValidationResult::Valid);
+	return ((Context.GetNumErrors() > 0) ? EDataValidationResult::Invalid : EDataValidationResult::Valid);
 }

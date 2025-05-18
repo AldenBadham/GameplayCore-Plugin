@@ -125,6 +125,8 @@ Inheritance diagram for UItemDefinition:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a98e760b536d003817152864eef1fdc36" id="r_a98e760b536d003817152864eef1fdc36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98e760b536d003817152864eef1fdc36">UItemDefinition</a> (const FObjectInitializer &amp;ObjectInitializer=FObjectInitializer::Get())</td></tr>
 <tr class="separator:a98e760b536d003817152864eef1fdc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02f5874616e16d2fc480371cdb9cd9f0" id="r_a02f5874616e16d2fc480371cdb9cd9f0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02f5874616e16d2fc480371cdb9cd9f0">PostLoad</a> () override</td></tr>
+<tr class="separator:a02f5874616e16d2fc480371cdb9cd9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a250acecc61963ac8101f6c0acd702a1e" id="r_a250acecc61963ac8101f6c0acd702a1e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_u_item_fragment.html">UItemFragment</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a250acecc61963ac8101f6c0acd702a1e">FindFragmentByClass</a> (TSubclassOf&lt; <a class="el" href="class_u_item_fragment.html">UItemFragment</a> &gt; FragmentClass) const</td></tr>
 <tr class="separator:a250acecc61963ac8101f6c0acd702a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24aeef4ff39092a96b06723842256376" id="r_a24aeef4ff39092a96b06723842256376"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24aeef4ff39092a96b06723842256376">HasFragmentByClass</a> (TSubclassOf&lt; <a class="el" href="class_u_item_fragment.html">UItemFragment</a> &gt; FragmentClass) const</td></tr>
@@ -132,11 +134,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae6fe17a15114bebb87b6ef801afab861" id="r_ae6fe17a15114bebb87b6ef801afab861"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:ae6fe17a15114bebb87b6ef801afab861"><td class="memTemplItemLeft" align="right" valign="top">const T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae6fe17a15114bebb87b6ef801afab861">FindFragmentByClass</a> () const</td></tr>
 <tr class="separator:ae6fe17a15114bebb87b6ef801afab861"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a631318a1d0dd23eb10fd71de0033dd0d" id="r_a631318a1d0dd23eb10fd71de0033dd0d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a631318a1d0dd23eb10fd71de0033dd0d">CanGive</a> (UInventorySystemComponent *InventorySystemComponent)</td></tr>
-<tr class="separator:a631318a1d0dd23eb10fd71de0033dd0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c95474fb930747653133ea9b018093d" id="r_a4c95474fb930747653133ea9b018093d"><td class="memItemLeft" align="right" valign="top"><a id="a4c95474fb930747653133ea9b018093d" name="a4c95474fb930747653133ea9b018093d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>K2_CanGive</b> (UInventorySystemComponent *InventorySystemComponent)</td></tr>
-<tr class="separator:a4c95474fb930747653133ea9b018093d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd36f97f64fed1137567db711efeda4" id="r_a8cd36f97f64fed1137567db711efeda4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cd36f97f64fed1137567db711efeda4">CanBeGiven</a> (UInventorySystemComponent *InventorySystemComponent)</td></tr>
+<tr class="separator:a8cd36f97f64fed1137567db711efeda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a63423b775edd608c16f2c0d6137b2" id="r_a76a63423b775edd608c16f2c0d6137b2"><td class="memItemLeft" align="right" valign="top"><a id="a76a63423b775edd608c16f2c0d6137b2" name="a76a63423b775edd608c16f2c0d6137b2"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>K2_CanBeGiven</b> (UInventorySystemComponent *InventorySystemComponent)</td></tr>
+<tr class="separator:a76a63423b775edd608c16f2c0d6137b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -168,16 +170,16 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00008">8</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    8</span>                                                                            : Super(ObjectInitializer.Get())</div>
-<div class="line"><span class="lineno">    9</span>{</div>
-<div class="line"><span class="lineno">   10</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00010">10</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>    : Super(ObjectInitializer.Get())</div>
+<div class="line"><span class="lineno">   12</span>{</div>
+<div class="line"><span class="lineno">   13</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a631318a1d0dd23eb10fd71de0033dd0d" name="a631318a1d0dd23eb10fd71de0033dd0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a631318a1d0dd23eb10fd71de0033dd0d">&#9670;&#160;</a></span>CanGive()</h2>
+<a id="a8cd36f97f64fed1137567db711efeda4" name="a8cd36f97f64fed1137567db711efeda4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cd36f97f64fed1137567db711efeda4">&#9670;&#160;</a></span>CanBeGiven()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +188,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool UItemDefinition::CanGive </td>
+          <td class="memname">bool UItemDefinition::CanBeGiven </td>
           <td>(</td>
           <td class="paramtype">UInventorySystemComponent *</td>          <td class="paramname"><span class="paramname"><em>InventorySystemComponent</em></span></td><td>)</td>
           <td></td>
@@ -199,10 +201,10 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00064">64</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>{</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">return</span> K2_CanGive(InventorySystemComponent);</div>
-<div class="line"><span class="lineno">   67</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00124">124</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>{</div>
+<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">return</span> K2_CanBeGiven(InventorySystemComponent);</div>
+<div class="line"><span class="lineno">  127</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,13 +234,13 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Try to find fragment of class FragmentClass in this item definition </p>
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00047">47</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>    {</div>
-<div class="line"><span class="lineno">   49</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#ae6fe17a15114bebb87b6ef801afab861">FindFragmentByClass</a>(T::StaticClass()));</div>
-<div class="line"><span class="lineno">   50</span>    }</div>
-<div class="ttc" id="aclass_u_item_definition_html_ae6fe17a15114bebb87b6ef801afab861"><div class="ttname"><a href="#ae6fe17a15114bebb87b6ef801afab861">UItemDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_item_definition_8h_source.html#l00047">ItemDefinition.h:47</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00046">46</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#ae6fe17a15114bebb87b6ef801afab861">FindFragmentByClass</a>(T::StaticClass())); }</div>
+<div class="ttc" id="aclass_u_item_definition_html_ae6fe17a15114bebb87b6ef801afab861"><div class="ttname"><a href="#ae6fe17a15114bebb87b6ef801afab861">UItemDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_item_definition_8h_source.html#l00046">ItemDefinition.h:46</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_item_definition_8cpp_source.html#l00035">FindFragmentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_item_definition_8h_source.html#l00046">FindFragmentByClass()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_item_definition_8h_source.html#l00046">FindFragmentByClass()</a>.</p>
 
 </div>
 </div>
@@ -263,24 +265,22 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00035">35</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   36</span>{</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
-<div class="line"><span class="lineno">   38</span>    {</div>
-<div class="line"><span class="lineno">   39</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UItemFragment* Fragment : Fragments)</div>
-<div class="line"><span class="lineno">   40</span>        {</div>
-<div class="line"><span class="lineno">   41</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
-<div class="line"><span class="lineno">   42</span>            {</div>
-<div class="line"><span class="lineno">   43</span>                <span class="keywordflow">return</span> Fragment;</div>
-<div class="line"><span class="lineno">   44</span>            }</div>
-<div class="line"><span class="lineno">   45</span>        }</div>
-<div class="line"><span class="lineno">   46</span>    }</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   49</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00102">102</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>{</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
+<div class="line"><span class="lineno">  105</span>    {</div>
+<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UItemFragment* Fragment : Fragments)</div>
+<div class="line"><span class="lineno">  107</span>        {</div>
+<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
+<div class="line"><span class="lineno">  109</span>            {</div>
+<div class="line"><span class="lineno">  110</span>                <span class="keywordflow">return</span> Fragment;</div>
+<div class="line"><span class="lineno">  111</span>            }</div>
+<div class="line"><span class="lineno">  112</span>        }</div>
+<div class="line"><span class="lineno">  113</span>    }</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  116</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_item_definition_8h_source.html#l00047">FindFragmentByClass()</a>.</p>
-
 </div>
 </div>
 <a id="a24aeef4ff39092a96b06723842256376" name="a24aeef4ff39092a96b06723842256376"></a>
@@ -298,18 +298,45 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00051">51</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>{</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
-<div class="line"><span class="lineno">   54</span>    {</div>
-<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UItemFragment* Fragment : Fragments)</div>
-<div class="line"><span class="lineno">   56</span>        {</div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">return</span> IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass);</div>
-<div class="line"><span class="lineno">   58</span>        }</div>
-<div class="line"><span class="lineno">   59</span>    }</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   62</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00118">118</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>{</div>
+<div class="line"><span class="lineno">  120</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> bFound = <a class="code hl_function" href="#ae6fe17a15114bebb87b6ef801afab861">FindFragmentByClass</a>(FragmentClass) != <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">return</span> bFound;</div>
+<div class="line"><span class="lineno">  122</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a02f5874616e16d2fc480371cdb9cd9f0" name="a02f5874616e16d2fc480371cdb9cd9f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02f5874616e16d2fc480371cdb9cd9f0">&#9670;&#160;</a></span>PostLoad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UItemDefinition::PostLoad </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_item_definition_8cpp_source.html#l00014">14</a> of file <a class="el" href="_item_definition_8cpp_source.html">ItemDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{</div>
+<div class="line"><span class="lineno">   16</span>    UObject::PostLoad();</div>
+<div class="line"><span class="lineno">   17</span> </div>
+<div class="line"><span class="lineno">   18</span><span class="preprocessor">#if WITH_EDITORONLY_DATA</span></div>
+<div class="line"><span class="lineno">   19</span>    PreviousFragments = Fragments;</div>
+<div class="line"><span class="lineno">   20</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   21</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -326,7 +353,7 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00062">62</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00059">59</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
 
 </div>
 </div>
@@ -342,7 +369,7 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00059">59</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00056">56</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
 
 </div>
 </div>
@@ -358,7 +385,7 @@ template&lt;typename T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00065">65</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_definition_8h_source.html#l00062">62</a> of file <a class="el" href="_item_definition_8h_source.html">ItemDefinition.h</a>.</p>
 
 </div>
 </div>

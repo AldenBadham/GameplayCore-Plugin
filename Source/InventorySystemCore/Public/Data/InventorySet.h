@@ -11,7 +11,7 @@ struct FInventorySet_ItemSet;
 class UItemDefinition;
 class UInventorySystemComponent;
 /**
- * 
+ *
  */
 UCLASS()
 class INVENTORYSYSTEMCORE_API UInventorySet : public UPrimaryDataAsset
@@ -19,9 +19,8 @@ class INVENTORYSYSTEMCORE_API UInventorySet : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-	
 	/**
-	* Give the items set to the specified inventory system component.
+	 * Give the items set to the specified inventory system component.
 	 */
 	void GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 

@@ -229,8 +229,8 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8cpp_source.html#l00014">14</a> of file <a class="el" href="_equipment_instance_8cpp_source.html">EquipmentInstance.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>                                                                                  : Super(ObjectInitializer.Get())</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8cpp_source.html#l00013">13</a> of file <a class="el" href="_equipment_instance_8cpp_source.html">EquipmentInstance.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>    : Super(ObjectInitializer.Get())</div>
 <div class="line"><span class="lineno">   15</span>{</div>
 <div class="line"><span class="lineno">   16</span>}</div>
 </div><!-- fragment -->
@@ -263,13 +263,13 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Add a new component object of class ComponentClass to this EquipmentInstance </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00057">57</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>    {</div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a969c0614faa54b9cc88af05e76214f4f">AddComponent</a>(T::StaticClass()));</div>
-<div class="line"><span class="lineno">   60</span>    }</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a969c0614faa54b9cc88af05e76214f4f"><div class="ttname"><a href="#a969c0614faa54b9cc88af05e76214f4f">UEquipmentInstance::AddComponent</a></div><div class="ttdeci">T * AddComponent()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00057">EquipmentInstance.h:57</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00054">54</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a969c0614faa54b9cc88af05e76214f4f">AddComponent</a>(T::StaticClass())); }</div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a969c0614faa54b9cc88af05e76214f4f"><div class="ttname"><a href="#a969c0614faa54b9cc88af05e76214f4f">UEquipmentInstance::AddComponent</a></div><div class="ttdeci">T * AddComponent()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00054">EquipmentInstance.h:54</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8cpp_source.html#l00053">AddComponent()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00054">AddComponent()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00054">AddComponent()</a>.</p>
 
 </div>
 </div>
@@ -303,11 +303,9 @@ template&lt;typename T&gt; </div>
 <div class="line"><span class="lineno">   59</span>    }</div>
 <div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><span class="lineno">   61</span>}</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_afe4c3be2c82302e643d228ca9c6f87be"><div class="ttname"><a href="#afe4c3be2c82302e643d228ca9c6f87be">UEquipmentInstance::Components</a></div><div class="ttdeci">TArray&lt; UEquipmentComponent * &gt; Components</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00161">EquipmentInstance.h:161</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_afe4c3be2c82302e643d228ca9c6f87be"><div class="ttname"><a href="#afe4c3be2c82302e643d228ca9c6f87be">UEquipmentInstance::Components</a></div><div class="ttdeci">TArray&lt; UEquipmentComponent * &gt; Components</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00148">EquipmentInstance.h:148</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00161">Components</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00057">AddComponent()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00148">Components</a>.</p>
 
 </div>
 </div>
@@ -346,7 +344,7 @@ template&lt;typename T&gt; </div>
 <div class="line"><span class="lineno">  163</span>    }</div>
 <div class="line"><span class="lineno">  164</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00105">FEquipmentList::Remove()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00108">FEquipmentList::Remove()</a>.</p>
 
 </div>
 </div>
@@ -376,13 +374,13 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Try to find fragment of class ComponentClass of this equipment instance </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00072">72</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   73</span>    {</div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">return</span> Cast&lt;T*&gt;(<a class="code hl_function" href="#a137b5c9d6cd71bb25028c13356bcb676">FindComponentByClass</a>(T::StaticClass()));</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a137b5c9d6cd71bb25028c13356bcb676"><div class="ttname"><a href="#a137b5c9d6cd71bb25028c13356bcb676">UEquipmentInstance::FindComponentByClass</a></div><div class="ttdeci">const T * FindComponentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00072">EquipmentInstance.h:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00065">65</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>{ <span class="keywordflow">return</span> Cast&lt;T*&gt;(<a class="code hl_function" href="#a137b5c9d6cd71bb25028c13356bcb676">FindComponentByClass</a>(T::StaticClass())); }</div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a137b5c9d6cd71bb25028c13356bcb676"><div class="ttname"><a href="#a137b5c9d6cd71bb25028c13356bcb676">UEquipmentInstance::FindComponentByClass</a></div><div class="ttdeci">const T * FindComponentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00065">EquipmentInstance.h:65</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8cpp_source.html#l00063">FindComponentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00065">FindComponentByClass()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00065">FindComponentByClass()</a>.</p>
 
 </div>
 </div>
@@ -423,9 +421,7 @@ template&lt;typename T&gt; </div>
 <div class="line"><span class="lineno">   76</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><span class="lineno">   77</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00161">Components</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00072">FindComponentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00148">Components</a>.</p>
 
 </div>
 </div>
@@ -449,9 +445,9 @@ template&lt;typename T&gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">  100</span>{</div>
 <div class="line"><span class="lineno">  101</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a4b1d09063f3ffb73e8113420deec1b4a">Definition</a>.Get();</div>
 <div class="line"><span class="lineno">  102</span>}</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a4b1d09063f3ffb73e8113420deec1b4a"><div class="ttname"><a href="#a4b1d09063f3ffb73e8113420deec1b4a">UEquipmentInstance::Definition</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentDefinition &gt; Definition</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00154">EquipmentInstance.h:154</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a4b1d09063f3ffb73e8113420deec1b4a"><div class="ttname"><a href="#a4b1d09063f3ffb73e8113420deec1b4a">UEquipmentInstance::Definition</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentDefinition &gt; Definition</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00141">EquipmentInstance.h:141</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00154">Definition</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00141">Definition</a>.</p>
 
 </div>
 </div>
@@ -475,9 +471,9 @@ template&lt;typename T&gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">   95</span>{</div>
 <div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="#a056f0d59b83252fd6eb923b99f6c857f">DefinitionClass</a>;</div>
 <div class="line"><span class="lineno">   97</span>}</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a056f0d59b83252fd6eb923b99f6c857f"><div class="ttname"><a href="#a056f0d59b83252fd6eb923b99f6c857f">UEquipmentInstance::DefinitionClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentDefinition &gt; DefinitionClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00150">EquipmentInstance.h:150</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a056f0d59b83252fd6eb923b99f6c857f"><div class="ttname"><a href="#a056f0d59b83252fd6eb923b99f6c857f">UEquipmentInstance::DefinitionClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentDefinition &gt; DefinitionClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8h_source.html#l00137">EquipmentInstance.h:137</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00150">DefinitionClass</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00137">DefinitionClass</a>.</p>
 
 </div>
 </div>
@@ -589,13 +585,13 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>Get the pawn that this equipment instance is attached to, if applicable. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00044">44</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#aa5b453b5f04851317fae0adac158c697">GetPawn</a>()); }</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00043">43</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#aa5b453b5f04851317fae0adac158c697">GetPawn</a>()); }</div>
 <div class="ttc" id="aclass_u_equipment_instance_html_aa5b453b5f04851317fae0adac158c697"><div class="ttname"><a href="#aa5b453b5f04851317fae0adac158c697">UEquipmentInstance::GetPawn</a></div><div class="ttdeci">APawn * GetPawn() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00036">EquipmentInstance.cpp:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00044">GetPawn()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00043">GetPawn()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00044">GetPawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00043">GetPawn()</a>.</p>
 
 </div>
 </div>
@@ -646,12 +642,12 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>Get an array of actors spawned by this equipment instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00109">109</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>{ <span class="keywordflow">return</span> SpawnedActors; }</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00099">99</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span>{ <span class="keywordflow">return</span> SpawnedActors; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00109">GetSpawnedActors()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00099">GetSpawnedActors()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00109">GetSpawnedActors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_instance_8h_source.html#l00099">GetSpawnedActors()</a>.</p>
 
 </div>
 </div>
@@ -864,9 +860,8 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8cpp_source.html#l00180">180</a> of file <a class="el" href="_equipment_instance_8cpp_source.html">EquipmentInstance.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  181</span>{</div>
-<div class="line"><span class="lineno">  182</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8cpp_source.html#l00178">178</a> of file <a class="el" href="_equipment_instance_8cpp_source.html">EquipmentInstance.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  178</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -895,10 +890,9 @@ template&lt;class T&gt; </div>
 <p>Called the equipment instance is spawned. </p>
 
 <p class="definition">Definition at line <a class="el" href="_equipment_instance_8cpp_source.html#l00176">176</a> of file <a class="el" href="_equipment_instance_8cpp_source.html">EquipmentInstance.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  177</span>{</div>
-<div class="line"><span class="lineno">  178</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>{}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -934,7 +928,7 @@ template&lt;class T&gt; </div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#ac05681abdf38ee6271ff4722b6611a40">K2_OnUnequipped()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00111">UEquipmentSystemComponent::UnequipItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00114">UEquipmentSystemComponent::UnequipItem()</a>.</p>
 
 </div>
 </div>
@@ -973,9 +967,9 @@ template&lt;class T&gt; </div>
 <div class="line"><span class="lineno">  112</span>    <a class="code hl_variable" href="#a056f0d59b83252fd6eb923b99f6c857f">DefinitionClass</a> = InDefinition-&gt;GetClass();</div>
 <div class="line"><span class="lineno">  113</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00154">Definition</a>, and <a class="el" href="_equipment_instance_8h_source.html#l00150">DefinitionClass</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8h_source.html#l00141">Definition</a>, and <a class="el" href="_equipment_instance_8h_source.html#l00137">DefinitionClass</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +994,7 @@ template&lt;class T&gt; </div>
 <div class="line"><span class="lineno">   86</span>    Instigator = InInstigator;</div>
 <div class="line"><span class="lineno">   87</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -1106,7 +1100,7 @@ template&lt;class T&gt; </div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_equipment_instance_8cpp_source.html#l00036">GetPawn()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -1181,7 +1175,7 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>Array of components attached to this item instance. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00161">161</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00148">148</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_equipment_instance_8cpp_source.html#l00053">AddComponent()</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00063">FindComponentByClass()</a>.</p>
 
@@ -1208,7 +1202,7 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>The Equipment Definition default object, cached by the local EquipmentSystemComponent cache </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00154">154</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00141">141</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_equipment_instance_8cpp_source.html#l00099">GetDefinition()</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00109">SetDefinition()</a>.</p>
 
@@ -1235,7 +1229,7 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>The Equipment definition that this instance is based on. Only replicate the class. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00150">150</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00137">137</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_equipment_instance_8cpp_source.html#l00094">GetDefinitionClass()</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00109">SetDefinition()</a>.</p>
 
@@ -1261,7 +1255,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00164">164</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00151">151</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 </div>
 </div>
@@ -1285,7 +1279,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00157">157</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00144">144</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 </div>
 </div>
@@ -1309,7 +1303,7 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00144">144</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_instance_8h_source.html#l00131">131</a> of file <a class="el" href="_equipment_instance_8h_source.html">EquipmentInstance.h</a>.</p>
 
 </div>
 </div>

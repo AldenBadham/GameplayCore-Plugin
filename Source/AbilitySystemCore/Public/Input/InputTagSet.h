@@ -7,7 +7,6 @@
 
 #include "InputTagSet.generated.h"
 
-
 class UInputAction;
 
 USTRUCT(BlueprintType)

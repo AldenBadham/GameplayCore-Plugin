@@ -7,7 +7,6 @@
 
 #include "ActorFeatureData.generated.h"
 
-
 /** Always stored as shared refs to avoid being destroyed during execution */
 using FActorFeatureDelegateList = TArray<TSharedRef<FActorFeatureRegisteredDelegate>>;
 
@@ -17,8 +16,6 @@ struct GAMEPLAYCORE_API FActorFeatureData
 {
 	GENERATED_BODY()
 
-public:
-	
 	/** Actor class for cross-referencing with the class callbacks */
 	TWeakObjectPtr<UClass> ActorClass;
 

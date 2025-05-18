@@ -9,17 +9,16 @@
 class UEquipmentInstance;
 class UItemInstance;
 
-
 USTRUCT(BlueprintType)
 struct EQUIPMENTSYSTEMCORE_API FEquipmentSlotSet
 {
 	GENERATED_BODY()
 
-public:
+	FEquipmentSlotSet()
+		: SlotTag(FGameplayTag::EmptyTag){};
+	FEquipmentSlotSet(const FGameplayTag& InSlotTag)
+		: SlotTag(InSlotTag){};
 
-	FEquipmentSlotSet() : SlotTag(FGameplayTag::EmptyTag) {};
-	FEquipmentSlotSet(const FGameplayTag& InSlotTag) : SlotTag(InSlotTag) {};
-	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "Equipment.Slot"))
 	FGameplayTag SlotTag;
 

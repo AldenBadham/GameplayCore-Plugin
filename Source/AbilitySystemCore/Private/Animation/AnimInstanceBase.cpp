@@ -1,15 +1,14 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Animation/AnimInstanceBase.h"
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
 #include "Misc/DataValidation.h"
 
-UAnimInstanceBase::UAnimInstanceBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+UAnimInstanceBase::UAnimInstanceBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
 {
-	
 }
 
 void UAnimInstanceBase::InitializeWithAbilitySystem(UAbilitySystemComponent* AbilitySystemComp)
@@ -22,9 +21,9 @@ void UAnimInstanceBase::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 
-	if(const AActor* OwningActor = GetOwningActor())
+	if (const AActor* OwningActor = GetOwningActor())
 	{
-		if(UAbilitySystemComponent* AbilitySystemComp = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor); IsValid(AbilitySystemComp))
+		if (UAbilitySystemComponent* AbilitySystemComp = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor); IsValid(AbilitySystemComp))
 		{
 			InitializeWithAbilitySystem(AbilitySystemComp);
 		}

@@ -6,7 +6,6 @@
 
 #include "ActorInitStateChangedParams.generated.h"
 
-
 /** Parameters struct for Init State change functions */
 USTRUCT(BlueprintType)
 struct GAMEPLAYCORE_API FActorInitStateChangedParams
@@ -16,14 +15,16 @@ struct GAMEPLAYCORE_API FActorInitStateChangedParams
 	FActorInitStateChangedParams()
 		: OwningActor(nullptr)
 		, Implementer(nullptr)
-	{}
+	{
+	}
 
 	FActorInitStateChangedParams(AActor* InOwningActor, FName InFeatureName, UObject* InImplementer, FGameplayTag InFeatureState)
 		: OwningActor(InOwningActor)
 		, FeatureName(InFeatureName)
 		, Implementer(InImplementer)
 		, FeatureState(InFeatureState)
-	{}
+	{
+	}
 
 	/** The actor owning the feature that changed */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)

@@ -1,11 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Data/AbilitySetHandles.h"
 
 #include "Data/AbilitySet.h"
 #include "Log/AbilitySystemLog.h"
-
 
 void FAbilitySetHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle)
 {

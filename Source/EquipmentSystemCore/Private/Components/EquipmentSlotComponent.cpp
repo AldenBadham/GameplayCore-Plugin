@@ -1,20 +1,18 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Components/EquipmentSlotComponent.h"
 
-#include "Instances/ItemInstance.h"
 #include "Components/EquipmentSystemComponent.h"
 #include "Data/EquipmentSlotMapData.h"
 #include "Definitions/Fragments/ItemFragment_Equippable.h"
 #include "Instances/EquipmentInstance.h"
+#include "Instances/ItemInstance.h"
 #include "Net/UnrealNetwork.h"
-
 
 UEquipmentSlotComponent::UEquipmentSlotComponent(const FObjectInitializer& ObjectInitializer)
 {
 	SetIsReplicatedByDefault(true);
-	
+
 	bWantsInitializeComponent = true;
 }
 
@@ -24,9 +22,9 @@ void UEquipmentSlotComponent::BeginPlay()
 
 	for (const FGameplayTag& SlotTag : SlotMap->Slots)
 	{
-		Slots.Add({ SlotTag });
+		Slots.Add({SlotTag});
 	}
-	
+
 	Super::BeginPlay();
 }
 
@@ -45,7 +43,7 @@ void UEquipmentSlotComponent::Server_EquipItemAtSlot_Implementation(FGameplayTag
 		{
 			return;
 		}
-		
+
 		UnequipItemInSlot(SlotTag);
 		EquipItemInSlot(SlotTag);
 	}
@@ -77,7 +75,7 @@ UItemInstance* UEquipmentSlotComponent::RemoveItemFromSlot(FGameplayTag SlotTag)
 		{
 			Result = InstanceSet->ItemInstance;
 			InstanceSet->ItemInstance = nullptr;
-			
+
 			OnRep_Slots();
 		}
 	}
@@ -96,18 +94,20 @@ void UEquipmentSlotComponent::EquipItemInSlot(FGameplayTag SlotTag)
 	}
 
 	UEquipmentSystemComponent* EquipmentSystemComp = FindEquipmentSystem();
-	if(!EquipmentSystemComp)
+	if (!EquipmentSystemComp)
+	{
 		return;
-	
+	}
+
 	if (FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
 	{
 		UItemInstance* Item = InstanceSet->ItemInstance;
-		
-		if(const UItemFragment_EquipableItem* EquipFragment = Item->FindFragmentByClass<UItemFragment_EquipableItem>())
+
+		if (const UItemFragment_EquipableItem* EquipFragment = Item->FindFragmentByClass<UItemFragment_EquipableItem>())
 		{
-			if(const TSubclassOf<UEquipmentDefinition> EquipmentDefinition = EquipFragment->EquipmentDefinition; IsValid(EquipmentDefinition))
+			if (const TSubclassOf<UEquipmentDefinition> EquipmentDefinition = EquipFragment->EquipmentDefinition; IsValid(EquipmentDefinition))
 			{
-				if(UEquipmentInstance* NewInstance = EquipmentSystemComp->EquipItem(EquipmentDefinition); NewInstance != nullptr)
+				if (UEquipmentInstance* NewInstance = EquipmentSystemComp->EquipItem(EquipmentDefinition); NewInstance != nullptr)
 				{
 					NewInstance->SetSourceItem(Item);
 				}
@@ -118,10 +118,11 @@ void UEquipmentSlotComponent::EquipItemInSlot(FGameplayTag SlotTag)
 
 void UEquipmentSlotComponent::UnequipItemInSlot(FGameplayTag SlotTag)
 {
-	if(!IsValidSlot(SlotTag))
+	if (!IsValidSlot(SlotTag))
+	{
 		return;
-	
-	
+	}
+
 	if (UEquipmentSystemComponent* EquipmentSystem = FindEquipmentSystem())
 	{
 		if (const FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
@@ -129,8 +130,8 @@ void UEquipmentSlotComponent::UnequipItemInSlot(FGameplayTag SlotTag)
 			if (UEquipmentInstance* EquipmentInstance = EquipmentSystem->GetInstanceFromItem(InstanceSet->ItemInstance))
 			{
 				EquipmentSystem->UnequipItem(EquipmentInstance);
-			
-				//OnSlotUnequipped.Broadcast(ActiveSlotIndex);
+
+				// OnSlotUnequipped.Broadcast(ActiveSlotIndex);
 			}
 		}
 	}
@@ -138,10 +139,7 @@ void UEquipmentSlotComponent::UnequipItemInSlot(FGameplayTag SlotTag)
 
 FEquipmentSlotSet* UEquipmentSlotComponent::FindInstanceSetForSlot(FGameplayTag SlotTag)
 {
-	return Slots.FindByPredicate([SlotTag](const FEquipmentSlotSet& Set)
-	{
-		return Set.SlotTag == SlotTag;
-	});
+	return Slots.FindByPredicate([SlotTag](const FEquipmentSlotSet& Set) { return Set.SlotTag == SlotTag; });
 }
 
 bool UEquipmentSlotComponent::IsValidSlot(FGameplayTag SlotTag) const
@@ -161,6 +159,4 @@ UEquipmentSystemComponent* UEquipmentSlotComponent::FindEquipmentSystem() const
 	return nullptr;
 }
 
-void UEquipmentSlotComponent::OnRep_Slots()
-{
-}
+void UEquipmentSlotComponent::OnRep_Slots() {}

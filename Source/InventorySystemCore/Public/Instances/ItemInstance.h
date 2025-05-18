@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Components/ItemComponent.h"
-#include "Definitions/ItemDefinition.h"
 #include "Components/InventorySystemComponent.h"
+#include "Components/ItemComponent.h"
+#include "CoreMinimal.h"
+#include "Definitions/ItemDefinition.h"
 #include "UObject/Object.h"
 
 #include "ItemInstance.generated.h"
@@ -29,7 +29,6 @@ class INVENTORYSYSTEMCORE_API UItemInstance : public UObject
 	friend struct FInventoryList;
 
 public:
-	
 	explicit UItemInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
@@ -39,18 +38,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	UInventorySystemComponent* GetInventorySystemComponent() const;
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	APlayerController* GetOwningController() const;
 	/**
 	 * Try to find fragment of class FragmentClass in this item's definition
 	 */
-	template <typename T>
-	const T* GetOwningController() const
-	{
-		return Cast<T>(GetOwningController(T::StaticClass()));
-	}
-	
+	template <typename T> const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
 
 	/**
 	 * Gets the item definition class associated with this instance.
@@ -70,17 +64,13 @@ public:
 	 * Try to find fragment of class FragmentClass in this item's definition
 	 * @param FragmentClass Class of the ItemFragment to search
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure=false, meta=(DeterminesOutputType=FragmentClass))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = FragmentClass))
 	const UItemFragment* FindFragmentByClass(TSubclassOf<UItemFragment> FragmentClass) const;
 	/**
 	 * Try to find fragment of class FragmentClass in this item's definition
 	 */
-	template <typename T>
-	const T* FindFragmentByClass() const
-	{
-		return Cast<T>(FindFragmentByClass(T::StaticClass()));
-	}
-	
+	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+
 	UFUNCTION(BlueprintCallable, BlueprintPure = false)
 	bool HasFragmentByClass(TSubclassOf<UItemFragment> FragmentClass) const;
 
@@ -88,40 +78,31 @@ public:
 	 *	Try to find fragment of class FragmentClass in this item definition
 	 *	@param ComponentClass Class of the ItemFragment to search
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure=false, meta=(DeterminesOutputType=FragmentClass))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = FragmentClass))
 	UItemComponent* AddComponent(TSubclassOf<UItemComponent> ComponentClass);
 	/**
 	 *	Try to find fragment of class FragmentClass in this item definition
 	 */
-	template <typename T>
-	T* AddComponent()
-	{
-		return Cast<T>(AddComponent(T::StaticClass()));
-	}
+	template <typename T> T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
 
 	/**
 	 *	Try to find component of class ComponentClass of this item instance
 	 *	@param ComponentClass Class of the Item Instance's component to search
 	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure=false, meta=(DeterminesOutputType=ComponentClass))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = ComponentClass))
 	const UItemComponent* FindComponentByClass(TSubclassOf<UItemComponent> ComponentClass) const;
 	/**
 	 *	Try to find fragment of class ComponentClass of this item instance
 	 */
-	template <typename T>
-	const T* FindComponentByClass() const
-	{
-		return Cast<T*>(FindComponentByClass(T::StaticClass()));
-	}
+	template <typename T> const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 protected:
-	
 	/**
 	 * Sets the item definition class for this instance.
 	 * @param InDefinition - The item definition to set.
 	 */
 	void SetDefinition(UItemDefinition* InDefinition);
-	
+
 	/** The item definition that this instance is based on.
 	 * Only replicate the class.
 	 */
@@ -139,5 +120,4 @@ protected:
 	/** Cached pointer to owning inventory system component */
 	UPROPERTY(Transient)
 	mutable APlayerController* OwningController;
-	
 };

@@ -2,13 +2,9 @@
 
 #define LOCTEXT_NAMESPACE "FEquipmentSystemCoreModule"
 
-void FEquipmentSystemCoreModule::StartupModule()
-{
-}
+void FEquipmentSystemCoreModule::StartupModule() {}
 
-void FEquipmentSystemCoreModule::ShutdownModule()
-{
-}
+void FEquipmentSystemCoreModule::ShutdownModule() {}
 
 #undef LOCTEXT_NAMESPACE
 

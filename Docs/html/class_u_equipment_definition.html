@@ -153,7 +153,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Data asset definition of an item that can be equipped by the pawn. And what to do to the pawn on which it is equipped. </p>
 <dl class="section see"><dt>See also</dt><dd>UObject </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00025">25</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00023">23</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8cd7ffb0d09b94e9bb1063c64474420a" name="a8cd7ffb0d09b94e9bb1063c64474420a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8cd7ffb0d09b94e9bb1063c64474420a">&#9670;&#160;</a></span>UEquipmentDefinition()</h2>
@@ -170,12 +170,12 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00010">10</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   11</span>    : Super(ObjectInitializer.Get())</div>
-<div class="line"><span class="lineno">   12</span>{</div>
-<div class="line"><span class="lineno">   13</span>    <a class="code hl_variable" href="#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a> = UEquipmentInstance::StaticClass();</div>
-<div class="line"><span class="lineno">   14</span>}</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00069">EquipmentDefinition.h:69</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00009">9</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   10</span>    : Super(ObjectInitializer.Get())</div>
+<div class="line"><span class="lineno">   11</span>{</div>
+<div class="line"><span class="lineno">   12</span>    <a class="code hl_variable" href="#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a> = UEquipmentInstance::StaticClass();</div>
+<div class="line"><span class="lineno">   13</span>}</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00061">EquipmentDefinition.h:61</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -203,10 +203,10 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00060">60</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>{</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">return</span> K2_CanEquip(EquipmentSystemComponent);</div>
-<div class="line"><span class="lineno">   63</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00058">58</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> K2_CanEquip(EquipmentSystemComponent);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -236,13 +236,13 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Template function to find fragment of class T in this equipment definition </p><dl class="section return"><dt>Returns</dt><dd>Pointer to the found fragment of type T, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00052">52</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>    {</div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a69202f1f2522e9743b8e4d36776a1816">FindFragmentByClass</a>(T::StaticClass()));</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_a69202f1f2522e9743b8e4d36776a1816"><div class="ttname"><a href="#a69202f1f2522e9743b8e4d36776a1816">UEquipmentDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00052">EquipmentDefinition.h:52</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00048">48</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a69202f1f2522e9743b8e4d36776a1816">FindFragmentByClass</a>(T::StaticClass())); }</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_a69202f1f2522e9743b8e4d36776a1816"><div class="ttname"><a href="#a69202f1f2522e9743b8e4d36776a1816">UEquipmentDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00048">EquipmentDefinition.h:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_definition_8cpp_source.html#l00044">FindFragmentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00048">FindFragmentByClass()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_definition_8h_source.html#l00048">FindFragmentByClass()</a>.</p>
 
 </div>
 </div>
@@ -268,26 +268,24 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the found fragment, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00044">44</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
-<div class="line"><span class="lineno">   47</span>    {</div>
-<div class="line"><span class="lineno">   48</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UEquipmentFragment* Fragment : <a class="code hl_variable" href="#a6d0e2a12af25b71c5e5d62863030c455">Fragments</a>)</div>
-<div class="line"><span class="lineno">   49</span>        {</div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
-<div class="line"><span class="lineno">   51</span>            {</div>
-<div class="line"><span class="lineno">   52</span>                <span class="keywordflow">return</span> Fragment;</div>
-<div class="line"><span class="lineno">   53</span>            }</div>
-<div class="line"><span class="lineno">   54</span>        }</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   58</span>}</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_a6d0e2a12af25b71c5e5d62863030c455"><div class="ttname"><a href="#a6d0e2a12af25b71c5e5d62863030c455">UEquipmentDefinition::Fragments</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; UEquipmentFragment &gt; &gt; Fragments</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00081">EquipmentDefinition.h:81</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00042">42</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
+<div class="line"><span class="lineno">   45</span>    {</div>
+<div class="line"><span class="lineno">   46</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UEquipmentFragment* Fragment : <a class="code hl_variable" href="#a6d0e2a12af25b71c5e5d62863030c455">Fragments</a>)</div>
+<div class="line"><span class="lineno">   47</span>        {</div>
+<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
+<div class="line"><span class="lineno">   49</span>            {</div>
+<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">return</span> Fragment;</div>
+<div class="line"><span class="lineno">   51</span>            }</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="line"><span class="lineno">   53</span>    }</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   56</span>}</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_a6d0e2a12af25b71c5e5d62863030c455"><div class="ttname"><a href="#a6d0e2a12af25b71c5e5d62863030c455">UEquipmentDefinition::Fragments</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; UEquipmentFragment &gt; &gt; Fragments</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00073">EquipmentDefinition.h:73</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00081">Fragments</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_equipment_definition_8h_source.html#l00052">FindFragmentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00073">Fragments</a>.</p>
 
 </div>
 </div>
@@ -305,9 +303,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Ability sets granted by this equipment </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00077">77</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00069">69</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -324,9 +322,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Actors to spawn on the pawn when this is equipped </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00073">73</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00065">65</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -343,7 +341,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Display name of the equipment (used by UI) </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00065">65</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00057">57</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
 </div>
 </div>
@@ -360,9 +358,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Equipment fragments for additional functionality </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00081">81</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00073">73</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_definition_8cpp_source.html#l00044">FindFragmentByClass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_definition_8cpp_source.html#l00042">FindFragmentByClass()</a>.</p>
 
 </div>
 </div>
@@ -379,9 +377,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Instance class to spawn </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00069">69</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00061">61</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00049">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>

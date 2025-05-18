@@ -8,7 +8,6 @@
 
 #include "EquipmentEntry.generated.h"
 
-
 class UEquipmentDefinition;
 class UEquipmentInstance;
 /**
@@ -25,9 +24,7 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentEntry : public FFastArraySerializerItem
 	friend class UEquipmentSystemComponent;
 	friend struct FEquipmentList;
 
-	FEquipmentEntry()
-	{
-	}
+	FEquipmentEntry() {}
 
 	FString GetDebugString() const;
 

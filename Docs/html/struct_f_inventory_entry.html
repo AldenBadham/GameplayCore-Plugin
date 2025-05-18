@@ -109,6 +109,11 @@ $(function(){initNavTree('struct_f_inventory_entry.html',''); initResizable(true
   <div class="headertitle"><div class="title">FInventoryEntry Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Represents a single inventory entry with item instance and stack management.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for FInventoryEntry:</div>
 <div class="dyncontent">
@@ -131,10 +136,16 @@ Friends</h2></td></tr>
 <tr class="separator:a2aa2eaf3d7d50dd9c4a4df7377c016ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b26b4bbfcc56de408a42229f72599d8" id="r_a9b26b4bbfcc56de408a42229f72599d8"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b26b4bbfcc56de408a42229f72599d8">FInventoryList</a></td></tr>
 <tr class="separator:a9b26b4bbfcc56de408a42229f72599d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac78a98ad2cab1a14920a2cf32a5f7223" id="r_ac78a98ad2cab1a14920a2cf32a5f7223"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac78a98ad2cab1a14920a2cf32a5f7223">FInventoryChangeData</a></td></tr>
+<tr class="separator:ac78a98ad2cab1a14920a2cf32a5f7223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2962b57b02fadd3e59d2dbe77595f2b9" id="r_a2962b57b02fadd3e59d2dbe77595f2b9"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2962b57b02fadd3e59d2dbe77595f2b9">FInventoryEntryHandle</a></td></tr>
+<tr class="separator:a2962b57b02fadd3e59d2dbe77595f2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00015">15</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<div class="textblock"><p>Represents a single inventory entry with item instance and stack management. </p>
+<dl class="section see"><dt>See also</dt><dd>FFastArraySerializerItem, <a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a>, <a class="el" href="struct_f_inventory_list.html" title="Manages the list of items in the inventory.">FInventoryList</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00018">18</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af1df35da0707807b8c6755c389f522ce" name="af1df35da0707807b8c6755c389f522ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1df35da0707807b8c6755c389f522ce">&#9670;&#160;</a></span>FInventoryEntry()</h2>
@@ -159,9 +170,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00022">22</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>    {</div>
-<div class="line"><span class="lineno">   24</span>    };</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00027">27</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -188,9 +198,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00026">26</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>    {</div>
-<div class="line"><span class="lineno">   28</span>    };</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00029">29</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -210,10 +219,10 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00028">28</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>{</div>
-<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;(%s)&quot;</span>), *GetNameSafe(Instance));</div>
-<div class="line"><span class="lineno">   31</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00026">26</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;(%s)&quot;</span>), *GetNameSafe(Instance));</div>
+<div class="line"><span class="lineno">   29</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,13 +241,13 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00020">20</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span>{</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">if</span> (InArraySerializer.OwnerComponent)</div>
-<div class="line"><span class="lineno">   23</span>    {</div>
-<div class="line"><span class="lineno">   24</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.OwnerComponent-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
-<div class="line"><span class="lineno">   25</span>    }</div>
-<div class="line"><span class="lineno">   26</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00018">18</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   19</span>{</div>
+<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">if</span> (InArraySerializer.OwnerComponent)</div>
+<div class="line"><span class="lineno">   21</span>    {</div>
+<div class="line"><span class="lineno">   22</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.OwnerComponent-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
+<div class="line"><span class="lineno">   23</span>    }</div>
+<div class="line"><span class="lineno">   24</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -262,14 +271,60 @@ Friends</h2></td></tr>
 <div class="line"><span class="lineno">   12</span>    <span class="keywordflow">if</span> (InArraySerializer.OwnerComponent)</div>
 <div class="line"><span class="lineno">   13</span>    {</div>
 <div class="line"><span class="lineno">   14</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnRemoveEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.OwnerComponent-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
-<div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   16</span>        <span class="comment">// TODO : Lock scope to stop us from removing entries from our inventory</span></div>
-<div class="line"><span class="lineno">   17</span>    }</div>
-<div class="line"><span class="lineno">   18</span>}</div>
+<div class="line"><span class="lineno">   15</span>    }</div>
+<div class="line"><span class="lineno">   16</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="ac78a98ad2cab1a14920a2cf32a5f7223" name="ac78a98ad2cab1a14920a2cf32a5f7223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac78a98ad2cab1a14920a2cf32a5f7223">&#9670;&#160;</a></span>FInventoryChangeData</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="struct_f_inventory_change_data.html">FInventoryChangeData</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00024">24</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+
+</div>
+</div>
+<a id="a2962b57b02fadd3e59d2dbe77595f2b9" name="a2962b57b02fadd3e59d2dbe77595f2b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2962b57b02fadd3e59d2dbe77595f2b9">&#9670;&#160;</a></span>FInventoryEntryHandle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="struct_f_inventory_entry_handle.html">FInventoryEntryHandle</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00025">25</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+
+</div>
+</div>
 <a id="a9b26b4bbfcc56de408a42229f72599d8" name="a9b26b4bbfcc56de408a42229f72599d8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9b26b4bbfcc56de408a42229f72599d8">&#9670;&#160;</a></span>FInventoryList</h2>
 
@@ -290,7 +345,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00020">20</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00023">23</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
 
 </div>
 </div>
@@ -314,7 +369,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00019">19</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00022">22</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
 
 </div>
 </div>

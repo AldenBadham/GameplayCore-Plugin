@@ -7,7 +7,7 @@
 #include "ItemFragment_Tradable.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(DisplayName = "Tradable")
 class INVENTORYSYSTEMCORE_API UItemFragment_Tradable : public UItemFragment

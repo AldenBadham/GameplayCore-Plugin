@@ -4,7 +4,6 @@
 
 #include "GameplayTagContainer.h"
 
-
 #include "ActorFeatureState.generated.h"
 
 /** State for a specific object implementing an actor feature, should this be in a map instead of an array? */
@@ -13,10 +12,11 @@ struct GAMEPLAYCORE_API FActorFeatureState
 {
 	GENERATED_BODY()
 
-public:
-
 	FActorFeatureState(){};
-	FActorFeatureState(const FName InFeatureName) : FeatureName(InFeatureName) {}
+	FActorFeatureState(const FName InFeatureName)
+		: FeatureName(InFeatureName)
+	{
+	}
 
 	/** The feature this is tracking */
 	FName FeatureName;
@@ -28,6 +28,6 @@ public:
 
 	/** The object implementing this feature, this can be null */
 	TWeakObjectPtr<UObject> Implementer;
-	
+
 	bool IsValid() const { return !(FeatureName.IsNone() || States.IsEmpty() || !States.Contains(CurrentState)); }
 };

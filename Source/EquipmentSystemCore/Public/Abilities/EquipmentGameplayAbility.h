@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Abilities/GameplayAbilityBase.h"
+#include "CoreMinimal.h"
 #include "EquipmentGameplayAbility.generated.h"
 
 class UItemInstance;
@@ -21,7 +21,6 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentGameplayAbility : public UGameplayAbilit
 	GENERATED_BODY()
 
 public:
-
 	UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	/**
@@ -37,7 +36,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	UItemInstance* GetSourceItem() const;
-	
+
 #if WITH_EDITOR
 	/**
 	 * Validates the data for this ability in the editor.

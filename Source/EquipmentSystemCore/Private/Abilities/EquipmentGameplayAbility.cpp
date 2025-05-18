@@ -1,23 +1,22 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Abilities/EquipmentGameplayAbility.h"
 #include "Instances/EquipmentInstance.h"
 #include "Instances/ItemInstance.h"
 
 #if WITH_EDITOR
-#include "Misc/DataValidation.h"
+	#include "Misc/DataValidation.h"
 #endif
 
-
-UEquipmentGameplayAbility::UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+UEquipmentGameplayAbility::UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 
 UEquipmentInstance* UEquipmentGameplayAbility::GetSourceEquipment() const
 {
-	if(FGameplayAbilitySpec* Spec = UGameplayAbility::GetCurrentAbilitySpec())
+	if (FGameplayAbilitySpec* Spec = GetCurrentAbilitySpec())
 	{
 		return Cast<UEquipmentInstance>(Spec->SourceObject.Get());
 	}
@@ -32,7 +31,6 @@ UItemInstance* UEquipmentGameplayAbility::GetSourceItem() const
 	}
 	return nullptr;
 }
-
 
 #if WITH_EDITOR
 EDataValidationResult UEquipmentGameplayAbility::IsDataValid(FDataValidationContext& Context) const

@@ -111,8 +111,8 @@ $(function(){initNavTree('_inventory_change_data_8h_source.html',''); initResiza
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;InventoryChangeData.generated.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">class </span><a class="code hl_class" href="class_u_item_instance.html">UItemInstance</a>;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_f_inventory_entry.html">FInventoryEntry</a>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">class </span><a class="code hl_class" href="class_u_item_instance.html">UItemInstance</a>;</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>UENUM(BlueprintType)</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">enum class</span> EInventoryChangeType : uint8</div>
@@ -122,32 +122,41 @@ $(function(){initNavTree('_inventory_change_data_8h_source.html',''); initResiza
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    Modified</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>};</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>USTRUCT(BlueprintType)</div>
-<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html">   23</a></span>struct INVENTORYSYSTEMCORE_API <a class="code hl_struct" href="struct_f_inventory_change_data.html">FInventoryChangeData</a></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    GENERATED_BODY()</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    int32 Index = INDEX_NONE;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    TObjectPtr&lt;UItemInstance&gt; Instance = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    UPROPERTY(BlueprintReadOnly)</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    EInventoryChangeType ChangeType = EInventoryChangeType::Added;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    int32 OldCount = 0;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    int32 NewCount = 0;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">bool</span> IsValid()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> Index != INDEX_NONE; }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>};</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>USTRUCT(BlueprintType)</div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html">   27</a></span>struct INVENTORYSYSTEMCORE_API FInventoryChangeData</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>{</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    GENERATED_BODY()</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    FInventoryChangeData() {}</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    FInventoryChangeData(<span class="keyword">const</span> int32 InIndex, <span class="keyword">const</span> <a class="code hl_struct" href="struct_f_inventory_entry.html">FInventoryEntry</a>&amp; Entry, <span class="keyword">const</span> EInventoryChangeType InChangeType = EInventoryChangeType::Added);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de">   43</a></span>    int32 <a class="code hl_variable" href="struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de">Index</a> = INDEX_NONE;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html#ae10f34328a888073edee396c1b0d925c">   47</a></span>    TObjectPtr&lt;<a class="code hl_class" href="class_u_item_instance.html">UItemInstance</a>&gt; <a class="code hl_variable" href="struct_f_inventory_change_data.html#ae10f34328a888073edee396c1b0d925c">Instance</a> = <span class="keywordtype">nullptr</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    UPROPERTY(BlueprintReadOnly)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html#adb5ce8af353ae0bf0e294e4f2da4f8e8">   51</a></span>    EInventoryChangeType <a class="code hl_variable" href="struct_f_inventory_change_data.html#adb5ce8af353ae0bf0e294e4f2da4f8e8">ChangeType</a> = EInventoryChangeType::Added;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html#af7f926df3045fc9f3fc0b2856e1772ca">   55</a></span>    int32 <a class="code hl_variable" href="struct_f_inventory_change_data.html#af7f926df3045fc9f3fc0b2856e1772ca">OldCount</a> = 0;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    UPROPERTY(BlueprintReadOnly, Category = <span class="stringliteral">&quot;Inventory&quot;</span>)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="struct_f_inventory_change_data.html#a7e949e5a7c3468f68bcd74d4faf66165">   59</a></span>    int32 <a class="code hl_variable" href="struct_f_inventory_change_data.html#a7e949e5a7c3468f68bcd74d4faf66165">NewCount</a> = 0;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">bool</span> IsValid()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de">Index</a> != INDEX_NONE; }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
 </div>
 <div class="ttc" id="aclass_u_item_instance_html"><div class="ttname"><a href="class_u_item_instance.html">UItemInstance</a></div><div class="ttdoc">This class represents an instance of an item within the inventory system. It holds a reference to the...</div><div class="ttdef"><b>Definition</b> <a href="_item_instance_8h_source.html#l00025">ItemInstance.h:26</a></div></div>
-<div class="ttc" id="astruct_f_inventory_change_data_html"><div class="ttname"><a href="struct_f_inventory_change_data.html">FInventoryChangeData</a></div><div class="ttdoc">A data payload when an item change in the inventory.</div><div class="ttdef"><b>Definition</b> <a href="#l00023">InventoryChangeData.h:24</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_a7e949e5a7c3468f68bcd74d4faf66165"><div class="ttname"><a href="struct_f_inventory_change_data.html#a7e949e5a7c3468f68bcd74d4faf66165">FInventoryChangeData::NewCount</a></div><div class="ttdeci">int32 NewCount</div><div class="ttdef"><b>Definition</b> <a href="#l00059">InventoryChangeData.h:59</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_a90e4317adcf7ec205ec26aeeef2351de"><div class="ttname"><a href="struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de">FInventoryChangeData::Index</a></div><div class="ttdeci">int32 Index</div><div class="ttdef"><b>Definition</b> <a href="#l00043">InventoryChangeData.h:43</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_adb5ce8af353ae0bf0e294e4f2da4f8e8"><div class="ttname"><a href="struct_f_inventory_change_data.html#adb5ce8af353ae0bf0e294e4f2da4f8e8">FInventoryChangeData::ChangeType</a></div><div class="ttdeci">EInventoryChangeType ChangeType</div><div class="ttdef"><b>Definition</b> <a href="#l00051">InventoryChangeData.h:51</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_ae10f34328a888073edee396c1b0d925c"><div class="ttname"><a href="struct_f_inventory_change_data.html#ae10f34328a888073edee396c1b0d925c">FInventoryChangeData::Instance</a></div><div class="ttdeci">TObjectPtr&lt; UItemInstance &gt; Instance</div><div class="ttdef"><b>Definition</b> <a href="#l00047">InventoryChangeData.h:47</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_af7f926df3045fc9f3fc0b2856e1772ca"><div class="ttname"><a href="struct_f_inventory_change_data.html#af7f926df3045fc9f3fc0b2856e1772ca">FInventoryChangeData::OldCount</a></div><div class="ttdeci">int32 OldCount</div><div class="ttdef"><b>Definition</b> <a href="#l00055">InventoryChangeData.h:55</a></div></div>
+<div class="ttc" id="astruct_f_inventory_entry_html"><div class="ttname"><a href="struct_f_inventory_entry.html">FInventoryEntry</a></div><div class="ttdoc">Represents a single inventory entry with item instance and stack management.</div><div class="ttdef"><b>Definition</b> <a href="_inventory_entry_8h_source.html#l00018">InventoryEntry.h:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

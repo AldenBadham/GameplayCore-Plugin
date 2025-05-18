@@ -9,7 +9,7 @@ class UEquipmentSystemComponent;
 class UEquipmentDefinition;
 
 /**
- * 
+ *
  */
 UCLASS(DisplayName = "Equipable")
 class EQUIPMENTSYSTEMCORE_API UItemFragment_EquipableItem : public UItemFragment
@@ -17,13 +17,11 @@ class EQUIPMENTSYSTEMCORE_API UItemFragment_EquipableItem : public UItemFragment
 	GENERATED_BODY()
 
 public:
-
 	virtual void OnInstanceCreated(UItemInstance* Instance) override;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipable")
 	TSubclassOf<UEquipmentDefinition> EquipmentDefinition;
 
 protected:
-
 	UEquipmentSystemComponent* FindEquipmentComponent() const;
 };

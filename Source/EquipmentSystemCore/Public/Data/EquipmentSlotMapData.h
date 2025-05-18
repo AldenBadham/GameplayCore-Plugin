@@ -9,7 +9,7 @@
 #include "EquipmentSlotMapData.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class EQUIPMENTSYSTEMCORE_API UEquipmentSlotMapData : public UPrimaryDataAsset
@@ -17,7 +17,6 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentSlotMapData : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (Categories = "Equipment.Slot"))
 	TArray<FGameplayTag> Slots;
 };

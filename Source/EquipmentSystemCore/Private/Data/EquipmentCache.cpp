@@ -1,10 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Data/EquipmentCache.h"
 
 #include "Definitions/EquipmentDefinition.h"
-
 
 UEquipmentCache::UEquipmentCache()
 {
@@ -20,12 +18,14 @@ UEquipmentCache::~UEquipmentCache()
 
 UEquipmentDefinition* UEquipmentCache::GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class)
 {
-	if(!IsValid(Class))
+	if (!IsValid(Class))
+	{
 		return nullptr;
-	
+	}
+
 	// Lock the critical section to ensure thread-safe access to the cache
 	FScopeLock Lock(&CacheLock);
-	
+
 	if (UEquipmentDefinition** FoundDefinition = CachedDefinitionMap.Find(Class))
 	{
 		return *FoundDefinition;

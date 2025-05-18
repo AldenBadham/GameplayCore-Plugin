@@ -137,6 +137,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>Cache&#160;:&#160;<a class="el" href="class_u_equipment_system_component.html#a25a71ff4cf50261a31d0bb4a5c2269a5">UEquipmentSystemComponent</a></li>
+<li>ChangeType&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#adb5ce8af353ae0bf0e294e4f2da4f8e8">FInventoryChangeData</a></li>
 <li>CheckDefaultInitialization()&#160;:&#160;<a class="el" href="class_i_game_init_state_interface.html#a6e72f19d9453f3198150c50099f2914a">IGameInitStateInterface</a></li>
 <li>ClearAbilityInput()&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#a1d72ade315359f9114c3b490d383613c">UAbilitySystemComponentBase</a></li>
 <li>Components&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#afe4c3be2c82302e643d228ca9c6f87be">UEquipmentInstance</a>, <a class="el" href="class_u_item_instance.html#ac57a6c3a85e4950cc1dd64c34cc3fe2f">UItemInstance</a></li>
@@ -155,6 +156,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 
 <h3><a id="index_e" name="index_e"></a>- e -</h3><ul>
+<li>EntryIndex&#160;:&#160;<a class="el" href="struct_f_inventory_entry_handle.html#a35f31c8462e2c0cddd97a3eb77e9aed3">FInventoryEntryHandle</a></li>
 <li>EquipItem()&#160;:&#160;<a class="el" href="class_u_equipment_system_component.html#af505b2ab49882f82c948240846ec8ff8">UEquipmentSystemComponent</a></li>
 <li>EquipmentList&#160;:&#160;<a class="el" href="class_u_equipment_system_component.html#a20f4072e21000543f1fb62d3d1687491">UEquipmentSystemComponent</a></li>
 <li>Execute()&#160;:&#160;<a class="el" href="struct_f_actor_feature_registered_delegate.html#a2e70914cc4e08da640a59598e3b6114b">FActorFeatureRegisteredDelegate</a></li>
@@ -167,6 +169,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>FeatureState&#160;:&#160;<a class="el" href="struct_f_actor_init_state_changed_params.html#afa3aab2d8e772e674f699a769fa7988c">FActorInitStateChangedParams</a></li>
 <li>FindComponentByClass()&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#aa6cf7d6a6c6b6c05e9c27c5f3e076fe0">UEquipmentInstance</a>, <a class="el" href="class_u_item_instance.html#ac86d31edf4d9b3952e2a0bdfb176e515">UItemInstance</a></li>
 <li>FindFragmentByClass()&#160;:&#160;<a class="el" href="class_u_equipment_definition.html#a64202d49d9c17b3a2cac377b7d65d778">UEquipmentDefinition</a>, <a class="el" href="class_u_item_definition.html#a250acecc61963ac8101f6c0acd702a1e">UItemDefinition</a>, <a class="el" href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">UItemInstance</a></li>
+<li>FInventoryChangeData()&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#a9623374be32079a51565687e435cf73c">FInventoryChangeData</a></li>
 <li>Fragments&#160;:&#160;<a class="el" href="class_u_equipment_definition.html#a6d0e2a12af25b71c5e5d62863030c455">UEquipmentDefinition</a></li>
 </ul>
 
@@ -213,6 +216,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_i" name="index_i"></a>- i -</h3><ul>
 <li>Implementer&#160;:&#160;<a class="el" href="struct_f_actor_feature_state.html#af0bba1f9c8426a5e2c46aaf4949b52b5">FActorFeatureState</a>, <a class="el" href="struct_f_actor_init_state_changed_params.html#ab7792762127bfab6dc388881231abec7">FActorInitStateChangedParams</a></li>
+<li>Index&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de">FInventoryChangeData</a></li>
 <li>InitAbilitiesOnNewActorInfo()&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#a1c02e7192b5c89d5f6ad609678c1d175">UAbilitySystemComponentBase</a></li>
 <li>InitAbilityActorInfo()&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#a7ac6b7c7e29b23704e74af3288f75433">UAbilitySystemComponentBase</a></li>
 <li>InitGlobalTags()&#160;:&#160;<a class="el" href="class_u_ability_system_globals_base.html#af94c4b5b30c568dc69cb423a5a4dac47">UAbilitySystemGlobalsBase</a></li>
@@ -220,9 +224,11 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>InputHeldSpecHandles&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#ad494728dc44b989fb60b9e4d85b857f6">UAbilitySystemComponentBase</a></li>
 <li>InputPressedSpecHandles&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#ae38c5f945f5ac260efc4c2fbcadd5c11">UAbilitySystemComponentBase</a></li>
 <li>InputReleasedSpecHandles&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#af01f562b94750d6b246eb3a7ae3e057b">UAbilitySystemComponentBase</a></li>
+<li>Instance&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#ae10f34328a888073edee396c1b0d925c">FInventoryChangeData</a></li>
 <li>InstanceClass&#160;:&#160;<a class="el" href="class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition</a></li>
 <li>IsCachedDefinition()&#160;:&#160;<a class="el" href="class_u_equipment_cache.html#ae1730746591fd7d0fed946e978cefb35">UEquipmentCache</a>, <a class="el" href="class_u_inventory_cache.html#a763b9d2b1ddbecd79b3d3642ef756f13">UInventoryCache</a></li>
 <li>IsInitStateCurrentOrLate()&#160;:&#160;<a class="el" href="class_u_game_init_state_subsystem.html#ae2bc2cdefedd0d3081e8ba6d4d321a77">UGameInitStateSubsystem</a></li>
+<li>ItemInstance&#160;:&#160;<a class="el" href="struct_f_inventory_entry_handle.html#ae6462aba1e8ed494fa9e7b50ee4d180e">FInventoryEntryHandle</a></li>
 <li>Items&#160;:&#160;<a class="el" href="class_u_inventory_set.html#a9d7e9cf07f9e51159da524dd055ec658">UInventorySet</a></li>
 </ul>
 
@@ -242,11 +248,13 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 
 <h3><a id="index_n" name="index_n"></a>- n -</h3><ul>
 <li>NetDeltaSerialize()&#160;:&#160;<a class="el" href="struct_f_equipment_list.html#adfc4be7e31a9ceb39abe4fa0a8190732">FEquipmentList</a></li>
+<li>NewCount&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#a7e949e5a7c3468f68bcd74d4faf66165">FInventoryChangeData</a></li>
 <li>NotifyAbilityEnded()&#160;:&#160;<a class="el" href="class_u_ability_system_component_base.html#a565694cba59edfce784d988579525a64">UAbilitySystemComponentBase</a></li>
 </ul>
 
 
 <h3><a id="index_o" name="index_o"></a>- o -</h3><ul>
+<li>OldCount&#160;:&#160;<a class="el" href="struct_f_inventory_change_data.html#af7f926df3045fc9f3fc0b2856e1772ca">FInventoryChangeData</a></li>
 <li>OnActorInitStateChanged()&#160;:&#160;<a class="el" href="class_i_game_init_state_interface.html#a501a9282c85c1ef9fbdf5d956146d5c2">IGameInitStateInterface</a></li>
 <li>OnEquipped()&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#a4e1c1d7646bf91f96455facdc283642f">UEquipmentInstance</a></li>
 <li>OnInstanceCreated()&#160;:&#160;<a class="el" href="class_u_item_fragment.html#a4e3a8f21c4ce8febeaf0d8d52a886d44">UItemFragment</a>, <a class="el" href="class_u_item_fragment___consumable.html#adebe593aadac9cde8a08032ceab4750d">UItemFragment_Consumable</a>, <a class="el" href="class_u_item_fragment___equipable_item.html#a801b44adfb25fb662a2a749662cc45db">UItemFragment_EquipableItem</a></li>
@@ -281,6 +289,7 @@ $(function(){initNavTree('functions.html',''); initResizable(true); });
 <li>SetInstigator()&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526">UEquipmentInstance</a></li>
 <li>SetSourceItem()&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#a631507c1042c942ce4624eb4d9949313">UEquipmentInstance</a></li>
 <li>SpawnActors()&#160;:&#160;<a class="el" href="class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd">UEquipmentInstance</a></li>
+<li>StackCount&#160;:&#160;<a class="el" href="struct_f_inventory_entry_handle.html#a2017241ab5fd1c4e74cf1f5b3b1ed244">FInventoryEntryHandle</a></li>
 <li>StartupModule()&#160;:&#160;<a class="el" href="class_f_gameplay_core_module.html#a863c6ba6c146e42db7600d1e98188eeb">FGameplayCoreModule</a></li>
 <li>StorageFlags&#160;:&#160;<a class="el" href="class_u_item_fragment___storable.html#af98ddf3e3fb2518d49ac1b7a6f07fb77">UItemFragment_Storable</a></li>
 </ul>

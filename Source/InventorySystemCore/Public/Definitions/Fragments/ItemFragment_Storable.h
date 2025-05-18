@@ -14,8 +14,8 @@ UENUM(BlueprintType)
 enum class EItemStorageFlags : uint8
 {
 	None = 0 UMETA(Hidden), // No special storage properties
-	Unique = 1, // Item is unique
-	PersistentOnDeath = 2 // Item is not lost on player death
+	Unique = 1,				// Item is unique
+	PersistentOnDeath = 2	// Item is not lost on player death
 };
 
 ENUM_CLASS_FLAGS(EItemStorageFlags);
@@ -31,7 +31,6 @@ class INVENTORYSYSTEMCORE_API UItemFragment_Storable : public UItemFragment
 	GENERATED_BODY()
 
 public:
-	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appearance")
 	FSlateBrush UIBrush;
 

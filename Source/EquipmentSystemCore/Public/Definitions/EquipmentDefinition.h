@@ -13,8 +13,6 @@ class UEquipmentInstance;
 class UAbilitySet;
 class UEquipmentFragment;
 
-
-
 /**
  * @class UEquipmentDefinition
  * @see UObject
@@ -27,7 +25,6 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentDefinition : public UObject
 	GENERATED_BODY()
 
 public:
-	
 	UEquipmentDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
@@ -48,18 +45,13 @@ public:
 	 * Template function to find fragment of class T in this equipment definition
 	 * @return Pointer to the found fragment of type T, or nullptr if not found
 	 */
-	template <typename T>
-	const T* FindFragmentByClass() const
-	{
-		return Cast<T>(FindFragmentByClass(T::StaticClass()));
-	}
+	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
 	virtual bool CanEquip(UEquipmentSystemComponent* EquipmentSystemComponent);
-	
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure)
 	bool K2_CanEquip(UEquipmentSystemComponent* EquipmentSystemComponent);
-	
-	
+
 	/** Display name of the equipment (used by UI) */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipable")
 	FText DisplayName;
@@ -67,7 +59,7 @@ public:
 	/** Instance class to spawn */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipment")
 	TSubclassOf<UEquipmentInstance> InstanceClass;
-	
+
 	/** Actors to spawn on the pawn when this is equipped */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipment")
 	TArray<FEquipmentActorSet> ActorsToSpawn;
@@ -79,5 +71,4 @@ public:
 	/** Equipment fragments for additional functionality */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fragments", Instanced)
 	TArray<TObjectPtr<UEquipmentFragment>> Fragments;
-
 };

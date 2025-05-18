@@ -110,13 +110,15 @@ $(function(){initNavTree('struct_f_inventory_change_data.html',''); initResizabl
 </div><!--header-->
 <div class="contents">
 
-<p>A data payload when an item change in the inventory.  
+<p>Represents a data payload for tracking inventory item changes including addition, removal, and modification of items.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a9623374be32079a51565687e435cf73c" id="r_a9623374be32079a51565687e435cf73c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9623374be32079a51565687e435cf73c">FInventoryChangeData</a> (const int32 InIndex, const <a class="el" href="struct_f_inventory_entry.html">FInventoryEntry</a> &amp;Entry, const EInventoryChangeType InChangeType=EInventoryChangeType::Added)</td></tr>
+<tr class="separator:a9623374be32079a51565687e435cf73c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b983cd094fe9d49e6085bd175c4f26a" id="r_a8b983cd094fe9d49e6085bd175c4f26a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b983cd094fe9d49e6085bd175c4f26a">IsValid</a> () const</td></tr>
 <tr class="separator:a8b983cd094fe9d49e6085bd175c4f26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -134,10 +136,91 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a7e949e5a7c3468f68bcd74d4faf66165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A data payload when an item change in the inventory. </p>
+<div class="textblock"><p>Represents a data payload for tracking inventory item changes including addition, removal, and modification of items. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_u_item_instance.html" title="This class represents an instance of an item within the inventory system. It holds a reference to the...">UItemInstance</a>, <a class="el" href="struct_f_inventory_entry.html" title="Represents a single inventory entry with item instance and stack management.">FInventoryEntry</a>, EInventoryChangeType</dd></dl>
+<p>Contains information about the affected item instance, its index in the inventory, the type of change, and stack count changes before and after the modification occurred. Used for notifying systems about inventory state changes and maintaining synchronization. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00023">23</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00027">27</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae079d182eeb7539dc49587375e11dba5" name="ae079d182eeb7539dc49587375e11dba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae079d182eeb7539dc49587375e11dba5">&#9670;&#160;</a></span>FInventoryChangeData() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FInventoryChangeData::FInventoryChangeData </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00031">31</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>{}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a9623374be32079a51565687e435cf73c" name="a9623374be32079a51565687e435cf73c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9623374be32079a51565687e435cf73c">&#9670;&#160;</a></span>FInventoryChangeData() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FInventoryChangeData::FInventoryChangeData </td>
+          <td>(</td>
+          <td class="paramtype">const int32</td>          <td class="paramname"><span class="paramname"><em>InIndex</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_f_inventory_entry.html">FInventoryEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Entry</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const EInventoryChangeType</td>          <td class="paramname"><span class="paramname"><em>InChangeType</em></span><span class="paramdefsep"> = </span><span class="paramdefval">EInventoryChangeType::Added</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructs an inventory change data instance </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">InIndex</td><td>- The index of the inventory entry </td></tr>
+    <tr><td class="paramname">Entry</td><td>- The inventory entry that was changed </td></tr>
+    <tr><td class="paramname">InChangeType</td><td>- The type of change that occurred (defaults to Added) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">7</a> of file <a class="el" href="_inventory_change_data_8cpp_source.html">InventoryChangeData.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
+<div class="line"><span class="lineno">    9</span>    <a class="code hl_variable" href="#a90e4317adcf7ec205ec26aeeef2351de">Index</a> = InIndex;</div>
+<div class="line"><span class="lineno">   10</span>    <a class="code hl_variable" href="#ae10f34328a888073edee396c1b0d925c">Instance</a> = Entry.Instance;</div>
+<div class="line"><span class="lineno">   11</span>    <a class="code hl_variable" href="#af7f926df3045fc9f3fc0b2856e1772ca">OldCount</a> = Entry.LastStackCount;</div>
+<div class="line"><span class="lineno">   12</span>    <a class="code hl_variable" href="#a7e949e5a7c3468f68bcd74d4faf66165">NewCount</a> = Entry.StackCount;</div>
+<div class="line"><span class="lineno">   13</span>    <a class="code hl_variable" href="#adb5ce8af353ae0bf0e294e4f2da4f8e8">ChangeType</a> = InChangeType;</div>
+<div class="line"><span class="lineno">   14</span>}</div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_a7e949e5a7c3468f68bcd74d4faf66165"><div class="ttname"><a href="#a7e949e5a7c3468f68bcd74d4faf66165">FInventoryChangeData::NewCount</a></div><div class="ttdeci">int32 NewCount</div><div class="ttdef"><b>Definition</b> <a href="_inventory_change_data_8h_source.html#l00059">InventoryChangeData.h:59</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_a90e4317adcf7ec205ec26aeeef2351de"><div class="ttname"><a href="#a90e4317adcf7ec205ec26aeeef2351de">FInventoryChangeData::Index</a></div><div class="ttdeci">int32 Index</div><div class="ttdef"><b>Definition</b> <a href="_inventory_change_data_8h_source.html#l00043">InventoryChangeData.h:43</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_adb5ce8af353ae0bf0e294e4f2da4f8e8"><div class="ttname"><a href="#adb5ce8af353ae0bf0e294e4f2da4f8e8">FInventoryChangeData::ChangeType</a></div><div class="ttdeci">EInventoryChangeType ChangeType</div><div class="ttdef"><b>Definition</b> <a href="_inventory_change_data_8h_source.html#l00051">InventoryChangeData.h:51</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_ae10f34328a888073edee396c1b0d925c"><div class="ttname"><a href="#ae10f34328a888073edee396c1b0d925c">FInventoryChangeData::Instance</a></div><div class="ttdeci">TObjectPtr&lt; UItemInstance &gt; Instance</div><div class="ttdef"><b>Definition</b> <a href="_inventory_change_data_8h_source.html#l00047">InventoryChangeData.h:47</a></div></div>
+<div class="ttc" id="astruct_f_inventory_change_data_html_af7f926df3045fc9f3fc0b2856e1772ca"><div class="ttname"><a href="#af7f926df3045fc9f3fc0b2856e1772ca">FInventoryChangeData::OldCount</a></div><div class="ttdeci">int32 OldCount</div><div class="ttdef"><b>Definition</b> <a href="_inventory_change_data_8h_source.html#l00055">InventoryChangeData.h:55</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_inventory_change_data_8h_source.html#l00051">ChangeType</a>, <a class="el" href="_inventory_change_data_8h_source.html#l00043">Index</a>, <a class="el" href="_inventory_change_data_8h_source.html#l00047">Instance</a>, <a class="el" href="_inventory_change_data_8h_source.html#l00059">NewCount</a>, and <a class="el" href="_inventory_change_data_8h_source.html#l00055">OldCount</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8b983cd094fe9d49e6085bd175c4f26a" name="a8b983cd094fe9d49e6085bd175c4f26a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b983cd094fe9d49e6085bd175c4f26a">&#9670;&#160;</a></span>IsValid()</h2>
 
@@ -161,8 +244,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00042">42</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>{ <span class="keywordflow">return</span> Index != INDEX_NONE; }</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00061">61</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a90e4317adcf7ec205ec26aeeef2351de">Index</a> != INDEX_NONE; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -178,8 +261,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Type of change that occurred to the inventory entry </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00034">34</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00051">51</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">FInventoryChangeData()</a>.</p>
 
 </div>
 </div>
@@ -194,8 +280,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Index of the inventory entry that was changed. Defaults to INDEX_NONE if invalid. </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00028">28</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00043">43</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">FInventoryChangeData()</a>.</p>
 
 </div>
 </div>
@@ -210,8 +299,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Instance of the item that was changed </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00031">31</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00047">47</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">FInventoryChangeData()</a>.</p>
 
 </div>
 </div>
@@ -226,8 +318,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>New stack count after the change </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00040">40</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00059">59</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">FInventoryChangeData()</a>.</p>
 
 </div>
 </div>
@@ -242,13 +337,17 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Previous stack count before the change </p>
 
-<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00037">37</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_inventory_change_data_8h_source.html#l00055">55</a> of file <a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_inventory_change_data_8cpp_source.html#l00007">FInventoryChangeData()</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li>Source/InventorySystemCore/Public/Data/<a class="el" href="_inventory_change_data_8h_source.html">InventoryChangeData.h</a></li>
+<li>Source/InventorySystemCore/Private/Data/<a class="el" href="_inventory_change_data_8cpp_source.html">InventoryChangeData.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

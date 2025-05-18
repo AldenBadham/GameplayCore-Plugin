@@ -159,11 +159,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00010">10</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>                                                                                : Super(ObjectInitializer.Get())</div>
+<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00009">9</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   10</span>    : Super(ObjectInitializer.Get())</div>
 <div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>    </div>
-<div class="line"><span class="lineno">   13</span>}</div>
+<div class="line"><span class="lineno">   12</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -195,32 +194,32 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00034">34</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{</div>
-<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">if</span> (!Velocity.IsNearlyZero())</div>
-<div class="line"><span class="lineno">   37</span>    {</div>
-<div class="line"><span class="lineno">   38</span>        <span class="keyword">const</span> FMatrix RotMatrix = FRotationMatrix(BaseRotation);</div>
-<div class="line"><span class="lineno">   39</span>        <span class="keyword">const</span> FVector ForwardVector = RotMatrix.GetScaledAxis(EAxis::X);</div>
-<div class="line"><span class="lineno">   40</span>        <span class="keyword">const</span> FVector RightVector = RotMatrix.GetScaledAxis(EAxis::Y);</div>
-<div class="line"><span class="lineno">   41</span>        <span class="keyword">const</span> FVector NormalizedVel = Velocity.GetSafeNormal2D();</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>        <span class="comment">// get a cos(alpha) of forward vector vs velocity</span></div>
-<div class="line"><span class="lineno">   44</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> ForwardCosAngle = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(FVector::DotProduct(ForwardVector, NormalizedVel));</div>
-<div class="line"><span class="lineno">   45</span>        <span class="comment">// now get the alpha and convert to degree</span></div>
-<div class="line"><span class="lineno">   46</span>        <span class="keywordtype">float</span> ForwardDeltaDegree = FMath::RadiansToDegrees(FMath::Acos(ForwardCosAngle));</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>        <span class="comment">// depending on where right vector is, flip it</span></div>
-<div class="line"><span class="lineno">   49</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> RightCosAngle = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(FVector::DotProduct(RightVector, NormalizedVel));</div>
-<div class="line"><span class="lineno">   50</span>        <span class="keywordflow">if</span> (RightCosAngle &lt; 0.f)</div>
-<div class="line"><span class="lineno">   51</span>        {</div>
-<div class="line"><span class="lineno">   52</span>            ForwardDeltaDegree *= -1.f;</div>
-<div class="line"><span class="lineno">   53</span>        }</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">return</span> ForwardDeltaDegree;</div>
-<div class="line"><span class="lineno">   56</span>    }</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> 0.f;</div>
-<div class="line"><span class="lineno">   59</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00033">33</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>{</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">if</span> (!Velocity.IsNearlyZero())</div>
+<div class="line"><span class="lineno">   36</span>    {</div>
+<div class="line"><span class="lineno">   37</span>        <span class="keyword">const</span> FMatrix RotMatrix = FRotationMatrix(BaseRotation);</div>
+<div class="line"><span class="lineno">   38</span>        <span class="keyword">const</span> FVector ForwardVector = RotMatrix.GetScaledAxis(EAxis::X);</div>
+<div class="line"><span class="lineno">   39</span>        <span class="keyword">const</span> FVector RightVector = RotMatrix.GetScaledAxis(EAxis::Y);</div>
+<div class="line"><span class="lineno">   40</span>        <span class="keyword">const</span> FVector NormalizedVel = Velocity.GetSafeNormal2D();</div>
+<div class="line"><span class="lineno">   41</span> </div>
+<div class="line"><span class="lineno">   42</span>        <span class="comment">// get a cos(alpha) of forward vector vs velocity</span></div>
+<div class="line"><span class="lineno">   43</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> ForwardCosAngle = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(FVector::DotProduct(ForwardVector, NormalizedVel));</div>
+<div class="line"><span class="lineno">   44</span>        <span class="comment">// now get the alpha and convert to degree</span></div>
+<div class="line"><span class="lineno">   45</span>        <span class="keywordtype">float</span> ForwardDeltaDegree = FMath::RadiansToDegrees(FMath::Acos(ForwardCosAngle));</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>        <span class="comment">// depending on where right vector is, flip it</span></div>
+<div class="line"><span class="lineno">   48</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> RightCosAngle = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(FVector::DotProduct(RightVector, NormalizedVel));</div>
+<div class="line"><span class="lineno">   49</span>        <span class="keywordflow">if</span> (RightCosAngle &lt; 0.f)</div>
+<div class="line"><span class="lineno">   50</span>        {</div>
+<div class="line"><span class="lineno">   51</span>            ForwardDeltaDegree *= -1.f;</div>
+<div class="line"><span class="lineno">   52</span>        }</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">return</span> ForwardDeltaDegree;</div>
+<div class="line"><span class="lineno">   55</span>    }</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">return</span> 0.f;</div>
+<div class="line"><span class="lineno">   58</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -247,11 +246,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00015">15</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
-<div class="line"><span class="lineno">   17</span>    check(AbilitySystemComp);</div>
-<div class="line"><span class="lineno">   18</span>    GameplayTagPropertyMap.Initialize(<span class="keyword">this</span>, AbilitySystemComp);</div>
-<div class="line"><span class="lineno">   19</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00014">14</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{</div>
+<div class="line"><span class="lineno">   16</span>    check(AbilitySystemComp);</div>
+<div class="line"><span class="lineno">   17</span>    GameplayTagPropertyMap.Initialize(<span class="keyword">this</span>, AbilitySystemComp);</div>
+<div class="line"><span class="lineno">   18</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -278,18 +277,18 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00021">21</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>{</div>
-<div class="line"><span class="lineno">   23</span>    Super::NativeInitializeAnimation();</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">if</span>(<span class="keyword">const</span> AActor* OwningActor = GetOwningActor())</div>
-<div class="line"><span class="lineno">   26</span>    {</div>
-<div class="line"><span class="lineno">   27</span>        <span class="keywordflow">if</span>(UAbilitySystemComponent* AbilitySystemComp = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor); IsValid(AbilitySystemComp))</div>
-<div class="line"><span class="lineno">   28</span>        {</div>
-<div class="line"><span class="lineno">   29</span>            InitializeWithAbilitySystem(AbilitySystemComp);</div>
-<div class="line"><span class="lineno">   30</span>        }</div>
-<div class="line"><span class="lineno">   31</span>    }</div>
-<div class="line"><span class="lineno">   32</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8cpp_source.html#l00020">20</a> of file <a class="el" href="_anim_instance_base_8cpp_source.html">AnimInstanceBase.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   21</span>{</div>
+<div class="line"><span class="lineno">   22</span>    Super::NativeInitializeAnimation();</div>
+<div class="line"><span class="lineno">   23</span> </div>
+<div class="line"><span class="lineno">   24</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> AActor* OwningActor = GetOwningActor())</div>
+<div class="line"><span class="lineno">   25</span>    {</div>
+<div class="line"><span class="lineno">   26</span>        <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor); IsValid(AbilitySystemComp))</div>
+<div class="line"><span class="lineno">   27</span>        {</div>
+<div class="line"><span class="lineno">   28</span>            InitializeWithAbilitySystem(AbilitySystemComp);</div>
+<div class="line"><span class="lineno">   29</span>        }</div>
+<div class="line"><span class="lineno">   30</span>    }</div>
+<div class="line"><span class="lineno">   31</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -314,7 +313,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8h_source.html#l00041">41</a> of file <a class="el" href="_anim_instance_base_8h_source.html">AnimInstanceBase.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_anim_instance_base_8h_source.html#l00038">38</a> of file <a class="el" href="_anim_instance_base_8h_source.html">AnimInstanceBase.h</a>.</p>
 
 </div>
 </div>

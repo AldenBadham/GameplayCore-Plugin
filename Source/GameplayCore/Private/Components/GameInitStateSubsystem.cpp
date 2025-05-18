@@ -1,23 +1,21 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Components/GameInitStateSubsystem.h"
-#include "Components/ActorFeatureState.h"
 #include "Components/ActorFeatureData.h"
-
+#include "Components/ActorFeatureState.h"
 
 void UGameInitStateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	
+
 	Super::Initialize(Collection);
 
 	CurrentStateChange = INDEX_NONE;
 }
 
-void UGameInitStateSubsystem::Deinitialize() 
+void UGameInitStateSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
-	
+
 #if WITH_EDITORONLY_DATA
 	FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
 #endif
@@ -48,7 +46,7 @@ void UGameInitStateSubsystem::RegisterFeatureImplementer(AActor* Actor, FName Fe
 	auto& [ActorClass, RegisteredStates, RegisteredDelegates] = FindOrAddActorData(Actor);
 
 	FActorFeatureState* FoundState = RegisteredStates.FindByPredicate([FeatureName](const FActorFeatureState& State) { return State.FeatureName == FeatureName; });
-	if(!FoundState)
+	if (!FoundState)
 	{
 		// We've not found a matching Feature State, create a new one.
 		FoundState = &RegisteredStates.Emplace_GetRef(FeatureName);
@@ -91,9 +89,9 @@ void UGameInitStateSubsystem::SetFeatureInitStatTags(AActor* Actor, FName Featur
 	ensure(Actor == nullptr || FeatureName.IsNone());
 
 	FActorFeatureData& FeatureData = FindOrAddActorData(Actor);
-	
+
 	FActorFeatureState* FoundState = FeatureData.RegisteredStates.FindByPredicate([FeatureName](const FActorFeatureState& State) { return State.FeatureName == FeatureName; });
-	if(FoundState)
+	if (FoundState)
 	{
 		FoundState->States = InitStateTags;
 		FoundState->CurrentState = InitStateTags[0];
@@ -104,9 +102,11 @@ void UGameInitStateSubsystem::SetFeatureInitStatTags(AActor* Actor, FName Featur
 
 bool UGameInitStateSubsystem::IsInitStateCurrentOrLate(const FActorFeatureState& FeatureState, const FGameplayTag RelativeState)
 {
-	if(!FeatureState.IsValid())
+	if (!FeatureState.IsValid())
+	{
 		return false;
-	
+	}
+
 	if (FeatureState.CurrentState == RelativeState)
 	{
 		return true;
@@ -158,8 +158,8 @@ FDelegateHandle UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor
 		{
 			// The shared ref keeps the delegate alive in case it gets unregistered
 			CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);
-		}		
-		
+		}
+
 		return RegisteredDelegate->DelegateHandle;
 	}
 
@@ -178,7 +178,6 @@ bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, FD
 
 	return false;
 }
-
 
 bool UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately /*= true*/)
 {
@@ -247,7 +246,8 @@ void UGameInitStateSubsystem::CallFeatureStateDelegates(AActor* Actor, const FAc
 	{
 		for (TSharedRef<FActorFeatureRegisteredDelegate>& DelegateRef : ActorStruct->RegisteredDelegates)
 		{
-			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef; RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(StateChange, RegisteredDelegate.RequiredInitState))
+			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef;
+				RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(StateChange, RegisteredDelegate.RequiredInitState))
 			{
 				// Queue delegates now in case the registered list changes during execution
 				// If new delegates are registered, they are handled at registration time if bCallImmediately is used
@@ -304,7 +304,6 @@ const FActorFeatureState* UGameInitStateSubsystem::FindFeatureStateStruct(const 
 	return nullptr;
 }
 
-
 bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FDelegateHandle& SearchHandle)
 {
 	for (int32 i = DelegateList.Num() - 1; i >= 0; i--)
@@ -340,8 +339,8 @@ FActorFeatureData& UGameInitStateSubsystem::FindOrAddActorData(AActor* Actor)
 {
 	check(Actor)
 
-	FActorFeatureData& FeatureData = ActorFeatureMap.FindOrAdd(Actor);
-	if(!FeatureData.ActorClass.IsValid())
+		FActorFeatureData& FeatureData = ActorFeatureMap.FindOrAdd(Actor);
+	if (!FeatureData.ActorClass.IsValid())
 	{
 		FeatureData.ActorClass = Actor->GetClass();
 	}

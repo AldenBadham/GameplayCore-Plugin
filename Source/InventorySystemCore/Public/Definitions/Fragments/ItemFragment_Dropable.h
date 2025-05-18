@@ -7,7 +7,7 @@
 #include "ItemFragment_Dropable.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(DisplayName = "Dropable")
 class INVENTORYSYSTEMCORE_API UItemFragment_Dropable : public UItemFragment

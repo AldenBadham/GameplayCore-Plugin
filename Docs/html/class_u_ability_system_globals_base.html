@@ -157,10 +157,8 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Gets the single instance of the globals object, will create it as necessary. </p>
 
-<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00021">21</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>    {</div>
-<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">return</span> *Cast&lt;UAbilitySystemGlobalsBase&gt;(IGameplayAbilitiesModule::Get().GetAbilitySystemGlobals());</div>
-<div class="line"><span class="lineno">   24</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00020">20</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{ <span class="keywordflow">return</span> *Cast&lt;UAbilitySystemGlobalsBase&gt;(IGameplayAbilitiesModule::Get().GetAbilitySystemGlobals()); }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -193,10 +191,10 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00029">29</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>    {</div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
-<div class="line"><span class="lineno">   32</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00025">25</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   26</span>    {</div>
+<div class="line"><span class="lineno">   27</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
+<div class="line"><span class="lineno">   28</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -224,10 +222,10 @@ template&lt;class T&gt; </div>
 </div><div class="memdoc">
 <p>Initialize global tags by reading from config using the names and creating tags for use at runtime </p>
 
-<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8cpp_source.html#l00006">6</a> of file <a class="el" href="_ability_system_globals_base_8cpp_source.html">AbilitySystemGlobalsBase.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    7</span>{</div>
-<div class="line"><span class="lineno">    8</span>    Super::InitGlobalTags();</div>
-<div class="line"><span class="lineno">    9</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8cpp_source.html#l00005">5</a> of file <a class="el" href="_ability_system_globals_base_8cpp_source.html">AbilitySystemGlobalsBase.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
+<div class="line"><span class="lineno">    7</span>    Super::InitGlobalTags();</div>
+<div class="line"><span class="lineno">    8</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

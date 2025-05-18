@@ -1,12 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Components/GameInitStateInterface.h"
 
-#include "GameplayTagContainer.h"
 #include "Components/ActorFeatureRegisteredDelegate.h"
 #include "Components/GameInitStateSubsystem.h"
-
+#include "GameplayTagContainer.h"
 
 // Add default functionality here for any IGameInitStateInterface functions that are not pure virtual.
 AActor* IGameInitStateInterface::GetOwningActor() const
@@ -51,7 +49,7 @@ FGameplayTag IGameInitStateInterface::GetCurrentInitStateFor(FName& FeatureName)
 bool IGameInitStateInterface::HasReachedInitState(const FName FeatureName, const FGameplayTag DesiredState) const
 {
 	AActor* OwningActor = GetOwningActor();
-	
+
 	if (UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor))
 	{
 		return Manager->HasFeatureReachedInitState(OwningActor, FeatureName, DesiredState);
@@ -76,7 +74,7 @@ void IGameInitStateInterface::RegisterInitStateFeature(FName& FeatureName)
 {
 	UObject* ThisObject = Cast<UObject>(this);
 	AActor* OwningActor = GetOwningActor();
-	
+
 	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
 
 	if (OwningActor && Manager)
@@ -116,15 +114,11 @@ void IGameInitStateInterface::BindOnActorInitStateChanged(FName FeatureName, FGa
 	AActor* OwningActor = GetOwningActor();
 
 	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
-	
+
 	if (ensure(OwningActor && Manager))
 	{
 		// Bind as a weak lambda because this is not a UObject but is guaranteed to be valid as long as ThisObject is
-		FActorInitStateChangedDelegate Delegate = FActorInitStateChangedDelegate::CreateWeakLambda(ThisObject,
-			[this](const FActorInitStateChangedParams& Params)
-			{
-				this->OnActorInitStateChanged(Params);
-			});
+		FActorInitStateChangedDelegate Delegate = FActorInitStateChangedDelegate::CreateWeakLambda(ThisObject, [this](const FActorInitStateChangedParams& Params) { this->OnActorInitStateChanged(Params); });
 
 		ActorInitStateChangedHandle = Manager->RegisterAndCallForActorInitState(OwningActor, FeatureName, RequiredState, MoveTemp(Delegate), bCallIfReached);
 	}
@@ -135,7 +129,7 @@ bool IGameInitStateInterface::RegisterAndCallForActorInitState(FName FeatureName
 	AActor* OwningActor = GetOwningActor();
 
 	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
-	
+
 	if (ensure(OwningActor && Manager))
 	{
 		return Manager->RegisterAndCallForActorInitState(OwningActor, FeatureName, RequiredState, Delegate, bCallImmediately);

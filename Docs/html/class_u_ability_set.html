@@ -155,8 +155,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ability_set_8cpp_source.html#l00012">12</a> of file <a class="el" href="_ability_set_8cpp_source.html">AbilitySet.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   12</span>                                                                    : Super(ObjectInitializer.Get())</div>
+<p class="definition">Definition at line <a class="el" href="_ability_set_8cpp_source.html#l00011">11</a> of file <a class="el" href="_ability_set_8cpp_source.html">AbilitySet.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   12</span>    : Super(ObjectInitializer.Get())</div>
 <div class="line"><span class="lineno">   13</span>{</div>
 <div class="line"><span class="lineno">   14</span>}</div>
 </div><!-- fragment -->
@@ -191,69 +191,70 @@ Protected Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_ability_set_8cpp_source.html#l00016">16</a> of file <a class="el" href="_ability_set_8cpp_source.html">AbilitySet.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   17</span>{</div>
 <div class="line"><span class="lineno">   18</span>    check(AbilitySystemComp);</div>
-<div class="line"><span class="lineno">   19</span>    <span class="keywordflow">if</span> (!AbilitySystemComp-&gt;IsOwnerActorAuthoritative()) UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Must be authoritive to give or take ability sets&quot;</span>));</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>    <span class="comment">// Grant the attribut sets</span></div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> Index = 0; Index &lt; <a class="code hl_variable" href="#aa42a531eb5666bf7e723bd6ed7ee846f">AttributeSets</a>.Num(); ++Index)</div>
-<div class="line"><span class="lineno">   23</span>    {</div>
-<div class="line"><span class="lineno">   24</span>        <span class="keyword">const</span> TSubclassOf&lt;UAttributeSet&gt;&amp; AttributeSetClass = <a class="code hl_variable" href="#aa42a531eb5666bf7e723bd6ed7ee846f">AttributeSets</a>[Index];</div>
-<div class="line"><span class="lineno">   25</span> </div>
-<div class="line"><span class="lineno">   26</span>        UE_CLOG(!IsValid(AttributeSetClass), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>        UAttributeSet* AttributeSet = NewObject&lt;UAttributeSet&gt;(AbilitySystemComp, AttributeSetClass);</div>
-<div class="line"><span class="lineno">   29</span>        AbilitySystemComp-&gt;AddAttributeSetSubobject(AttributeSet);</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">if</span> (Handles)</div>
-<div class="line"><span class="lineno">   32</span>        {</div>
-<div class="line"><span class="lineno">   33</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">AddAttributeSet</a>(AttributeSet);</div>
-<div class="line"><span class="lineno">   34</span>        }</div>
-<div class="line"><span class="lineno">   35</span>    }</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>    <span class="comment">// Grant the gameplay abilities</span></div>
-<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> Index = 0; Index &lt; <a class="code hl_variable" href="#a61e7c019ba1c40e9ddb6b99ced7e5157">GameplayAbilities</a>.Num(); ++Index)</div>
-<div class="line"><span class="lineno">   39</span>    {</div>
-<div class="line"><span class="lineno">   40</span>        <span class="keyword">const</span> FAbilitySet_GameplayAbility&amp; GameplayAbilitySet = <a class="code hl_variable" href="#a61e7c019ba1c40e9ddb6b99ced7e5157">GameplayAbilities</a>[Index];</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>        UE_CLOG(!IsValid(GameplayAbilitySet.Ability), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>        UGameplayAbilityBase* AbilityCDO = GameplayAbilitySet.Ability-&gt;GetDefaultObject&lt;UGameplayAbilityBase&gt;();</div>
-<div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   46</span>        FGameplayAbilitySpec AbilitySpec(AbilityCDO, GameplayAbilitySet.AbilityLevel);</div>
-<div class="line"><span class="lineno">   47</span>        AbilitySpec.SourceObject = SourceObject;</div>
-<div class="line"><span class="lineno">   48</span>        AbilitySpec.GetDynamicSpecSourceTags().AddTag(GameplayAbilitySet.InputTag);</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>        <span class="keyword">const</span> FGameplayAbilitySpecHandle AbilitySpecHandle = AbilitySystemComp-&gt;GiveAbility(AbilitySpec);</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>        <span class="keywordflow">if</span> (Handles)</div>
-<div class="line"><span class="lineno">   53</span>        {</div>
-<div class="line"><span class="lineno">   54</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">AddAbilitySpecHandle</a>(AbilitySpecHandle);</div>
-<div class="line"><span class="lineno">   55</span>        }</div>
-<div class="line"><span class="lineno">   56</span>    }</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <span class="comment">// Grant the gameplay effects.</span></div>
-<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">for</span> (int32 Index = 0; Index &lt; <a class="code hl_variable" href="#acc755dcbd388cc4fa3a01fd6aef6cb77">GameplayEffects</a>.Num(); ++Index)</div>
-<div class="line"><span class="lineno">   60</span>    {</div>
-<div class="line"><span class="lineno">   61</span>        <span class="keyword">const</span> FAbilitySet_GameplayEffect&amp; GameplayEffectSet = <a class="code hl_variable" href="#acc755dcbd388cc4fa3a01fd6aef6cb77">GameplayEffects</a>[Index];</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>        UE_CLOG(!IsValid(GameplayEffectSet.GameplayEffect), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>        <span class="keyword">const</span> UGameplayEffect* GameplayEffect = GameplayEffectSet.GameplayEffect-&gt;GetDefaultObject&lt;UGameplayEffect&gt;();</div>
-<div class="line"><span class="lineno">   66</span>        <span class="keyword">const</span> FActiveGameplayEffectHandle GameplayEffectHandle = AbilitySystemComp-&gt;ApplyGameplayEffectToSelf(GameplayEffect, GameplayEffectSet.EffectLevel, AbilitySystemComp-&gt;MakeEffectContext());</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">if</span> (Handles)</div>
-<div class="line"><span class="lineno">   69</span>        {</div>
-<div class="line"><span class="lineno">   70</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">AddGameplayEffectHandle</a>(GameplayEffectHandle);</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
-<div class="line"><span class="lineno">   73</span>}</div>
+<div class="line"><span class="lineno">   19</span>    <span class="keywordflow">if</span> (!AbilitySystemComp-&gt;IsOwnerActorAuthoritative())</div>
+<div class="line"><span class="lineno">   20</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Must be authoritive to give or take ability sets&quot;</span>));</div>
+<div class="line"><span class="lineno">   21</span> </div>
+<div class="line"><span class="lineno">   22</span>    <span class="comment">// Grant the attribut sets</span></div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> Index = 0; Index &lt; <a class="code hl_variable" href="#aa42a531eb5666bf7e723bd6ed7ee846f">AttributeSets</a>.Num(); ++Index)</div>
+<div class="line"><span class="lineno">   24</span>    {</div>
+<div class="line"><span class="lineno">   25</span>        <span class="keyword">const</span> TSubclassOf&lt;UAttributeSet&gt;&amp; AttributeSetClass = <a class="code hl_variable" href="#aa42a531eb5666bf7e723bd6ed7ee846f">AttributeSets</a>[Index];</div>
+<div class="line"><span class="lineno">   26</span> </div>
+<div class="line"><span class="lineno">   27</span>        UE_CLOG(!IsValid(AttributeSetClass), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   28</span> </div>
+<div class="line"><span class="lineno">   29</span>        UAttributeSet* AttributeSet = NewObject&lt;UAttributeSet&gt;(AbilitySystemComp, AttributeSetClass);</div>
+<div class="line"><span class="lineno">   30</span>        AbilitySystemComp-&gt;AddAttributeSetSubobject(AttributeSet);</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">if</span> (Handles)</div>
+<div class="line"><span class="lineno">   33</span>        {</div>
+<div class="line"><span class="lineno">   34</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">AddAttributeSet</a>(AttributeSet);</div>
+<div class="line"><span class="lineno">   35</span>        }</div>
+<div class="line"><span class="lineno">   36</span>    }</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>    <span class="comment">// Grant the gameplay abilities</span></div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> Index = 0; Index &lt; <a class="code hl_variable" href="#a61e7c019ba1c40e9ddb6b99ced7e5157">GameplayAbilities</a>.Num(); ++Index)</div>
+<div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>        <span class="keyword">const</span> FAbilitySet_GameplayAbility&amp; GameplayAbilitySet = <a class="code hl_variable" href="#a61e7c019ba1c40e9ddb6b99ced7e5157">GameplayAbilities</a>[Index];</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>        UE_CLOG(!IsValid(GameplayAbilitySet.Ability), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>        UGameplayAbilityBase* AbilityCDO = GameplayAbilitySet.Ability-&gt;GetDefaultObject&lt;UGameplayAbilityBase&gt;();</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>        FGameplayAbilitySpec AbilitySpec(AbilityCDO, GameplayAbilitySet.AbilityLevel);</div>
+<div class="line"><span class="lineno">   48</span>        AbilitySpec.SourceObject = SourceObject;</div>
+<div class="line"><span class="lineno">   49</span>        AbilitySpec.GetDynamicSpecSourceTags().AddTag(GameplayAbilitySet.InputTag);</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>        <span class="keyword">const</span> FGameplayAbilitySpecHandle AbilitySpecHandle = AbilitySystemComp-&gt;GiveAbility(AbilitySpec);</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>        <span class="keywordflow">if</span> (Handles)</div>
+<div class="line"><span class="lineno">   54</span>        {</div>
+<div class="line"><span class="lineno">   55</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">AddAbilitySpecHandle</a>(AbilitySpecHandle);</div>
+<div class="line"><span class="lineno">   56</span>        }</div>
+<div class="line"><span class="lineno">   57</span>    }</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>    <span class="comment">// Grant the gameplay effects.</span></div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">for</span> (int32 Index = 0; Index &lt; <a class="code hl_variable" href="#acc755dcbd388cc4fa3a01fd6aef6cb77">GameplayEffects</a>.Num(); ++Index)</div>
+<div class="line"><span class="lineno">   61</span>    {</div>
+<div class="line"><span class="lineno">   62</span>        <span class="keyword">const</span> FAbilitySet_GameplayEffect&amp; GameplayEffectSet = <a class="code hl_variable" href="#acc755dcbd388cc4fa3a01fd6aef6cb77">GameplayEffects</a>[Index];</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>        UE_CLOG(!IsValid(GameplayEffectSet.GameplayEffect), LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;Attributes[%d] on ability set [%s] is not valid&quot;</span>), Index, *GetNameSafe(<span class="keyword">this</span>));</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>        <span class="keyword">const</span> UGameplayEffect* GameplayEffect = GameplayEffectSet.GameplayEffect-&gt;GetDefaultObject&lt;UGameplayEffect&gt;();</div>
+<div class="line"><span class="lineno">   67</span>        <span class="keyword">const</span> FActiveGameplayEffectHandle GameplayEffectHandle = AbilitySystemComp-&gt;ApplyGameplayEffectToSelf(GameplayEffect, GameplayEffectSet.EffectLevel, AbilitySystemComp-&gt;MakeEffectContext());</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>        <span class="keywordflow">if</span> (Handles)</div>
+<div class="line"><span class="lineno">   70</span>        {</div>
+<div class="line"><span class="lineno">   71</span>            Handles-&gt;<a class="code hl_function" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">AddGameplayEffectHandle</a>(GameplayEffectHandle);</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
+<div class="line"><span class="lineno">   73</span>    }</div>
+<div class="line"><span class="lineno">   74</span>}</div>
 <div class="ttc" id="aclass_u_ability_set_html_a61e7c019ba1c40e9ddb6b99ced7e5157"><div class="ttname"><a href="#a61e7c019ba1c40e9ddb6b99ced7e5157">UAbilitySet::GameplayAbilities</a></div><div class="ttdeci">TArray&lt; FAbilitySet_GameplayAbility &gt; GameplayAbilities</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_8h_source.html#l00037">AbilitySet.h:37</a></div></div>
 <div class="ttc" id="aclass_u_ability_set_html_aa42a531eb5666bf7e723bd6ed7ee846f"><div class="ttname"><a href="#aa42a531eb5666bf7e723bd6ed7ee846f">UAbilitySet::AttributeSets</a></div><div class="ttdeci">TArray&lt; TSubclassOf&lt; UAttributeSet &gt; &gt; AttributeSets</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_8h_source.html#l00045">AbilitySet.h:45</a></div></div>
 <div class="ttc" id="aclass_u_ability_set_html_acc755dcbd388cc4fa3a01fd6aef6cb77"><div class="ttname"><a href="#acc755dcbd388cc4fa3a01fd6aef6cb77">UAbilitySet::GameplayEffects</a></div><div class="ttdeci">TArray&lt; FAbilitySet_GameplayEffect &gt; GameplayEffects</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_8h_source.html#l00041">AbilitySet.h:41</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a205e46bf9ae996fd5a1e8b6cb7fe2b73"><div class="ttname"><a href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a></div><div class="ttdeci">void AddGameplayEffectHandle(const FActiveGameplayEffectHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00018">AbilitySetHandles.cpp:18</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a310be1b95c6083c5a55828bfbbe55a33"><div class="ttname"><a href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a></div><div class="ttdeci">void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00010">AbilitySetHandles.cpp:10</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a5ce1ad585ea6334ad640ebd2246645f9"><div class="ttname"><a href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a></div><div class="ttdeci">void AddAttributeSet(UAttributeSet *Set)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00026">AbilitySetHandles.cpp:26</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a205e46bf9ae996fd5a1e8b6cb7fe2b73"><div class="ttname"><a href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a></div><div class="ttdeci">void AddGameplayEffectHandle(const FActiveGameplayEffectHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00016">AbilitySetHandles.cpp:16</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a310be1b95c6083c5a55828bfbbe55a33"><div class="ttname"><a href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a></div><div class="ttdeci">void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00008">AbilitySetHandles.cpp:8</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a5ce1ad585ea6334ad640ebd2246645f9"><div class="ttname"><a href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a></div><div class="ttdeci">void AddAttributeSet(UAttributeSet *Set)</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8cpp_source.html#l00024">AbilitySetHandles.cpp:24</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_ability_set_handles_8cpp_source.html#l00010">FAbilitySetHandles::AddAbilitySpecHandle()</a>, <a class="el" href="_ability_set_handles_8cpp_source.html#l00026">FAbilitySetHandles::AddAttributeSet()</a>, <a class="el" href="_ability_set_handles_8cpp_source.html#l00018">FAbilitySetHandles::AddGameplayEffectHandle()</a>, <a class="el" href="_ability_set_8h_source.html#l00045">AttributeSets</a>, <a class="el" href="_ability_set_8h_source.html#l00037">GameplayAbilities</a>, and <a class="el" href="_ability_set_8h_source.html#l00041">GameplayEffects</a>.</p>
+<p class="reference">References <a class="el" href="_ability_set_handles_8cpp_source.html#l00008">FAbilitySetHandles::AddAbilitySpecHandle()</a>, <a class="el" href="_ability_set_handles_8cpp_source.html#l00024">FAbilitySetHandles::AddAttributeSet()</a>, <a class="el" href="_ability_set_handles_8cpp_source.html#l00016">FAbilitySetHandles::AddGameplayEffectHandle()</a>, <a class="el" href="_ability_set_8h_source.html#l00045">AttributeSets</a>, <a class="el" href="_ability_set_8h_source.html#l00037">GameplayAbilities</a>, and <a class="el" href="_ability_set_8h_source.html#l00041">GameplayEffects</a>.</p>
 
 </div>
 </div>

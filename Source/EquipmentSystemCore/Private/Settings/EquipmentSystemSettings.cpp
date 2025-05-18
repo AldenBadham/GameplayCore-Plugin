@@ -1,11 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Settings/EquipmentSystemSettings.h"
 
-
 DEFINE_LOG_CATEGORY_STATIC(LogEquipmentSettings, Warning, All)
-
 
 FName UEquipmentSystemSettings::GetContainerName() const
 {

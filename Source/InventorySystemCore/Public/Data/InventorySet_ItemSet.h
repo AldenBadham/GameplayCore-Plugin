@@ -4,7 +4,6 @@
 
 #include "InventorySet_ItemSet.generated.h"
 
-
 /**
  * FInventorySet_ItemSet
  *
@@ -16,8 +15,7 @@ struct FInventorySet_ItemSet
 	GENERATED_BODY()
 
 	bool IsEquipable() const;
-	
-	
+
 	// Item's definition to give
 	UPROPERTY(EditDefaultsOnly, DisplayName = "Definition")
 	TSubclassOf<UItemDefinition> ItemDefinition = nullptr;

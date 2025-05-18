@@ -2,17 +2,15 @@
 
 #pragma once
 
-#include "GameplayTagContainer.h"
 #include "Components/ActorInitStateChangedParams.h"
+#include "GameplayTagContainer.h"
 
 #include "ActorFeatureRegisteredDelegate.generated.h"
-
 
 /** Native delegate called when an actor feature changes init state */
 DECLARE_DELEGATE_OneParam(FActorInitStateChangedDelegate, const FActorInitStateChangedParams&);
 /** Blueprint delegate called when an actor feature changes init state */
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActorInitStateChangedBPDelegate, const FActorInitStateChangedParams&, Params);
-
 
 /** Holds the list of feature delegates */
 USTRUCT(BlueprintType)
@@ -20,9 +18,8 @@ struct GAMEPLAYCORE_API FActorFeatureRegisteredDelegate
 {
 	GENERATED_BODY()
 
-public:
-
-	FActorFeatureRegisteredDelegate(): bRemoved(false){};
+	FActorFeatureRegisteredDelegate()
+		: bRemoved(false){};
 	/** Construct from a native or BP Delegate */
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());

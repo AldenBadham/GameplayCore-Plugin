@@ -9,7 +9,7 @@
 
 class UGameplayEffect;
 /**
- * 
+ *
  */
 UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable, BlueprintType, DisplayName = "Consumable")
 class INVENTORYSYSTEMCORE_API UItemFragment_Consumable : public UItemFragment
@@ -17,9 +17,8 @@ class INVENTORYSYSTEMCORE_API UItemFragment_Consumable : public UItemFragment
 	GENERATED_BODY()
 
 public:
-
 	virtual void OnInstanceCreated(UItemInstance* Instance) override;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Consumable")
 	TArray<TSubclassOf<UGameplayEffect>> Effects = {};
 

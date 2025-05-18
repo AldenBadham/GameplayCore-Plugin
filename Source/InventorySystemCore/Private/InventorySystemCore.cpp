@@ -2,13 +2,9 @@
 
 #define LOCTEXT_NAMESPACE "FInventorySystemCoreModule"
 
-void FInventorySystemCoreModule::StartupModule()
-{
-}
+void FInventorySystemCoreModule::StartupModule() {}
 
-void FInventorySystemCoreModule::ShutdownModule()
-{
-}
+void FInventorySystemCoreModule::ShutdownModule() {}
 
 #undef LOCTEXT_NAMESPACE
 

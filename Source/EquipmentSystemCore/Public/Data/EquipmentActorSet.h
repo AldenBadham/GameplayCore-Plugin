@@ -10,9 +10,7 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentActorSet
 {
 	GENERATED_BODY()
 
-	FEquipmentActorSet()
-	{
-	};
+	FEquipmentActorSet(){};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment", Meta = (Categories = "Equipment.Slot"))
 	FGameplayTag SlotTag;

@@ -20,16 +20,14 @@ class INVENTORYSYSTEMCORE_API UItemFragment : public UObject
 	GENERATED_BODY()
 
 public:
-	
 	/** Called when the ItemInstance is created */
 	virtual void OnInstanceCreated(UItemInstance* Instance);
 
 	/** Returns the owning item instance of the fragment. */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UItemInstance* GetOwningInstance();
-	
-protected:
 
+protected:
 	UPROPERTY(Transient)
 	TObjectPtr<UItemInstance> OwningInstance = nullptr;
 };

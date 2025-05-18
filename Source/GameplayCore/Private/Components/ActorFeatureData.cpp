@@ -4,7 +4,6 @@
 
 #include "Components/ActorFeatureRegisteredDelegate.h"
 
-
 FActorFeatureData::~FActorFeatureData()
 {
 	for (const TSharedRef<FActorFeatureRegisteredDelegate>& RegisteredDelegate : RegisteredDelegates)

@@ -1,12 +1,12 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Instances/ItemInstance.h"
 
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Net/UnrealNetwork.h"
 
-UItemInstance::UItemInstance(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+UItemInstance::UItemInstance(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	OwningController = GetTypedOuter<APlayerController>();
 }
@@ -20,11 +20,15 @@ void UItemInstance::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& 
 
 UInventorySystemComponent* UItemInstance::GetInventorySystemComponent() const
 {
-	if(!IsValid(OwningController))
+	if (!IsValid(OwningController))
+	{
 		return nullptr;
-	
-	if(UInventorySystemComponent* InventorySystemComp = OwningController->GetComponentByClass<UInventorySystemComponent>(); IsValid(InventorySystemComp))
+	}
+
+	if (UInventorySystemComponent* InventorySystemComp = OwningController->GetComponentByClass<UInventorySystemComponent>(); IsValid(InventorySystemComp))
+	{
 		return InventorySystemComp;
+	}
 	return nullptr;
 }
 
@@ -65,7 +69,7 @@ bool UItemInstance::HasFragmentByClass(TSubclassOf<UItemFragment> FragmentClass)
 
 UItemComponent* UItemInstance::AddComponent(const TSubclassOf<UItemComponent> ComponentClass)
 {
-	if (UItemComponent* Component = NewObject<UItemComponent>(this,ComponentClass); IsValid(Component))
+	if (UItemComponent* Component = NewObject<UItemComponent>(this, ComponentClass); IsValid(Component))
 	{
 		Components.Add(Component);
 		return Component;

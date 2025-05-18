@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 
 /**
- * 
-*/
+ *
+ */
 UENUM(BlueprintType)
 enum class EAbilityActivationPolicy : uint8
 {

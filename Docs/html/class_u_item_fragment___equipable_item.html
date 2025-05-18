@@ -171,19 +171,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8cpp_source.html#l00018">18</a> of file <a class="el" href="_item_fragment___equippable_8cpp_source.html">ItemFragment_Equippable.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   19</span>{</div>
-<div class="line"><span class="lineno">   20</span>    check(OwningInstance);</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">if</span>(<span class="keyword">const</span> APlayerController* PlayerController = OwningInstance-&gt;GetOwningController(); IsValid(PlayerController))</div>
-<div class="line"><span class="lineno">   23</span>    {</div>
-<div class="line"><span class="lineno">   24</span>        <span class="keywordflow">if</span>(<span class="keyword">const</span> APawn* OwnedPawn = PlayerController-&gt;GetPawn(); IsValid(OwnedPawn))</div>
-<div class="line"><span class="lineno">   25</span>        {</div>
-<div class="line"><span class="lineno">   26</span>            <span class="keywordflow">return</span> OwnedPawn-&gt;GetComponentByClass&lt;UEquipmentSystemComponent&gt;();</div>
-<div class="line"><span class="lineno">   27</span>        }</div>
-<div class="line"><span class="lineno">   28</span>    }</div>
-<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   30</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8cpp_source.html#l00017">17</a> of file <a class="el" href="_item_fragment___equippable_8cpp_source.html">ItemFragment_Equippable.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
+<div class="line"><span class="lineno">   19</span>    check(OwningInstance);</div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> APlayerController* PlayerController = OwningInstance-&gt;GetOwningController(); IsValid(PlayerController))</div>
+<div class="line"><span class="lineno">   22</span>    {</div>
+<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> APawn* OwnedPawn = PlayerController-&gt;GetPawn(); IsValid(OwnedPawn))</div>
+<div class="line"><span class="lineno">   24</span>        {</div>
+<div class="line"><span class="lineno">   25</span>            <span class="keywordflow">return</span> OwnedPawn-&gt;GetComponentByClass&lt;UEquipmentSystemComponent&gt;();</div>
+<div class="line"><span class="lineno">   26</span>        }</div>
+<div class="line"><span class="lineno">   27</span>    }</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   29</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -213,14 +213,14 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="class_u_item_fragment.html#a4e3a8f21c4ce8febeaf0d8d52a886d44">UItemFragment</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8cpp_source.html#l00009">9</a> of file <a class="el" href="_item_fragment___equippable_8cpp_source.html">ItemFragment_Equippable.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>{</div>
-<div class="line"><span class="lineno">   11</span>    Super::OnInstanceCreated(Instance);</div>
-<div class="line"><span class="lineno">   12</span> </div>
-<div class="line"><span class="lineno">   13</span>    <span class="keywordflow">if</span>(UEquipmentSystemComponent* EquipmentSystemComp = FindEquipmentComponent(); IsValid(EquipmentSystemComp))</div>
-<div class="line"><span class="lineno">   14</span>    {</div>
-<div class="line"><span class="lineno">   15</span>    }</div>
-<div class="line"><span class="lineno">   16</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8cpp_source.html#l00008">8</a> of file <a class="el" href="_item_fragment___equippable_8cpp_source.html">ItemFragment_Equippable.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    9</span>{</div>
+<div class="line"><span class="lineno">   10</span>    Super::OnInstanceCreated(Instance);</div>
+<div class="line"><span class="lineno">   11</span> </div>
+<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">if</span> (UEquipmentSystemComponent* EquipmentSystemComp = FindEquipmentComponent(); IsValid(EquipmentSystemComp))</div>
+<div class="line"><span class="lineno">   13</span>    {</div>
+<div class="line"><span class="lineno">   14</span>    }</div>
+<div class="line"><span class="lineno">   15</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -237,7 +237,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8h_source.html#l00024">24</a> of file <a class="el" href="_item_fragment___equippable_8h_source.html">ItemFragment_Equippable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_item_fragment___equippable_8h_source.html#l00023">23</a> of file <a class="el" href="_item_fragment___equippable_8h_source.html">ItemFragment_Equippable.h</a>.</p>
 
 </div>
 </div>

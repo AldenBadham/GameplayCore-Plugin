@@ -2,7 +2,8 @@
 
 #include "Components/AbilitySystemComponentBase.h"
 
-UAttributeSetBase::UAttributeSetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+UAttributeSetBase::UAttributeSetBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
 {
 }
 

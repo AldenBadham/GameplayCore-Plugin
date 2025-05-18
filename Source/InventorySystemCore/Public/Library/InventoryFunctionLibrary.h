@@ -9,7 +9,7 @@
 class UItemFragment;
 class UItemDefinition;
 /**
- * 
+ *
  */
 UCLASS()
 class INVENTORYSYSTEMCORE_API UInventoryFunctionLibrary : public UBlueprintFunctionLibrary
@@ -17,6 +17,6 @@ class INVENTORYSYSTEMCORE_API UInventoryFunctionLibrary : public UBlueprintFunct
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, meta=(DeterminesOutputType=FragmentClass))
+	UFUNCTION(BlueprintCallable, meta = (DeterminesOutputType = FragmentClass))
 	static const UItemFragment* FindItemDefinitionFragment(TSubclassOf<UItemDefinition> ItemDef, TSubclassOf<UItemFragment> FragmentClass);
 };

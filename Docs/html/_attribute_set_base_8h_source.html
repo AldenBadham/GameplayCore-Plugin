@@ -117,27 +117,25 @@ $(function(){initNavTree('_attribute_set_base_8h_source.html',''); initResizable
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">class </span><a class="code hl_class" href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a>;</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">struct </span>FGameplayEffectSpec;</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName)           \</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName)               \</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName)               \</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">    GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>DECLARE_MULTICAST_DELEGATE_SixParams(FAttributeEvent, AActor* <span class="comment">/*EffectInstigator*/</span>, AActor* <span class="comment">/*EffectCauser*/</span>, <span class="keyword">const</span> FGameplayEffectSpec* <span class="comment">/*EffectSpec*/</span>, <span class="keywordtype">float</span> <span class="comment">/*EffectMagnitude*/</span>, <span class="keywordtype">float</span> <span class="comment">/*OldValue*/</span>, <span class="keywordtype">float</span> <span class="comment">/*NewValue*/</span>);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>UCLASS()</div>
-<div class="foldopen" id="foldopen00047" data-start="{" data-end="};">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_u_attribute_set_base.html">   47</a></span>class ABILITYSYSTEMCORE_API UAttributeSetBase : public UAttributeSet</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>{</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    GENERATED_BODY()</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    UAttributeSetBase(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer = FObjectInitializer::Get());</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a>* GetAbilitySystemComponentBase() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>DECLARE_MULTICAST_DELEGATE_SixParams(FAttributeEvent, AActor* <span class="comment">/*EffectInstigator*/</span>, AActor* <span class="comment">/*EffectCauser*/</span>, <span class="keyword">const</span> FGameplayEffectSpec* <span class="comment">/*EffectSpec*/</span>, <span class="keywordtype">float</span> <span class="comment">/*EffectMagnitude*/</span>, <span class="keywordtype">float</span> <span class="comment">/*OldValue*/</span>, <span class="keywordtype">float</span> <span class="comment">/*NewValue*/</span>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>UCLASS()</div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_u_attribute_set_base.html">   45</a></span>class ABILITYSYSTEMCORE_API UAttributeSetBase : public UAttributeSet</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    GENERATED_BODY()</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    UAttributeSetBase(<span class="keyword">const</span> FObjectInitializer&amp; ObjectInitializer = FObjectInitializer::Get());</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_class" href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a>* GetAbilitySystemComponentBase() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>};</div>
 </div>
 <div class="ttc" id="aclass_u_ability_system_component_base_html"><div class="ttname"><a href="class_u_ability_system_component_base.html">UAbilitySystemComponentBase</a></div><div class="ttdoc">This class extends the base UAbilitySystemComponent to provide additional functionality.</div><div class="ttdef"><b>Definition</b> <a href="_ability_system_component_base_8h_source.html#l00017">AbilitySystemComponentBase.h:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

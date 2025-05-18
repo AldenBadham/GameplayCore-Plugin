@@ -183,14 +183,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00017">17</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
-<div class="line"><span class="lineno">   19</span>    Super::Deinitialize();</div>
-<div class="line"><span class="lineno">   20</span>    </div>
-<div class="line"><span class="lineno">   21</span><span class="preprocessor">#if WITH_EDITORONLY_DATA</span></div>
-<div class="line"><span class="lineno">   22</span>    FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">   24</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00015">15</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
+<div class="line"><span class="lineno">   17</span>    Super::Deinitialize();</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span><span class="preprocessor">#if WITH_EDITORONLY_DATA</span></div>
+<div class="line"><span class="lineno">   20</span>    FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   22</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -253,25 +253,25 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Utility to get this manager from an actor, will return null if actor is null or not in a world </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00026">26</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{</div>
-<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">if</span> (Actor)</div>
-<div class="line"><span class="lineno">   29</span>    {</div>
-<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">if</span> (UWorld* ActorWorld = Actor-&gt;GetWorld())</div>
-<div class="line"><span class="lineno">   31</span>        {</div>
-<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (bOnlyGameWorlds &amp;&amp; (!ActorWorld-&gt;IsGameWorld() || ActorWorld-&gt;IsPreviewWorld()))</div>
-<div class="line"><span class="lineno">   33</span>            {</div>
-<div class="line"><span class="lineno">   34</span>                <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   35</span>            }</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>            <span class="keywordflow">return</span> UGameInstance::GetSubsystem&lt;UGameInitStateSubsystem&gt;(ActorWorld-&gt;GetGameInstance());</div>
-<div class="line"><span class="lineno">   38</span>        }</div>
-<div class="line"><span class="lineno">   39</span>    }</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   42</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00024">24</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">if</span> (Actor)</div>
+<div class="line"><span class="lineno">   27</span>    {</div>
+<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">if</span> (UWorld* ActorWorld = Actor-&gt;GetWorld())</div>
+<div class="line"><span class="lineno">   29</span>        {</div>
+<div class="line"><span class="lineno">   30</span>            <span class="keywordflow">if</span> (bOnlyGameWorlds &amp;&amp; (!ActorWorld-&gt;IsGameWorld() || ActorWorld-&gt;IsPreviewWorld()))</div>
+<div class="line"><span class="lineno">   31</span>            {</div>
+<div class="line"><span class="lineno">   32</span>                <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   33</span>            }</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>            <span class="keywordflow">return</span> UGameInstance::GetSubsystem&lt;UGameInitStateSubsystem&gt;(ActorWorld-&gt;GetGameInstance());</div>
+<div class="line"><span class="lineno">   36</span>        }</div>
+<div class="line"><span class="lineno">   37</span>    }</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   40</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">IGameInitStateInterface::BindOnActorInitStateChanged()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00063">IGameInitStateInterface::GetAllInitStatesFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00039">IGameInitStateInterface::GetCurrentInitStateFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00034">IGameInitStateInterface::GetGameInitStateSubsystem()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00051">IGameInitStateInterface::HasReachedInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00133">IGameInitStateInterface::RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00075">IGameInitStateInterface::RegisterInitStateFeature()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00147">IGameInitStateInterface::UnregisterInitStateDelegate()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00089">IGameInitStateInterface::UnregisterInitStateFeature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">IGameInitStateInterface::BindOnActorInitStateChanged()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00061">IGameInitStateInterface::GetAllInitStatesFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00037">IGameInitStateInterface::GetCurrentInitStateFor()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00032">IGameInitStateInterface::GetGameInitStateSubsystem()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00049">IGameInitStateInterface::HasReachedInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00127">IGameInitStateInterface::RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00073">IGameInitStateInterface::RegisterInitStateFeature()</a>, <a class="el" href="_game_init_state_interface_8cpp_source.html#l00141">IGameInitStateInterface::UnregisterInitStateDelegate()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00087">IGameInitStateInterface::UnregisterInitStateFeature()</a>.</p>
 
 </div>
 </div>
@@ -340,11 +340,11 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  124</span>    <span class="keyword">const</span> FActorFeatureState* FoundState = FeatureData-&gt;<a class="code hl_variable" href="struct_f_actor_feature_data.html#a94160976551c85f9b6b0eb971d24ab90">RegisteredStates</a>.FindByPredicate([FeatureName](<span class="keyword">const</span> FActorFeatureState&amp; State) { <span class="keywordflow">return</span> State.<a class="code hl_variable" href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FeatureName</a> == FeatureName; });</div>
 <div class="line"><span class="lineno">  125</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ae2bc2cdefedd0d3081e8ba6d4d321a77">IsInitStateCurrentOrLate</a>(*FoundState, StateTag);</div>
 <div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="aclass_u_game_init_state_subsystem_html_ae2bc2cdefedd0d3081e8ba6d4d321a77"><div class="ttname"><a href="#ae2bc2cdefedd0d3081e8ba6d4d321a77">UGameInitStateSubsystem::IsInitStateCurrentOrLate</a></div><div class="ttdeci">static bool IsInitStateCurrentOrLate(const FActorFeatureState &amp;FeatureState, FGameplayTag RelativeState)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00105">GameInitStateSubsystem.cpp:105</a></div></div>
-<div class="ttc" id="astruct_f_actor_feature_data_html_a94160976551c85f9b6b0eb971d24ab90"><div class="ttname"><a href="struct_f_actor_feature_data.html#a94160976551c85f9b6b0eb971d24ab90">FActorFeatureData::RegisteredStates</a></div><div class="ttdeci">TArray&lt; FActorFeatureState &gt; RegisteredStates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00026">ActorFeatureData.h:26</a></div></div>
+<div class="ttc" id="aclass_u_game_init_state_subsystem_html_ae2bc2cdefedd0d3081e8ba6d4d321a77"><div class="ttname"><a href="#ae2bc2cdefedd0d3081e8ba6d4d321a77">UGameInitStateSubsystem::IsInitStateCurrentOrLate</a></div><div class="ttdeci">static bool IsInitStateCurrentOrLate(const FActorFeatureState &amp;FeatureState, FGameplayTag RelativeState)</div><div class="ttdef"><b>Definition</b> <a href="_game_init_state_subsystem_8cpp_source.html#l00103">GameInitStateSubsystem.cpp:103</a></div></div>
+<div class="ttc" id="astruct_f_actor_feature_data_html_a94160976551c85f9b6b0eb971d24ab90"><div class="ttname"><a href="struct_f_actor_feature_data.html#a94160976551c85f9b6b0eb971d24ab90">FActorFeatureData::RegisteredStates</a></div><div class="ttdeci">TArray&lt; FActorFeatureState &gt; RegisteredStates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00023">ActorFeatureData.h:23</a></div></div>
 <div class="ttc" id="astruct_f_actor_feature_state_html_afe79ac4334d38960047866f4619cab2c"><div class="ttname"><a href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FActorFeatureState::FeatureName</a></div><div class="ttdeci">FName FeatureName</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00022">ActorFeatureState.h:22</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_state_8h_source.html#l00022">FActorFeatureState::FeatureName</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00105">IsInitStateCurrentOrLate()</a>, and <a class="el" href="_actor_feature_data_8h_source.html#l00026">FActorFeatureData::RegisteredStates</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_state_8h_source.html#l00022">FActorFeatureState::FeatureName</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00103">IsInitStateCurrentOrLate()</a>, and <a class="el" href="_actor_feature_data_8h_source.html#l00023">FActorFeatureData::RegisteredStates</a>.</p>
 
 </div>
 </div>
@@ -371,13 +371,13 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00009">9</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>{</div>
-<div class="line"><span class="lineno">   11</span>    </div>
-<div class="line"><span class="lineno">   12</span>    Super::Initialize(Collection);</div>
-<div class="line"><span class="lineno">   13</span> </div>
-<div class="line"><span class="lineno">   14</span>    CurrentStateChange = INDEX_NONE;</div>
-<div class="line"><span class="lineno">   15</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00007">7</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
+<div class="line"><span class="lineno">    9</span> </div>
+<div class="line"><span class="lineno">   10</span>    Super::Initialize(Collection);</div>
+<div class="line"><span class="lineno">   11</span> </div>
+<div class="line"><span class="lineno">   12</span>    CurrentStateChange = INDEX_NONE;</div>
+<div class="line"><span class="lineno">   13</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -409,11 +409,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns true if FeatureState comes after the second state (or is equal) </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00105">105</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  106</span>{</div>
-<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">if</span>(!FeatureState.IsValid())</div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  109</span>    </div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00103">103</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  104</span>{</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">if</span> (!FeatureState.IsValid())</div>
+<div class="line"><span class="lineno">  106</span>    {</div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  108</span>    }</div>
+<div class="line"><span class="lineno">  109</span> </div>
 <div class="line"><span class="lineno">  110</span>    <span class="keywordflow">if</span> (FeatureState.<a class="code hl_variable" href="struct_f_actor_feature_state.html#ab51be7bfdd756a9dad50d858e1d5283b">CurrentState</a> == RelativeState)</div>
 <div class="line"><span class="lineno">  111</span>    {</div>
 <div class="line"><span class="lineno">  112</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -478,30 +480,30 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if delegate was registered </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00183">183</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  184</span>{</div>
-<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">if</span> (ensure(Actor &amp;&amp; Delegate.IsBound()))</div>
-<div class="line"><span class="lineno">  186</span>    {</div>
-<div class="line"><span class="lineno">  187</span>        <span class="comment">// We often register delegates before registering states</span></div>
-<div class="line"><span class="lineno">  188</span>        FActorFeatureData&amp; ActorStruct = FindOrAddActorData(Actor);</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>        TSharedRef&lt;FActorFeatureRegisteredDelegate&gt; RegisteredDelegate = MakeShared&lt;FActorFeatureRegisteredDelegate&gt;(MoveTemp(Delegate), FeatureName, RequiredState);</div>
-<div class="line"><span class="lineno">  191</span>        ActorStruct.<a class="code hl_variable" href="struct_f_actor_feature_data.html#a0d7d22005fa22e8aad647dfae47bebea">RegisteredDelegates</a>.Add(RegisteredDelegate);</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> (bCallImmediately)</div>
-<div class="line"><span class="lineno">  194</span>        {</div>
-<div class="line"><span class="lineno">  195</span>            <span class="comment">// The shared ref keeps the delegate alive in case it gets unregistered</span></div>
-<div class="line"><span class="lineno">  196</span>            CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);</div>
-<div class="line"><span class="lineno">  197</span>        }</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  200</span>    }</div>
-<div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  203</span>}</div>
-<div class="ttc" id="astruct_f_actor_feature_data_html_a0d7d22005fa22e8aad647dfae47bebea"><div class="ttname"><a href="struct_f_actor_feature_data.html#a0d7d22005fa22e8aad647dfae47bebea">FActorFeatureData::RegisteredDelegates</a></div><div class="ttdeci">FActorFeatureDelegateList RegisteredDelegates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00029">ActorFeatureData.h:29</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00182">182</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>{</div>
+<div class="line"><span class="lineno">  184</span>    <span class="keywordflow">if</span> (ensure(Actor &amp;&amp; Delegate.IsBound()))</div>
+<div class="line"><span class="lineno">  185</span>    {</div>
+<div class="line"><span class="lineno">  186</span>        <span class="comment">// We often register delegates before registering states</span></div>
+<div class="line"><span class="lineno">  187</span>        FActorFeatureData&amp; ActorStruct = FindOrAddActorData(Actor);</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>        TSharedRef&lt;FActorFeatureRegisteredDelegate&gt; RegisteredDelegate = MakeShared&lt;FActorFeatureRegisteredDelegate&gt;(MoveTemp(Delegate), FeatureName, RequiredState);</div>
+<div class="line"><span class="lineno">  190</span>        ActorStruct.<a class="code hl_variable" href="struct_f_actor_feature_data.html#a0d7d22005fa22e8aad647dfae47bebea">RegisteredDelegates</a>.Add(RegisteredDelegate);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>        <span class="keywordflow">if</span> (bCallImmediately)</div>
+<div class="line"><span class="lineno">  193</span>        {</div>
+<div class="line"><span class="lineno">  194</span>            <span class="comment">// The shared ref keeps the delegate alive in case it gets unregistered</span></div>
+<div class="line"><span class="lineno">  195</span>            CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);</div>
+<div class="line"><span class="lineno">  196</span>        }</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  199</span>    }</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  202</span>}</div>
+<div class="ttc" id="astruct_f_actor_feature_data_html_a0d7d22005fa22e8aad647dfae47bebea"><div class="ttname"><a href="struct_f_actor_feature_data.html#a0d7d22005fa22e8aad647dfae47bebea">FActorFeatureData::RegisteredDelegates</a></div><div class="ttdeci">FActorFeatureDelegateList RegisteredDelegates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00026">ActorFeatureData.h:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00029">FActorFeatureData::RegisteredDelegates</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00026">FActorFeatureData::RegisteredDelegates</a>.</p>
 
 </div>
 </div>
@@ -565,17 +567,17 @@ Static Public Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  158</span>        {</div>
 <div class="line"><span class="lineno">  159</span>            <span class="comment">// The shared ref keeps the delegate alive in case it gets unregistered</span></div>
 <div class="line"><span class="lineno">  160</span>            CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);</div>
-<div class="line"><span class="lineno">  161</span>        }       </div>
-<div class="line"><span class="lineno">  162</span>        </div>
+<div class="line"><span class="lineno">  161</span>        }</div>
+<div class="line"><span class="lineno">  162</span> </div>
 <div class="line"><span class="lineno">  163</span>        <span class="keywordflow">return</span> RegisteredDelegate-&gt;DelegateHandle;</div>
 <div class="line"><span class="lineno">  164</span>    }</div>
 <div class="line"><span class="lineno">  165</span> </div>
 <div class="line"><span class="lineno">  166</span>    <span class="keywordflow">return</span> FDelegateHandle();</div>
 <div class="line"><span class="lineno">  167</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00029">FActorFeatureData::RegisteredDelegates</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00026">FActorFeatureData::RegisteredDelegates</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00113">IGameInitStateInterface::BindOnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00133">IGameInitStateInterface::RegisterAndCallForActorInitState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00111">IGameInitStateInterface::BindOnActorInitStateChanged()</a>, and <a class="el" href="_game_init_state_interface_8cpp_source.html#l00127">IGameInitStateInterface::RegisterAndCallForActorInitState()</a>.</p>
 
 </div>
 </div>
@@ -609,27 +611,27 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Adds a new global actor feature state, either before or after an existing one. This will generally be called from game global or game feature initialization </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00044">44</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>{</div>
-<div class="line"><span class="lineno">   46</span>    ensure(Actor == <span class="keyword">nullptr</span> || FeatureName.IsNone());</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00042">42</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
+<div class="line"><span class="lineno">   44</span>    ensure(Actor == <span class="keyword">nullptr</span> || FeatureName.IsNone());</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span>    <span class="keyword">auto</span>&amp; [ActorClass, RegisteredStates, RegisteredDelegates] = FindOrAddActorData(Actor);</div>
 <div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>    <span class="keyword">auto</span>&amp; [ActorClass, RegisteredStates, RegisteredDelegates] = FindOrAddActorData(Actor);</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>    FActorFeatureState* FoundState = RegisteredStates.FindByPredicate([FeatureName](<span class="keyword">const</span> FActorFeatureState&amp; State) { <span class="keywordflow">return</span> State.<a class="code hl_variable" href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FeatureName</a> == FeatureName; });</div>
-<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span>(!FoundState)</div>
-<div class="line"><span class="lineno">   52</span>    {</div>
-<div class="line"><span class="lineno">   53</span>        <span class="comment">// We&#39;ve not found a matching Feature State, create a new one.</span></div>
-<div class="line"><span class="lineno">   54</span>        FoundState = &amp;RegisteredStates.Emplace_GetRef(FeatureName);</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>    FoundState-&gt;<a class="code hl_variable" href="struct_f_actor_feature_state.html#af0bba1f9c8426a5e2c46aaf4949b52b5">Implementer</a> = Implementer;</div>
-<div class="line"><span class="lineno">   58</span>    FoundState-&gt;States = InitStateTags;</div>
-<div class="line"><span class="lineno">   59</span>}</div>
+<div class="line"><span class="lineno">   48</span>    FActorFeatureState* FoundState = RegisteredStates.FindByPredicate([FeatureName](<span class="keyword">const</span> FActorFeatureState&amp; State) { <span class="keywordflow">return</span> State.<a class="code hl_variable" href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FeatureName</a> == FeatureName; });</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">if</span> (!FoundState)</div>
+<div class="line"><span class="lineno">   50</span>    {</div>
+<div class="line"><span class="lineno">   51</span>        <span class="comment">// We&#39;ve not found a matching Feature State, create a new one.</span></div>
+<div class="line"><span class="lineno">   52</span>        FoundState = &amp;RegisteredStates.Emplace_GetRef(FeatureName);</div>
+<div class="line"><span class="lineno">   53</span>    }</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>    FoundState-&gt;<a class="code hl_variable" href="struct_f_actor_feature_state.html#af0bba1f9c8426a5e2c46aaf4949b52b5">Implementer</a> = Implementer;</div>
+<div class="line"><span class="lineno">   56</span>    FoundState-&gt;States = InitStateTags;</div>
+<div class="line"><span class="lineno">   57</span>}</div>
 <div class="ttc" id="astruct_f_actor_feature_state_html_af0bba1f9c8426a5e2c46aaf4949b52b5"><div class="ttname"><a href="struct_f_actor_feature_state.html#af0bba1f9c8426a5e2c46aaf4949b52b5">FActorFeatureState::Implementer</a></div><div class="ttdeci">TWeakObjectPtr&lt; UObject &gt; Implementer</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00030">ActorFeatureState.h:30</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_actor_feature_state_8h_source.html#l00022">FActorFeatureState::FeatureName</a>, and <a class="el" href="_actor_feature_state_8h_source.html#l00030">FActorFeatureState::Implementer</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00075">IGameInitStateInterface::RegisterInitStateFeature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_interface_8cpp_source.html#l00073">IGameInitStateInterface::RegisterInitStateFeature()</a>.</p>
 
 </div>
 </div>
@@ -649,10 +651,10 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Removes an actor and all of it's state information </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00061">61</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>{</div>
-<div class="line"><span class="lineno">   63</span>    ActorFeatureMap.Remove(FObjectKey(Actor));</div>
-<div class="line"><span class="lineno">   64</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00059">59</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>{</div>
+<div class="line"><span class="lineno">   61</span>    ActorFeatureMap.Remove(FObjectKey(Actor));</div>
+<div class="line"><span class="lineno">   62</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -676,28 +678,28 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Removes an implementing object and any feature states it implements </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00066">66</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>{</div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (Actor == <span class="keyword">nullptr</span> || Implementer == <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   69</span>    {</div>
-<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   71</span>    }</div>
-<div class="line"><span class="lineno">   72</span>    TWeakObjectPtr&lt;UObject&gt; WeakToRemove(Implementer);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (FActorFeatureData* FoundStruct = ActorFeatureMap.Find(FObjectKey(Actor)))</div>
-<div class="line"><span class="lineno">   75</span>    {</div>
-<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">for</span> (int32 i = FoundStruct-&gt;RegisteredStates.Num() - 1; i &gt;= 0; i--)</div>
-<div class="line"><span class="lineno">   77</span>        {</div>
-<div class="line"><span class="lineno">   78</span>            <span class="comment">// Clear if it matches or is stale</span></div>
-<div class="line"><span class="lineno">   79</span>            <span class="keyword">const</span> UObject* ResolvedObject = FoundStruct-&gt;RegisteredStates[i].Implementer.Get();</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (ResolvedObject == Implementer || (!ResolvedObject &amp;&amp; !FoundStruct-&gt;RegisteredStates[i].Implementer.IsExplicitlyNull()))</div>
-<div class="line"><span class="lineno">   82</span>            {</div>
-<div class="line"><span class="lineno">   83</span>                FoundStruct-&gt;RegisteredStates.RemoveAt(i);</div>
-<div class="line"><span class="lineno">   84</span>            }</div>
-<div class="line"><span class="lineno">   85</span>        }</div>
-<div class="line"><span class="lineno">   86</span>    }</div>
-<div class="line"><span class="lineno">   87</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00064">64</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>{</div>
+<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">if</span> (Actor == <span class="keyword">nullptr</span> || Implementer == <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">   67</span>    {</div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   69</span>    }</div>
+<div class="line"><span class="lineno">   70</span>    TWeakObjectPtr&lt;UObject&gt; WeakToRemove(Implementer);</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (FActorFeatureData* FoundStruct = ActorFeatureMap.Find(FObjectKey(Actor)))</div>
+<div class="line"><span class="lineno">   73</span>    {</div>
+<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">for</span> (int32 i = FoundStruct-&gt;RegisteredStates.Num() - 1; i &gt;= 0; i--)</div>
+<div class="line"><span class="lineno">   75</span>        {</div>
+<div class="line"><span class="lineno">   76</span>            <span class="comment">// Clear if it matches or is stale</span></div>
+<div class="line"><span class="lineno">   77</span>            <span class="keyword">const</span> UObject* ResolvedObject = FoundStruct-&gt;RegisteredStates[i].Implementer.Get();</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">if</span> (ResolvedObject == Implementer || (!ResolvedObject &amp;&amp; !FoundStruct-&gt;RegisteredStates[i].Implementer.IsExplicitlyNull()))</div>
+<div class="line"><span class="lineno">   80</span>            {</div>
+<div class="line"><span class="lineno">   81</span>                FoundStruct-&gt;RegisteredStates.RemoveAt(i);</div>
+<div class="line"><span class="lineno">   82</span>            }</div>
+<div class="line"><span class="lineno">   83</span>        }</div>
+<div class="line"><span class="lineno">   84</span>    }</div>
+<div class="line"><span class="lineno">   85</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -725,21 +727,21 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00089">89</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   90</span>{</div>
-<div class="line"><span class="lineno">   91</span>    ensure(Actor == <span class="keyword">nullptr</span> || FeatureName.IsNone());</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00087">87</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>{</div>
+<div class="line"><span class="lineno">   89</span>    ensure(Actor == <span class="keyword">nullptr</span> || FeatureName.IsNone());</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    FActorFeatureData&amp; FeatureData = FindOrAddActorData(Actor);</div>
 <div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    FActorFeatureData&amp; FeatureData = FindOrAddActorData(Actor);</div>
-<div class="line"><span class="lineno">   94</span>    </div>
-<div class="line"><span class="lineno">   95</span>    FActorFeatureState* FoundState = FeatureData.<a class="code hl_variable" href="struct_f_actor_feature_data.html#a94160976551c85f9b6b0eb971d24ab90">RegisteredStates</a>.FindByPredicate([FeatureName](<span class="keyword">const</span> FActorFeatureState&amp; State) { <span class="keywordflow">return</span> State.<a class="code hl_variable" href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FeatureName</a> == FeatureName; });</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">if</span>(FoundState)</div>
-<div class="line"><span class="lineno">   97</span>    {</div>
-<div class="line"><span class="lineno">   98</span>        FoundState-&gt;States = InitStateTags;</div>
-<div class="line"><span class="lineno">   99</span>        FoundState-&gt;<a class="code hl_variable" href="struct_f_actor_feature_state.html#ab51be7bfdd756a9dad50d858e1d5283b">CurrentState</a> = InitStateTags[0];</div>
-<div class="line"><span class="lineno">  100</span>    }</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>    ProcessFeatureStateChange(Actor, FoundState);</div>
-<div class="line"><span class="lineno">  103</span>}</div>
+<div class="line"><span class="lineno">   93</span>    FActorFeatureState* FoundState = FeatureData.<a class="code hl_variable" href="struct_f_actor_feature_data.html#a94160976551c85f9b6b0eb971d24ab90">RegisteredStates</a>.FindByPredicate([FeatureName](<span class="keyword">const</span> FActorFeatureState&amp; State) { <span class="keywordflow">return</span> State.<a class="code hl_variable" href="struct_f_actor_feature_state.html#afe79ac4334d38960047866f4619cab2c">FeatureName</a> == FeatureName; });</div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> (FoundState)</div>
+<div class="line"><span class="lineno">   95</span>    {</div>
+<div class="line"><span class="lineno">   96</span>        FoundState-&gt;States = InitStateTags;</div>
+<div class="line"><span class="lineno">   97</span>        FoundState-&gt;<a class="code hl_variable" href="struct_f_actor_feature_state.html#ab51be7bfdd756a9dad50d858e1d5283b">CurrentState</a> = InitStateTags[0];</div>
+<div class="line"><span class="lineno">   98</span>    }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>    ProcessFeatureStateChange(Actor, FoundState);</div>
+<div class="line"><span class="lineno">  101</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -763,18 +765,18 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Removes a registered delegate bound to a specific actor </p>
 
-<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00204">204</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  205</span>{</div>
-<div class="line"><span class="lineno">  206</span>    <span class="keywordflow">if</span> (Actor &amp;&amp; DelegateToRemove.IsBound())</div>
-<div class="line"><span class="lineno">  207</span>    {</div>
-<div class="line"><span class="lineno">  208</span>        <span class="keywordflow">if</span> (FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor)))</div>
-<div class="line"><span class="lineno">  209</span>        {</div>
-<div class="line"><span class="lineno">  210</span>            <span class="keywordflow">return</span> RemoveActorFeatureDelegateFromList(ActorStruct-&gt;RegisteredDelegates, DelegateToRemove);</div>
-<div class="line"><span class="lineno">  211</span>        }</div>
-<div class="line"><span class="lineno">  212</span>    }</div>
-<div class="line"><span class="lineno">  213</span> </div>
-<div class="line"><span class="lineno">  214</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  215</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00203">203</a> of file <a class="el" href="_game_init_state_subsystem_8cpp_source.html">GameInitStateSubsystem.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  204</span>{</div>
+<div class="line"><span class="lineno">  205</span>    <span class="keywordflow">if</span> (Actor &amp;&amp; DelegateToRemove.IsBound())</div>
+<div class="line"><span class="lineno">  206</span>    {</div>
+<div class="line"><span class="lineno">  207</span>        <span class="keywordflow">if</span> (FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor)))</div>
+<div class="line"><span class="lineno">  208</span>        {</div>
+<div class="line"><span class="lineno">  209</span>            <span class="keywordflow">return</span> RemoveActorFeatureDelegateFromList(ActorStruct-&gt;RegisteredDelegates, DelegateToRemove);</div>
+<div class="line"><span class="lineno">  210</span>        }</div>
+<div class="line"><span class="lineno">  211</span>    }</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  214</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

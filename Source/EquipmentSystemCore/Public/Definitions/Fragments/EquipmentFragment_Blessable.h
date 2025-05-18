@@ -2,13 +2,13 @@
 
 #pragma once
 
+#include "Abilities/GameplayAbility.h"
 #include "CoreMinimal.h"
 #include "EquipmentFragment.h"
-#include "Abilities/GameplayAbility.h"
 #include "EquipmentFragment_Blessable.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(DisplayName = "Blessable")
 class EQUIPMENTSYSTEMCORE_API UEquipmentFragment_Blessable : public UEquipmentFragment

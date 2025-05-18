@@ -129,7 +129,7 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Information for each registered actor </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00016">16</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00015">15</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0af07396c16d5c195e19af4d7b426436" name="a0af07396c16d5c195e19af4d7b426436"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0af07396c16d5c195e19af4d7b426436">&#9670;&#160;</a></span>~FActorFeatureData()</h2>
@@ -147,17 +147,17 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Properly clear delegate list </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8cpp_source.html#l00008">8</a> of file <a class="el" href="_actor_feature_data_8cpp_source.html">ActorFeatureData.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    9</span>{</div>
-<div class="line"><span class="lineno">   10</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> TSharedRef&lt;FActorFeatureRegisteredDelegate&gt;&amp; RegisteredDelegate : <a class="code hl_variable" href="#a0d7d22005fa22e8aad647dfae47bebea">RegisteredDelegates</a>)</div>
-<div class="line"><span class="lineno">   11</span>    {</div>
-<div class="line"><span class="lineno">   12</span>        <span class="comment">// This ensures it will not execute if cleared during delegate iteration</span></div>
-<div class="line"><span class="lineno">   13</span>        RegisteredDelegate-&gt;bRemoved = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   14</span>    }</div>
-<div class="line"><span class="lineno">   15</span>}</div>
-<div class="ttc" id="astruct_f_actor_feature_data_html_a0d7d22005fa22e8aad647dfae47bebea"><div class="ttname"><a href="#a0d7d22005fa22e8aad647dfae47bebea">FActorFeatureData::RegisteredDelegates</a></div><div class="ttdeci">FActorFeatureDelegateList RegisteredDelegates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00029">ActorFeatureData.h:29</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8cpp_source.html#l00007">7</a> of file <a class="el" href="_actor_feature_data_8cpp_source.html">ActorFeatureData.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
+<div class="line"><span class="lineno">    9</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> TSharedRef&lt;FActorFeatureRegisteredDelegate&gt;&amp; RegisteredDelegate : <a class="code hl_variable" href="#a0d7d22005fa22e8aad647dfae47bebea">RegisteredDelegates</a>)</div>
+<div class="line"><span class="lineno">   10</span>    {</div>
+<div class="line"><span class="lineno">   11</span>        <span class="comment">// This ensures it will not execute if cleared during delegate iteration</span></div>
+<div class="line"><span class="lineno">   12</span>        RegisteredDelegate-&gt;bRemoved = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   13</span>    }</div>
+<div class="line"><span class="lineno">   14</span>}</div>
+<div class="ttc" id="astruct_f_actor_feature_data_html_a0d7d22005fa22e8aad647dfae47bebea"><div class="ttname"><a href="#a0d7d22005fa22e8aad647dfae47bebea">FActorFeatureData::RegisteredDelegates</a></div><div class="ttdeci">FActorFeatureDelegateList RegisteredDelegates</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_data_8h_source.html#l00026">ActorFeatureData.h:26</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00029">RegisteredDelegates</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_data_8h_source.html#l00026">RegisteredDelegates</a>.</p>
 
 </div>
 </div>
@@ -175,7 +175,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Actor class for cross-referencing with the class callbacks </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00023">23</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00020">20</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
 
 </div>
 </div>
@@ -192,9 +192,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>All delegates bound to this actor </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00029">29</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00026">26</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00183">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>, and <a class="el" href="_actor_feature_data_8cpp_source.html#l00008">~FActorFeatureData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00182">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>, <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00147">UGameInitStateSubsystem::RegisterAndCallForActorInitState()</a>, and <a class="el" href="_actor_feature_data_8cpp_source.html#l00007">~FActorFeatureData()</a>.</p>
 
 </div>
 </div>
@@ -211,7 +211,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>All active features </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00026">26</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_data_8h_source.html#l00023">23</a> of file <a class="el" href="_actor_feature_data_8h_source.html">ActorFeatureData.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00121">UGameInitStateSubsystem::HasFeatureReachedInitState()</a>.</p>
 

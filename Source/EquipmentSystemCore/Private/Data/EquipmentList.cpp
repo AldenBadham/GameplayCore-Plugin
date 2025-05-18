@@ -2,9 +2,9 @@
 
 #include "Data/EquipmentList.h"
 
-#include "Components/EquipmentSystemComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
+#include "Components/EquipmentSystemComponent.h"
 #include "Data/AbilitySet.h"
 #include "Data/AbilitySetHandles.h"
 #include "Instances/EquipmentInstance.h"
@@ -14,7 +14,9 @@ FEquipmentList::FEquipmentList()
 {
 }
 
-FEquipmentList::FEquipmentList(UEquipmentSystemComponent* InOwnerComponent) : Entries(), OwnerComponent(InOwnerComponent)
+FEquipmentList::FEquipmentList(UEquipmentSystemComponent* InOwnerComponent)
+	: Entries()
+	, OwnerComponent(InOwnerComponent)
 {
 }
 
@@ -59,11 +61,12 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 		return nullptr;
 	}
 
-	
 	UEquipmentDefinition* CachedDefinition = OwnerComponent->GetEquipmentDefinition(DefinitionClass);
-	
-	if(!CachedDefinition->CanEquip(OwnerComponent))
+
+	if (!CachedDefinition->CanEquip(OwnerComponent))
+	{
 		return nullptr;
+	}
 
 	// Prepare instance type to spawn, use default one by default
 	TSubclassOf<UEquipmentInstance> InstanceType = CachedDefinition->InstanceClass;
@@ -74,17 +77,17 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 
 	// Add default entry
 	FEquipmentEntry& Entry = Entries.AddDefaulted_GetRef();
-	
+
 	Entry.EquipmentDefinition = DefinitionClass;
 	Entry.Instance = NewObject<UEquipmentInstance>(OwnerActor, InstanceType);
 
 	UEquipmentInstance* Instance = Entry.Instance;
-	//Instance->AsyncLoadAssets();
+	// Instance->AsyncLoadAssets();
 	Instance->SetDefinition(CachedDefinition);
 	Instance->SetInstigator(OwnerActor);
 
 	// Give ability set
-	if(UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
+	if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
 	{
 		for (const TObjectPtr<const UAbilitySet>& AbilitySet : CachedDefinition->AbilitySets)
 		{
@@ -125,7 +128,7 @@ void FEquipmentList::Remove(UEquipmentInstance* Instance)
 UAbilitySystemComponent* FEquipmentList::GetAbilitySystemComponent() const
 {
 	check(OwnerComponent);
-	
+
 	AActor* OwningActor = OwnerComponent->GetOwner();
 	return UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor);
 }

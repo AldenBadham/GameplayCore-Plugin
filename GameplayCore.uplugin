@@ -1,52 +1,52 @@
 ﻿{
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "Gameplay Core",
-	"Description": "A core plugin implementing extended version of an equipment and inventory system made to work with Unreal's Ability System and Unreal's Enhanced Input System",
-	"Category": "Other",
-	"CreatedBy": "Rémy Jochmans",
-	"CreatedByURL": "",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"CanContainContent": true,
-	"IsBetaVersion": false,
-	"IsExperimentalVersion": false,
-	"Installed": false,
-	"Modules": [
-		{
-			"Name": "GameplayCore",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "AbilitySystemCore",
-			"Type": "Runtime",
-			"LoadingPhase": "PostEngineInit"
-		},
-		{
-			"Name": "EquipmentSystemCore",
-			"Type": "Runtime",
-			"LoadingPhase": "PostEngineInit"
-		},
-		{
-			"Name": "InventorySystemCore",
-			"Type": "Runtime",
-			"LoadingPhase": "PostEngineInit"
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "GameplayAbilities",
-			"Enabled": true
-		},
-		{
-			"Name": "EnhancedInput",
-			"Enabled": true
-		},
-		{
-			"Name": "Iris",
-			"Enabled": true
-		}
-	]
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Gameplay Core",
+  "Description": "A core plugin implementing extended version of an equipment and inventory system made to work with Unreal's Ability System and Unreal's Enhanced Input System",
+  "Category": "Other",
+  "CreatedBy": "Rémy Jochmans",
+  "CreatedByURL": "",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "CanContainContent": true,
+  "IsBetaVersion": false,
+  "IsExperimentalVersion": false,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "GameplayCore",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "AbilitySystemCore",
+      "Type": "Runtime",
+      "LoadingPhase": "PostEngineInit"
+    },
+    {
+      "Name": "EquipmentSystemCore",
+      "Type": "Runtime",
+      "LoadingPhase": "PostEngineInit"
+    },
+    {
+      "Name": "InventorySystemCore",
+      "Type": "Runtime",
+      "LoadingPhase": "PostEngineInit"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "GameplayAbilities",
+      "Enabled": true
+    },
+    {
+      "Name": "EnhancedInput",
+      "Enabled": true
+    },
+    {
+      "Name": "Iris",
+      "Enabled": true
+    }
+  ]
 }

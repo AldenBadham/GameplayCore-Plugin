@@ -8,8 +8,9 @@
 #include "Instances/EquipmentInstance.h"
 #include "Net/UnrealNetwork.h"
 
-
-UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), EquipmentList(this)
+UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+	, EquipmentList(this)
 {
 	SetIsReplicatedByDefault(true);
 	bWantsInitializeComponent = true;
@@ -21,7 +22,9 @@ UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& O
 UEquipmentSystemComponent::~UEquipmentSystemComponent()
 {
 	if (Cache.IsValid())
+	{
 		Cache->Clear();
+	}
 }
 
 void UEquipmentSystemComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
@@ -75,7 +78,7 @@ void UEquipmentSystemComponent::UninitializeComponent()
 {
 	TArray<UEquipmentInstance*> Instances;
 
-	// Gathering all instances before removal to avoid side effects affecting the equipment list iterator	
+	// Gathering all instances before removal to avoid side effects affecting the equipment list iterator
 	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
 	{
 		Instances.Add(Entry.Instance);
@@ -92,7 +95,7 @@ void UEquipmentSystemComponent::UninitializeComponent()
 UEquipmentInstance* UEquipmentSystemComponent::EquipItem(TSubclassOf<UEquipmentDefinition> EquipmentDefinition)
 {
 	if (IsValid(EquipmentDefinition))
-	{		
+	{
 		if (UEquipmentInstance* Instance = EquipmentList.Add(EquipmentDefinition))
 		{
 			Instance->OnEquipped();
@@ -155,7 +158,7 @@ TArray<UEquipmentInstance*> UEquipmentSystemComponent::GetAllEquipmentInstancesO
 
 UEquipmentDefinition* UEquipmentSystemComponent::GetEquipmentDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const
 {
-	if(Cache.IsValid())
+	if (Cache.IsValid())
 	{
 		return Cache->GetCachedDefinition(Class);
 	}
