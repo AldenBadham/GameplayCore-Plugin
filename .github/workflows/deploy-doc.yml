@@ -1,0 +1,24 @@
+name: Déployer la doc Doxygen
+
+on:
+  push:
+    branches: [main] # ou la branche que tu utilises
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Doxygen
+        run: sudo apt-get install -y doxygen graphviz
+
+      - name: Générer la documentation
+        run: doxygen ./docs/Doxyfile # adapte le chemin si besoin
+
+      - name: Déployer sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html # adapte le chemin si besoin
