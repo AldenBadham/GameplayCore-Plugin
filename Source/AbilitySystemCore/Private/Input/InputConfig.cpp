@@ -1,4 +1,6 @@
-﻿#include "Input/InputConfig.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Input/InputConfig.h"
 #include "Input/InputTagSet.h"
 
 #include "Log/AbilitySystemLog.h"

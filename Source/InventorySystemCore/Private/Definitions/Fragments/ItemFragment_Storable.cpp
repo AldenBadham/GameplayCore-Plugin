@@ -1,4 +1,6 @@
-﻿#include "Definitions/Fragments/ItemFragment_Storable.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Definitions/Fragments/ItemFragment_Storable.h"
 
 bool UItemFragment_Storable::CanStack() const
 {

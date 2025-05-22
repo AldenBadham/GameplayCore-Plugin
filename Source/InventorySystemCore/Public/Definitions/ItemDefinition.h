@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -12,7 +14,7 @@ class UItemFragment;
  * @class UItemDefinition
  * @see UObject
  * @brief Data asset definition of an item that can be given/owned by a character
- * @details Represents a template for items in the inventory system. Contains basic item information
+ * @details Represents a template for items in the inventory system. Contains basic item information 
  * like name and description, and can be extended with fragments for additional functionality.
  * This is an abstract class that should be inherited to create specific item types.
  */

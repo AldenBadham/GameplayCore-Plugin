@@ -1,4 +1,6 @@
-﻿#include "Data/InventoryList.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Data/InventoryList.h"
 
 #include "Components/InventorySystemComponent.h"
 #include "Data/InventoryEntry.h"

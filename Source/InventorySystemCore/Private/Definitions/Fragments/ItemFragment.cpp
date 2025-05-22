@@ -1,12 +1,3 @@
-﻿#include "Definitions/Fragments/ItemFragment.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
-void UItemFragment::OnInstanceCreated(UItemInstance* Instance)
-{
-	check(Instance);
-	OwningInstance = Instance;
-}
-
-UItemInstance* UItemFragment::GetOwningInstance()
-{
-	return OwningInstance;
-}
+#include "Definitions/Fragments/ItemFragment.h"

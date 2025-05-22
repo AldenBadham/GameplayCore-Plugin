@@ -1,4 +1,6 @@
-﻿#include "Components/EquipmentSlotComponent.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/EquipmentSlotComponent.h"
 
 #include "Components/EquipmentSystemComponent.h"
 #include "Data/EquipmentSlotMapData.h"

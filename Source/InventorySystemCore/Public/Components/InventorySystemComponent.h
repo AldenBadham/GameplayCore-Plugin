@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
@@ -76,7 +78,7 @@ public:
 	 * Calculates the sum of all stack counts for items matching the specified definition
 	 * @param DefinitionClass The class of items to count
 	 * @return Total quantity of all matching items across all stacks
-	 */
+	*/
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetStackCountByDefinition(TSubclassOf<UItemDefinition> DefinitionClass) const;
 

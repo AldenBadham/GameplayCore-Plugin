@@ -1,4 +1,6 @@
-﻿#include "Components/EquipmentSystemComponent.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/EquipmentSystemComponent.h"
 
 #include "Data/EquipmentCache.h"
 #include "Data/EquipmentEntry.h"
@@ -169,6 +171,7 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance
 	}
 	return nullptr;
 }
+
 
 void UEquipmentSystemComponent::PostEquipmentEquipped(const FEquipmentChangeData& Data)
 {

@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FInventorySystemCoreModule final : public IModuleInterface
+class FInventorySystemCoreModule : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;

@@ -1,4 +1,6 @@
-﻿#include "GameplayTags/GameplayTagPropertyMap.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "GameplayTags/GameplayTagPropertyMap.h"
 
 #include "AbilitySystemComponent.h"
 #include "Log/AbilitySystemLog.h"
@@ -219,13 +221,13 @@ void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, c
 	}
 }
 
-bool FGameplayTagPropertyMap::IsPropertyTypeValid(const FProperty* Property) const
+bool FGameplayTagPropertyMap::IsPropertyTypeValid(const FProperty* Property)
 {
 	check(Property);
 	return Property->IsA<FBoolProperty>() || Property->IsA<FIntProperty>() || Property->IsA<FFloatProperty>();
 }
 
-EGameplayTagEventType::Type FGameplayTagPropertyMap::GetGameplayTagEventType(const FProperty* Property) const
+EGameplayTagEventType::Type FGameplayTagPropertyMap::GetGameplayTagEventType(const FProperty* Property)
 {
 	check(Property);
 	return Property->IsA(FBoolProperty::StaticClass()) ? EGameplayTagEventType::NewOrRemoved : EGameplayTagEventType::AnyCountChange;

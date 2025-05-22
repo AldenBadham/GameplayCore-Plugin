@@ -1,4 +1,6 @@
-﻿#include "Animation/AnimInstanceBase.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Animation/AnimInstanceBase.h"
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"

@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "Definitions/EquipmentDefinition.h"
@@ -51,6 +53,7 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	 * @param Instance The instance to remove.
 	 */
 	void Remove(UEquipmentInstance* Instance);
+
 
 	/**
 	 * Called when an entry is changed.

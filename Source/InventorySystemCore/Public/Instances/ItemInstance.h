@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "Components/InventorySystemComponent.h"
 #include "Components/ItemComponent.h"

@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
@@ -38,7 +40,7 @@ protected:
 	UEquipmentSystemComponent* FindEquipmentSystem() const;
 
 	UFUNCTION()
-	void OnRep_Slots();
+	static void OnRep_Slots();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UEquipmentSlotMapData> SlotMap;

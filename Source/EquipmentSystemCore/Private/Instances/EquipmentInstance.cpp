@@ -1,4 +1,6 @@
-﻿#include "Instances/EquipmentInstance.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Instances/EquipmentInstance.h"
 
 #include "GameFramework/Character.h"
 #include "Log/EquipmentSystemLog.h"

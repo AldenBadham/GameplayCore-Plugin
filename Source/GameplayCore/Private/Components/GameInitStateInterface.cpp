@@ -1,4 +1,6 @@
-﻿#include "Components/GameInitStateInterface.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/GameInitStateInterface.h"
 
 #include "Components/ActorFeatureRegisteredDelegate.h"
 #include "Components/GameInitStateSubsystem.h"

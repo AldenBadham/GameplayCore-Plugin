@@ -1,4 +1,6 @@
-﻿#include "Library/InventoryFunctionLibrary.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Library/InventoryFunctionLibrary.h"
 
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Definitions/ItemDefinition.h"

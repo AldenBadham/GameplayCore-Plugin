@@ -1,4 +1,6 @@
-﻿#include "Instances/Components/ItemComponent_Consumable.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Instances/Components/ItemComponent_Consumable.h"
 
 #include "Net/UnrealNetwork.h"
 

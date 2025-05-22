@@ -1,3 +1,5 @@
+// Copyright 2025 TARA Gaming Limited. All Rights Reserved.
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -6,6 +8,7 @@
 #include "ItemFragmentRule.generated.h"
 
 class UItemFragment;
+
 
 /**
  * @struct FItemFragmentRule
@@ -20,12 +23,12 @@ struct FItemFragmentRule
 	GENERATED_BODY()
 
 	/**
-	 * Checks whether the rule is satisfied based on the provided fragment classes.
-	 * @param FragmentClasses The array of fragment classes to validate against the rule.
-	 * @param ErrorContext A string that will contain details about blocking or missing fragments if the rule is not
-	 * satisfied for error context message.
-	 * @return True if the rule is satisfied, false otherwise.
-	 */
+		 * Checks whether the rule is satisfied based on the provided fragment classes.
+		 * @param FragmentClasses The array of fragment classes to validate against the rule.
+		 * @param ErrorContext A string that will contain details about blocking or missing fragments if the rule is not
+		 * satisfied for error context message.
+		 * @return True if the rule is satisfied, false otherwise.
+		 */
 	bool IsRuleSatisfied(const TArray<TSubclassOf<UItemFragment>>& FragmentClasses, FString& ErrorContext) const;
 
 	/**

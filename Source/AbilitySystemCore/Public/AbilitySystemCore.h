@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FAbilitySystemCoreModule final : public IModuleInterface
+class FAbilitySystemCoreModule : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;

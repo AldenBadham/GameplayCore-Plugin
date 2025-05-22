@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
@@ -44,9 +46,9 @@ protected:
 
 	void GameplayTagEventCallback(const FGameplayTag Tag, int32 NewCount, TWeakObjectPtr<UObject> RegisteredOwner);
 
-	bool IsPropertyTypeValid(const FProperty* Property) const;
+	static bool IsPropertyTypeValid(const FProperty* Property);
 
-	EGameplayTagEventType::Type GetGameplayTagEventType(const FProperty* Property) const;
+	static EGameplayTagEventType::Type GetGameplayTagEventType(const FProperty* Property);
 
 	TWeakObjectPtr<UObject> CachedOwner;
 	TWeakObjectPtr<UAbilitySystemComponent> CachedAbilitySystemComponent;

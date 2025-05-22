@@ -1,9 +1,11 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
-#include "Definitions/Fragments/ItemFragment.h"
 #include "Engine/DeveloperSettings.h"
 #include "Settings/ItemFragmentRule.h"
+#include "Definitions/Fragments/ItemFragment.h"
 #include "InventorySystemSettings.generated.h"
 
 /**

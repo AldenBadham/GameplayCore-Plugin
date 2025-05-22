@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -24,17 +26,5 @@ public:
 	 * Called when the ItemInstance is created and this fragment is attached to it
 	 * @param Instance The item instance that owns this fragment
 	 */
-	virtual void OnInstanceCreated(UItemInstance* Instance);
-
-	/**
-	 * Returns the item instance that owns this fragment
-	 * @return The owning item instance, or nullptr if not attached
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintPure)
-	UItemInstance* GetOwningInstance();
-
-protected:
-	/** The item instance that owns this fragment instance */
-	UPROPERTY(Transient)
-	TObjectPtr<UItemInstance> OwningInstance = nullptr;
+	virtual void OnInstanceCreated(UItemInstance* Instance){}
 };

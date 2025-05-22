@@ -1,4 +1,6 @@
-﻿#include "Components/InventorySystemComponent.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/InventorySystemComponent.h"
 
 #include "Data/InventoryCache.h"
 #include "Data/InventoryEntry.h"

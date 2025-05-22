@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "Net/Serialization/FastArraySerializer.h"
@@ -49,7 +51,7 @@ private:
 	UPROPERTY()
 	int32 StackCount = 0;
 
-	/**
+	/** 
 	 * Used to detect local stack changes without replication
 	 * Helps with client-side prediction of stack modifications
 	 * @note Not replicated - used for client prediction only

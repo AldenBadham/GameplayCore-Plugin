@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "Abilities/GameplayAbilityBase.h"
 #include "CoreMinimal.h"
@@ -32,6 +34,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Ability", BlueprintPure = false, meta = (DeterminesOutputType = InstanceClass))
 	UEquipmentInstance* GetTypedSourceEquipmentInstance(const TSubclassOf<UEquipmentInstance>& InstanceClass) const;
+
 
 	/**
 	 * Gets the source item instance for this ability.

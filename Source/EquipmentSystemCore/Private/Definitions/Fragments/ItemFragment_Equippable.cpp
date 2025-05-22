@@ -1,4 +1,6 @@
-﻿#include "Definitions/Fragments/ItemFragment_Equippable.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Definitions/Fragments/ItemFragment_Equippable.h"
 
 void UItemFragment_EquipableItem::OnInstanceCreated(UItemInstance* Instance)
 {

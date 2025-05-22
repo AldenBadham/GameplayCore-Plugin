@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Copyright (C) [Year] [Company Name]. All Rights Reserved.
+
+#pragma once
 
 #include "InventoryChangeData.h"
 #include "InventoryEntry.h"

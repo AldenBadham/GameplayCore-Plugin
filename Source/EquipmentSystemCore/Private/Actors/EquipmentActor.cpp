@@ -1,14 +1,8 @@
-﻿#include "Actors/EquipmentActor.h"
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
-AEquipmentActor::AEquipmentActor()
-{
-	PrimaryActorTick.bCanEverTick = false;
+#include "Actors/EquipmentActor.h"
 
-	SetReplicates(true);
-}
-
-AEquipmentActor::AEquipmentActor(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
+AEquipmentActor::AEquipmentActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
 {
 	PrimaryActorTick.bCanEverTick = false;
 

@@ -1,9 +1,11 @@
-﻿#pragma once
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FGameplayCoreModule final : public IModuleInterface
+class FGameplayCoreModule : public IModuleInterface
 {
 public:
 	/** IModuleInterface implementation */

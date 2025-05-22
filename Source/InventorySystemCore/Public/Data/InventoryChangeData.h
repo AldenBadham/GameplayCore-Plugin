@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
 
 #include "InventoryChangeData.generated.h"
 
@@ -20,7 +22,7 @@ enum class EInventoryChangeType : uint8
  * @struct FInventoryChangeData
  * @see UItemInstance, FInventoryEntry, EInventoryChangeType
  * @brief Represents a data payload for tracking inventory item changes including addition, removal, and modification of items
- * @details Contains information about the affected item instance, its index in the inventory, the type of change,
+ * @details Contains information about the affected item instance, its index in the inventory, the type of change, 
  *		  and stack count changes before and after the modification occurred. Used for notifying systems about
  *		  inventory state changes and maintaining synchronization.
  */
@@ -39,35 +41,35 @@ struct INVENTORYSYSTEMCORE_API FInventoryChangeData
 	 */
 	FInventoryChangeData(const int32 InIndex, const FInventoryEntry& Entry, const EInventoryChangeType InChangeType = EInventoryChangeType::Added);
 
-	/**
+	/** 
 	 * Zero-based index of the modified inventory entry
 	 * Set to INDEX_NONE (-1) when the entry is invalid
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
 	int32 Index = INDEX_NONE;
 
-	/**
+	/** 
 	 * Reference to the affected item instance
 	 * Contains the item's definition and properties
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
 	TObjectPtr<UItemInstance> Instance = nullptr;
 
-	/**
+	/** 
 	 * Specifies whether the item was added, removed, or modified
 	 * Defaults to Added when not specified
 	 */
 	UPROPERTY(BlueprintReadOnly)
 	EInventoryChangeType ChangeType = EInventoryChangeType::Added;
 
-	/**
+	/** 
 	 * Stack count before the inventory modification occurred
 	 * Used to track quantity changes
 	 */
 	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
 	int32 OldCount = 0;
 
-	/**
+	/** 
 	 * Stack count after the inventory modification occurred
 	 * Represents the current quantity
 	 */
