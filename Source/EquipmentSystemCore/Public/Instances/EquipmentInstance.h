@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "Components/EquipmentComponent.h"
 #include "Data/EquipmentActorSet.h"
@@ -30,7 +28,7 @@ public:
 	// UObject
 	virtual bool IsSupportedForNetworking() const override { return true; }
 	virtual UWorld* GetWorld() const override final;
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	// ~UObject
 
 	/** Get the pawn that this equipment instance is attached to. */
@@ -38,7 +36,7 @@ public:
 	APawn* GetPawn() const;
 	/** Get the pawn that this equipment instance is attached to, if applicable. */
 	UFUNCTION(BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = PawnType))
-	APawn* GetTypedPawn(const TSubclassOf<APawn> PawnType) const;
+	APawn* GetTypedPawn(const TSubclassOf<APawn>& PawnType) const;
 	/** Get the pawn that this equipment instance is attached to, if applicable. */
 	template <class T> T* GetPawn() const { return Cast<T>(GetPawn()); }
 

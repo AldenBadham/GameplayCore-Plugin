@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Data/InventoryList.h"
+﻿#include "Data/InventoryList.h"
 
 #include "Components/InventorySystemComponent.h"
 #include "Data/InventoryEntry.h"
@@ -9,23 +7,22 @@
 #include "Instances/ItemInstance.h"
 
 FInventoryList::FInventoryList()
-	: OwnerComponent(nullptr)
-{
-}
+	: OwnerComponent(nullptr) {}
 
 FInventoryList::FInventoryList(UInventorySystemComponent* InOwnerComponent)
-	: OwnerComponent(InOwnerComponent)
-{
-}
+	: OwnerComponent(InOwnerComponent) {}
 
 void FInventoryList::PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize)
 {
 	for (const int32 Index : RemovedIndices)
 	{
-		FInventoryEntry& Entry = Entries[Index];
-		Entry.LastStackCount = 0;
+		if (Entries.IsValidIndex(Index))
+		{
+			FInventoryEntry& Entry = Entries[Index];
+			Entry.LastStackCount = 0;
 
-		Internal_OnEntryRemoved(Index, Entry);
+			Internal_OnEntryRemoved(Index, Entry);
+		}
 	}
 }
 
@@ -33,10 +30,13 @@ void FInventoryList::PostReplicatedAdd(const TArrayView<int32> AddedIndices, int
 {
 	for (const int32 Index : AddedIndices)
 	{
-		FInventoryEntry& Entry = Entries[Index];
-		Entry.LastStackCount = Entry.StackCount;
+		if (Entries.IsValidIndex(Index))
+		{
+			FInventoryEntry& Entry = Entries[Index];
+			Entry.LastStackCount = Entry.StackCount;
 
-		Internal_OnEntryAdded(Index, Entry);
+			Internal_OnEntryAdded(Index, Entry);
+		}
 	}
 }
 
@@ -44,10 +44,14 @@ void FInventoryList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 {
 	for (const int32 Index : ChangedIndices)
 	{
-		FInventoryEntry& Entry = Entries[Index];
-		check(Entry.LastStackCount != INDEX_NONE);
-		Internal_OnEntryChanged(Index, Entry);
-		Entry.LastStackCount = Entry.StackCount;
+		if (Entries.IsValidIndex(Index))
+		{
+			FInventoryEntry& Entry = Entries[Index];
+			ensureMsgf(Entry.LastStackCount != INDEX_NONE, TEXT("LastStackCount is invalid (INDEX_NONE) for entry at index %d. Should replicate this change"), Index);
+
+			Internal_OnEntryChanged(Index, Entry);
+			Entry.LastStackCount = Entry.StackCount;
+		}
 	}
 }
 
@@ -58,14 +62,13 @@ TArray<UItemInstance*> FInventoryList::Add(const TSubclassOf<UItemDefinition>& D
 		return {};
 	}
 
-	const AActor* OwnerActor = OwnerComponent->GetOwner();
-	if (!OwnerActor->HasAuthority())
+	if (const AActor* OwnerActor = OwnerComponent->GetOwner(); !OwnerActor->HasAuthority())
 	{
 		return {};
 	}
 
 	// Check validity of the definition instance, and storable fragments
-	if (!CanAdd(DefinitionClass))
+	if (!CanAdd(DefinitionClass, false))
 	{
 		return {};
 	}
@@ -116,7 +119,7 @@ TArray<UItemInstance*> FInventoryList::Add(const TSubclassOf<UItemDefinition>& D
 	// Create new stacks for the rest
 	for (int32 i = 0; i < NeededStacks && RemainingCount > 0; ++i)
 	{
-		if (!CanAdd(DefinitionClass))
+		if (!CanAdd(DefinitionClass, true))
 		{
 			break;
 		}
@@ -134,8 +137,6 @@ TArray<UItemInstance*> FInventoryList::Add(const TSubclassOf<UItemDefinition>& D
 
 void FInventoryList::Remove(UItemInstance* Instance)
 {
-	// TODO : To reinforce to cover tags and modifiers on items to not remove all items of the same type
-
 	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
 	{
 		if (FInventoryEntry Entry = *EntryIterator; Entry.Instance == Instance)
@@ -145,6 +146,37 @@ void FInventoryList::Remove(UItemInstance* Instance)
 			MarkArrayDirty();
 		}
 	}
+}
+
+void FInventoryList::AddItemInstance(UItemInstance* ItemInstance, const int32 Count)
+{
+	if (!IsValid(ItemInstance))
+	{
+		return;
+	}
+
+	// Check if the item can be added
+	if (const TSubclassOf<UItemDefinition> DefinitionClass = ItemInstance->GetDefinitionClass(); !CanAdd(DefinitionClass, true))
+	{
+		return;
+	}
+
+	// Creating and configuring the new input
+	FInventoryEntry& NewEntry = Entries.AddDefaulted_GetRef();
+	const int32 NewIndex = Entries.Num() - 1;
+
+	NewEntry.Instance = ItemInstance;
+	NewEntry.StackCount = Count;
+	NewEntry.LastStackCount = Count;
+
+	// Notification du changement
+	Internal_OnEntryAdded(NewIndex, NewEntry);
+	MarkItemDirty(NewEntry);
+}
+
+void FInventoryList::AddItemInstance(const FInventoryEntry& Entry)
+{
+	AddItemInstance(Entry.Instance, Entry.StackCount);
 }
 
 FInventoryEntryHandle FInventoryList::FindHandleOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)
@@ -285,7 +317,7 @@ UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinit
 	return Entry.Instance;
 }
 
-bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass)
+bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass, const bool CheckUniqueness)
 {
 	UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
 	if (!IsValid(CachedDefinition) || !CachedDefinition->CanBeGiven(OwnerComponent))
@@ -301,7 +333,7 @@ bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass)
 	}
 
 	// Check if the object is unique
-	if (StorableFragment->IsUnique())
+	if (CheckUniqueness && StorableFragment->IsUnique())
 	{
 		if (const FInventoryEntryHandle Handle = FindHandleOfType(DefinitionClass); Handle.IsValid())
 		{

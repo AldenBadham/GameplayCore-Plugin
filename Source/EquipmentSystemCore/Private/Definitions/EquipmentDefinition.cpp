@@ -1,8 +1,5 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿#include "Definitions/EquipmentDefinition.h"
 
-#include "Definitions/EquipmentDefinition.h"
-
-#include "Components/EquipmentSystemComponent.h"
 #include "Definitions/Fragments/EquipmentFragment.h"
 #include "Instances/EquipmentInstance.h"
 
@@ -39,7 +36,7 @@ void UEquipmentDefinition::PostEditChangeProperty(FPropertyChangedEvent& Propert
 }
 #endif
 
-const UEquipmentFragment* UEquipmentDefinition::FindFragmentByClass(TSubclassOf<UEquipmentFragment> FragmentClass) const
+const UEquipmentFragment* UEquipmentDefinition::FindFragmentByClass(const TSubclassOf<UEquipmentFragment> FragmentClass) const
 {
 	if (IsValid(FragmentClass))
 	{
@@ -55,12 +52,12 @@ const UEquipmentFragment* UEquipmentDefinition::FindFragmentByClass(TSubclassOf<
 	return nullptr;
 }
 
-bool UEquipmentDefinition::CanEquip(UEquipmentSystemComponent* EquipmentSystemComponent)
+bool UEquipmentDefinition::CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent)
 {
-	return K2_CanEquip(EquipmentSystemComponent);
+	return K2_CanBeEquipped(EquipmentSystemComponent);
 }
 
-bool UEquipmentDefinition::K2_CanEquip_Implementation(UEquipmentSystemComponent* EquipmentSystemComponent)
+bool UEquipmentDefinition::K2_CanBeEquipped_Implementation(UEquipmentSystemComponent* EquipmentSystemComponent)
 {
 	return true;
 }

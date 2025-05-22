@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/EquipmentSlotComponent.h"
+﻿#include "Components/EquipmentSlotComponent.h"
 
 #include "Components/EquipmentSystemComponent.h"
 #include "Data/EquipmentSlotMapData.h"
@@ -28,14 +26,14 @@ void UEquipmentSlotComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UEquipmentSlotComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UEquipmentSlotComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ThisClass, Slots);
 }
 
-void UEquipmentSlotComponent::Server_EquipItemAtSlot_Implementation(FGameplayTag SlotTag)
+void UEquipmentSlotComponent::Server_EquipItemAtSlot_Implementation(const FGameplayTag SlotTag)
 {
 	if (const FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
 	{
@@ -49,9 +47,9 @@ void UEquipmentSlotComponent::Server_EquipItemAtSlot_Implementation(FGameplayTag
 	}
 }
 
-void UEquipmentSlotComponent::AddItemToSlot(FGameplayTag SlotTag, UItemInstance* Item)
+void UEquipmentSlotComponent::AddItemToSlot(const FGameplayTag SlotTag, UItemInstance* Item)
 {
-	if (IsValidSlot(SlotTag) && (Item != nullptr))
+	if (IsValidSlot(SlotTag) && Item != nullptr)
 	{
 		if (FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
 		{
@@ -63,7 +61,7 @@ void UEquipmentSlotComponent::AddItemToSlot(FGameplayTag SlotTag, UItemInstance*
 	}
 }
 
-UItemInstance* UEquipmentSlotComponent::RemoveItemFromSlot(FGameplayTag SlotTag)
+UItemInstance* UEquipmentSlotComponent::RemoveItemFromSlot(const FGameplayTag SlotTag)
 {
 	UItemInstance* Result = nullptr;
 
@@ -83,7 +81,7 @@ UItemInstance* UEquipmentSlotComponent::RemoveItemFromSlot(FGameplayTag SlotTag)
 	return Result;
 }
 
-void UEquipmentSlotComponent::EquipItemInSlot(FGameplayTag SlotTag)
+void UEquipmentSlotComponent::EquipItemInSlot(const FGameplayTag SlotTag)
 {
 	check(IsValidSlot(SlotTag));
 
@@ -99,7 +97,7 @@ void UEquipmentSlotComponent::EquipItemInSlot(FGameplayTag SlotTag)
 		return;
 	}
 
-	if (FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
+	if (const FEquipmentSlotSet* InstanceSet = FindInstanceSetForSlot(SlotTag))
 	{
 		UItemInstance* Item = InstanceSet->ItemInstance;
 
@@ -116,7 +114,7 @@ void UEquipmentSlotComponent::EquipItemInSlot(FGameplayTag SlotTag)
 	}
 }
 
-void UEquipmentSlotComponent::UnequipItemInSlot(FGameplayTag SlotTag)
+void UEquipmentSlotComponent::UnequipItemInSlot(const FGameplayTag SlotTag)
 {
 	if (!IsValidSlot(SlotTag))
 	{
@@ -142,7 +140,7 @@ FEquipmentSlotSet* UEquipmentSlotComponent::FindInstanceSetForSlot(FGameplayTag 
 	return Slots.FindByPredicate([SlotTag](const FEquipmentSlotSet& Set) { return Set.SlotTag == SlotTag; });
 }
 
-bool UEquipmentSlotComponent::IsValidSlot(FGameplayTag SlotTag) const
+bool UEquipmentSlotComponent::IsValidSlot(const FGameplayTag SlotTag) const
 {
 	return SlotMap->Slots.Contains(SlotTag);
 }

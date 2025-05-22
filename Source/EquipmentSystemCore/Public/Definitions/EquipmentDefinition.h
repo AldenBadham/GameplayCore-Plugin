@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Data/EquipmentActorSet.h"
@@ -24,13 +22,15 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentDefinition : public UObject
 {
 	GENERATED_BODY()
 
+	friend struct FEquipmentList;
+
 public:
 	UEquipmentDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
-#if WITH_EDITOR
+	#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
+	#endif
 	// ~UObject
 
 	/**
@@ -47,11 +47,18 @@ public:
 	 */
 	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
-	virtual bool CanEquip(UEquipmentSystemComponent* EquipmentSystemComponent);
+	virtual bool CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure)
-	bool K2_CanEquip(UEquipmentSystemComponent* EquipmentSystemComponent);
+	bool K2_CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent);
 
+	/**
+	 * Get the display name of this equipment
+	 * @return Display name as FText
+	 */
+	FText GetDisplayName() const { return DisplayName; }
+
+protected:
 	/** Display name of the equipment (used by UI) */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipable")
 	FText DisplayName;

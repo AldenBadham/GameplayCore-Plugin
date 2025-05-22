@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 
@@ -21,14 +19,8 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 {
 	GENERATED_BODY()
 
-public:
-
 	FInventoryEntryHandle()
-		: EntryIndex(INDEX_NONE)
-		, ItemInstance(nullptr)
-		, StackCount(0)
-	{
-	}
+		: ItemInstance(nullptr), StackCount(0) {}
 
 	/**
 	 * Creates a handle from an existing inventory entry
@@ -42,7 +34,7 @@ public:
 		ItemInstance = InEntry.Instance;
 		StackCount = InEntry.StackCount;
 	}
-	
+
 	/**
 	 * Creates a handle with specified values
 	 * @param InIndex Index of the entry in the inventory
@@ -50,11 +42,7 @@ public:
 	 * @param InStackCount Number of items in the stack
 	 */
 	FInventoryEntryHandle(const int32 InIndex, UItemInstance* InInstance, const int32 InStackCount)
-		: EntryIndex(InIndex)
-		, ItemInstance(InInstance)
-		, StackCount(InStackCount)
-	{
-	}
+		: EntryIndex(InIndex), ItemInstance(InInstance), StackCount(InStackCount) {}
 
 	/**
 	 * Checks if this handle references a valid inventory entry
@@ -62,22 +50,20 @@ public:
 	 */
 	bool IsValid() const { return EntryIndex != INDEX_NONE; }
 
-public:
-
 	/**
 	 * Index of the inventory entry in the inventory list
 	 * Defaults to INDEX_NONE (-1) if the handle is invalid
 	 */
 	UPROPERTY(BlueprintReadOnly)
 	int32 EntryIndex = INDEX_NONE;
-	
+
 	/**
 	 * The item instance associated with this inventory entry
 	 * Contains the actual item data and properties
 	 */
 	UPROPERTY(BlueprintReadOnly)
 	UItemInstance* ItemInstance;
-	
+
 	/**
 	 * Current number of items in this stack
 	 * Represents how many items of this type are grouped together

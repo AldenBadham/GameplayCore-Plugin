@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Data/AbilitySet.h"
+﻿#include "Data/AbilitySet.h"
 
 #include "Abilities/GameplayAbilityBase.h"
 #include "Data/AbilitySet_GameplayAbility.h"
@@ -9,15 +7,12 @@
 #include "Log/AbilitySystemLog.h"
 
 UAbilitySet::UAbilitySet(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
 void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComp, FAbilitySetHandles* Handles, UObject* SourceObject) const
 {
 	check(AbilitySystemComp);
-	if (!AbilitySystemComp->IsOwnerActorAuthoritative())
-		UE_LOG(LogAbilitySystem, Error, TEXT("Must be authoritive to give or take ability sets"));
+	if (!AbilitySystemComp->IsOwnerActorAuthoritative()) UE_LOG(LogAbilitySystem, Error, TEXT("Must be authoritive to give or take ability sets"));
 
 	// Grant the attribut sets
 	for (int Index = 0; Index < AttributeSets.Num(); ++Index)

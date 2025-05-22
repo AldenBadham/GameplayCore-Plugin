@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
@@ -34,7 +32,6 @@ class INVENTORYSYSTEMCORE_API IInventorySystemInterface
 	GENERATED_BODY()
 
 public:
-	
 	/**
 	 * Retrieves the inventory system component associated with this actor
 	 * @return The inventory system component to use. May be located on another actor

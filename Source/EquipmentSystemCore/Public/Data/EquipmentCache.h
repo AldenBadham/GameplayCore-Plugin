@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -41,18 +39,18 @@ public:
 	 * @param Class The class of the EquipmentDefinition.
 	 * @return True if the cache contains a default object of the given class.
 	 */
-	bool IsCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const;
+	bool IsCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class);
 
 private:
 	/**
 	 * Clears the cache of any EquipmentDefinitions that are no longer rooted.
 	 * This method is called after garbage collection.
 	 */
-	void Clear();
+	void Clean();
 
 	/** Map to store cached EquipmentDefinitions */
 	UPROPERTY()
-	TMap<TSubclassOf<UEquipmentDefinition>, UEquipmentDefinition*> CachedDefinitionMap;
+	TMap<TSubclassOf<UEquipmentDefinition>, TWeakObjectPtr<UEquipmentDefinition>> CachedDefinitionMap;
 
 	/** Critical section to ensure thread-safe access to the cache */
 	FCriticalSection CacheLock;

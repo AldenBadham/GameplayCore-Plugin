@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Abilities/GameplayAbilityBase.h"
+﻿#include "Abilities/GameplayAbilityBase.h"
 
 #include "AbilitySystemComponent.h"
 #include "Globals/AbilitySystemGlobalsBase.h"
@@ -78,7 +76,7 @@ bool UGameplayAbilityBase::DoesAbilitySatisfyTagRequirements(
 	bool bBlocked = false;
 	bool bMissing = false;
 
-	UAbilitySystemGlobalsBase& AbilitySystemGlobals = UAbilitySystemGlobalsBase::Get();
+	const UAbilitySystemGlobalsBase& AbilitySystemGlobals = UAbilitySystemGlobalsBase::Get();
 	const FGameplayTag& BlockedTag = AbilitySystemGlobals.ActivateFailTagsBlockedTag;
 	const FGameplayTag& MissingTag = AbilitySystemGlobals.ActivateFailTagsMissingTag;
 
@@ -150,18 +148,18 @@ void UGameplayAbilityBase::EndAbility(
 	const FGameplayAbilitySpecHandle Handle,
 	const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo,
-	bool bReplicateEndAbility,
-	bool bWasCancelled)
+	const bool bReplicateEndAbility,
+	const bool bWasCancelled)
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
 void UGameplayAbilityBase::TryActivateAbilityOnSpawn(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) const
 {
-	const bool bIsPredicting = (Spec.GetPrimaryInstance()->GetCurrentActivationInfo().ActivationMode == EGameplayAbilityActivationMode::Predicting);
+	const bool bIsPredicting = Spec.GetPrimaryInstance()->GetCurrentActivationInfo().ActivationMode == EGameplayAbilityActivationMode::Predicting;
 
 	// Try to activate if activation policy is OnSpawn.
-	if (ActorInfo && !Spec.IsActive() && !bIsPredicting && (ActivationPolicy == EAbilityActivationPolicy::OnSpawn))
+	if (ActorInfo && !Spec.IsActive() && !bIsPredicting && ActivationPolicy == EAbilityActivationPolicy::OnSpawn)
 	{
 		UAbilitySystemComponent* AbilitySystemComp = ActorInfo->AbilitySystemComponent.Get();
 		const AActor* AvatarActor = ActorInfo->AvatarActor.Get();
@@ -172,8 +170,8 @@ void UGameplayAbilityBase::TryActivateAbilityOnSpawn(const FGameplayAbilityActor
 			if (!AvatarActor->GetTearOff() && AvatarActor->GetLifeSpan() <= 0.0f)
 			{
 				// Activate the ability only if we're on the authority
-				const bool bIsLocalExecution = (NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::LocalPredicted) || (NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::LocalOnly);
-				const bool bIsServerExecution = (NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::ServerOnly) || (NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::ServerInitiated);
+				const bool bIsLocalExecution = NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::LocalPredicted || NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::LocalOnly;
+				const bool bIsServerExecution = NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::ServerOnly || NetExecutionPolicy == EGameplayAbilityNetExecutionPolicy::ServerInitiated;
 
 				const bool bClientShouldActivate = ActorInfo->IsLocallyControlled() && bIsLocalExecution;
 				const bool bServerShouldActivate = ActorInfo->IsNetAuthority() && bIsServerExecution;

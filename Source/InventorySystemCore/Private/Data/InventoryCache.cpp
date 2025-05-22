@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Data/InventoryCache.h"
+﻿#include "Data/InventoryCache.h"
 
 #include "Definitions/ItemDefinition.h"
 

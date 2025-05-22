@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/GameInitStateInterface.h"
+﻿#include "Components/GameInitStateInterface.h"
 
 #include "Components/ActorFeatureRegisteredDelegate.h"
 #include "Components/GameInitStateSubsystem.h"
@@ -108,7 +106,7 @@ void IGameInitStateInterface::UnregisterInitStateFeature(FName& FeatureName)
 	}
 }
 
-void IGameInitStateInterface::BindOnActorInitStateChanged(FName FeatureName, FGameplayTag RequiredState, bool bCallIfReached)
+void IGameInitStateInterface::BindOnActorInitStateChanged(const FName FeatureName, const FGameplayTag RequiredState, const bool bCallIfReached)
 {
 	UObject* ThisObject = Cast<UObject>(this);
 	AActor* OwningActor = GetOwningActor();
@@ -124,7 +122,7 @@ void IGameInitStateInterface::BindOnActorInitStateChanged(FName FeatureName, FGa
 	}
 }
 
-bool IGameInitStateInterface::RegisterAndCallForActorInitState(FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately)
+bool IGameInitStateInterface::RegisterAndCallForActorInitState(const FName FeatureName, const FGameplayTag RequiredState, const FActorInitStateChangedBPDelegate Delegate, const bool bCallImmediately)
 {
 	AActor* OwningActor = GetOwningActor();
 
@@ -138,7 +136,7 @@ bool IGameInitStateInterface::RegisterAndCallForActorInitState(FName FeatureName
 	return false;
 }
 
-bool IGameInitStateInterface::UnregisterInitStateDelegate(FActorInitStateChangedBPDelegate Delegate)
+bool IGameInitStateInterface::UnregisterInitStateDelegate(const FActorInitStateChangedBPDelegate Delegate)
 {
 	AActor* OwningActor = GetOwningActor();
 

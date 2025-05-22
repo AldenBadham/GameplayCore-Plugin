@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Settings/EquipmentSystemSettings.h"
+﻿#include "Settings/EquipmentSystemSettings.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogEquipmentSettings, Warning, All)
 
@@ -16,7 +14,7 @@ FName UEquipmentSystemSettings::GetCategoryName() const
 
 UEquipmentSystemSettings* UEquipmentSystemSettings::Get()
 {
-	// this is singletone. Use default object
+	// This is singletone. Use default object
 	return GetMutableDefault<UEquipmentSystemSettings>();
 }
 

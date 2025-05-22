@@ -1,19 +1,14 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Instances/EquipmentInstance.h"
+﻿#include "Instances/EquipmentInstance.h"
 
 #include "GameFramework/Character.h"
 #include "Log/EquipmentSystemLog.h"
 #include "Net/UnrealNetwork.h"
 
 #if UE_WITH_IRIS
-	#include "Iris/ReplicationSystem/ReplicationFragmentUtil.h"
 #endif
 
 UEquipmentInstance::UEquipmentInstance(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
 UWorld* UEquipmentInstance::GetWorld() const
 {
@@ -24,10 +19,11 @@ UWorld* UEquipmentInstance::GetWorld() const
 	return nullptr;
 }
 
-void UEquipmentInstance::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UEquipmentInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	UObject::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	DOREPLIFETIME(ThisClass, DefinitionClass);
 	DOREPLIFETIME(ThisClass, Instigator);
 	DOREPLIFETIME(ThisClass, SpawnedActors);
 	DOREPLIFETIME(ThisClass, Components);
@@ -38,9 +34,9 @@ APawn* UEquipmentInstance::GetPawn() const
 	return Cast<APawn>(GetOuter());
 }
 
-APawn* UEquipmentInstance::GetTypedPawn(const TSubclassOf<APawn> Type) const
+APawn* UEquipmentInstance::GetTypedPawn(const TSubclassOf<APawn>& PawnType) const
 {
-	if (UClass* PawnClass = Type->GetClass())
+	if (UClass* PawnClass = PawnType->GetClass(); IsValid(PawnClass) && IsValid(PawnType))
 	{
 		if (GetOuter()->IsA(PawnClass))
 		{
@@ -52,7 +48,7 @@ APawn* UEquipmentInstance::GetTypedPawn(const TSubclassOf<APawn> Type) const
 
 UEquipmentComponent* UEquipmentInstance::AddComponent(const TSubclassOf<UEquipmentComponent> ComponentClass)
 {
-	if (const auto Component = NewObject<UEquipmentComponent>(ComponentClass); IsValid(Component))
+	if (UEquipmentComponent* const Component = NewObject<UEquipmentComponent>(ComponentClass); IsValid(Component))
 	{
 		Components.Add(Component);
 		return Component;
@@ -109,7 +105,10 @@ void UEquipmentInstance::SetSourceItem(UItemInstance* InSourceObject)
 void UEquipmentInstance::SetDefinition(UEquipmentDefinition* InDefinition)
 {
 	Definition = InDefinition;
-	DefinitionClass = InDefinition->GetClass();
+	if (IsValid(InDefinition))
+	{
+		DefinitionClass = InDefinition->GetClass();
+	}
 }
 
 void UEquipmentInstance::SpawnActors(const TArray<FEquipmentActorSet>& ActorsToSpawn)
@@ -119,7 +118,7 @@ void UEquipmentInstance::SpawnActors(const TArray<FEquipmentActorSet>& ActorsToS
 
 	if (APawn* OwningPawn = GetPawn(); IsValid(OwningPawn))
 	{
-		// Use root scene component as attachment target by default
+		// Use a root scene component as an attachment target by default
 		USceneComponent* AttachTarget = OwningPawn->GetRootComponent();
 		if (const ACharacter* Character = Cast<ACharacter>(OwningPawn))
 		{

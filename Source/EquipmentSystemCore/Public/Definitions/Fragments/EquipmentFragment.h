@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -20,5 +18,9 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentFragment : public UObject
 	GENERATED_BODY()
 
 public:
-	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const {}
+	/**
+	 * Called when an equipment instance is created.
+	 * @param Instance The equipment instance associated with this fragment.
+	 */
+	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const;
 };

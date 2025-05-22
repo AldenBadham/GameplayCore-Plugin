@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Net/Serialization/FastArraySerializer.h"
@@ -24,35 +22,34 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntry : public FFastArraySerializerItem
 	friend struct FInventoryChangeData;
 	friend struct FInventoryEntryHandle;
 
-	FInventoryEntry(){};
+	FInventoryEntry() {};
 
-	~FInventoryEntry(){};
+	~FInventoryEntry() {};
 
 	// FFastArraySerializer
 	// Functions not virtual in FFAstArraySerializer because called by template
 	void PreReplicatedRemove(const FInventoryList& InArraySerializer) const;
 	void PostReplicatedAdd(const FInventoryList& InArraySerializer) const;
-	// void PostReplicatedChange(const FInventoryList& InArraySerializer);
+	void PostReplicatedChange(const FInventoryList& InArraySerializer) const;
 	FString GetDebugString() const;
 	// ~FFastArraySerializer
 
 private:
-	
 	/**
 	 * The actual item instance being stored in this inventory entry
 	 * This instance contains the item's data and properties
 	 */
 	UPROPERTY()
 	TObjectPtr<UItemInstance> Instance = nullptr;
-	
+
 	/**
 	 * Current number of items in this stack
 	 * Represents how many items of this type are grouped together
 	 */
 	UPROPERTY()
 	int32 StackCount = 0;
-	
-	/** 
+
+	/**
 	 * Used to detect local stack changes without replication
 	 * Helps with client-side prediction of stack modifications
 	 * @note Not replicated - used for client prediction only

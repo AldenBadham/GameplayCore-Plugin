@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -23,6 +21,15 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentComponent : public UObject
 
 public:
 	// UObject
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
 	// ~UObject
+
+	virtual void Initialize(UEquipmentInstance* InInstance);
+
+	/** Returns the owning equipment instance of the component. */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UEquipmentInstance* GetOwningInstance();
+
+	UPROPERTY(Transient, Replicated)
+	TObjectPtr<UEquipmentInstance> OwningInstance = nullptr;
 };

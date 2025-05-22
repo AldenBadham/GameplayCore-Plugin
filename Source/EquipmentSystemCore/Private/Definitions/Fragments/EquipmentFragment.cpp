@@ -1,3 +1,3 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿#include "Definitions/Fragments/EquipmentFragment.h"
 
-#include "Definitions/Fragments/EquipmentFragment.h"
+void UEquipmentFragment::OnInstanceCreated(UEquipmentInstance* Instance) const {}

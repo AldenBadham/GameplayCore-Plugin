@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "Animation/AnimInstance.h"
 #include "CoreMinimal.h"
@@ -26,9 +24,9 @@ protected:
 
 	static float CalculateDirection(const FVector& Velocity, const FRotator& BaseRotation);
 
-#if WITH_EDITOR
-	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;
-#endif
+	#if WITH_EDITOR
+	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
+	#endif
 
 	/* Gameplay tags that can be mapped to blueprint variables.
 	 * The variables will automatically update as the tags are added or removed.

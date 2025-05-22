@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Definitions/Fragments/ItemFragment.h"
+﻿#include "Definitions/Fragments/ItemFragment.h"
 
 void UItemFragment::OnInstanceCreated(UItemInstance* Instance)
 {

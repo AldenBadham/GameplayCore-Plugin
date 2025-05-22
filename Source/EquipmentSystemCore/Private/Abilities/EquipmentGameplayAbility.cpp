@@ -1,11 +1,9 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Abilities/EquipmentGameplayAbility.h"
+﻿#include "Abilities/EquipmentGameplayAbility.h"
 #include "Instances/EquipmentInstance.h"
 #include "Instances/ItemInstance.h"
 
 #if WITH_EDITOR
-	#include "Misc/DataValidation.h"
+#include "Misc/DataValidation.h"
 #endif
 
 UEquipmentGameplayAbility::UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer)
@@ -14,20 +12,34 @@ UEquipmentGameplayAbility::UEquipmentGameplayAbility(const FObjectInitializer& O
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 
-UEquipmentInstance* UEquipmentGameplayAbility::GetSourceEquipment() const
+UEquipmentInstance* UEquipmentGameplayAbility::GetSourceEquipmentInstance() const
 {
-	if (FGameplayAbilitySpec* Spec = GetCurrentAbilitySpec())
+	return TryGetSourceObject<UEquipmentInstance>();
+}
+
+UEquipmentInstance* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance(const TSubclassOf<UEquipmentInstance>& InstanceClass) const
+{
+	if (UEquipmentInstance* Instance = TryGetSourceObject<UEquipmentInstance>(); IsValid(Instance) && Instance->IsA(InstanceClass))
 	{
-		return Cast<UEquipmentInstance>(Spec->SourceObject.Get());
+		return Instance;
 	}
 	return nullptr;
 }
 
-UItemInstance* UEquipmentGameplayAbility::GetSourceItem() const
+UItemInstance* UEquipmentGameplayAbility::GetSourceItemInstance() const
 {
-	if (UEquipmentInstance* Equipment = GetSourceEquipment())
+	if (const UEquipmentInstance* Instance = GetSourceEquipmentInstance(); IsValid(Instance))
 	{
-		return Cast<UItemInstance>(Equipment->GetInstigator());
+		return Cast<UItemInstance>(Instance->GetSourceItem());
+	}
+	return nullptr;
+}
+
+UItemInstance* UEquipmentGameplayAbility::GetTypedSourceItemInstance(const TSubclassOf<UItemInstance>& InstanceClass) const
+{
+	if (UItemInstance* Instance = GetSourceItemInstance(); IsValid(Instance) && Instance->IsA(InstanceClass))
+	{
+		return Instance;
 	}
 	return nullptr;
 }

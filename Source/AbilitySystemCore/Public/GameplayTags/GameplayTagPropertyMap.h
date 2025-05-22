@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
@@ -25,7 +23,7 @@ struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 	~FGameplayTagPropertyMap();
 
 	/** Call this to initialize and bind the properties with the ability system component. */
-	void Initialize(UObject* Owner, class UAbilitySystemComponent* AbilitySystemComp);
+	void Initialize(UObject* Owner, UAbilitySystemComponent* AbilitySystemComp);
 
 	/** Call to manually apply the current tag state, can handle cases where callbacks were skipped */
 	void ApplyCurrentTags();
@@ -36,10 +34,10 @@ struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 	 */
 	void AddTag(const FGameplayTag& Tag, const FName& PropertyName);
 
-#if WITH_EDITOR
+	#if WITH_EDITOR
 	/** This can optionally be called in the owner's IsDataValid() for data validation. */
-	EDataValidationResult IsDataValid(const UObject* ContainingAsset, class FDataValidationContext& Context) const;
-#endif
+	EDataValidationResult IsDataValid(const UObject* ContainingAsset, FDataValidationContext& Context) const;
+	#endif
 
 protected:
 	void Unregister();

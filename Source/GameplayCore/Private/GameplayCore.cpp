@@ -1,6 +1,4 @@
-﻿// Copyright Epic Games, Inc. All Rights Reserved.
-
-#include "GameplayCore.h"
+﻿#include "GameplayCore.h"
 
 #define LOCTEXT_NAMESPACE "FGameplayCoreModule"
 

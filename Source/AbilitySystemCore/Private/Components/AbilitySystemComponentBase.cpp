@@ -1,17 +1,13 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/AbilitySystemComponentBase.h"
+﻿#include "Components/AbilitySystemComponentBase.h"
 
 #include "Abilities/AbilityActivationPolicy.h"
 #include "Abilities/GameplayAbilityBase.h"
 #include "AbilitySystemCoreTags.h"
 
 UAbilitySystemComponentBase::UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
-void UAbilitySystemComponentBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UAbilitySystemComponentBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
@@ -30,7 +26,7 @@ void UAbilitySystemComponentBase::InitAbilityActorInfo(AActor* InOwnerActor, AAc
 	}
 
 	// Check if we have a new pawn avatar
-	const bool bHasNewAvatar = Cast<APawn>(InAvatarActor) && (InAvatarActor != ActorInfo->AvatarActor);
+	const bool bHasNewAvatar = Cast<APawn>(InAvatarActor) && InAvatarActor != ActorInfo->AvatarActor;
 	Super::InitAbilityActorInfo(InOwnerActor, InAvatarActor);
 
 	// If we get a new pawn as avatar actor, initialize new actor info
@@ -40,7 +36,7 @@ void UAbilitySystemComponentBase::InitAbilityActorInfo(AActor* InOwnerActor, AAc
 	}
 }
 
-void UAbilitySystemComponentBase::NotifyAbilityEnded(FGameplayAbilitySpecHandle Handle, UGameplayAbility* Ability, bool bWasCancelled)
+void UAbilitySystemComponentBase::NotifyAbilityEnded(const FGameplayAbilitySpecHandle Handle, UGameplayAbility* Ability, const bool bWasCancelled)
 {
 	Super::NotifyAbilityEnded(Handle, Ability, bWasCancelled);
 }
@@ -51,7 +47,7 @@ void UAbilitySystemComponentBase::AbilityInputTagPressed(const FGameplayTag& Inp
 	{
 		for (const FGameplayAbilitySpec& AbilitySpec : ActivatableAbilities.Items)
 		{
-			if (AbilitySpec.Ability && (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag)))
+			if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
 			{
 				InputPressedSpecHandles.AddUnique(AbilitySpec.Handle);
 				InputHeldSpecHandles.AddUnique(AbilitySpec.Handle);
@@ -66,7 +62,7 @@ void UAbilitySystemComponentBase::AbilityInputTagReleased(const FGameplayTag& In
 	{
 		for (const FGameplayAbilitySpec& AbilitySpec : ActivatableAbilities.Items)
 		{
-			if (AbilitySpec.Ability && (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag)))
+			if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
 			{
 				InputReleasedSpecHandles.AddUnique(AbilitySpec.Handle);
 				InputHeldSpecHandles.Remove(AbilitySpec.Handle);

@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -12,7 +10,7 @@ class UItemDefinition;
  * @class UInventoryCache
  * @see UObject
  * @brief A thread-safe cache system for ItemDefinitions
- * @details This class manages a cache of ItemDefinitions to improve performance by reducing object creation 
+ * @details This class manages a cache of ItemDefinitions to improve performance by reducing object creation
  * and providing thread-safe access to cached objects.
  */
 UCLASS(HideDropdown, Hidden)

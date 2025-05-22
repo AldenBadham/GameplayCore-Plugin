@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
@@ -19,7 +17,7 @@ public:
 	UEquipmentSlotComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	virtual void BeginPlay() override;
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION(Server, Reliable, BlueprintCallable, Category = "Equipment", Meta = (Categories = "Equipment.Slot"))
 	void Server_EquipItemAtSlot(FGameplayTag SlotTag);

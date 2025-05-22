@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/InventorySystemComponent.h"
+﻿#include "Components/InventorySystemComponent.h"
 
 #include "Data/InventoryCache.h"
 #include "Data/InventoryEntry.h"
@@ -9,22 +7,13 @@
 #include "Net/UnrealNetwork.h"
 
 UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-	, InventoryList(this)
+	: Super(ObjectInitializer.Get()), InventoryList(this)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	SetIsReplicatedByDefault(true);
 
 	bReplicateUsingRegisteredSubObjectList = true;
 	bWantsInitializeComponent = true;
-}
-
-UInventorySystemComponent::~UInventorySystemComponent()
-{
-	if (Cache.IsValid())
-	{
-		Cache->Clear();
-	}
 }
 
 void UInventorySystemComponent::InitializeComponent()
@@ -35,14 +24,14 @@ void UInventorySystemComponent::InitializeComponent()
 	Cache = NewObject<UInventoryCache>(this);
 }
 
-void UInventorySystemComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UInventorySystemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ThisClass, InventoryList);
 }
 
-bool UInventorySystemComponent::ReplicateSubobjects(class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags)
+bool UInventorySystemComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
 {
 	bool bHasReplicated = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
 
@@ -74,7 +63,7 @@ void UInventorySystemComponent::ReadyForReplication()
 	}
 }
 
-TArray<UItemInstance*> UInventorySystemComponent::AddItemDefinition(TSubclassOf<UItemDefinition> ItemDefinition, int32 Count)
+TArray<UItemInstance*> UInventorySystemComponent::AddItemDefinition(const TSubclassOf<UItemDefinition> ItemDefinition, const int32 Count)
 {
 	if (!IsValid(ItemDefinition))
 	{
@@ -100,8 +89,28 @@ TArray<UItemInstance*> UInventorySystemComponent::AddItemDefinition(TSubclassOf<
 
 void UInventorySystemComponent::AddItemInstance(UItemInstance* ItemInstance)
 {
-	// TODO : Add possibility to add an existing instance of an item in the inventory to handle modifiers and upgrades
-	unimplemented();
+	// Verification and authority
+	if (!IsValid(ItemInstance))
+	{
+		return;
+	}
+
+	if (const AActor* OwnerActor = GetOwner(); !OwnerActor->HasAuthority())
+	{
+		return;
+	}
+
+	// InventoryList delegation
+	InventoryList.AddItemInstance(ItemInstance);
+
+	// Replication management at component level
+	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+	{
+		if (!IsReplicatedSubObjectRegistered(ItemInstance))
+		{
+			AddReplicatedSubObject(ItemInstance);
+		}
+	}
 }
 
 void UInventorySystemComponent::RemoveItemInstance(UItemInstance* ItemInstance)
@@ -153,11 +162,15 @@ int32 UInventorySystemComponent::GetTotalCountByDefinition(const TSubclassOf<UIt
 	return TotalCount;
 }
 
-UItemDefinition* UInventorySystemComponent::GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const
+UItemDefinition* UInventorySystemComponent::GetCachedDefinition(const TSubclassOf<UItemDefinition>& Class) const
 {
-	if (Cache.IsValid())
+	if (IsValid(Cache))
 	{
-		return Cache->GetCachedDefinition(DefinitionClass);
+		return Cache->GetCachedDefinition(Class);
+	}
+	if (IsValid(Class))
+	{
+		return NewObject<UItemDefinition>(GetOuter(), Class);
 	}
 	return nullptr;
 }

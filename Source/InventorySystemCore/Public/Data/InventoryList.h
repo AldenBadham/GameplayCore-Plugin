@@ -1,6 +1,4 @@
-﻿// Copyright (C) [Year] [Company Name]. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 
 #include "InventoryChangeData.h"
 #include "InventoryEntry.h"
@@ -40,14 +38,14 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	 * @param FinalSize Final size of the array after removal
 	 */
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
-	
+
 	/**
 	 * Called after entries are added during replication
 	 * @param AddedIndices Indices of newly added entries
 	 * @param FinalSize Final size of the array after addition
 	 */
 	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
-	
+
 	/**
 	 * Called after entries are changed during replication
 	 * @param ChangedIndices Indices of modified entries
@@ -57,7 +55,6 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	// void PostReplicatedReceive(const FFastArraySerializer::FPostReplicatedReceiveParameters& Parameters);
 
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams) { return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this); }
-
 	// ~FFastArraySerializer
 
 	/**
@@ -72,6 +69,10 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	 * @param Instance The item instance to remove.
 	 */
 	void Remove(UItemInstance* Instance);
+
+	void AddItemInstance(UItemInstance* ItemInstance, int32 Count = 1);
+
+	void AddItemInstance(const FInventoryEntry& Entry);
 
 	/**
 	 * Finds the handle of the first entry of a specific item definition.
@@ -113,22 +114,23 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	static TArray<FInventoryEntry*> GetAllEntries();
 
 protected:
-	
 	/** The inventory system component that owns this list. Not replicated */
 	UPROPERTY(NotReplicated)
 	TObjectPtr<UInventorySystemComponent> OwnerComponent;
-	
+
 	/** Array of inventory entries managed by this list */
 	UPROPERTY()
 	TArray<FInventoryEntry> Entries;
 
 	UItemInstance* CreateItemInstance(const TSubclassOf<UItemDefinition>& DefinitionClass, int32& Count);
+
 	/**
 	 * Checks if an item of the specified definition can be added
 	 * @param DefinitionClass The item definition class to check
+	 * @param CheckUniqueness
 	 * @return True if the item can be added, false otherwise
 	 */
-	bool CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass);
+	bool CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass, bool CheckUniqueness = true);
 
 	/**
 	 * Called when an entry is changed.
@@ -150,7 +152,7 @@ protected:
 	void Internal_OnEntryRemoved(int32 Index, const FInventoryEntry& Entry) const;
 };
 
-// Required to specify that this structure use a NetDeltaSerializer method to help serialization operation decision
+// Required to specify that this structure uses a NetDeltaSerializer method to help serialization operation decision
 template <> struct TStructOpsTypeTraits<FInventoryList> : TStructOpsTypeTraitsBase2<FInventoryList>
 {
 	enum

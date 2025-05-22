@@ -1,3 +1,11 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿#include "Instances/Components/EquipmentComponent.h"
 
-#include "Instances/Components/EquipmentComponent.h"
+void UEquipmentComponent::Initialize(UEquipmentInstance* InInstance)
+{
+	OwningInstance = InInstance;
+}
+
+UEquipmentInstance* UEquipmentComponent::GetOwningInstance()
+{
+	return OwningInstance;
+}

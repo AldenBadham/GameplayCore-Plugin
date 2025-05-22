@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
@@ -16,7 +14,7 @@ class UEquipmentComponent;
  * Multicast delegate that broadcasts inventory change events to all listeners
  * @param Data Detailed information about the inventory change including the affected item, previous state, and type of change
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventoryChange, FInventoryChangeData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInventoryChange, const FInventoryChangeData&, Data);
 
 /**
  * @class UInventorySystemComponent
@@ -36,14 +34,12 @@ class INVENTORYSYSTEMCORE_API UInventorySystemComponent : public UActorComponent
 	friend FInventoryList;
 
 public:
-	
 	UInventorySystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
-	virtual ~UInventorySystemComponent() override;
 
 	// UObject
 	virtual void InitializeComponent() override;
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
-	virtual bool ReplicateSubobjects(class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 	virtual void ReadyForReplication() override;
 	// ~UObject
 
@@ -80,10 +76,10 @@ public:
 	 * Calculates the sum of all stack counts for items matching the specified definition
 	 * @param DefinitionClass The class of items to count
 	 * @return Total quantity of all matching items across all stacks
-	*/
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetStackCountByDefinition(TSubclassOf<UItemDefinition> DefinitionClass) const;
-	
+
 	/**
 	 * Counts the number of separate stacks containing items of the specified definition
 	 * @param DefinitionClass The class of items to count stacks for
@@ -105,19 +101,19 @@ public:
 	 * @param Data Information about the added inventory entry
 	 */
 	virtual void PostInventoryEntryAdded(const FInventoryChangeData& Data);
-	
+
 	/**
 	 * Called after an item is removed from the inventory
 	 * @param Data Information about the removed inventory entry
 	 */
 	virtual void PostInventoryEntryRemoved(const FInventoryChangeData& Data);
-	
+
 	/**
 	 * Called after an inventory entry is modified
 	 * @param Data Information about the modified inventory entry
 	 */
 	virtual void PostInventoryEntryChanged(const FInventoryChangeData& Data);
-	
+
 	/**
 	 * Called after any change to the inventory
 	 * @param Data Information about the inventory change
@@ -127,15 +123,15 @@ public:
 	/** Event fired when an item is added to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryAdded;
-	
+
 	/** Event fired when an item is removed from the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryRemoved;
-	
+
 	/** Event fired when an inventory entry is modified */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryChanged;
-	
+
 	/** Event fired after any change to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryChanged;
@@ -147,5 +143,5 @@ private:
 
 	/** Inventory definitions cache. Not replicated */
 	UPROPERTY()
-	TWeakObjectPtr<UInventoryCache> Cache;
+	TObjectPtr<UInventoryCache> Cache;
 };

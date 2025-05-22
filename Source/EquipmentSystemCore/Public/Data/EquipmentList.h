@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Definitions/EquipmentDefinition.h"
@@ -9,6 +7,7 @@
 
 #include "EquipmentList.generated.h"
 
+class UItemInstance;
 class UAbilitySystemComponent;
 
 struct FNetDeltaSerializeInfo;
@@ -34,7 +33,7 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	// FFastArraySerializer
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
 	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
-	// void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
+	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
@@ -43,15 +42,34 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 
 	/** Add a new equipment instance to the list.
 	 * @param DefinitionClass Definition of the type of equipment to add.
-	 * @param Count Number of instances to add (default is 1).
+	 * @param SourceItemInstance
 	 * @return Pointer to entry added */
-	UEquipmentInstance* Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, int32 Count = 1);
+	UEquipmentInstance* Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance = nullptr);
 
 	/**
 	 * Remove the specified equipment instance from the list.
 	 * @param Instance The instance to remove.
 	 */
 	void Remove(UEquipmentInstance* Instance);
+
+	/**
+	 * Called when an entry is changed.
+	 * @param Index The index of the changed entry.
+	 * @param Entry The changed entry.
+	 */
+	void Internal_OnEntryChanged(int32 Index, const FEquipmentEntry& Entry) const;
+	/**
+	 * Called when an entry is added.
+	 * @param Index The index of the added entry.
+	 * @param Entry The added entry.
+	 */
+	void Internal_OnEntryAdded(int32 Index, const FEquipmentEntry& Entry) const;
+	/**
+	 * Called when an entry is removed.
+	 * @param Index The index of the removed entry.
+	 * @param Entry The removed entry.
+	 */
+	void Internal_OnEntryRemoved(int32 Index, const FEquipmentEntry& Entry) const;
 
 private:
 	/** Get the ability system component of the owner. */

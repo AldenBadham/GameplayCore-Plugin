@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "ActorFeatureData.h"
 #include "ActorFeatureRegisteredDelegate.h"
@@ -92,7 +90,7 @@ private:
 	void CallFeatureStateDelegates(AActor* Actor, const FActorFeatureState& StateChange);
 
 	/** Call the specified delegate for all matching features on the actor, this should be passed a copy of the original delegate */
-	void CallDelegateForMatchingFeatures(AActor* Actor, FActorFeatureRegisteredDelegate& RegisteredDelegate);
+	void CallDelegateForMatchingFeatures(AActor* Actor, const FActorFeatureRegisteredDelegate& RegisteredDelegate);
 
 	/** Find an appropriate state struct if it exists */
 	static const FActorFeatureState* FindFeatureStateStruct(const FActorFeatureData* FeatureData, FName FeatureName, FGameplayTag RequiredState = FGameplayTag());
@@ -102,7 +100,7 @@ private:
 
 	/** Try to remove delegate from list, returns true if it removed anything and clear handle if required */
 	static bool RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FDelegateHandle& SearchHandle);
-	static bool RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FActorInitStateChangedBPDelegate SearchDelegate);
+	static bool RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, const FActorInitStateChangedBPDelegate& SearchDelegate);
 
 	/** Position in state change queue, INDEX_NONE means not actively handling */
 	int32 CurrentStateChange = INDEX_NONE;

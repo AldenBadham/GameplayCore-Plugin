@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -23,12 +21,11 @@ class INVENTORYSYSTEMCORE_API UItemComponent : public UObject
 	GENERATED_BODY()
 
 public:
-
 	// UObject
 	/**
 	 * Sets up property replication for the component
 	 * @param OutLifetimeProps Array of lifetime properties to be filled with replication properties
 	 */
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
 	// ~UObject
 };

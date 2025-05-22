@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Definitions/ItemDefinition.h"
+﻿#include "Definitions/ItemDefinition.h"
 
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Framework/Notifications/NotificationManager.h"
@@ -10,16 +8,15 @@
 #include "Widgets/Notifications/SNotificationList.h"
 
 UItemDefinition::UItemDefinition(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
+
 void UItemDefinition::PostLoad()
 {
 	UObject::PostLoad();
 
-#if WITH_EDITORONLY_DATA
+	#if WITH_EDITORONLY_DATA
 	PreviousFragments = Fragments;
-#endif
+	#endif
 }
 
 #if WITH_EDITOR
@@ -31,7 +28,7 @@ void UItemDefinition::PostEditChangeProperty(FPropertyChangedEvent& PropertyChan
 	{
 		// Check Fragment rules from the Inventory System Settings
 		const UInventorySystemSettings* InventorySettings = GetDefault<UInventorySystemSettings>();
-		UE_CLOG(IsValid(InventorySettings), LogInventorySystem, Error, TEXT("Invalid Inventory System Settings class get."));
+		ensureMsgf(IsValid(InventorySettings), TEXT("Invalid Inventory System Settings class get."));
 
 		// Identify newly added fragments
 		TMap<int32, UItemFragment*> NewFragments;

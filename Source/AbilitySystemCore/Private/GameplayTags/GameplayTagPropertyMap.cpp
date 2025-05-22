@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "GameplayTags/GameplayTagPropertyMap.h"
+﻿#include "GameplayTags/GameplayTagPropertyMap.h"
 
 #include "AbilitySystemComponent.h"
 #include "Log/AbilitySystemLog.h"
@@ -19,9 +17,9 @@ FGameplayTagPropertyMap::~FGameplayTagPropertyMap()
 	Unregister();
 }
 
-void FGameplayTagPropertyMap::Initialize(UObject* Owner, class UAbilitySystemComponent* AbilitySystemComp)
+void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent* AbilitySystemComp)
 {
-	UClass* OwnerClass = (Owner ? Owner->GetClass() : nullptr);
+	const UClass* OwnerClass = Owner ? Owner->GetClass() : nullptr;
 	if (!OwnerClass)
 	{
 		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Initialize() called with an invalid Owner."));
@@ -34,7 +32,7 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, class UAbilitySystemCom
 		return;
 	}
 
-	if ((CachedOwner == Owner) && (CachedAbilitySystemComponent == AbilitySystemComp))
+	if (CachedOwner == Owner && CachedAbilitySystemComponent == AbilitySystemComp)
 	{
 		// Already initialized.
 		return;
@@ -49,10 +47,10 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, class UAbilitySystemCom
 	CachedOwner = Owner;
 	CachedAbilitySystemComponent = AbilitySystemComp;
 
-	FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
+	const FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
 
 	// Process array starting at the end so we can remove invalid entries.
-	for (int32 MappingIndex = (PropertyMappings.Num() - 1); MappingIndex >= 0; --MappingIndex)
+	for (int32 MappingIndex = PropertyMappings.Num() - 1; MappingIndex >= 0; --MappingIndex)
 	{
 		FGameplayTagBlueprintPropertyMapping& Mapping = PropertyMappings[MappingIndex];
 
@@ -90,7 +88,7 @@ void FGameplayTagPropertyMap::ApplyCurrentTags()
 		return;
 	}
 
-	UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();
+	const UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();
 	if (!AbilitySystemComp)
 	{
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::ApplyCurrentTags called with an invalid AbilitySystemComponent."));
@@ -122,14 +120,14 @@ void FGameplayTagPropertyMap::ApplyCurrentTags()
 
 void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& PropertyName)
 {
-	UObject* Owner = CachedOwner.Get();
+	const UObject* Owner = CachedOwner.Get();
 	if (!Owner)
 	{
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::AddTag called with an invalid Owner."));
 		return;
 	}
 
-	UClass* OwnerClass = Owner->GetClass();
+	const UClass* OwnerClass = Owner->GetClass();
 
 	UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();
 	if (!AbilitySystemComp)
@@ -151,7 +149,7 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 		return;
 	}
 
-	FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
+	const FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
 
 	FGameplayTagBlueprintPropertyMapping Mapping;
 	Mapping.TagToMap = Tag;
@@ -184,7 +182,7 @@ void FGameplayTagPropertyMap::Unregister()
 	CachedAbilitySystemComponent = nullptr;
 }
 
-void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, int32 NewCount, TWeakObjectPtr<UObject> RegisteredOwner)
+void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, const int32 NewCount, const TWeakObjectPtr<> RegisteredOwner)
 {
 	// If the index and serial don't match with registered owner, the memory might be trashed so abort
 	if (!ensure(RegisteredOwner.HasSameIndexAndSerialNumber(CachedOwner)))
@@ -201,7 +199,7 @@ void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, i
 	}
 
 	// Find the property mapping corresponding to the given gameplay tag.
-	FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](const FGameplayTagBlueprintPropertyMapping& Test) { return (Tag == Test.TagToMap); });
+	const FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](const FGameplayTagBlueprintPropertyMapping& Test) { return Tag == Test.TagToMap; });
 
 	// If found, update the bound property
 	if (Mapping && Mapping->PropertyToEdit.Get())
@@ -224,18 +222,18 @@ void FGameplayTagPropertyMap::GameplayTagEventCallback(const FGameplayTag Tag, i
 bool FGameplayTagPropertyMap::IsPropertyTypeValid(const FProperty* Property) const
 {
 	check(Property);
-	return (Property->IsA<FBoolProperty>() || Property->IsA<FIntProperty>() || Property->IsA<FFloatProperty>());
+	return Property->IsA<FBoolProperty>() || Property->IsA<FIntProperty>() || Property->IsA<FFloatProperty>();
 }
 
 EGameplayTagEventType::Type FGameplayTagPropertyMap::GetGameplayTagEventType(const FProperty* Property) const
 {
 	check(Property);
-	return (Property->IsA(FBoolProperty::StaticClass()) ? EGameplayTagEventType::NewOrRemoved : EGameplayTagEventType::AnyCountChange);
+	return Property->IsA(FBoolProperty::StaticClass()) ? EGameplayTagEventType::NewOrRemoved : EGameplayTagEventType::AnyCountChange;
 }
 
 EDataValidationResult FGameplayTagPropertyMap::IsDataValid(const UObject* OwningAsset, FDataValidationContext& Context) const
 {
-	UClass* OwnerClass = ((OwningAsset != nullptr) ? OwningAsset->GetClass() : nullptr);
+	const UClass* OwnerClass = OwningAsset != nullptr ? OwningAsset->GetClass() : nullptr;
 	if (!OwnerClass)
 	{
 		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagBlueprintPropertyMap: IsDataValid() called with an invalid Owner."));
@@ -250,14 +248,15 @@ EDataValidationResult FGameplayTagPropertyMap::IsDataValid(const UObject* Owning
 				FText::Format(FText::FromString("The gameplay tag [{0}] for property [{1}] is empty or invalid."), FText::AsCultureInvariant(Mapping.TagToMap.ToString()), FText::FromName(Mapping.PropertyName)));
 		}
 
-		if (FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName))
+		if (const FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName))
 		{
 			if (!IsPropertyTypeValid(Property))
 			{
-				Context.AddError(FText::Format(
-					FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."),
-					FText::FromName(Mapping.PropertyName),
-					FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
+				Context.AddError(
+					FText::Format(
+						FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."),
+						FText::FromName(Mapping.PropertyName),
+						FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
 			}
 		}
 		else
@@ -267,5 +266,5 @@ EDataValidationResult FGameplayTagPropertyMap::IsDataValid(const UObject* Owning
 		}
 	}
 
-	return ((Context.GetNumErrors() > 0) ? EDataValidationResult::Invalid : EDataValidationResult::Valid);
+	return Context.GetNumErrors() > 0 ? EDataValidationResult::Invalid : EDataValidationResult::Valid;
 }

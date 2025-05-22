@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/GameInitStateSubsystem.h"
+﻿#include "Components/GameInitStateSubsystem.h"
 #include "Components/ActorFeatureData.h"
 #include "Components/ActorFeatureState.h"
 
@@ -16,16 +14,16 @@ void UGameInitStateSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
 
-#if WITH_EDITORONLY_DATA
+	#if WITH_EDITORONLY_DATA
 	FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
-#endif
+	#endif
 }
 
-UGameInitStateSubsystem* UGameInitStateSubsystem::GetForActor(const AActor* Actor, bool bOnlyGameWorlds)
+UGameInitStateSubsystem* UGameInitStateSubsystem::GetForActor(const AActor* Actor, const bool bOnlyGameWorlds)
 {
 	if (Actor)
 	{
-		if (UWorld* ActorWorld = Actor->GetWorld())
+		if (const UWorld* ActorWorld = Actor->GetWorld())
 		{
 			if (bOnlyGameWorlds && (!ActorWorld->IsGameWorld() || ActorWorld->IsPreviewWorld()))
 			{
@@ -67,7 +65,7 @@ void UGameInitStateSubsystem::RemoveFeatureImplementer(AActor* Actor, UObject* I
 	{
 		return;
 	}
-	TWeakObjectPtr<UObject> WeakToRemove(Implementer);
+	TWeakObjectPtr WeakToRemove(Implementer);
 
 	if (FActorFeatureData* FoundStruct = ActorFeatureMap.Find(FObjectKey(Actor)))
 	{
@@ -125,7 +123,7 @@ bool UGameInitStateSubsystem::HasFeatureReachedInitState(AActor* Actor, FName Fe
 	return IsInitStateCurrentOrLate(*FoundState, StateTag);
 }
 
-FGameplayTag UGameInitStateSubsystem::GetInitStateForFeature(AActor* Actor, FName FeatureName) const
+FGameplayTag UGameInitStateSubsystem::GetInitStateForFeature(AActor* Actor, const FName FeatureName) const
 {
 	if (const FActorFeatureState* FoundState = FindFeatureStateStruct(ActorFeatureMap.Find(FObjectKey(Actor)), FeatureName, FGameplayTag()))
 	{
@@ -151,7 +149,7 @@ FDelegateHandle UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor
 		// We often register delegates before registering states
 		FActorFeatureData& ActorStruct = FindOrAddActorData(Actor);
 
-		TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
+		const TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
 		ActorStruct.RegisteredDelegates.Add(RegisteredDelegate);
 
 		if (bCallImmediately)
@@ -179,14 +177,14 @@ bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, FD
 	return false;
 }
 
-bool UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately /*= true*/)
+bool UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, const bool bCallImmediately /*= true*/)
 {
 	if (ensure(Actor && Delegate.IsBound()))
 	{
 		// We often register delegates before registering states
 		FActorFeatureData& ActorStruct = FindOrAddActorData(Actor);
 
-		TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
+		const TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
 		ActorStruct.RegisteredDelegates.Add(RegisteredDelegate);
 
 		if (bCallImmediately)
@@ -200,7 +198,8 @@ bool UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FN
 
 	return false;
 }
-bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, FActorInitStateChangedBPDelegate DelegateToRemove)
+
+bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, const FActorInitStateChangedBPDelegate DelegateToRemove)
 {
 	if (Actor && DelegateToRemove.IsBound())
 	{
@@ -246,8 +245,9 @@ void UGameInitStateSubsystem::CallFeatureStateDelegates(AActor* Actor, const FAc
 	{
 		for (TSharedRef<FActorFeatureRegisteredDelegate>& DelegateRef : ActorStruct->RegisteredDelegates)
 		{
-			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef;
-				RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(StateChange, RegisteredDelegate.RequiredInitState))
+			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef; RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(
+				StateChange,
+				RegisteredDelegate.RequiredInitState))
 			{
 				// Queue delegates now in case the registered list changes during execution
 				// If new delegates are registered, they are handled at registration time if bCallImmediately is used
@@ -263,7 +263,7 @@ void UGameInitStateSubsystem::CallFeatureStateDelegates(AActor* Actor, const FAc
 	}
 }
 
-void UGameInitStateSubsystem::CallDelegateForMatchingFeatures(AActor* Actor, FActorFeatureRegisteredDelegate& RegisteredDelegate)
+void UGameInitStateSubsystem::CallDelegateForMatchingFeatures(AActor* Actor, const FActorFeatureRegisteredDelegate& RegisteredDelegate)
 {
 	const FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor));
 
@@ -284,7 +284,7 @@ void UGameInitStateSubsystem::CallDelegateForMatchingFeatures(AActor* Actor, FAc
 	}
 }
 
-const FActorFeatureState* UGameInitStateSubsystem::FindFeatureStateStruct(const FActorFeatureData* FeatureData, FName FeatureName, FGameplayTag RequiredState)
+const FActorFeatureState* UGameInitStateSubsystem::FindFeatureStateStruct(const FActorFeatureData* FeatureData, const FName FeatureName, const FGameplayTag RequiredState)
 {
 	if (FeatureData)
 	{
@@ -320,7 +320,7 @@ bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDe
 	return false;
 }
 
-bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FActorInitStateChangedBPDelegate SearchDelegate)
+bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, const FActorInitStateChangedBPDelegate& SearchDelegate)
 {
 	for (int32 i = DelegateList.Num() - 1; i >= 0; i--)
 	{
@@ -339,7 +339,7 @@ FActorFeatureData& UGameInitStateSubsystem::FindOrAddActorData(AActor* Actor)
 {
 	check(Actor)
 
-		FActorFeatureData& FeatureData = ActorFeatureMap.FindOrAdd(Actor);
+	FActorFeatureData& FeatureData = ActorFeatureMap.FindOrAdd(Actor);
 	if (!FeatureData.ActorClass.IsValid())
 	{
 		FeatureData.ActorClass = Actor->GetClass();

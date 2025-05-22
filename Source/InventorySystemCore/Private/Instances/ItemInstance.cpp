@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Instances/ItemInstance.h"
+﻿#include "Instances/ItemInstance.h"
 
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Net/UnrealNetwork.h"
@@ -11,7 +9,7 @@ UItemInstance::UItemInstance(const FObjectInitializer& ObjectInitializer)
 	OwningController = GetTypedOuter<APlayerController>();
 }
 
-void UItemInstance::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UItemInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	UObject::GetLifetimeReplicatedProps(OutLifetimeProps);
 
@@ -57,7 +55,7 @@ const UItemFragment* UItemInstance::FindFragmentByClass(const TSubclassOf<UItemF
 	return nullptr;
 }
 
-bool UItemInstance::HasFragmentByClass(TSubclassOf<UItemFragment> FragmentClass) const
+bool UItemInstance::HasFragmentByClass(const TSubclassOf<UItemFragment> FragmentClass) const
 {
 	if (Definition.IsValid() && IsValid(FragmentClass))
 	{

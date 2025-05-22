@@ -1,15 +1,11 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Animation/AnimInstanceBase.h"
+﻿#include "Animation/AnimInstanceBase.h"
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
 #include "Misc/DataValidation.h"
 
 UAnimInstanceBase::UAnimInstanceBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
 void UAnimInstanceBase::InitializeWithAbilitySystem(UAbilitySystemComponent* AbilitySystemComp)
 {

@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "AbilitySystemGlobals.h"
 #include "CoreMinimal.h"
@@ -22,7 +20,7 @@ public:
 	/** Initialize global tags by reading from config using the names and creating tags for use at runtime */
 	virtual void InitGlobalTags() override;
 
-	template <class T> static T* GetAbilitySystemComponentFromActor(const AActor* Actor, bool bLookForComponent = true)
+	template <class T> static T* GetAbilitySystemComponentFromActor(const AActor* Actor, const bool bLookForComponent = true)
 	{
 		return Cast<T>(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));
 	}

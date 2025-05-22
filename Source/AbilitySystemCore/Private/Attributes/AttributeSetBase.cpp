@@ -3,9 +3,7 @@
 #include "Components/AbilitySystemComponentBase.h"
 
 UAttributeSetBase::UAttributeSetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
 UAbilitySystemComponentBase* UAttributeSetBase::GetAbilitySystemComponentBase() const
 {

@@ -1,11 +1,9 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "Definitions/Fragments/ItemFragment.h"
 #include "Engine/DeveloperSettings.h"
 #include "Settings/ItemFragmentRule.h"
-#include "Definitions/Fragments/ItemFragment.h"
 #include "InventorySystemSettings.generated.h"
 
 /**

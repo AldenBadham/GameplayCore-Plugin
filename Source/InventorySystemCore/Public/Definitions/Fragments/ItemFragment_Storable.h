@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "ItemFragment.h"
@@ -10,12 +8,12 @@
  * @enum EItemStorageFlags
  * @brief Enum defining various storage flags for items. These flags can be combined to describe the storage properties of an item.
  */
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsPinnedByValue = true))
 enum class EItemStorageFlags : uint8
 {
-	None = 0 UMETA(Hidden), // No special storage properties
-	Unique = 1,				// Item is unique
-	PersistentOnDeath = 2	// Item is not lost on player death
+	None = 0 UMETA(ToolTip = "No special storage properties.", Hidden),
+	Unique = 1 UMETA(ToolTip = "This item should be unique in the inventory. For stacks, only one stack can exist."),
+	PersistentOnDeath = 2 UMETA(ToolTip = "The item can't be lost on player death")
 };
 
 ENUM_CLASS_FLAGS(EItemStorageFlags);
@@ -31,7 +29,6 @@ class INVENTORYSYSTEMCORE_API UItemFragment_Storable : public UItemFragment
 	GENERATED_BODY()
 
 public:
-	
 	/** Visual representation of the item in the UI */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Appearance")
 	FSlateBrush UIBrush;

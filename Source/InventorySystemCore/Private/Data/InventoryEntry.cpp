@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Data/InventoryEntry.h"
+﻿#include "Data/InventoryEntry.h"
 
 #include "Components/InventorySystemComponent.h"
 #include "Data/InventoryList.h"
@@ -20,6 +18,21 @@ void FInventoryEntry::PostReplicatedAdd(const FInventoryList& InArraySerializer)
 	if (InArraySerializer.OwnerComponent)
 	{
 		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
+	}
+}
+
+void FInventoryEntry::PostReplicatedChange(const FInventoryList& InArraySerializer) const
+{
+	if (InArraySerializer.OwnerComponent)
+	{
+		UE_LOG(
+			LogInventorySystem,
+			Verbose,
+			TEXT("%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d"),
+			*GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()),
+			*GetNameSafe(Instance),
+			StackCount,
+			LastStackCount);
 	}
 }
 

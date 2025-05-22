@@ -1,20 +1,16 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Input/InputConfig.h"
+﻿#include "Input/InputConfig.h"
 #include "Input/InputTagSet.h"
 
 #include "Log/AbilitySystemLog.h"
 
 UInputConfig::UInputConfig(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get())
-{
-}
+	: Super(ObjectInitializer.Get()) {}
 
 const UInputAction* UInputConfig::FindInputActionForTag(const FGameplayTag& Tag, bool bLogNotFound) const
 {
 	for (const auto& [InputAction, InputTag] : InputTagSets)
 	{
-		if (InputAction && (InputTag == Tag))
+		if (InputAction && InputTag == Tag)
 		{
 			return InputAction;
 		}

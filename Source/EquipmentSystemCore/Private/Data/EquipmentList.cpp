@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "Data/EquipmentList.h"
 
 #include "AbilitySystemComponent.h"
@@ -7,18 +5,13 @@
 #include "Components/EquipmentSystemComponent.h"
 #include "Data/AbilitySet.h"
 #include "Data/AbilitySetHandles.h"
+#include "Data/EquipmentChangeData.h"
 #include "Instances/EquipmentInstance.h"
 
-FEquipmentList::FEquipmentList()
-	: OwnerComponent(nullptr)
-{
-}
+FEquipmentList::FEquipmentList() {}
 
 FEquipmentList::FEquipmentList(UEquipmentSystemComponent* InOwnerComponent)
-	: Entries()
-	, OwnerComponent(InOwnerComponent)
-{
-}
+	: OwnerComponent(InOwnerComponent) {}
 
 FEquipmentList::~FEquipmentList()
 {
@@ -29,9 +22,12 @@ void FEquipmentList::PreReplicatedRemove(const TArrayView<int32> RemovedIndices,
 {
 	for (const int32 Index : RemovedIndices)
 	{
-		if (const FEquipmentEntry& Entry = Entries[Index]; Entry.Instance != nullptr)
+		if (FEquipmentEntry& Entry = Entries[Index]; Entry.Instance != nullptr)
 		{
 			Entry.Instance->OnUnequipped();
+			Entry.LastInstance = nullptr;
+
+			Internal_OnEntryRemoved(Index, Entry);
 		}
 	}
 }
@@ -40,15 +36,41 @@ void FEquipmentList::PostReplicatedAdd(const TArrayView<int32> AddedIndices, int
 {
 	for (const int32 Index : AddedIndices)
 	{
-		const FEquipmentEntry& Entry = Entries[Index];
-		if (Entry.Instance != nullptr)
+		if (FEquipmentEntry& Entry = Entries[Index]; Entry.Instance != nullptr)
 		{
 			Entry.Instance->OnEquipped();
+			Entry.LastInstance = MakeWeakObjectPtr<UEquipmentInstance>(Entry.Instance);
+
+			Internal_OnEntryAdded(Index, Entry);
 		}
 	}
 }
 
-UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, int32 Count)
+void FEquipmentList::PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize)
+{
+	for (const int32 Index : ChangedIndices)
+	{
+		if (Entries.IsValidIndex(Index))
+		{
+			FEquipmentEntry& Entry = Entries[Index];
+
+			if (IsValid(Entry.Instance))
+			{
+				Entry.Instance->OnEquipped();
+			}
+
+			if (Entry.Instance != Entry.LastInstance.Get() && Entry.LastInstance.IsValid())
+			{
+				Entry.LastInstance->OnUnequipped();
+				Entry.LastInstance = MakeWeakObjectPtr<UEquipmentInstance>(Entry.Instance);
+			}
+
+			Internal_OnEntryChanged(Index, Entry);
+		}
+	}
+}
+
+UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance)
 {
 	if (DefinitionClass == nullptr || !IsValid(OwnerComponent))
 	{
@@ -61,14 +83,14 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 		return nullptr;
 	}
 
-	UEquipmentDefinition* CachedDefinition = OwnerComponent->GetEquipmentDefinition(DefinitionClass);
+	UEquipmentDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
 
-	if (!CachedDefinition->CanEquip(OwnerComponent))
+	if (!CachedDefinition->CanBeEquipped(OwnerComponent))
 	{
 		return nullptr;
 	}
 
-	// Prepare instance type to spawn, use default one by default
+	// Prepare an instance type to spawn, use the default one by default
 	TSubclassOf<UEquipmentInstance> InstanceType = CachedDefinition->InstanceClass;
 	if (InstanceType == nullptr)
 	{
@@ -85,8 +107,9 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 	// Instance->AsyncLoadAssets();
 	Instance->SetDefinition(CachedDefinition);
 	Instance->SetInstigator(OwnerActor);
+	Instance->SetSourceItem(SourceItemInstance);
 
-	// Give ability set
+	// Give the ability sets
 	if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
 	{
 		for (const TObjectPtr<const UAbilitySet>& AbilitySet : CachedDefinition->AbilitySets)
@@ -125,10 +148,45 @@ void FEquipmentList::Remove(UEquipmentInstance* Instance)
 	}
 }
 
+void FEquipmentList::Internal_OnEntryChanged(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = Entry.Instance;
+	Data.OldInstance = nullptr;
+	Data.ChangeType = EEquipmentChangeType::Modified;
+
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
+void FEquipmentList::Internal_OnEntryAdded(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = Entry.Instance;
+	Data.OldInstance = nullptr;
+	Data.ChangeType = EEquipmentChangeType::Equipped;
+
+	OwnerComponent->PostEquipmentEquipped(Data);
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
+void FEquipmentList::Internal_OnEntryRemoved(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = nullptr;
+	Data.OldInstance = Entry.Instance;
+	Data.ChangeType = EEquipmentChangeType::Unequipped;
+
+	OwnerComponent->PostEquipmentUnequipped(Data);
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
 UAbilitySystemComponent* FEquipmentList::GetAbilitySystemComponent() const
 {
 	check(OwnerComponent);
 
-	AActor* OwningActor = OwnerComponent->GetOwner();
+	const AActor* OwningActor = OwnerComponent->GetOwner();
 	return UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor);
 }

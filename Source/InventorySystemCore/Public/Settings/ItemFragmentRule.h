@@ -1,5 +1,3 @@
-// Copyright 2025 TARA Gaming Limited. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -8,7 +6,6 @@
 #include "ItemFragmentRule.generated.h"
 
 class UItemFragment;
-
 
 /**
  * @struct FItemFragmentRule
@@ -22,7 +19,6 @@ struct FItemFragmentRule
 {
 	GENERATED_BODY()
 
-public:
 	/**
 	 * Checks whether the rule is satisfied based on the provided fragment classes.
 	 * @param FragmentClasses The array of fragment classes to validate against the rule.

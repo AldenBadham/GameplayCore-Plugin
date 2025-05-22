@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "ItemFragment.h"
@@ -13,7 +11,7 @@ class UGameplayEffect;
  * @class UItemFragment_Consumable
  * @see UItemFragment
  * @brief Fragment that adds consumable behavior to an item
- * @details Allows items to be consumed and apply gameplay effects to the user. 
+ * @details Allows items to be consumed and apply gameplay effects to the user.
  * The fragment can be configured with multiple effects and a maximum number of uses.
  */
 UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable, BlueprintType, DisplayName = "Consumable")

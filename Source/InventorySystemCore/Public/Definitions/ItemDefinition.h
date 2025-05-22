@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
@@ -14,7 +12,7 @@ class UItemFragment;
  * @class UItemDefinition
  * @see UObject
  * @brief Data asset definition of an item that can be given/owned by a character
- * @details Represents a template for items in the inventory system. Contains basic item information 
+ * @details Represents a template for items in the inventory system. Contains basic item information
  * like name and description, and can be extended with fragments for additional functionality.
  * This is an abstract class that should be inherited to create specific item types.
  */
@@ -28,9 +26,9 @@ public:
 
 	// UObject
 	virtual void PostLoad() override;
-#if WITH_EDITOR
+	#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
+	#endif
 	// ~UObject
 
 	/**
@@ -65,7 +63,7 @@ public:
 	 * @see UInventorySystemComponent
 	 */
 	virtual bool CanBeGiven(UInventorySystemComponent* InventorySystemComponent);
-	
+
 	/**
 	 * Blueprint accessible version of CanBeGiven
 	 * @param InventorySystemComponent The target inventory component
@@ -80,17 +78,17 @@ public:
 	/** The display name of the item shown in the UI */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Definition")
 	FText DisplayName;
-	
+
 	/** Detailed description of the item shown in the UI */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Definition")
 	FText Description;
-	
+
 	/** Collection of fragments that define the item's behavior and properties */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fragments", Instanced)
 	TArray<TObjectPtr<UItemFragment>> Fragments;
 
-#if WITH_EDITORONLY_DATA
+	#if WITH_EDITORONLY_DATA
 	UPROPERTY(Transient)
 	TArray<UItemFragment*> PreviousFragments;
-#endif
+	#endif
 };

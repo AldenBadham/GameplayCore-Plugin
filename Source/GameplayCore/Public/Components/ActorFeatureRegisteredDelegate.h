@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "Components/ActorInitStateChangedParams.h"
@@ -19,13 +17,13 @@ struct GAMEPLAYCORE_API FActorFeatureRegisteredDelegate
 	GENERATED_BODY()
 
 	FActorFeatureRegisteredDelegate()
-		: bRemoved(false){};
+		: bRemoved(false) {};
 	/** Construct from a native or BP Delegate */
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
 
 	/** Call the appropriate native/bp delegate, this could invalidate this struct */
-	void Execute(AActor* OwningActor, FName FeatureName, UObject* Implementer, FGameplayTag FeatureState);
+	void Execute(AActor* OwningActor, FName FeatureName, UObject* Implementer, FGameplayTag FeatureState) const;
 
 	/** Delegate that is called on notification */
 	FActorInitStateChangedDelegate Delegate;

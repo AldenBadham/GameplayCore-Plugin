@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "GameplayTagContainer.h"
 
@@ -15,9 +13,10 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentSlotSet
 	GENERATED_BODY()
 
 	FEquipmentSlotSet()
-		: SlotTag(FGameplayTag::EmptyTag){};
+		: SlotTag(FGameplayTag::EmptyTag) {};
+
 	FEquipmentSlotSet(const FGameplayTag& InSlotTag)
-		: SlotTag(InSlotTag){};
+		: SlotTag(InSlotTag) {};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "Equipment.Slot"))
 	FGameplayTag SlotTag;

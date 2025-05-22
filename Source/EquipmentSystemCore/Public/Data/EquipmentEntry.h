@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Data/AbilitySetHandles.h"
@@ -14,7 +12,7 @@ class UEquipmentInstance;
  * @class FEquipmentEntry
  *
  * @see FFastArraySerializerItem
- * @brief Entry of a single equipped equipment
+ * @brief Entry of single equipped equipment
  */
 USTRUCT(BlueprintType)
 struct EQUIPMENTSYSTEMCORE_API FEquipmentEntry : public FFastArraySerializerItem
@@ -25,8 +23,15 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentEntry : public FFastArraySerializerItem
 	friend struct FEquipmentList;
 
 	FEquipmentEntry() {}
+	~FEquipmentEntry() {};
 
+	// FFastArraySerializer
+	// Functions not virtual in FFAstArraySerializer because called by template
+	void PreReplicatedRemove(const FEquipmentList& InArraySerializer) const;
+	void PostReplicatedAdd(const FEquipmentList& InArraySerializer) const;
+	void PostReplicatedChange(const FEquipmentList& InArraySerializer) const;
 	FString GetDebugString() const;
+	// ~FFastArraySerializer
 
 protected:
 	UPROPERTY(SaveGame)
@@ -38,4 +43,7 @@ protected:
 	// Authority-only list of granted handles for ability sets
 	UPROPERTY(NotReplicated)
 	FAbilitySetHandles Handles;
+
+	UPROPERTY(NotReplicated)
+	TWeakObjectPtr<UEquipmentInstance> LastInstance;
 };

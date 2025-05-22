@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
+﻿#pragma once
 
 #include "Components/InventorySystemComponent.h"
 #include "Components/ItemComponent.h"
@@ -32,7 +30,7 @@ public:
 	explicit UItemInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
-	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual bool IsSupportedForNetworking() const override { return true; }
 	// ~UObject
 
@@ -42,7 +40,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	UInventorySystemComponent* GetInventorySystemComponent() const;
-	
+
 	/**
 	 * Gets the player controller that owns this item instance
 	 * @return The owning player controller

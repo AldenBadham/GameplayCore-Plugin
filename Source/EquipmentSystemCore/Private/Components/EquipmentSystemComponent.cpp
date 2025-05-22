@@ -1,6 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "Components/EquipmentSystemComponent.h"
+﻿#include "Components/EquipmentSystemComponent.h"
 
 #include "Data/EquipmentCache.h"
 #include "Data/EquipmentEntry.h"
@@ -9,25 +7,13 @@
 #include "Net/UnrealNetwork.h"
 
 UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
-	, EquipmentList(this)
+	: Super(ObjectInitializer), EquipmentList(this)
 {
 	SetIsReplicatedByDefault(true);
 	bWantsInitializeComponent = true;
-
-	// Cache initialization
-	Cache = NewObject<UEquipmentCache>(this, UEquipmentCache::StaticClass(), "Cache");
 }
 
-UEquipmentSystemComponent::~UEquipmentSystemComponent()
-{
-	if (Cache.IsValid())
-	{
-		Cache->Clear();
-	}
-}
-
-void UEquipmentSystemComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UEquipmentSystemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
@@ -71,7 +57,7 @@ void UEquipmentSystemComponent::InitializeComponent()
 	Super::InitializeComponent();
 
 	// Cache initialization
-	Cache = NewObject<UEquipmentCache>(this);
+	Cache = NewObject<UEquipmentCache>(this, "Cache");
 }
 
 void UEquipmentSystemComponent::UninitializeComponent()
@@ -92,11 +78,11 @@ void UEquipmentSystemComponent::UninitializeComponent()
 	Super::UninitializeComponent();
 }
 
-UEquipmentInstance* UEquipmentSystemComponent::EquipItem(TSubclassOf<UEquipmentDefinition> EquipmentDefinition)
+UEquipmentInstance* UEquipmentSystemComponent::EquipItem(const TSubclassOf<UEquipmentDefinition>& EquipmentDefinition, UItemInstance* SourceItemInstance)
 {
 	if (IsValid(EquipmentDefinition))
 	{
-		if (UEquipmentInstance* Instance = EquipmentList.Add(EquipmentDefinition))
+		if (UEquipmentInstance* Instance = EquipmentList.Add(EquipmentDefinition, SourceItemInstance))
 		{
 			Instance->OnEquipped();
 
@@ -125,9 +111,9 @@ void UEquipmentSystemComponent::UnequipItem(UEquipmentInstance* ItemInstance)
 	}
 }
 
-UEquipmentInstance* UEquipmentSystemComponent::GetInstanceOfType(TSubclassOf<UEquipmentInstance> InstanceClass)
+UEquipmentInstance* UEquipmentSystemComponent::GetInstanceOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass)
 {
-	for (FEquipmentEntry& Entry : EquipmentList.Entries)
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
 	{
 		if (UEquipmentInstance* Instance = Entry.Instance)
 		{
@@ -140,7 +126,7 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceOfType(TSubclassOf<UEq
 	return nullptr;
 }
 
-TArray<UEquipmentInstance*> UEquipmentSystemComponent::GetAllEquipmentInstancesOfType(TSubclassOf<UEquipmentInstance> InstanceClass)
+TArray<UEquipmentInstance*> UEquipmentSystemComponent::GetAllInstancesOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass)
 {
 	TArray<UEquipmentInstance*> Results;
 	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
@@ -156,11 +142,15 @@ TArray<UEquipmentInstance*> UEquipmentSystemComponent::GetAllEquipmentInstancesO
 	return Results;
 }
 
-UEquipmentDefinition* UEquipmentSystemComponent::GetEquipmentDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const
+UEquipmentDefinition* UEquipmentSystemComponent::GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const
 {
-	if (Cache.IsValid())
+	if (IsValid(Cache))
 	{
 		return Cache->GetCachedDefinition(Class);
+	}
+	if (IsValid(Class))
+	{
+		return NewObject<UEquipmentDefinition>(GetOuter(), Class);
 	}
 	return nullptr;
 }
@@ -178,4 +168,19 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance
 		}
 	}
 	return nullptr;
+}
+
+void UEquipmentSystemComponent::PostEquipmentEquipped(const FEquipmentChangeData& Data)
+{
+	OnEquipmentEquipped.Broadcast(Data);
+}
+
+void UEquipmentSystemComponent::PostEquipmentUnequipped(const FEquipmentChangeData& Data)
+{
+	OnEquipmentUnequipped.Broadcast(Data);
+}
+
+void UEquipmentSystemComponent::PostEquipmentChanged(const FEquipmentChangeData& Data)
+{
+	OnEquipmentChanged.Broadcast(Data);
 }
