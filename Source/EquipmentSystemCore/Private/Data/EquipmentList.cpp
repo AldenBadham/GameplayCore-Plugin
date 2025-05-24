@@ -10,10 +10,14 @@
 #include "Data/EquipmentChangeData.h"
 #include "Instances/EquipmentInstance.h"
 
-FEquipmentList::FEquipmentList() {}
+FEquipmentList::FEquipmentList()
+{
+}
 
 FEquipmentList::FEquipmentList(UEquipmentSystemComponent* InOwnerComponent)
-	: OwnerComponent(InOwnerComponent) {}
+	: OwnerComponent(InOwnerComponent)
+{
+}
 
 FEquipmentList::~FEquipmentList()
 {

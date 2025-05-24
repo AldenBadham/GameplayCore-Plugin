@@ -40,7 +40,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = PawnType))
 	APawn* GetTypedPawn(const TSubclassOf<APawn>& PawnType) const;
 	/** Get the pawn that this equipment instance is attached to, if applicable. */
-	template <class T> T* GetPawn() const { return Cast<T>(GetPawn()); }
+	template <class T>
+	T* GetPawn() const { return Cast<T>(GetPawn()); }
 
 	/**
 	 *	Add a new component object of class ComponentClass to this EquipmentInstance
@@ -51,7 +52,8 @@ public:
 	/**
 	 *	Add a new component object of class ComponentClass to this EquipmentInstance
 	 */
-	template <typename T> T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
+	template <typename T>
+	T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
 
 	/**
 	 *	Try to find component of class ComponentClass of this equipment instance
@@ -62,7 +64,8 @@ public:
 	/**
 	 *	Try to find fragment of class ComponentClass of this equipment instance
 	 */
-	template <typename T> const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
+	template <typename T>
+	const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 	/** Get the instigator object that caused this equipment instance to be equipped. */
 	UFUNCTION(BlueprintPure, Category = "Equipment")

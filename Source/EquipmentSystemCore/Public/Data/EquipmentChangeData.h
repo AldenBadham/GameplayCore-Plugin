@@ -32,7 +32,9 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentChangeData
 {
 	GENERATED_BODY()
 
-	FEquipmentChangeData() {}
+	FEquipmentChangeData()
+	{
+	}
 
 	/**
 	 * Constructs an Equipment change data instance with the specified parameters

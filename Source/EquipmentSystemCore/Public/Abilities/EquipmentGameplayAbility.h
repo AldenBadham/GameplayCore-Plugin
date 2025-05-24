@@ -50,31 +50,35 @@ public:
 	 * @tparam T The type to cast the source object to.
 	 * @return The source object cast to the specified type, or nullptr if invalid.
 	 */
-	template <class T> T* TryGetSourceObject() const;
+	template <class T>
+	T* TryGetSourceObject() const;
 
 	/** Template method that retrieves the source item instance as the specified type.
 	 * @tparam T The type to cast the item instance to.
 	 * @return The source item instance cast to the specified type, or nullptr if invalid.
 	 */
-	template <class T> T* GetTypedSourceItemInstance();
+	template <class T>
+	T* GetTypedSourceItemInstance();
 
 	/** Template method that retrieves the source equipment instance as the specified type.
 	 * @tparam T The type to cast the equipment instance to.
 	 * @return The source equipment instance cast to the specified type, or nullptr if invalid.
 	 */
-	template <class T> T* GetTypedSourceEquipmentInstance();
+	template <class T>
+	T* GetTypedSourceEquipmentInstance();
 
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	/**
 	 * Validates the data for this ability in the editor.
 	 * @param Context The data validation context.
 	 * @return The result of the data validation.
 	 */
 	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
-	#endif
+#endif
 };
 
-template <class T> T* UEquipmentGameplayAbility::TryGetSourceObject() const
+template <class T>
+T* UEquipmentGameplayAbility::TryGetSourceObject() const
 {
 	if (UObject* const SourceObject = GetCurrentSourceObject(); IsValid(SourceObject))
 	{
@@ -83,7 +87,8 @@ template <class T> T* UEquipmentGameplayAbility::TryGetSourceObject() const
 	return nullptr;
 }
 
-template <class T> T* UEquipmentGameplayAbility::GetTypedSourceItemInstance()
+template <class T>
+T* UEquipmentGameplayAbility::GetTypedSourceItemInstance()
 {
 	if (UItemInstance* Instance = GetSourceItemInstance(); IsValid(Instance))
 	{
@@ -92,7 +97,8 @@ template <class T> T* UEquipmentGameplayAbility::GetTypedSourceItemInstance()
 	return nullptr;
 }
 
-template <class T> T* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance()
+template <class T>
+T* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance()
 {
 	return TryGetSourceObject<T>();
 }

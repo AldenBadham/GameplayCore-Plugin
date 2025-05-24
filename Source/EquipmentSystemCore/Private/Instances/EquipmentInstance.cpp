@@ -10,7 +10,9 @@
 #endif
 
 UEquipmentInstance::UEquipmentInstance(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 UWorld* UEquipmentInstance::GetWorld() const
 {
@@ -174,6 +176,10 @@ void UEquipmentInstance::OnUnequipped()
 	K2_OnUnequipped();
 }
 
-void UEquipmentInstance::OnSpawned() {}
+void UEquipmentInstance::OnSpawned()
+{
+}
 
-void UEquipmentInstance::OnRep_Instigator() {}
+void UEquipmentInstance::OnRep_Instigator()
+{
+}

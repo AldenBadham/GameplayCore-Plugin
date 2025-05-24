@@ -30,5 +30,4 @@ private:
 	// UObject
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	// ~UObject
-
 };

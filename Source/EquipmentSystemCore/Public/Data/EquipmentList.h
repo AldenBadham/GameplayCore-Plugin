@@ -88,7 +88,8 @@ private:
 };
 
 // TStructOpsTypeTraits specialization to enable NetDeltaSerializer for FEquipmentList
-template <> struct TStructOpsTypeTraits<FEquipmentList> : TStructOpsTypeTraitsBase2<FEquipmentList>
+template <>
+struct TStructOpsTypeTraits<FEquipmentList> : TStructOpsTypeTraitsBase2<FEquipmentList>
 {
 	enum
 	{

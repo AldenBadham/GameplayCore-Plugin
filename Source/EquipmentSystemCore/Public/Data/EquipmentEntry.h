@@ -24,8 +24,13 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentEntry : public FFastArraySerializerItem
 	friend class UEquipmentSystemComponent;
 	friend struct FEquipmentList;
 
-	FEquipmentEntry() {}
-	~FEquipmentEntry() {};
+	FEquipmentEntry()
+	{
+	}
+
+	~FEquipmentEntry()
+	{
+	};
 
 	// FFastArraySerializer
 	// Functions not virtual in FFAstArraySerializer because called by template

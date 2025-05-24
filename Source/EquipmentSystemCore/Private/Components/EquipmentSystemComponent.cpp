@@ -11,8 +11,13 @@
 #include "GameplayTags/EquipmentGameplayTags.h"
 #include "Instances/EquipmentInstance.h"
 #include "Instances/ItemInstance.h"
+#include "Log/EquipmentSystemLog.h"
 #include "Net/UnrealNetwork.h"
 #include "Policies/SlotPolicy.h"
+
+#include "Stats/EquipmentSystemStats.h"
+
+#define LOCTEXT_NAMESPACE "UEquipmentSystemComponent"
 
 UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), EquipmentList(this)
@@ -99,8 +104,6 @@ void UEquipmentSystemComponent::UninitializeComponent()
 	Super::UninitializeComponent();
 }
 
-// EQUIPMENT OPERATIONS
-
 bool UEquipmentSystemComponent::TryEquipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason)
 {
 	if (!IsValid(ItemInstance))
@@ -152,7 +155,6 @@ bool UEquipmentSystemComponent::TryEquipItemOnSlot(UItemInstance* ItemInstance, 
 	}
 
 	return Internal_ProcessEquip(ItemInstance, SlotTag, Definition, OutFailureReason);
-
 }
 
 bool UEquipmentSystemComponent::TryUnequipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason)
@@ -171,7 +173,6 @@ bool UEquipmentSystemComponent::TryUnequipItem(UItemInstance* ItemInstance, FGam
 	}
 
 	return TryUnequipSlot(Slot, OutFailureReason);
-
 }
 
 bool UEquipmentSystemComponent::TryUnequipSlot(const FGameplayTag SlotTag, FGameplayTag& OutFailureReason)
@@ -247,8 +248,6 @@ bool UEquipmentSystemComponent::TrySwapSlots(const FGameplayTag& SlotA, const FG
 	return bSuccess;
 }
 
-// SLOT MANAGEMENT
-
 bool UEquipmentSystemComponent::IsSlotBlocked(const FGameplayTag& SlotTag, const bool bExact) const
 {
 	if (bExact)
@@ -309,9 +308,6 @@ void UEquipmentSystemComponent::GetEquippedItems(TMap<FGameplayTag, UItemInstanc
 	}
 }
 
-// INSTANCES GETTERS
-
-
 UEquipmentInstance* UEquipmentSystemComponent::GetInstanceOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass)
 {
 	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
@@ -371,8 +367,6 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance
 	return nullptr;
 }
 
-// INTERNALS
-
 void UEquipmentSystemComponent::PostEquipmentEquipped(const FEquipmentChangeData& Data)
 {
 	OnEquipmentEquipped.Broadcast(Data);
@@ -400,15 +394,19 @@ void UEquipmentSystemComponent::UnlockSlots(const FGameplayTagContainer& Tags)
 
 bool UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance* ItemInstance, const FGameplayTag& TargetSlot, const UEquipmentDefinition* Definition, FGameplayTag& OutFailureReason)
 {
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessEquip);
+
 	// Validate input parameters
 	if (!IsValid(ItemInstance))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of a null item instance."));
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;
 		return false;
 	}
 
 	if (!IsValid(Definition))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s with a null equipment definition."), *GetNameSafe(ItemInstance));
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
 		return false;
 	}
@@ -416,6 +414,7 @@ bool UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance* ItemInstanc
 	// Validate slot exists in our equipment system
 	if (!FindSlot(TargetSlot))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s but did not found slot %s in the slot map."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
 		return false;
 	}
@@ -423,6 +422,7 @@ bool UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance* ItemInstanc
 	// Check if slot is currently blocked by another item
 	if (IsSlotBlocked(TargetSlot, true))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s on slot %s but the slot is blocked."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotBlocked;
 		return false;
 	}
@@ -441,20 +441,23 @@ bool UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance* ItemInstanc
 	const UEquipmentInstance* EquipmentInstance = Internal_EquipOnSlot(TargetSlot, ItemInstance, Definition);
 	if (!IsValid(EquipmentInstance))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s on slot %s but failed to instantiate the equipment."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
 		return false;
 	}
 
 	OutFailureReason = FGameplayTag::EmptyTag;
 	return true;
-
 }
 
 bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason, const bool bPreserveItem)
 {
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessUnequip);
+
 	// Validate that the slot exists in our runtime map
 	if (!SlotMapRuntime.Contains(SlotTag))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment but did not found slot %s in the slot map."), *SlotTag.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
 		return false;
 	}
@@ -464,6 +467,7 @@ bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& Slot
 	// Check if there's actually something equipped in this slot
 	if (!IsValid(SlotData.ItemInstance) || !IsValid(SlotData.EquipmentInstance))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment but the slot %s is empty."), *SlotTag.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotEmpty;
 		return false;
 	}
@@ -472,6 +476,7 @@ bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& Slot
 	const UItemFragment_Equippable* Frag = SlotData.ItemInstance->FindFragmentByClass<UItemFragment_Equippable>();
 	if (!Frag || !Frag->EquipmentDefinition)
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment on the slot %s but did found a non-equipable item."), *SlotTag.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
 		return false;
 	}
@@ -480,6 +485,7 @@ bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& Slot
 	const UEquipmentDefinition* Def = GetCachedDefinition(Frag->EquipmentDefinition);
 	if (!IsValid(Def))
 	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment on the slot %s but impossible to get the equipment definition."), *SlotTag.ToString());
 		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
 		return false;
 	}
@@ -516,6 +522,8 @@ bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& Slot
 
 UEquipmentInstance* UEquipmentSystemComponent::Internal_EquipOnSlot(const FGameplayTag& SlotTag, UItemInstance* ItemInstance, const UEquipmentDefinition* Definition)
 {
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_EquipOnSlot);
+
 	// Create a new equipment instance and add it to our list
 	UEquipmentInstance* EquipmentInstance = EquipmentList.Add(Definition->GetClass(), ItemInstance);
 	if (!IsValid(EquipmentInstance))
@@ -546,3 +554,5 @@ UEquipmentInstance* UEquipmentSystemComponent::Internal_EquipOnSlot(const FGamep
 
 	return EquipmentInstance;
 }
+
+#undef LOCTEXT_NAMESPACE

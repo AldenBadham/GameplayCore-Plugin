@@ -51,7 +51,7 @@ public:
 	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 	virtual void ReadyForReplication() override;
 	// ~UObject
-	
+
 	// AActorComponent
 	virtual void InitializeComponent() override;
 	virtual void UninitializeComponent() override;
@@ -66,7 +66,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
 	bool TryEquipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
-	
+
 	/**
 	 * Attempts to equip an item in a specific slot
 	 * @param ItemInstance The item to equip
@@ -76,7 +76,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
 	bool TryEquipItemOnSlot(UItemInstance* ItemInstance, const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason);
-	
+
 	/**
 	 * Attempts to unequip a currently equipped item
 	 * @param ItemInstance The item to unequip
@@ -85,7 +85,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
 	bool TryUnequipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
-	
+
 	/**
 	 * Attempts to unequip whatever item is in the specified slot
 	 * @param SlotTag The slot to unequip
@@ -94,7 +94,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
 	bool TryUnequipSlot(const FGameplayTag SlotTag, FGameplayTag& OutFailureReason);
-	
+
 	/**
 	 * Attempts to swap items between two equipment slots
 	 * @param SlotA First slot to swap
@@ -114,7 +114,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
 	bool IsSlotBlocked(const FGameplayTag& SlotTag, bool bExact = false) const;
-	
+
 	/**
 	 * Finds a slot by its tag
 	 * @param SlotTag The tag of the slot to find
@@ -122,7 +122,7 @@ public:
 	 */
 	//UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
 	const FDynamicEquipmentSlot* FindSlot(const FGameplayTag& SlotTag) const;
-	
+
 	/**
 	 * Gets the current runtime slot map
 	 * @return Map of all equipment slots
@@ -138,7 +138,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
 	const FGameplayTag& GetSlotForItem(UItemInstance* ItemInstance);
-	
+
 	/**
 	 * Gets the item instance equipped in a specific slot
 	 * @param SlotTag The slot to check
@@ -146,7 +146,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
 	UItemInstance* GetItemInSlot(const FGameplayTag& SlotTag);
-	
+
 	/**
 	 * Gets the equipment instance in a specific slot
 	 * @param SlotTag The slot to check
@@ -154,7 +154,7 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
 	UEquipmentInstance* GetEquipmentInSlot(const FGameplayTag& SlotTag);
-	
+
 	/**
 	 * Gets all currently equipped items
 	 * @param OutItems Map of slot tags to equipped items
@@ -175,8 +175,9 @@ public:
 	 * @tparam T The equipment instance type to find
 	 * @return The first found instance of type T, or nullptr if none found
 	 */
-	template <typename T> T* GetInstanceOfType() const;
-	
+	template <typename T>
+	T* GetInstanceOfType() const;
+
 	/**
 	 * Gets all instances of the specified equipment type.
 	 * @param InstanceClass The class of the equipment instances to find.
@@ -189,7 +190,8 @@ public:
 	 * @tparam T The equipment instance type to find
 	 * @return Array of all instances of type T
 	 */
-	template <typename T> TArray<T*> GetAllInstancesOfType() const;
+	template <typename T>
+	TArray<T*> GetAllInstancesOfType() const;
 
 	/**
 	 * Retrieves a cached equipment definition
@@ -213,25 +215,25 @@ protected:
 	 * @param Data The equipment change data
 	 */
 	virtual void PostEquipmentEquipped(const FEquipmentChangeData& Data);
-	
+
 	/**
 	 * Called after equipment is successfully unequipped
 	 * @param Data The equipment change data
 	 */
 	virtual void PostEquipmentUnequipped(const FEquipmentChangeData& Data);
-	
+
 	/**
 	 * Called after any equipment change occurs
 	 * @param Data The equipment change data
 	 */
 	virtual void PostEquipmentChanged(const FEquipmentChangeData& Data);
-	
+
 	/**
 	 * Locks specified equipment slots from being modified
 	 * @param Tags Container of slot tags to lock
 	 */
 	void LockSlots(const FGameplayTagContainer& Tags);
-	
+
 	/**
 	 * Unlocks previously locked equipment slots
 	 * @param Tags Container of slot tags to unlock
@@ -272,12 +274,14 @@ protected:
 	FGameplayTagCountContainer BlockedSlots;
 };
 
-template <typename T> T* UEquipmentSystemComponent::GetInstanceOfType() const
+template <typename T>
+T* UEquipmentSystemComponent::GetInstanceOfType() const
 {
 	return Cast<T>(GetInstanceOfType(T::StaticClass()));
 }
 
-template <typename T> TArray<T*> UEquipmentSystemComponent::GetAllInstancesOfType() const
+template <typename T>
+TArray<T*> UEquipmentSystemComponent::GetAllInstancesOfType() const
 {
 	TArray<T*> Instances;
 	for (const FEquipmentEntry& Entry : EquipmentList.Entries)

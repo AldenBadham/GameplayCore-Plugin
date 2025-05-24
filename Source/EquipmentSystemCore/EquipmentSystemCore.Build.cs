@@ -28,7 +28,9 @@ public class EquipmentSystemCore : ModuleRules
 				"Core",
 				"DeveloperSettings",
 				"NetCore",
-				"GameplayAbilities"
+				"InventorySystemCore",
+				"GameplayAbilities", 
+				"AbilitySystemCore"
 				// ... add other public dependencies that you statically link with here ...
 			}
 		);

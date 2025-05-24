@@ -32,9 +32,9 @@ public:
 	UEquipmentDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-	#endif
+#endif
 	// ~UObject
 
 	/**
@@ -49,7 +49,8 @@ public:
 	 * Template function to find fragment of class T in this equipment definition
 	 * @return Pointer to the found fragment of type T, or nullptr if not found
 	 */
-	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+	template <typename T>
+	const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
 	virtual bool CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent);
 

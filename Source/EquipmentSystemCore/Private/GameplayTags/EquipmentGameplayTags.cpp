@@ -16,5 +16,4 @@ namespace EquipmentSystemGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotBlocked, "Equipment.Failure.SlotBlocked", "The slot is currently blocked");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_PolicyRefused, "Equipment.Failure.PolicyRefused", "Equipment policy refused the equipment");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_Internal, "Equipment.Failure.Internal", "Internal error during equipment process");
-
 } // namespace EquipmentSystemGameplayTags
