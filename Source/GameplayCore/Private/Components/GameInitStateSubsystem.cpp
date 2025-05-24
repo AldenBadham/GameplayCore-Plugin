@@ -6,7 +6,6 @@
 
 void UGameInitStateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-
 	Super::Initialize(Collection);
 
 	CurrentStateChange = INDEX_NONE;
@@ -16,9 +15,9 @@ void UGameInitStateSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
 
-	#if WITH_EDITORONLY_DATA
+#if WITH_EDITORONLY_DATA
 	FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
-	#endif
+#endif
 }
 
 UGameInitStateSubsystem* UGameInitStateSubsystem::GetForActor(const AActor* Actor, const bool bOnlyGameWorlds)
@@ -247,9 +246,7 @@ void UGameInitStateSubsystem::CallFeatureStateDelegates(AActor* Actor, const FAc
 	{
 		for (TSharedRef<FActorFeatureRegisteredDelegate>& DelegateRef : ActorStruct->RegisteredDelegates)
 		{
-			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef; RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(
-				StateChange,
-				RegisteredDelegate.RequiredInitState))
+			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef; RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(StateChange, RegisteredDelegate.RequiredInitState))
 			{
 				// Queue delegates now in case the registered list changes during execution
 				// If new delegates are registered, they are handled at registration time if bCallImmediately is used

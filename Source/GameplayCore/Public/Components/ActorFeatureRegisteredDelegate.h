@@ -19,7 +19,9 @@ struct GAMEPLAYCORE_API FActorFeatureRegisteredDelegate
 	GENERATED_BODY()
 
 	FActorFeatureRegisteredDelegate()
-		: bRemoved(false) {};
+		: bRemoved(false)
+	{
+	};
 	/** Construct from a native or BP Delegate */
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
 	FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());

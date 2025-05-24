@@ -12,10 +12,14 @@ struct GAMEPLAYCORE_API FActorFeatureState
 {
 	GENERATED_BODY()
 
-	FActorFeatureState() {};
+	FActorFeatureState()
+	{
+	};
 
 	FActorFeatureState(const FName InFeatureName)
-		: FeatureName(InFeatureName) {}
+		: FeatureName(InFeatureName)
+	{
+	}
 
 	/** The feature this is tracking */
 	FName FeatureName;

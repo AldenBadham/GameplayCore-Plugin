@@ -13,10 +13,14 @@ struct GAMEPLAYCORE_API FActorInitStateChangedParams
 	GENERATED_BODY()
 
 	FActorInitStateChangedParams()
-		: OwningActor(nullptr), Implementer(nullptr) {}
+		: OwningActor(nullptr), Implementer(nullptr)
+	{
+	}
 
 	FActorInitStateChangedParams(AActor* InOwningActor, const FName InFeatureName, UObject* InImplementer, const FGameplayTag InFeatureState)
-		: OwningActor(InOwningActor), FeatureName(InFeatureName), Implementer(InImplementer), FeatureState(InFeatureState) {}
+		: OwningActor(InOwningActor), FeatureName(InFeatureName), Implementer(InImplementer), FeatureState(InFeatureState)
+	{
+	}
 
 	/** The actor owning the feature that changed */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)

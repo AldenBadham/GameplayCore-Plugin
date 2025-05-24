@@ -47,10 +47,14 @@ public:
 	virtual TArray<FGameplayTag> GetAllInitStatesFor(FName& FeatureName) const;
 
 	/** Override to try and progress the default initialization path, likely using ContinueInitStateChain */
-	virtual void CheckDefaultInitialization() {}
+	virtual void CheckDefaultInitialization()
+	{
+	}
 
 	/** Signature for handling a game feature state, this is not registered by default */
-	virtual void OnActorInitStateChanged(const FActorInitStateChangedParams& Params) {}
+	virtual void OnActorInitStateChanged(const FActorInitStateChangedParams& Params)
+	{
+	}
 
 	/** Call to register with the component manager during spawn if this is a game world */
 	virtual void RegisterInitStateFeature(FName& FeatureName);
