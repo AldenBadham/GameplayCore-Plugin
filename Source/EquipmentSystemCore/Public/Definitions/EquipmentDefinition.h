@@ -8,6 +8,7 @@
 
 #include "EquipmentDefinition.generated.h"
 
+class USlotPolicy;
 class UEquipmentSystemComponent;
 class UEquipmentInstance;
 class UAbilitySet;
@@ -25,6 +26,7 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentDefinition : public UObject
 	GENERATED_BODY()
 
 	friend struct FEquipmentList;
+	friend class UEquipmentSystemComponent;
 
 public:
 	UEquipmentDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
@@ -61,16 +63,22 @@ public:
 	FText GetDisplayName() const { return DisplayName; }
 
 protected:
-	/** Display name of the equipment (used by UI) */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipable")
-	FText DisplayName;
-
 	/** Instance class to spawn */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipment")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Definition")
 	TSubclassOf<UEquipmentInstance> InstanceClass;
 
+	/** Display name of the equipment (used by UI) */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Definition")
+	FText DisplayName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Slot")
+	FGameplayTag SlotTag;
+
+	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Slot")
+	TObjectPtr<const USlotPolicy> SlotPolicy;
+
 	/** Actors to spawn on the pawn when this is equipped */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipment")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
 	TArray<FEquipmentActorSet> ActorsToSpawn;
 
 	/** Ability sets granted by this equipment */

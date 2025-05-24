@@ -31,7 +31,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayAbility> AbilityClass;
-	
+
 	/** Tracks the current usage progress of the consumable item. 0 means unused, higher values indicate usage progress */
 	UPROPERTY(Replicated)
 	float CurrentUse = 0.0f;

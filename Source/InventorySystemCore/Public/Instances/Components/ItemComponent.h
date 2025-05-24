@@ -30,9 +30,9 @@ public:
 	 */
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
 	// ~UObject
-	
+
 	virtual void Initialize(UItemInstance* InInstance);
-	
+
 	/**
 	 * Returns the item instance that owns this fragment
 	 * @return The owning item instance, or nullptr if not attached
@@ -41,7 +41,6 @@ public:
 	UItemInstance* GetOwningInstance();
 
 protected:
-	
 	/** The item instance that owns this fragment instance */
 	UPROPERTY(Transient)
 	TObjectPtr<UItemInstance> OwningInstance = nullptr;

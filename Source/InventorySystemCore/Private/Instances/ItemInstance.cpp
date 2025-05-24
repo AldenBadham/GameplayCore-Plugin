@@ -2,6 +2,7 @@
 
 #include "Instances/ItemInstance.h"
 
+#include "Components/InventorySystemComponent.h"
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Net/UnrealNetwork.h"
 

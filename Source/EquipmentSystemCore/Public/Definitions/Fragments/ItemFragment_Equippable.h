@@ -12,7 +12,7 @@ class UEquipmentDefinition;
  *
  */
 UCLASS(DisplayName = "Equipable")
-class EQUIPMENTSYSTEMCORE_API UItemFragment_EquipableItem : public UItemFragment
+class EQUIPMENTSYSTEMCORE_API UItemFragment_Equippable : public UItemFragment
 {
 	GENERATED_BODY()
 

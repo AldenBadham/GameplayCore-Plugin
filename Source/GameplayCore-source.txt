@@ -1,0 +1,1020 @@
+
+--- GameplayCore\GameplayCore.Build.cs ---
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
+
+using UnrealBuildTool;
+
+public class GameplayCore : ModuleRules
+{
+	public GameplayCore(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+		PublicIncludePaths.AddRange(
+			new string[]
+			{
+				// ... add public include paths required here ...
+			}
+		);
+
+
+		PrivateIncludePaths.AddRange(
+			new string[]
+			{
+				// ... add other private include paths required here ...
+			}
+		);
+
+
+		PublicDependencyModuleNames.AddRange(
+			new[]
+			{
+				"Core",
+				"GameplayTags"
+				// ... add other public dependencies that you statically link with here ...
+			}
+		);
+
+
+		PrivateDependencyModuleNames.AddRange(
+			new[]
+			{
+				"CoreUObject",
+				"Engine",
+				"Slate",
+				"SlateCore"
+				// ... add private dependencies that you statically link with here ...	
+			}
+		);
+
+
+		DynamicallyLoadedModuleNames.AddRange(
+			new string[]
+			{
+				// ... add any modules that your module loads dynamically here ...
+			}
+		);
+	}
+}
+--- GameplayCore\Private\GameplayCore.cpp ---
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
+
+#include "GameplayCore.h"
+
+#define LOCTEXT_NAMESPACE "FGameplayCoreModule"
+
+void FGameplayCoreModule::StartupModule()
+{
+	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+}
+
+void FGameplayCoreModule::ShutdownModule()
+{
+	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
+	// we call this function before unloading the module.
+}
+
+#undef LOCTEXT_NAMESPACE
+
+IMPLEMENT_MODULE(FGameplayCoreModule, GameplayCore)
+--- GameplayCore\Private\Components\ActorFeatureData.cpp ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/ActorFeatureData.h"
+
+#include "Components/ActorFeatureRegisteredDelegate.h"
+
+FActorFeatureData::~FActorFeatureData()
+{
+	for (const TSharedRef<FActorFeatureRegisteredDelegate>& RegisteredDelegate : RegisteredDelegates)
+	{
+		// This ensures it will not execute if cleared during delegate iteration
+		RegisteredDelegate->bRemoved = true;
+	}
+}
+--- GameplayCore\Private\Components\ActorFeatureRegisteredDelegate.cpp ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/ActorFeatureRegisteredDelegate.h"
+
+FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, const FName InFeatureName, const FGameplayTag InInitState)
+	: Delegate(InDelegate), DelegateHandle(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle), RequiredFeatureName(InFeatureName), RequiredInitState(InInitState), bRemoved(false) {}
+
+FActorFeatureRegisteredDelegate::FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, const FName InFeatureName, const FGameplayTag InInitState)
+	: BPDelegate(InDelegate), DelegateHandle(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle), RequiredFeatureName(InFeatureName), RequiredInitState(InInitState), bRemoved(false) {}
+
+void FActorFeatureRegisteredDelegate::Execute(AActor* OwningActor, const FName FeatureName, UObject* Implementer, const FGameplayTag FeatureState) const
+{
+	if (bRemoved)
+	{
+		return;
+	}
+
+	const FActorInitStateChangedParams Params(OwningActor, FeatureName, Implementer, FeatureState);
+	if (Delegate.IsBound())
+	{
+		ensure(!BPDelegate.IsBound());
+
+		Delegate.Execute(Params);
+	}
+	else if (BPDelegate.IsBound())
+	{
+		BPDelegate.Execute(Params);
+	}
+}
+--- GameplayCore\Private\Components\ActorInitStateChangedParams.cpp ---
+﻿#include "Components/ActorInitStateChangedParams.h"
+--- GameplayCore\Private\Components\GameInitStateInterface.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/GameInitStateInterface.h"
+
+#include "Components/ActorFeatureRegisteredDelegate.h"
+#include "Components/GameInitStateSubsystem.h"
+#include "GameplayTagContainer.h"
+
+// Add default functionality here for any IGameInitStateInterface functions that are not pure virtual.
+AActor* IGameInitStateInterface::GetOwningActor() const
+{
+	// Removing const because most AActor functions can't handle const
+	AActor* FoundActor = const_cast<AActor*>(Cast<AActor>(this));
+
+	if (!FoundActor)
+	{
+		if (const UActorComponent* FoundComponent = Cast<UActorComponent>(this))
+		{
+			FoundActor = FoundComponent->GetOwner();
+		}
+	}
+
+	if (ensure(FoundActor))
+	{
+		// Subclasses must implement this if they are not actors or components
+		return FoundActor;
+	}
+
+	return nullptr;
+}
+
+UGameInitStateSubsystem* IGameInitStateInterface::GetGameInitStateSubsystem() const
+{
+	return UGameInitStateSubsystem::GetForActor(GetOwningActor());
+}
+
+FGameplayTag IGameInitStateInterface::GetCurrentInitStateFor(FName& FeatureName) const
+{
+	AActor* OwningActor = GetOwningActor();
+
+	if (const UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor))
+	{
+		return Manager->GetInitStateForFeature(OwningActor, FeatureName);
+	}
+
+	return FGameplayTag();
+}
+
+bool IGameInitStateInterface::HasReachedInitState(const FName FeatureName, const FGameplayTag DesiredState) const
+{
+	AActor* OwningActor = GetOwningActor();
+
+	if (UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor))
+	{
+		return Manager->HasFeatureReachedInitState(OwningActor, FeatureName, DesiredState);
+	}
+
+	return false;
+}
+
+TArray<FGameplayTag> IGameInitStateInterface::GetAllInitStatesFor(FName& FeatureName) const
+{
+	AActor* OwningActor = GetOwningActor();
+
+	if (const UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor))
+	{
+		return Manager->GetAllInitStatesForFeature(OwningActor, FeatureName);
+	}
+
+	return {};
+}
+
+void IGameInitStateInterface::RegisterInitStateFeature(FName& FeatureName)
+{
+	UObject* ThisObject = Cast<UObject>(this);
+	AActor* OwningActor = GetOwningActor();
+
+	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
+
+	if (OwningActor && Manager)
+	{
+		// Manager will be null if this isn't in a game world
+		Manager->RegisterFeatureImplementer(OwningActor, FeatureName, ThisObject);
+	}
+}
+
+void IGameInitStateInterface::UnregisterInitStateFeature(FName& FeatureName)
+{
+	UObject* ThisObject = Cast<UObject>(this);
+	AActor* OwningActor = GetOwningActor();
+
+	if (UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor))
+	{
+		if (ThisObject == OwningActor)
+		{
+			// This will clear all the feature states and delegates
+			Manager->RemoveActorFeatureData(OwningActor);
+		}
+		else
+		{
+			Manager->RemoveFeatureImplementer(OwningActor, ThisObject);
+		}
+
+		if (ActorInitStateChangedHandle.IsValid())
+		{
+			Manager->UnregisterActorInitStateDelegate(OwningActor, ActorInitStateChangedHandle);
+		}
+	}
+}
+
+void IGameInitStateInterface::BindOnActorInitStateChanged(const FName FeatureName, const FGameplayTag RequiredState, const bool bCallIfReached)
+{
+	UObject* ThisObject = Cast<UObject>(this);
+	AActor* OwningActor = GetOwningActor();
+
+	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
+
+	if (ensure(OwningActor && Manager))
+	{
+		// Bind as a weak lambda because this is not a UObject but is guaranteed to be valid as long as ThisObject is
+		FActorInitStateChangedDelegate Delegate = FActorInitStateChangedDelegate::CreateWeakLambda(ThisObject, [this](const FActorInitStateChangedParams& Params) { this->OnActorInitStateChanged(Params); });
+
+		ActorInitStateChangedHandle = Manager->RegisterAndCallForActorInitState(OwningActor, FeatureName, RequiredState, MoveTemp(Delegate), bCallIfReached);
+	}
+}
+
+bool IGameInitStateInterface::RegisterAndCallForActorInitState(const FName FeatureName, const FGameplayTag RequiredState, const FActorInitStateChangedBPDelegate Delegate, const bool bCallImmediately)
+{
+	AActor* OwningActor = GetOwningActor();
+
+	UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor);
+
+	if (ensure(OwningActor && Manager))
+	{
+		return Manager->RegisterAndCallForActorInitState(OwningActor, FeatureName, RequiredState, Delegate, bCallImmediately);
+	}
+
+	return false;
+}
+
+bool IGameInitStateInterface::UnregisterInitStateDelegate(const FActorInitStateChangedBPDelegate Delegate)
+{
+	AActor* OwningActor = GetOwningActor();
+
+	if (UGameInitStateSubsystem* Manager = UGameInitStateSubsystem::GetForActor(OwningActor); ensure(OwningActor && Manager))
+	{
+		return Manager->UnregisterActorInitStateDelegate(OwningActor, Delegate);
+	}
+
+	return false;
+}
+
+FString IGameInitStateInterface::GetDebugState(FName FeatureName) const
+{
+	return FString::Printf(TEXT("CurrentState: %s"), *GetCurrentInitStateFor(FeatureName).ToString());
+}
+--- GameplayCore\Private\Components\GameInitStateSubsystem.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/GameInitStateSubsystem.h"
+#include "Components/ActorFeatureData.h"
+#include "Components/ActorFeatureState.h"
+
+void UGameInitStateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+
+	Super::Initialize(Collection);
+
+	CurrentStateChange = INDEX_NONE;
+}
+
+void UGameInitStateSubsystem::Deinitialize()
+{
+	Super::Deinitialize();
+
+	#if WITH_EDITORONLY_DATA
+	FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
+	#endif
+}
+
+UGameInitStateSubsystem* UGameInitStateSubsystem::GetForActor(const AActor* Actor, const bool bOnlyGameWorlds)
+{
+	if (Actor)
+	{
+		if (const UWorld* ActorWorld = Actor->GetWorld())
+		{
+			if (bOnlyGameWorlds && (!ActorWorld->IsGameWorld() || ActorWorld->IsPreviewWorld()))
+			{
+				return nullptr;
+			}
+
+			return UGameInstance::GetSubsystem<UGameInitStateSubsystem>(ActorWorld->GetGameInstance());
+		}
+	}
+
+	return nullptr;
+}
+
+void UGameInitStateSubsystem::RegisterFeatureImplementer(AActor* Actor, FName FeatureName, UObject* Implementer, const TArray<FGameplayTag>& InitStateTags)
+{
+	ensure(Actor == nullptr || FeatureName.IsNone());
+
+	auto& [ActorClass, RegisteredStates, RegisteredDelegates] = FindOrAddActorData(Actor);
+
+	FActorFeatureState* FoundState = RegisteredStates.FindByPredicate([FeatureName](const FActorFeatureState& State) { return State.FeatureName == FeatureName; });
+	if (!FoundState)
+	{
+		// We've not found a matching Feature State, create a new one.
+		FoundState = &RegisteredStates.Emplace_GetRef(FeatureName);
+	}
+
+	FoundState->Implementer = Implementer;
+	FoundState->States = InitStateTags;
+}
+
+void UGameInitStateSubsystem::RemoveActorFeatureData(AActor* Actor)
+{
+	ActorFeatureMap.Remove(FObjectKey(Actor));
+}
+
+void UGameInitStateSubsystem::RemoveFeatureImplementer(AActor* Actor, UObject* Implementer)
+{
+	if (Actor == nullptr || Implementer == nullptr)
+	{
+		return;
+	}
+	TWeakObjectPtr WeakToRemove(Implementer);
+
+	if (FActorFeatureData* FoundStruct = ActorFeatureMap.Find(FObjectKey(Actor)))
+	{
+		for (int32 i = FoundStruct->RegisteredStates.Num() - 1; i >= 0; i--)
+		{
+			// Clear if it matches or is stale
+			const UObject* ResolvedObject = FoundStruct->RegisteredStates[i].Implementer.Get();
+
+			if (ResolvedObject == Implementer || (!ResolvedObject && !FoundStruct->RegisteredStates[i].Implementer.IsExplicitlyNull()))
+			{
+				FoundStruct->RegisteredStates.RemoveAt(i);
+			}
+		}
+	}
+}
+
+void UGameInitStateSubsystem::SetFeatureInitStatTags(AActor* Actor, FName FeatureName, TArray<FGameplayTag> InitStateTags)
+{
+	ensure(Actor == nullptr || FeatureName.IsNone());
+
+	FActorFeatureData& FeatureData = FindOrAddActorData(Actor);
+
+	FActorFeatureState* FoundState = FeatureData.RegisteredStates.FindByPredicate([FeatureName](const FActorFeatureState& State) { return State.FeatureName == FeatureName; });
+	if (FoundState)
+	{
+		FoundState->States = InitStateTags;
+		FoundState->CurrentState = InitStateTags[0];
+	}
+
+	ProcessFeatureStateChange(Actor, FoundState);
+}
+
+bool UGameInitStateSubsystem::IsInitStateCurrentOrLate(const FActorFeatureState& FeatureState, const FGameplayTag RelativeState)
+{
+	if (!FeatureState.IsValid())
+	{
+		return false;
+	}
+
+	if (FeatureState.CurrentState == RelativeState)
+	{
+		return true;
+	}
+
+	const int32 CurrentStateIndex = FeatureState.States.IndexOfByKey(FeatureState.CurrentState);
+	const int32 RelateStateIndex = FeatureState.States.IndexOfByKey(RelativeState);
+
+	return RelateStateIndex > CurrentStateIndex;
+}
+
+bool UGameInitStateSubsystem::HasFeatureReachedInitState(AActor* Actor, FName FeatureName, const FGameplayTag StateTag)
+{
+	FActorFeatureData* FeatureData = ActorFeatureMap.Find(Actor);
+	const FActorFeatureState* FoundState = FeatureData->RegisteredStates.FindByPredicate([FeatureName](const FActorFeatureState& State) { return State.FeatureName == FeatureName; });
+	return IsInitStateCurrentOrLate(*FoundState, StateTag);
+}
+
+FGameplayTag UGameInitStateSubsystem::GetInitStateForFeature(AActor* Actor, const FName FeatureName) const
+{
+	if (const FActorFeatureState* FoundState = FindFeatureStateStruct(ActorFeatureMap.Find(FObjectKey(Actor)), FeatureName, FGameplayTag()))
+	{
+		return FoundState->CurrentState;
+	}
+
+	return FGameplayTag();
+}
+
+TArray<FGameplayTag> UGameInitStateSubsystem::GetAllInitStatesForFeature(AActor* Actor, const FName FeatureName) const
+{
+	if (const FActorFeatureState* FoundState = FindFeatureStateStruct(ActorFeatureMap.Find(FObjectKey(Actor)), FeatureName, FGameplayTag()))
+	{
+		return FoundState->States;
+	}
+	return {};
+}
+
+FDelegateHandle UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedDelegate Delegate, const bool bCallImmediately)
+{
+	if (ensure(Actor && Delegate.IsBound()))
+	{
+		// We often register delegates before registering states
+		FActorFeatureData& ActorStruct = FindOrAddActorData(Actor);
+
+		const TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
+		ActorStruct.RegisteredDelegates.Add(RegisteredDelegate);
+
+		if (bCallImmediately)
+		{
+			// The shared ref keeps the delegate alive in case it gets unregistered
+			CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);
+		}
+
+		return RegisteredDelegate->DelegateHandle;
+	}
+
+	return FDelegateHandle();
+}
+
+bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, FDelegateHandle& Handle)
+{
+	if (Actor && Handle.IsValid())
+	{
+		if (FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor)))
+		{
+			return RemoveActorFeatureDelegateFromList(ActorStruct->RegisteredDelegates, Handle);
+		}
+	}
+
+	return false;
+}
+
+bool UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, const bool bCallImmediately /*= true*/)
+{
+	if (ensure(Actor && Delegate.IsBound()))
+	{
+		// We often register delegates before registering states
+		FActorFeatureData& ActorStruct = FindOrAddActorData(Actor);
+
+		const TSharedRef<FActorFeatureRegisteredDelegate> RegisteredDelegate = MakeShared<FActorFeatureRegisteredDelegate>(MoveTemp(Delegate), FeatureName, RequiredState);
+		ActorStruct.RegisteredDelegates.Add(RegisteredDelegate);
+
+		if (bCallImmediately)
+		{
+			// The shared ref keeps the delegate alive in case it gets unregistered
+			CallDelegateForMatchingFeatures(Actor, *RegisteredDelegate);
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor* Actor, const FActorInitStateChangedBPDelegate DelegateToRemove)
+{
+	if (Actor && DelegateToRemove.IsBound())
+	{
+		if (FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor)))
+		{
+			return RemoveActorFeatureDelegateFromList(ActorStruct->RegisteredDelegates, DelegateToRemove);
+		}
+	}
+
+	return false;
+}
+
+void UGameInitStateSubsystem::ProcessFeatureStateChange(AActor* Actor, const FActorFeatureState* StateChange)
+{
+	StateChangeQueue.Emplace(Actor, *StateChange);
+
+	if (CurrentStateChange == INDEX_NONE)
+	{
+		// Start processing in order
+		CurrentStateChange = 0;
+
+		while (CurrentStateChange < StateChangeQueue.Num())
+		{
+			CallFeatureStateDelegates(StateChangeQueue[CurrentStateChange].Key, StateChangeQueue[CurrentStateChange].Value);
+			CurrentStateChange++;
+		}
+
+		// Done processing, clear it
+		StateChangeQueue.Empty();
+		CurrentStateChange = INDEX_NONE;
+	}
+}
+
+void UGameInitStateSubsystem::CallFeatureStateDelegates(AActor* Actor, const FActorFeatureState& StateChange)
+{
+	FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor));
+	FActorFeatureDelegateList QueuedDelegates;
+
+	// Should only be called inside ProcessFeatureStateChange
+	ensure(CurrentStateChange != INDEX_NONE);
+
+	if (ActorStruct)
+	{
+		for (TSharedRef<FActorFeatureRegisteredDelegate>& DelegateRef : ActorStruct->RegisteredDelegates)
+		{
+			if (FActorFeatureRegisteredDelegate& RegisteredDelegate = *DelegateRef; RegisteredDelegate.RequiredFeatureName == StateChange.FeatureName && IsInitStateCurrentOrLate(
+				StateChange,
+				RegisteredDelegate.RequiredInitState))
+			{
+				// Queue delegates now in case the registered list changes during execution
+				// If new delegates are registered, they are handled at registration time if bCallImmediately is used
+				QueuedDelegates.Add(DelegateRef);
+			}
+		}
+	}
+
+	// Now execute the queued delegates, if they are removed Execute will skip them
+	for (const TSharedRef<FActorFeatureRegisteredDelegate>& QueuedDelegate : QueuedDelegates)
+	{
+		QueuedDelegate->Execute(Actor, StateChange.FeatureName, StateChange.Implementer.Get(), StateChange.CurrentState);
+	}
+}
+
+void UGameInitStateSubsystem::CallDelegateForMatchingFeatures(AActor* Actor, const FActorFeatureRegisteredDelegate& RegisteredDelegate)
+{
+	const FActorFeatureData* ActorStruct = ActorFeatureMap.Find(FObjectKey(Actor));
+
+	if (ActorStruct == nullptr)
+	{
+		return;
+	}
+
+	// The feature name is mandatory on our version
+	if (RegisteredDelegate.RequiredFeatureName.IsNone())
+	{
+		return;
+	}
+
+	if (const FActorFeatureState* FoundState = FindFeatureStateStruct(ActorStruct, RegisteredDelegate.RequiredFeatureName, RegisteredDelegate.RequiredInitState))
+	{
+		RegisteredDelegate.Execute(Actor, FoundState->FeatureName, FoundState->Implementer.Get(), FoundState->CurrentState);
+	}
+}
+
+const FActorFeatureState* UGameInitStateSubsystem::FindFeatureStateStruct(const FActorFeatureData* FeatureData, const FName FeatureName, const FGameplayTag RequiredState)
+{
+	if (FeatureData)
+	{
+		for (const FActorFeatureState& State : FeatureData->RegisteredStates)
+		{
+			// We don't want to return invalid states even if it's the valid FeatureName
+			if (State.IsValid() && State.FeatureName == FeatureName)
+			{
+				if (IsInitStateCurrentOrLate(State, RequiredState))
+				{
+					return &State;
+				}
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FDelegateHandle& SearchHandle)
+{
+	for (int32 i = DelegateList.Num() - 1; i >= 0; i--)
+	{
+		if (DelegateList[i]->DelegateHandle == SearchHandle)
+		{
+			DelegateList[i]->bRemoved = true;
+			DelegateList.RemoveAt(i);
+			SearchHandle.Reset();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool UGameInitStateSubsystem::RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, const FActorInitStateChangedBPDelegate& SearchDelegate)
+{
+	for (int32 i = DelegateList.Num() - 1; i >= 0; i--)
+	{
+		if (DelegateList[i]->BPDelegate == SearchDelegate)
+		{
+			DelegateList[i]->bRemoved = true;
+			DelegateList.RemoveAt(i);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+FActorFeatureData& UGameInitStateSubsystem::FindOrAddActorData(AActor* Actor)
+{
+	check(Actor)
+
+	FActorFeatureData& FeatureData = ActorFeatureMap.FindOrAdd(Actor);
+	if (!FeatureData.ActorClass.IsValid())
+	{
+		FeatureData.ActorClass = Actor->GetClass();
+	}
+	return FeatureData;
+}
+--- GameplayCore\Private\GameplayTags\GameplayCoreTags.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "GameplayTags/GameplayCoreTags.h"
+
+namespace GameplayCoreTags
+{
+	// Plugin bases init state tags
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InitState_Spawned, "InitState.Spawned", "Actor/component has initially spawned and can be extended");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InitState_DataAvailable, "InitState.DataAvailable", "All required data has been loaded/replicated and is ready for initialization");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InitState_DataInitialized, "InitState.DataInitialized", "The available data has been initialized for this actor/component, but it is not ready for full gameplay");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InitState_GameplayReady, "InitState.GameplayReady", "The actor/component is fully ready for active gameplay");
+} // namespace GameplayCoreTags
+--- GameplayCore\Public\GameplayCore.h ---
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Modules/ModuleManager.h"
+
+class FGameplayCoreModule : public IModuleInterface
+{
+public:
+	/** IModuleInterface implementation */
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
+};
+--- GameplayCore\Public\Components\ActorFeatureData.h ---
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "ActorFeatureRegisteredDelegate.h"
+#include "ActorFeatureState.h"
+
+#include "ActorFeatureData.generated.h"
+
+/** Always stored as shared refs to avoid being destroyed during execution */
+using FActorFeatureDelegateList = TArray<TSharedRef<FActorFeatureRegisteredDelegate>>;
+
+USTRUCT(BlueprintType)
+/** Information for each registered actor */
+struct GAMEPLAYCORE_API FActorFeatureData
+{
+	GENERATED_BODY()
+
+	/** Actor class for cross-referencing with the class callbacks */
+	TWeakObjectPtr<UClass> ActorClass;
+
+	/** All active features */
+	TArray<FActorFeatureState> RegisteredStates;
+
+	/** All delegates bound to this actor */
+	FActorFeatureDelegateList RegisteredDelegates;
+
+	/** Properly clear delegate list */
+	~FActorFeatureData();
+};
+--- GameplayCore\Public\Components\ActorFeatureRegisteredDelegate.h ---
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "Components/ActorInitStateChangedParams.h"
+#include "GameplayTagContainer.h"
+
+#include "ActorFeatureRegisteredDelegate.generated.h"
+
+/** Native delegate called when an actor feature changes init state */
+DECLARE_DELEGATE_OneParam(FActorInitStateChangedDelegate, const FActorInitStateChangedParams&);
+/** Blueprint delegate called when an actor feature changes init state */
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActorInitStateChangedBPDelegate, const FActorInitStateChangedParams&, Params);
+
+/** Holds the list of feature delegates */
+USTRUCT(BlueprintType)
+struct GAMEPLAYCORE_API FActorFeatureRegisteredDelegate
+{
+	GENERATED_BODY()
+
+	FActorFeatureRegisteredDelegate()
+		: bRemoved(false) {};
+	/** Construct from a native or BP Delegate */
+	FActorFeatureRegisteredDelegate(FActorInitStateChangedDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
+	FActorFeatureRegisteredDelegate(FActorInitStateChangedBPDelegate&& InDelegate, FName InFeatureName = NAME_None, FGameplayTag InInitState = FGameplayTag());
+
+	/** Call the appropriate native/bp delegate, this could invalidate this struct */
+	void Execute(AActor* OwningActor, FName FeatureName, UObject* Implementer, FGameplayTag FeatureState) const;
+
+	/** Delegate that is called on notification */
+	FActorInitStateChangedDelegate Delegate;
+
+	/** BP delegate that is called on notification */
+	FActorInitStateChangedBPDelegate BPDelegate;
+
+	/** A handle assigned to this delegate so it acts like a multicast delegate for removal */
+	FDelegateHandle DelegateHandle;
+
+	/** If this is not null, will only activate for specific feature names */
+	FName RequiredFeatureName;
+
+	/** If this is not null, will only activate for states >= to this */
+	FGameplayTag RequiredInitState;
+
+	/** Indicates this delegate has been removed and will soon be destroyed, do not execute */
+	bool bRemoved;
+};
+--- GameplayCore\Public\Components\ActorFeatureState.h ---
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "GameplayTagContainer.h"
+
+#include "ActorFeatureState.generated.h"
+
+/** State for a specific object implementing an actor feature, should this be in a map instead of an array? */
+USTRUCT(BlueprintType)
+struct GAMEPLAYCORE_API FActorFeatureState
+{
+	GENERATED_BODY()
+
+	FActorFeatureState() {};
+
+	FActorFeatureState(const FName InFeatureName)
+		: FeatureName(InFeatureName) {}
+
+	/** The feature this is tracking */
+	FName FeatureName;
+
+	/** The state when it was last registered */
+	FGameplayTag CurrentState;
+
+	TArray<FGameplayTag> States = {};
+
+	/** The object implementing this feature, this can be null */
+	TWeakObjectPtr<UObject> Implementer;
+
+	bool IsValid() const { return !(FeatureName.IsNone() || States.IsEmpty() || !States.Contains(CurrentState)); }
+};
+--- GameplayCore\Public\Components\ActorInitStateChangedParams.h ---
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
+
+#pragma once
+
+#include "GameplayTagContainer.h"
+
+#include "ActorInitStateChangedParams.generated.h"
+
+/** Parameters struct for Init State change functions */
+USTRUCT(BlueprintType)
+struct GAMEPLAYCORE_API FActorInitStateChangedParams
+{
+	GENERATED_BODY()
+
+	FActorInitStateChangedParams()
+		: OwningActor(nullptr), Implementer(nullptr) {}
+
+	FActorInitStateChangedParams(AActor* InOwningActor, const FName InFeatureName, UObject* InImplementer, const FGameplayTag InFeatureState)
+		: OwningActor(InOwningActor), FeatureName(InFeatureName), Implementer(InImplementer), FeatureState(InFeatureState) {}
+
+	/** The actor owning the feature that changed */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)
+	TObjectPtr<AActor> OwningActor;
+
+	/** Name of the feature that changed */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)
+	FName FeatureName;
+
+	/** The object (often a component) that implements the feature */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)
+	TObjectPtr<UObject> Implementer;
+
+	/** The new state of the feature */
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Default)
+	FGameplayTag FeatureState;
+};
+--- GameplayCore\Public\Components\GameInitStateInterface.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "UObject/Interface.h"
+#include "GameInitStateInterface.generated.h"
+
+class FActorInitStateChangedBPDelegate;
+class UGameInitStateSubsystem;
+struct FActorInitStateChangedParams;
+struct FActorFeatureRegisteredDelegate;
+
+/** Interface that can be implemented by actors/components to make interacting with the init state system easier */
+UINTERFACE(NotBlueprintable)
+class GAMEPLAYCORE_API UGameInitStateInterface : public UInterface
+{
+	GENERATED_BODY()
+};
+
+/**
+ *
+ */
+class GAMEPLAYCORE_API IGameInitStateInterface
+{
+	GENERATED_BODY()
+
+	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
+public:
+	/** Returns the Actor this object is bound to, might be this object */
+	virtual AActor* GetOwningActor() const;
+
+	/** Gets the component manager corresponding to this object based on owning actor */
+	UGameInitStateSubsystem* GetGameInitStateSubsystem() const;
+
+	/** Returns the current feature state of this object, the default behavior is to query the manager */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	virtual FGameplayTag GetCurrentInitStateFor(FName& FeatureName) const;
+
+	/** Checks the component manager to see if we have already reached the desired state or a later one */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	virtual bool HasReachedInitState(FName FeatureName, FGameplayTag DesiredState) const;
+
+	/** Returns the current feature state of this object, the default behavior is to query the manager */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	virtual TArray<FGameplayTag> GetAllInitStatesFor(FName& FeatureName) const;
+
+	/** Override to try and progress the default initialization path, likely using ContinueInitStateChain */
+	virtual void CheckDefaultInitialization() {}
+
+	/** Signature for handling a game feature state, this is not registered by default */
+	virtual void OnActorInitStateChanged(const FActorInitStateChangedParams& Params) {}
+
+	/** Call to register with the component manager during spawn if this is a game world */
+	virtual void RegisterInitStateFeature(FName& FeatureName);
+
+	/** Unregisters state and delegate binding with component manager */
+	virtual void UnregisterInitStateFeature(FName& FeatureName);
+
+	/** Call to bind the OnActorInitStateChanged function to the appropriate delegate on the component manager */
+	virtual void BindOnActorInitStateChanged(FName FeatureName, FGameplayTag RequiredState, bool bCallIfReached);
+
+	/** Binds a BP delegate to get called on a state change for this feature */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	virtual bool RegisterAndCallForActorInitState(FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately = true);
+
+	/** Unbinds a BP delegate from changes to this feature */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	virtual bool UnregisterInitStateDelegate(FActorInitStateChangedBPDelegate Delegate);
+
+	/** Returns Current state and any additional debug information for the active state */
+	virtual FString GetDebugState(FName FeatureName) const;
+
+protected:
+	/** Default handle created from calling BindOnActorInitStateChanged */
+	FDelegateHandle ActorInitStateChangedHandle;
+};
+--- GameplayCore\Public\Components\GameInitStateSubsystem.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "ActorFeatureData.h"
+#include "ActorFeatureRegisteredDelegate.h"
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+
+#include "GameInitStateSubsystem.generated.h"
+
+struct FActorFeatureState;
+
+/**
+ * This subsystem is highly based on ModularGameplay plugin's GameFrameworkComponentManager from Epic. To better handle initialization.
+ *
+ * The init state system can be used by components to coordinate their initialization using game-specific states specified as gameplay tags
+ * IGameInitStateInterface provides a simple implementation that can be inherited by components
+ */
+UCLASS()
+class GAMEPLAYCORE_API UGameInitStateSubsystem : public UGameInstanceSubsystem
+{
+	GENERATED_BODY()
+
+public:
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
+
+	/** Utility to get this manager from an actor, will return null if actor is null or not in a world */
+	static UGameInitStateSubsystem* GetForActor(const AActor* Actor, bool bOnlyGameWorlds = true);
+
+	/** Adds a new global actor feature state, either before or after an existing one. This will generally be called from game global or game feature initialization */
+	void RegisterFeatureImplementer(AActor* Actor, FName FeatureName, UObject* Implementer, const TArray<FGameplayTag>& InitStateTags = {});
+
+	/** Removes an actor and all of it's state information */
+	void RemoveActorFeatureData(AActor* Actor);
+
+	/** Removes an implementing object and any feature states it implements */
+	void RemoveFeatureImplementer(AActor* Actor, UObject* Implementer);
+
+	void SetFeatureInitStatTags(AActor* Actor, FName FeatureName, TArray<FGameplayTag> InitStateTags);
+
+	/** Returns true if FeatureState comes after the second state (or is equal) */
+	static bool IsInitStateCurrentOrLate(const FActorFeatureState& FeatureState, FGameplayTag RelativeState);
+
+	/** Returns true if feature has reached query state or later */
+	bool HasFeatureReachedInitState(AActor* Actor, FName FeatureName, FGameplayTag StateTag);
+
+	/** Returns the earliest state found for the given feature */
+	FGameplayTag GetInitStateForFeature(AActor* Actor, FName FeatureName) const;
+	/** Returns the earliest state found for the given feature */
+	TArray<FGameplayTag> GetAllInitStatesForFeature(AActor* Actor, FName FeatureName) const;
+
+	/**
+	 * Registers native delegate for feature state change notifications on a specific actor and may call it immediately
+	 *
+	 * @param Actor				The actor to listen for state changes to, if you don't have a specific actor call the Class version instead
+	 * @param FeatureName		If not empty, only listen to state changes for the specified feature
+	 * @param RequiredState		If specified, only activate if the init state of the feature is equal to or later than this
+	 * @param Delegate			Native delegate to call
+	 * @param bCallImmediately	If true and the actor feature is already in the specified state, call delegate immediately after registering
+	 * @return DelegateHandle used for later removal
+	 */
+	FDelegateHandle RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedDelegate Delegate, bool bCallImmediately = true);
+
+	/** Removes a registered delegate bound to a specific actor */
+	bool UnregisterActorInitStateDelegate(AActor* Actor, FDelegateHandle& Handle);
+
+	/**
+	 * Registers blueprint delegate for feature state change notifications on a specific actor and may call it immediately
+	 *
+	 * @param Actor				The actor to listen for state changes to, if you don't have a specific actor call the Class version instead
+	 * @param FeatureName		If not empty, only listen to state changes for the specified feature
+	 * @param RequiredState		If specified, only activate if the init state of the feature is equal to or later than this
+	 * @param Delegate			Native delegate to call
+	 * @param bCallImmediately	If true and the actor feature is already in the specified state, call delegate immediately after registering
+	 * @return true if delegate was registered
+	 */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	bool RegisterAndCallForActorInitState(AActor* Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately = true);
+
+	/** Removes a registered delegate bound to a specific actor */
+	UFUNCTION(BlueprintCallable, Category = "InitState")
+	bool UnregisterActorInitStateDelegate(AActor* Actor, FActorInitStateChangedBPDelegate DelegateToRemove);
+
+private:
+	/** Add to queue for delegate processing */
+	void ProcessFeatureStateChange(AActor* Actor, const FActorFeatureState* StateChange);
+
+	/** Call all delegates for a specific actor feature change */
+	void CallFeatureStateDelegates(AActor* Actor, const FActorFeatureState& StateChange);
+
+	/** Call the specified delegate for all matching features on the actor, this should be passed a copy of the original delegate */
+	void CallDelegateForMatchingFeatures(AActor* Actor, const FActorFeatureRegisteredDelegate& RegisteredDelegate);
+
+	/** Find an appropriate state struct if it exists */
+	static const FActorFeatureState* FindFeatureStateStruct(const FActorFeatureData* FeatureData, FName FeatureName, FGameplayTag RequiredState = FGameplayTag());
+
+	/** Gets or creates the actor struct */
+	FActorFeatureData& FindOrAddActorData(AActor* Actor);
+
+	/** Try to remove delegate from list, returns true if it removed anything and clear handle if required */
+	static bool RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, FDelegateHandle& SearchHandle);
+	static bool RemoveActorFeatureDelegateFromList(FActorFeatureDelegateList& DelegateList, const FActorInitStateChangedBPDelegate& SearchDelegate);
+
+	/** Position in state change queue, INDEX_NONE means not actively handling */
+	int32 CurrentStateChange = INDEX_NONE;
+
+	/** A queue of state changes to call delegates for, we don't want recursive callbacks */
+	TArray<TPair<AActor*, FActorFeatureState>> StateChangeQueue;
+
+	/** Actors that were registered as tracking feature state */
+	TMap<FObjectKey, FActorFeatureData> ActorFeatureMap;
+};
+--- GameplayCore\Public\GameplayTags\GameplayCoreTags.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace GameplayCoreTags
+{
+	GAMEPLAYCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InitState_Spawned);
+	GAMEPLAYCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InitState_DataAvailable);
+	GAMEPLAYCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InitState_DataInitialized);
+	GAMEPLAYCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InitState_GameplayReady);
+} // namespace GameplayCoreTags

@@ -23,17 +23,12 @@ public:
 	// ~UDeveloperSettings
 
 	/** Accessor and initializer */
-	static UEquipmentSystemSettings* Get();
+	UFUNCTION(BlueprintPure, Category = "Settings", meta=(DisplayName="Get Equipment System Settings"))
+	static UEquipmentSystemSettings* GetEquipmentSystemSettings();
 
 private:
-	
 	// UObject
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	// ~UObject
 
-	UPROPERTY(EditAnywhere, Category = "Equipment Slots")
-	bool bRestrictSlots = true;
-	
-	UPROPERTY(EditAnywhere, Category = "Equipment Slots", meta = (EditCondition = "bRestrictSlots", EditConditionHides = "true"))
-	TArray<FGameplayTag> SlotTemplates;
 };

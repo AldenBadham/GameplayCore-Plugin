@@ -16,6 +16,6 @@ void UItemFragment_Consumable::OnInstanceCreated(UItemInstance* Instance)
 		Component->Initialize(Instance);
 		return;
 	}
-	
+
 	UE_LOG(LogInventorySystem, Warning, TEXT("Failed to add ItemComponent_Consumable to ItemInstance: %s"), *GetNameSafe(Instance));
 }

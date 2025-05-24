@@ -16,7 +16,7 @@ FName UEquipmentSystemSettings::GetCategoryName() const
 	return Name;
 }
 
-UEquipmentSystemSettings* UEquipmentSystemSettings::Get()
+UEquipmentSystemSettings* UEquipmentSystemSettings::GetEquipmentSystemSettings()
 {
 	// This is a singleton. Use a default object
 	return GetMutableDefault<UEquipmentSystemSettings>();

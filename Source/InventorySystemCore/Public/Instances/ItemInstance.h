@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Components/InventorySystemComponent.h"
 #include "Components/ItemComponent.h"
 #include "CoreMinimal.h"
 #include "Definitions/ItemDefinition.h"
