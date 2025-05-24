@@ -52,7 +52,8 @@ public:
 	 * Gets the owning controller cast to the specified type
 	 * @return The owning controller cast to type T, or nullptr if cast fails
 	 */
-	template <typename T> const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
+	template <typename T>
+	const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
 
 	/**
 	 * Gets the item definition class associated with this instance.
@@ -77,7 +78,8 @@ public:
 	/**
 	 * Try to find fragment of class FragmentClass in this item's definition
 	 */
-	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+	template <typename T>
+	const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false)
 	bool HasFragmentByClass(TSubclassOf<UItemFragment> FragmentClass) const;
@@ -91,7 +93,8 @@ public:
 	/**
 	 *	Try to find fragment of class FragmentClass in this item definition
 	 */
-	template <typename T> T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
+	template <typename T>
+	T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
 
 	/**
 	 *	Try to find component of class ComponentClass of this item instance
@@ -103,7 +106,8 @@ public:
 	 * Try to find a component of type T attached to this item instance
 	 * @return The found component cast to type T, or nullptr if not found or cast fails
 	 */
-	template <typename T> const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
+	template <typename T>
+	const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 protected:
 	/**

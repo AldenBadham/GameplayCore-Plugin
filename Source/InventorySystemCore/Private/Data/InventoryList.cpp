@@ -9,10 +9,14 @@
 #include "Instances/ItemInstance.h"
 
 FInventoryList::FInventoryList()
-	: OwnerComponent(nullptr) {}
+	: OwnerComponent(nullptr)
+{
+}
 
 FInventoryList::FInventoryList(UInventorySystemComponent* InOwnerComponent)
-	: OwnerComponent(InOwnerComponent) {}
+	: OwnerComponent(InOwnerComponent)
+{
+}
 
 void FInventoryList::PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize)
 {

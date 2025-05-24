@@ -31,7 +31,9 @@ struct INVENTORYSYSTEMCORE_API FInventoryChangeData
 {
 	GENERATED_BODY()
 
-	FInventoryChangeData() {}
+	FInventoryChangeData()
+	{
+	}
 
 	/**
 	 * Constructs an inventory change data instance with the specified parameters

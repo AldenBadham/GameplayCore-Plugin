@@ -10,15 +10,17 @@
 #include "Widgets/Notifications/SNotificationList.h"
 
 UItemDefinition::UItemDefinition(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 void UItemDefinition::PostLoad()
 {
 	UObject::PostLoad();
 
-	#if WITH_EDITORONLY_DATA
+#if WITH_EDITORONLY_DATA
 	PreviousFragments = Fragments;
-	#endif
+#endif
 }
 
 #if WITH_EDITOR

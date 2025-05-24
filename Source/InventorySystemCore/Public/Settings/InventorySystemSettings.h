@@ -21,16 +21,16 @@ public:
 	virtual FName GetCategoryName() const override { return TEXT("Gameplay"); }
 	// ~UDeveloperSettings
 
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	// Try to find the matching rules for the given fragment class
 	const FItemFragmentRule* FindRuleForClass(const TSubclassOf<UItemFragment>& FragmentClass) const;
-	#endif
+#endif
 
-	#if WITH_EDITORONLY_DATA
+#if WITH_EDITORONLY_DATA
 	// List of rules between fragments
 	UPROPERTY(config, EditAnywhere, Category = "Fragment Rules")
 	TMap<TSubclassOf<UItemFragment>, FItemFragmentRule> FragmentRules;
-	#endif
+#endif
 
 	// TODO : Add item categories
 };

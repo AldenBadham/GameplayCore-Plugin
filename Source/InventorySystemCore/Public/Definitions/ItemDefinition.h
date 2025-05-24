@@ -28,9 +28,9 @@ public:
 
 	// UObject
 	virtual void PostLoad() override;
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-	#endif
+#endif
 	// ~UObject
 
 	/**
@@ -56,7 +56,8 @@ public:
 	 * @return Typed pointer to the found fragment, or nullptr if not found
 	 * @see FindFragmentByClass
 	 */
-	template <typename T> const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+	template <typename T>
+	const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
 	/**
 	 * Checks if this item can be given to the specified inventory
@@ -89,8 +90,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fragments", Instanced)
 	TArray<TObjectPtr<UItemFragment>> Fragments;
 
-	#if WITH_EDITORONLY_DATA
+#if WITH_EDITORONLY_DATA
 	UPROPERTY(Transient)
 	TArray<UItemFragment*> PreviousFragments;
-	#endif
+#endif
 };

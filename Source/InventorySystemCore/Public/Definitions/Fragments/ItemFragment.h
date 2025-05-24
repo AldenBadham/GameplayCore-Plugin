@@ -26,5 +26,7 @@ public:
 	 * Called when the ItemInstance is created and this fragment is attached to it
 	 * @param Instance The item instance that owns this fragment
 	 */
-	virtual void OnInstanceCreated(UItemInstance* Instance) {}
+	virtual void OnInstanceCreated(UItemInstance* Instance)
+	{
+	}
 };

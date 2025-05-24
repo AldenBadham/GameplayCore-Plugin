@@ -24,9 +24,13 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntry : public FFastArraySerializerItem
 	friend struct FInventoryChangeData;
 	friend struct FInventoryEntryHandle;
 
-	FInventoryEntry() {};
+	FInventoryEntry()
+	{
+	};
 
-	~FInventoryEntry() {};
+	~FInventoryEntry()
+	{
+	};
 
 	// FFastArraySerializer
 	// Functions not virtual in FFAstArraySerializer because called by template

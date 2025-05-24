@@ -155,7 +155,8 @@ protected:
 };
 
 // Required to specify that this structure uses a NetDeltaSerializer method to help serialization operation decision
-template <> struct TStructOpsTypeTraits<FInventoryList> : TStructOpsTypeTraitsBase2<FInventoryList>
+template <>
+struct TStructOpsTypeTraits<FInventoryList> : TStructOpsTypeTraitsBase2<FInventoryList>
 {
 	enum
 	{

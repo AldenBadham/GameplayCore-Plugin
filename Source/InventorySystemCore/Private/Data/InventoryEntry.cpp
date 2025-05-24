@@ -27,14 +27,7 @@ void FInventoryEntry::PostReplicatedChange(const FInventoryList& InArraySerializ
 {
 	if (InArraySerializer.OwnerComponent)
 	{
-		UE_LOG(
-			LogInventorySystem,
-			Verbose,
-			TEXT("%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d"),
-			*GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()),
-			*GetNameSafe(Instance),
-			StackCount,
-			LastStackCount);
+		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount, LastStackCount);
 	}
 }
 

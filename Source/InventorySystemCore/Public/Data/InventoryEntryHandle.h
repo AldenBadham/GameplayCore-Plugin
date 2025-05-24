@@ -22,7 +22,9 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	GENERATED_BODY()
 
 	FInventoryEntryHandle()
-		: ItemInstance(nullptr), StackCount(0) {}
+		: ItemInstance(nullptr), StackCount(0)
+	{
+	}
 
 	/**
 	 * Creates a handle from an existing inventory entry
@@ -44,7 +46,9 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	 * @param InStackCount Number of items in the stack
 	 */
 	FInventoryEntryHandle(const int32 InIndex, UItemInstance* InInstance, const int32 InStackCount)
-		: EntryIndex(InIndex), ItemInstance(InInstance), StackCount(InStackCount) {}
+		: EntryIndex(InIndex), ItemInstance(InInstance), StackCount(InStackCount)
+	{
+	}
 
 	/**
 	 * Checks if this handle references a valid inventory entry
