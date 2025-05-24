@@ -72,3 +72,7 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+Source/copy.py
+Source/EquipmentSystemCore-source.txt
+Source/GameplayCore-source.txt
+Source/InventorySystemCore-source.txt
