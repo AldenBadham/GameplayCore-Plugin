@@ -7,7 +7,9 @@
 #include "Misc/DataValidation.h"
 
 UAnimInstanceBase::UAnimInstanceBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 void UAnimInstanceBase::InitializeWithAbilitySystem(UAbilitySystemComponent* AbilitySystemComp)
 {

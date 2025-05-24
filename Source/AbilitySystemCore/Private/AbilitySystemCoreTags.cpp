@@ -19,5 +19,4 @@ namespace AbilitySystemCoreTags
 
 	// Gameplay tags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Gameplay_AbilitiesBlocked, "Gameplay.AbilitiesBlocked", "Block the activation of any ability with input activation policy");
-
 } // namespace AbilitySystemCoreTags

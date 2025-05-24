@@ -9,7 +9,9 @@
 #include "Log/AbilitySystemLog.h"
 
 UAbilitySet::UAbilitySet(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComp, FAbilitySetHandles* Handles, UObject* SourceObject) const
 {

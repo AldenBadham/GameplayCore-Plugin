@@ -7,7 +7,9 @@
 #include "AbilitySystemCoreTags.h"
 
 UAbilitySystemComponentBase::UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 void UAbilitySystemComponentBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {

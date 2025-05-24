@@ -36,10 +36,10 @@ struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 	 */
 	void AddTag(const FGameplayTag& Tag, const FName& PropertyName);
 
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	/** This can optionally be called in the owner's IsDataValid() for data validation. */
 	EDataValidationResult IsDataValid(const UObject* ContainingAsset, FDataValidationContext& Context) const;
-	#endif
+#endif
 
 protected:
 	void Unregister();

@@ -6,7 +6,9 @@
 #include "Log/AbilitySystemLog.h"
 
 UInputConfig::UInputConfig(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()) {}
+	: Super(ObjectInitializer.Get())
+{
+}
 
 const UInputAction* UInputConfig::FindInputActionForTag(const FGameplayTag& Tag, bool bLogNotFound) const
 {

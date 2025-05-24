@@ -26,9 +26,9 @@ protected:
 
 	static float CalculateDirection(const FVector& Velocity, const FRotator& BaseRotation);
 
-	#if WITH_EDITOR
+#if WITH_EDITOR
 	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
-	#endif
+#endif
 
 	/* Gameplay tags that can be mapped to blueprint variables.
 	 * The variables will automatically update as the tags are added or removed.

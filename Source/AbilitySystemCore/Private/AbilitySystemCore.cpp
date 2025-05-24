@@ -2,9 +2,13 @@
 
 #define LOCTEXT_NAMESPACE "FAbilitySystemCoreModule"
 
-void FAbilitySystemCoreModule::StartupModule() {}
+void FAbilitySystemCoreModule::StartupModule()
+{
+}
 
-void FAbilitySystemCoreModule::ShutdownModule() {}
+void FAbilitySystemCoreModule::ShutdownModule()
+{
+}
 
 #undef LOCTEXT_NAMESPACE
 

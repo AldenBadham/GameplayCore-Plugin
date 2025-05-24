@@ -6,7 +6,9 @@
 #include "Log/AbilitySystemLog.h"
 #include "Misc/DataValidation.h"
 
-FGameplayTagPropertyMap::FGameplayTagPropertyMap() {}
+FGameplayTagPropertyMap::FGameplayTagPropertyMap()
+{
+}
 
 FGameplayTagPropertyMap::FGameplayTagPropertyMap(const FGameplayTagPropertyMap& Other)
 {
@@ -68,14 +70,7 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent
 		}
 
 		// Entry was invalid.  Remove it from the array.
-		UE_LOG(
-			LogAbilitySystem,
-			Error,
-			TEXT("FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]."),
-			MappingIndex,
-			*Mapping.TagToMap.ToString(),
-			*Mapping.PropertyName.ToString(),
-			*GetNameSafe(Owner));
+		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]."), MappingIndex, *Mapping.TagToMap.ToString(), *Mapping.PropertyName.ToString(), *GetNameSafe(Owner));
 
 		PropertyMappings.RemoveAtSwap(MappingIndex, EAllowShrinking::No);
 	}
@@ -246,25 +241,19 @@ EDataValidationResult FGameplayTagPropertyMap::IsDataValid(const UObject* Owning
 	{
 		if (!Mapping.TagToMap.IsValid())
 		{
-			Context.AddError(
-				FText::Format(FText::FromString("The gameplay tag [{0}] for property [{1}] is empty or invalid."), FText::AsCultureInvariant(Mapping.TagToMap.ToString()), FText::FromName(Mapping.PropertyName)));
+			Context.AddError(FText::Format(FText::FromString("The gameplay tag [{0}] for property [{1}] is empty or invalid."), FText::AsCultureInvariant(Mapping.TagToMap.ToString()), FText::FromName(Mapping.PropertyName)));
 		}
 
 		if (const FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName))
 		{
 			if (!IsPropertyTypeValid(Property))
 			{
-				Context.AddError(
-					FText::Format(
-						FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."),
-						FText::FromName(Mapping.PropertyName),
-						FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
+				Context.AddError(FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] is not a supported type.  Supported types are: integer, float, and boolean."), FText::FromName(Mapping.PropertyName), FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
 			}
 		}
 		else
 		{
-			Context.AddError(
-				FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] could not be found."), FText::FromName(Mapping.PropertyName), FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
+			Context.AddError(FText::Format(FText::FromString("The property [{0}] for gameplay tag [{1}] could not be found."), FText::FromName(Mapping.PropertyName), FText::AsCultureInvariant(Mapping.TagToMap.ToString())));
 		}
 	}
 
