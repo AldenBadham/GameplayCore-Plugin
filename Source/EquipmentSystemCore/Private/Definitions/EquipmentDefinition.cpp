@@ -54,12 +54,12 @@ const UEquipmentFragment* UEquipmentDefinition::FindFragmentByClass(const TSubcl
 	return nullptr;
 }
 
-bool UEquipmentDefinition::CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent)
+bool UEquipmentDefinition::CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason)
 {
-	return K2_CanBeEquipped(EquipmentSystemComponent);
+	return K2_CanBeEquipped(EquipmentSystemComponent, OutFailureReason);
 }
 
-bool UEquipmentDefinition::K2_CanBeEquipped_Implementation(UEquipmentSystemComponent* EquipmentSystemComponent)
+bool UEquipmentDefinition::K2_CanBeEquipped_Implementation(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason)
 {
 	return true;
 }

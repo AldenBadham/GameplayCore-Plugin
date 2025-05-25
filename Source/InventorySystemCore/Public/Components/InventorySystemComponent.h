@@ -10,7 +10,9 @@
 
 #include "InventorySystemComponent.generated.h"
 
+struct FGameplayTag;
 class UEquipmentComponent;
+
 
 /**
  * Multicast delegate that broadcasts inventory change events to all listeners
@@ -36,37 +38,31 @@ class INVENTORYSYSTEMCORE_API UInventorySystemComponent : public UActorComponent
 	friend FInventoryList;
 
 public:
+	
 	UInventorySystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
-	virtual void InitializeComponent() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 	virtual void ReadyForReplication() override;
 	// ~UObject
 
-	/**
-	 * Creates and adds new item instances to the inventory based on an item definition
-	 * @param ItemDefinition The class definition of the item to create and add
-	 * @param Count The quantity of items to add (must be positive)
-	 * @return Array of created item instances, empty if addition failed or ItemDefinition is invalid
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Inventory")
-	TArray<UItemInstance*> AddItemDefinition(TSubclassOf<UItemDefinition> ItemDefinition, int32 Count = 1);
+	// AActorComponent
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
+	// ~AActorComponent
 
-	/**
-	 * Adds an existing item instance to the inventory.
-	 * @param ItemInstance The instance of the item to add.
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Inventory")
-	void AddItemInstance(UItemInstance* ItemInstance);
-	/**
-	 * Removes an item instance from the inventory.
-	 * @param ItemInstance The instance of the item to remove.
-	 */
-	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Inventory")
-	void RemoveItemInstance(UItemInstance* ItemInstance);
 
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	FInventoryAddResult TryAddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count);
+
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	FInventoryAddResult TryAddItemInstance(UItemInstance* ItemInstance, int32 StackCount);
+
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	bool TryRemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+
+	
 	/**
 	 * Retrieves all items currently in the inventory.
 	 * @return An array containing all item instances in the inventory.
@@ -98,6 +94,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (DeterminesOutputType = DefinitionClass))
 	UItemDefinition* GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const;
 
+public:
+
+protected:
+	FInventoryAddResult Internal_AddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count);
+	FInventoryAddResult Internal_AddItemInstance(UItemInstance* ItemInstance, int32 StackCount);
+	bool Internal_RemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+	
 	/**
 	 * Called after an item is added to the inventory
 	 * @param Data Information about the added inventory entry
@@ -122,6 +125,8 @@ public:
 	 */
 	virtual void PostInventoryChanged(const FInventoryChangeData& Data);
 
+protected:
+
 	/** Event fired when an item is added to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryAdded;
@@ -138,7 +143,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryChanged;
 
-private:
 	/** Replicated list of inventory entries managed by this component. */
 	UPROPERTY(Replicated)
 	FInventoryList InventoryList;

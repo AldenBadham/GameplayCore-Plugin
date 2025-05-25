@@ -2,6 +2,7 @@
 
 #include "Definitions/ItemDefinition.h"
 
+#include "GameplayTagContainer.h"
 #include "Definitions/Fragments/ItemFragment.h"
 #include "Framework/Notifications/NotificationManager.h"
 #include "Log/InventorySystemLog.h"
@@ -124,12 +125,13 @@ bool UItemDefinition::HasFragmentByClass(const TSubclassOf<UItemFragment> Fragme
 	return bFound;
 }
 
-bool UItemDefinition::CanBeGiven(UInventorySystemComponent* InventorySystemComponent)
+bool UItemDefinition::CanBeGiven(UInventorySystemComponent* InventorySystemComponent, FGameplayTag& OutFailureReason)
 {
-	return K2_CanBeGiven(InventorySystemComponent);
+	return K2_CanBeGiven(InventorySystemComponent, OutFailureReason);
 }
 
-bool UItemDefinition::K2_CanBeGiven_Implementation(UInventorySystemComponent* InventorySystemComponent)
+bool UItemDefinition::K2_CanBeGiven_Implementation(UInventorySystemComponent* InventorySystemComponent, FGameplayTag& OutFailureReason)
 {
 	return true;
 }
+

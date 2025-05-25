@@ -15,6 +15,24 @@ class UAbilitySystemComponent;
 struct FNetDeltaSerializeInfo;
 struct FReplicationFlags;
 
+
+USTRUCT(BlueprintType)
+struct FEquipmentResult
+{
+	GENERATED_BODY();
+
+public:
+	
+	UPROPERTY(BlueprintReadOnly)
+	UEquipmentInstance* Instance = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTag FailureReason;
+
+	bool Succeeded() const { return !FailureReason.IsValid(); };
+};
+
+
 /**
  * @struct FEquipmentList
  * @see FFastArraySerializer
@@ -39,22 +57,24 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 
 	/** Implements network delta serialization for the equipment list. */
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
-
 	// ~FFastArraySerializer
 
 	/** Add a new equipment instance to the list.
 	 * @param DefinitionClass Definition of the type of equipment to add.
 	 * @param SourceItemInstance
+	 * @param OutFailureReason
 	 * @return Pointer to entry added */
-	UEquipmentInstance* Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance = nullptr);
+	FEquipmentResult Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance = nullptr);
 
 	/**
 	 * Remove the specified equipment instance from the list.
 	 * @param Instance The instance to remove.
+	 * @param OutFailureReason
 	 */
-	void Remove(UEquipmentInstance* Instance);
+	void Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason);
 
-
+protected:
+	
 	/**
 	 * Called when an entry is changed.
 	 * @param Index The index of the changed entry.
@@ -74,10 +94,11 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	 */
 	void Internal_OnEntryRemoved(int32 Index, const FEquipmentEntry& Entry) const;
 
-private:
 	/** Get the ability system component of the owner. */
 	UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
+protected:
+	
 	/** Array of equipment entries */
 	UPROPERTY()
 	TArray<FEquipmentEntry> Entries;

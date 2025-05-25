@@ -4,13 +4,18 @@
 
 #include "Components/InventorySystemComponent.h"
 #include "Data/InventorySet_ItemSet.h"
+#include "GameplayTags/InventoryGameplayTags.h"
 #include "Log/InventorySystemLog.h"
 
-void UInventorySet::GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp)
+FInventoryAddResult UInventorySet::GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp)
 {
+	FInventoryAddResult Result;
+	
 	if (!IsValid(InventorySystemComp))
 	{
 		UE_LOG(LogInventorySystem, Error, TEXT("Tried to give InventorySet [%s] to an invalid InventorySystemComponent"), *GetFName().ToString());
+		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidComponent;
+		return Result;
 	}
 
 	for (auto& [ItemDefinition, Quantity] : Items)
@@ -18,9 +23,11 @@ void UInventorySet::GiveToInventorySystem(UInventorySystemComponent* InventorySy
 		if (!IsValid(ItemDefinition) || Quantity <= 0)
 		{
 			UE_LOG(LogInventorySystem, Error, TEXT("Tried to give an invalid item [%s] or with a invalid quantity [%d] in the InventorySet [%s]"), *GetNameSafe(ItemDefinition), Quantity, *GetFName().ToString());
+			Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidCount;
 			continue;
 		}
 
-		InventorySystemComp->AddItemDefinition(ItemDefinition, Quantity);
+		return InventorySystemComp->TryAddItemDefinition(ItemDefinition, Quantity);
 	}
+	return Result;
 }

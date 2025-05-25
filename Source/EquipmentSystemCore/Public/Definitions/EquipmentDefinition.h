@@ -52,10 +52,10 @@ public:
 	template <typename T>
 	const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
 
-	virtual bool CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent);
+	virtual bool CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure)
-	bool K2_CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent);
+	bool K2_CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason);
 
 	/**
 	 * Get the display name of this equipment

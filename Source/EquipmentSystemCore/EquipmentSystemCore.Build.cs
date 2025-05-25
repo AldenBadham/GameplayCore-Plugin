@@ -6,31 +6,15 @@ public class EquipmentSystemCore : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicIncludePaths.AddRange(
-			new string[]
-			{
-				// ... add public include paths required here ...
-			}
-		);
-
-
-		PrivateIncludePaths.AddRange(
-			new string[]
-			{
-				// ... add other private include paths required here ...
-			}
-		);
-
-
 		PublicDependencyModuleNames.AddRange(
 			new[]
 			{
+				"AbilitySystemCore",
 				"Core",
 				"DeveloperSettings",
-				"NetCore",
+				"GameplayAbilities",
 				"InventorySystemCore",
-				"GameplayAbilities", 
-				"AbilitySystemCore"
+				"NetCore"
 				// ... add other public dependencies that you statically link with here ...
 			}
 		);
@@ -39,12 +23,12 @@ public class EquipmentSystemCore : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new[]
 			{
+				"AbilitySystemCore",
 				"CoreUObject",
 				"Engine",
 				"GameplayAbilities",
 				"GameplayTags",
-				"InventorySystemCore",
-				"AbilitySystemCore"
+				"InventorySystemCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);

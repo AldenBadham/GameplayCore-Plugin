@@ -1,0 +1,21 @@
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace InventorySystemGameplayTags
+{
+	INVENTORYSYSTEMCORE_API FGameplayTag FindTagByString(const FString& TagString, bool bMatchPartialString = false);
+
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_NullDefinition);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_InvalidCount);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_NullInstance);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_NotAuthority);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_NotStorable);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_Uniqueness);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_DefinitionRefused);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_Internal);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_InvalidComponent);
+}

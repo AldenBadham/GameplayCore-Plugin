@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Object.h"
 
 #include "ItemDefinition.generated.h"
@@ -62,21 +63,21 @@ public:
 	/**
 	 * Checks if this item can be given to the specified inventory
 	 * @param InventorySystemComponent The target inventory component
+	 * @param OutFailureReason
 	 * @return True if the item can be given, false otherwise
 	 * @see UInventorySystemComponent
 	 */
-	virtual bool CanBeGiven(UInventorySystemComponent* InventorySystemComponent);
+	virtual bool CanBeGiven(UInventorySystemComponent* InventorySystemComponent, FGameplayTag& OutFailureReason);
 
 	/**
-	 * Blueprint accessible version of CanBeGiven
+	 * Blueprint-accessible version of CanBeGiven
 	 * @param InventorySystemComponent The target inventory component
+	 * @param OutFailureReason
 	 * @return True if the item can be given, false otherwise
 	 * @see CanBeGiven
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure)
-	bool K2_CanBeGiven(UInventorySystemComponent* InventorySystemComponent);
-
-	// TODO : Add item categories
+	bool K2_CanBeGiven(UInventorySystemComponent* InventorySystemComponent, FGameplayTag& OutFailureReason);
 
 	/** The display name of the item shown in the UI */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Definition")

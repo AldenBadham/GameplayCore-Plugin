@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "InventoryChangeData.h"
 #include "InventoryEntry.h"
 #include "InventoryEntryHandle.h"
@@ -9,9 +10,29 @@
 
 #include "InventoryList.generated.h"
 
+struct FGameplayTag;
 class UItemDefinition;
 struct FNetDeltaSerializeInfo;
 struct FReplicationFlags;
+
+
+
+USTRUCT(BlueprintType)
+struct FInventoryAddResult
+{
+	GENERATED_BODY();
+
+public:
+	
+	UPROPERTY(BlueprintReadOnly)
+	TArray<UItemInstance*> Instances;
+
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTag FailureReason;
+
+	bool Succeeded() const { return FailureReason.IsValid() == false; };
+};
+
 
 /**
  * @class FInventoryList
@@ -33,29 +54,11 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	FInventoryList(UInventorySystemComponent* InOwnerComponent);
 
 	// FFastArraySerializer
-	// Functions not virtual in FFAstArraySerializer because called by template
-	/**
-	 * Called before entries are removed during replication
-	 * @param RemovedIndices Indices of entries being removed
-	 * @param FinalSize Final size of the array after removal
-	 */
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
-
-	/**
-	 * Called after entries are added during replication
-	 * @param AddedIndices Indices of newly added entries
-	 * @param FinalSize Final size of the array after addition
-	 */
 	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
-
-	/**
-	 * Called after entries are changed during replication
-	 * @param ChangedIndices Indices of modified entries
-	 * @param FinalSize Current size of the array
-	 */
 	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
-	// void PostReplicatedReceive(const FFastArraySerializer::FPostReplicatedReceiveParameters& Parameters);
 
+	/** Implements network delta serialization for the equipment list. */
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams) { return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this); }
 	// ~FFastArraySerializer
 
@@ -65,16 +68,17 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	 * @param Count The number of items to add.
 	 * @return Item instances if added successfully, otherwise returns an empty array.
 	 */
-	TArray<UItemInstance*> Add(const TSubclassOf<UItemDefinition>& DefinitionClass, int32 Count = 1);
+	FInventoryAddResult Add(const TSubclassOf<UItemDefinition>& DefinitionClass, int32 Count = 1);
 	/**
 	 * Removes an item from the inventory.
 	 * @param Instance The item instance to remove.
+	 * @param OutFailureReason
 	 */
-	void Remove(UItemInstance* Instance);
+	void Remove(UItemInstance* Instance, FGameplayTag& OutFailureReason);
 
-	void AddItemInstance(UItemInstance* ItemInstance, int32 Count = 1);
+	FInventoryAddResult AddItemInstance(UItemInstance* ItemInstance, int32 Count = 1);
 
-	void AddItemInstance(const FInventoryEntry& Entry);
+	void AddItemInstance(const FInventoryEntry& Entry, FGameplayTag& OutFailureReason);
 
 	/**
 	 * Finds the handle of the first entry of a specific item definition.
@@ -116,23 +120,17 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	static TArray<FInventoryEntry*> GetAllEntries();
 
 protected:
-	/** The inventory system component that owns this list. Not replicated */
-	UPROPERTY(NotReplicated)
-	TObjectPtr<UInventorySystemComponent> OwnerComponent;
-
-	/** Array of inventory entries managed by this list */
-	UPROPERTY()
-	TArray<FInventoryEntry> Entries;
 
 	UItemInstance* CreateItemInstance(const TSubclassOf<UItemDefinition>& DefinitionClass, int32& Count);
 
 	/**
 	 * Checks if an item of the specified definition can be added
 	 * @param DefinitionClass The item definition class to check
-	 * @param CheckUniqueness
+	 * @param OutFailureReason
+	 * @param InCount
 	 * @return True if the item can be added, false otherwise
 	 */
-	bool CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass, bool CheckUniqueness = true);
+	bool CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass, FGameplayTag& OutFailureReason, int32 InCount = 1);
 
 	/**
 	 * Called when an entry is changed.
@@ -152,6 +150,17 @@ protected:
 	 * @param Entry The removed entry.
 	 */
 	void Internal_OnEntryRemoved(int32 Index, const FInventoryEntry& Entry) const;
+	
+protected:
+
+	/** Array of inventory entries managed by this list */
+	UPROPERTY()
+	TArray<FInventoryEntry> Entries;
+	
+	/** The inventory system component that owns this list. Not replicated */
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UInventorySystemComponent> OwnerComponent = nullptr;
+
 };
 
 // Required to specify that this structure uses a NetDeltaSerializer method to help serialization operation decision

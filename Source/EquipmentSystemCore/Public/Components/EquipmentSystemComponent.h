@@ -21,11 +21,7 @@ class USlotPolicy;
 struct FEquipmentChangeData;
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentChanged, const FEquipmentChangeData&, Data);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentEquipped, const FEquipmentChangeData&, Data);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentUnequipped, const FEquipmentChangeData&, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentChange, const FEquipmentChangeData&, Data);
 
 /**
  * @class UEquipmentSystemComponent
@@ -61,21 +57,19 @@ public:
 	/**
 	 * Attempts to equip an item in the first available slot
 	 * @param ItemInstance The item to equip
-	 * @param OutFailureReason Contains the reason if the operation fails
 	 * @return True if the item was successfully equipped
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
-	bool TryEquipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+	FEquipmentResult TryEquipItem(UItemInstance* ItemInstance);
 
 	/**
 	 * Attempts to equip an item in a specific slot
 	 * @param ItemInstance The item to equip
 	 * @param SlotTag The target slot to equip the item in
-	 * @param OutFailureReason Contains the reason if the operation fails
 	 * @return True if the item was successfully equipped
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
-	bool TryEquipItemOnSlot(UItemInstance* ItemInstance, const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason);
+	FEquipmentResult TryEquipItemOnSlot(UItemInstance* ItemInstance, const FGameplayTag& SlotTag);
 
 	/**
 	 * Attempts to unequip a currently equipped item
@@ -241,20 +235,20 @@ protected:
 	void UnlockSlots(const FGameplayTagContainer& Tags);
 
 	// Internal Equipment Logic
-	bool Internal_ProcessEquip(UItemInstance* ItemInstance, const FGameplayTag& TargetSlot, const UEquipmentDefinition* Definition, FGameplayTag& OutFailureReason);
+	FEquipmentResult Internal_ProcessEquip(UItemInstance* ItemInstance, const FGameplayTag& TargetSlot, const UEquipmentDefinition* Definition);
 	bool Internal_ProcessUnequip(const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason, bool bPreserveItem = false);
-	UEquipmentInstance* Internal_EquipOnSlot(const FGameplayTag& SlotTag, UItemInstance* ItemInstance, const UEquipmentDefinition* Definition);
+	FEquipmentResult Internal_EquipOnSlot(const FGameplayTag& SlotTag, UItemInstance* ItemInstance, const UEquipmentDefinition* Definition);
 
 public:
 	/** Delegate dispatched when an item is equipped */
 	UPROPERTY(BlueprintAssignable)
-	FOnEquipmentChanged OnEquipmentChanged;
+	FOnEquipmentChange OnEquipmentChanged;
 	/** Broadcasts when equipment is equipped, providing the instance. */
 	UPROPERTY(BlueprintAssignable)
-	FOnEquipmentEquipped OnEquipmentEquipped;
+	FOnEquipmentChange OnEquipmentEquipped;
 	/** Broadcasts when equipment is unequipped, providing the instance. */
 	UPROPERTY(BlueprintAssignable)
-	FOnEquipmentUnequipped OnEquipmentUnequipped;
+	FOnEquipmentChange OnEquipmentUnequipped;
 
 protected:
 	/** The list of equipped items. */

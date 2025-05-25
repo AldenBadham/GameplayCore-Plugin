@@ -1,0 +1,2784 @@
+
+--- EquipmentSystemCore\EquipmentSystemCore.Build.cs ---
+﻿using UnrealBuildTool;
+
+public class EquipmentSystemCore : ModuleRules
+{
+	public EquipmentSystemCore(ReadOnlyTargetRules Target) : base(Target)
+	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+		PublicDependencyModuleNames.AddRange(
+			new[]
+			{
+				"AbilitySystemCore",
+				"Core",
+				"DeveloperSettings",
+				"GameplayAbilities",
+				"InventorySystemCore",
+				"NetCore"
+				// ... add other public dependencies that you statically link with here ...
+			}
+		);
+
+
+		PrivateDependencyModuleNames.AddRange(
+			new[]
+			{
+				"AbilitySystemCore",
+				"CoreUObject",
+				"Engine",
+				"GameplayAbilities",
+				"GameplayTags",
+				"InventorySystemCore"
+				// ... add private dependencies that you statically link with here ...	
+			}
+		);
+
+
+		DynamicallyLoadedModuleNames.AddRange(
+			new string[]
+			{
+				// ... add any modules that your module loads dynamically here ...
+			}
+		);
+	}
+}
+--- EquipmentSystemCore\Private\EquipmentSystemCore.cpp ---
+﻿#include "EquipmentSystemCore.h"
+
+#define LOCTEXT_NAMESPACE "FEquipmentSystemCoreModule"
+
+void FEquipmentSystemCoreModule::StartupModule()
+{
+}
+
+void FEquipmentSystemCoreModule::ShutdownModule()
+{
+}
+
+#undef LOCTEXT_NAMESPACE
+
+IMPLEMENT_MODULE(FEquipmentSystemCoreModule, EquipmentSystemCore)
+
+--- EquipmentSystemCore\Private\Abilities\EquipmentGameplayAbility.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Abilities/EquipmentGameplayAbility.h"
+#include "Instances/EquipmentInstance.h"
+#include "Instances/ItemInstance.h"
+
+#if WITH_EDITOR
+#include "Misc/DataValidation.h"
+#endif
+
+UEquipmentGameplayAbility::UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+}
+
+UEquipmentInstance* UEquipmentGameplayAbility::GetSourceEquipmentInstance() const
+{
+	return TryGetSourceObject<UEquipmentInstance>();
+}
+
+UEquipmentInstance* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance(const TSubclassOf<UEquipmentInstance>& InstanceClass) const
+{
+	if (UEquipmentInstance* Instance = TryGetSourceObject<UEquipmentInstance>(); IsValid(Instance) && Instance->IsA(InstanceClass))
+	{
+		return Instance;
+	}
+	return nullptr;
+}
+
+UItemInstance* UEquipmentGameplayAbility::GetSourceItemInstance() const
+{
+	if (const UEquipmentInstance* Instance = GetSourceEquipmentInstance(); IsValid(Instance))
+	{
+		return Cast<UItemInstance>(Instance->GetSourceItem());
+	}
+	return nullptr;
+}
+
+UItemInstance* UEquipmentGameplayAbility::GetTypedSourceItemInstance(const TSubclassOf<UItemInstance>& InstanceClass) const
+{
+	if (UItemInstance* Instance = GetSourceItemInstance(); IsValid(Instance) && Instance->IsA(InstanceClass))
+	{
+		return Instance;
+	}
+	return nullptr;
+}
+
+#if WITH_EDITOR
+EDataValidationResult UEquipmentGameplayAbility::IsDataValid(FDataValidationContext& Context) const
+{
+	EDataValidationResult Result = Super::IsDataValid(Context);
+
+	PRAGMA_DISABLE_DEPRECATION_WARNINGS
+	// Ensure that equipment abilities are always instanced
+	if (InstancingPolicy == EGameplayAbilityInstancingPolicy::NonInstanced)
+	{
+		Context.AddError(FText::FromString("Equipment abilities must be instanced."));
+		Result = EDataValidationResult::Invalid;
+	}
+	PRAGMA_ENABLE_DEPRECATION_WARNINGS
+
+	return Result;
+}
+#endif
+
+--- EquipmentSystemCore\Private\Actors\EquipmentActor.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Actors/EquipmentActor.h"
+
+AEquipmentActor::AEquipmentActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+{
+	PrimaryActorTick.bCanEverTick = false;
+
+	SetReplicates(true);
+}
+
+APawn* AEquipmentActor::GetPawn()
+{
+	return Cast<APawn>(GetOwner());
+}
+
+--- EquipmentSystemCore\Private\Components\EquipmentSystemComponent.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Components/EquipmentSystemComponent.h"
+
+#include "Data/EquipmentCache.h"
+#include "Data/EquipmentEntry.h"
+#include "Data/Slots/EquipmentSlotMapData.h"
+#include "Data/Slots/SlotDefinition.h"
+#include "Definitions/Fragments/ItemFragment_Equippable.h"
+#include "Engine/ActorChannel.h"
+#include "GameplayTags/EquipmentGameplayTags.h"
+#include "Instances/EquipmentInstance.h"
+#include "Instances/ItemInstance.h"
+#include "Log/EquipmentSystemLog.h"
+#include "Net/UnrealNetwork.h"
+#include "Policies/SlotPolicy.h"
+
+#include "Stats/EquipmentSystemStats.h"
+
+#define LOCTEXT_NAMESPACE "UEquipmentSystemComponent"
+
+UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer), EquipmentList(this)
+{
+	PrimaryComponentTick.bCanEverTick = false;
+	bWantsInitializeComponent = true;
+	
+	SetIsReplicatedByDefault(true);
+	bReplicateUsingRegisteredSubObjectList = true;
+}
+
+void UEquipmentSystemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ThisClass, EquipmentList);
+}
+
+bool UEquipmentSystemComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
+{
+	bool bReplicated = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
+
+	for (FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))
+		{
+			bReplicated |= Channel->ReplicateSubobject(Instance, *Bunch, *RepFlags);
+		}
+	}
+
+	return bReplicated;
+}
+
+void UEquipmentSystemComponent::ReadyForReplication()
+{
+	Super::ReadyForReplication();
+
+	// Register all equipment instances ready for replication with the actor component
+	if (IsUsingRegisteredSubObjectList())
+	{
+		for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+		{
+			if (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))
+			{
+				AddReplicatedSubObject(Instance);
+			}
+		}
+	}
+}
+
+void UEquipmentSystemComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	// Cache initialization
+	Cache = NewObject<UEquipmentCache>(this, "Cache");
+
+	if (IsValid(SlotMapData))
+	{
+		for (const FSlotDefinition& Def : SlotMapData->Slots)
+		{
+			if (Def.SlotTag.IsValid())
+			{
+				SlotMapRuntime.Add(Def.SlotTag, FDynamicEquipmentSlot{});
+			}
+		}
+	}
+}
+
+void UEquipmentSystemComponent::UninitializeComponent()
+{
+	TArray<FGameplayTag> SlotsToUnequip;
+	for (const auto& Pair : SlotMapRuntime)
+	{
+		if (IsValid(Pair.Value.ItemInstance))
+		{
+			SlotsToUnequip.Add(Pair.Key);
+		}
+	}
+
+	FGameplayTag FailureReason;
+	for (const FGameplayTag& SlotTag : SlotsToUnequip)
+	{
+		TryUnequipSlot(SlotTag, FailureReason);
+	}
+
+	Super::UninitializeComponent();
+}
+
+FEquipmentResult UEquipmentSystemComponent::TryEquipItem(UItemInstance* ItemInstance)
+{
+	FEquipmentResult Result;
+	if (!IsValid(ItemInstance))
+	{
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;
+		return Result;
+	}
+
+	const UItemFragment_Equippable* Frag = ItemInstance->FindFragmentByClass<UItemFragment_Equippable>();
+	if (!Frag || !Frag->EquipmentDefinition)
+	{
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return Result;
+	}
+
+	const UEquipmentDefinition* Definition = GetCachedDefinition(Frag->EquipmentDefinition);
+	const FGameplayTag SlotTag = Definition->SlotTag;
+
+	return TryEquipItemOnSlot(ItemInstance, Definition->SlotTag);
+}
+
+FEquipmentResult UEquipmentSystemComponent::TryEquipItemOnSlot(UItemInstance* ItemInstance, const FGameplayTag& SlotTag)
+{
+	FEquipmentResult Result;
+	if (!IsValid(ItemInstance))
+	{
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;
+		return Result;
+	}
+
+	const UItemFragment_Equippable* Frag = ItemInstance->FindFragmentByClass<UItemFragment_Equippable>();
+	if (!Frag || !Frag->EquipmentDefinition)
+	{
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return Result;
+	}
+
+	const UEquipmentDefinition* Definition = GetCachedDefinition(Frag->EquipmentDefinition);
+
+	// De-equip the current slot if necessary
+	if (const FDynamicEquipmentSlot* CurrentSlot = FindSlot(SlotTag))
+	{
+		if (IsValid(CurrentSlot->ItemInstance))
+		{
+			if (!Internal_ProcessUnequip(SlotTag, Result.FailureReason))
+			{
+				return Result;
+			}
+		}
+	}
+
+	return Internal_ProcessEquip(ItemInstance, SlotTag, Definition);
+}
+
+bool UEquipmentSystemComponent::TryUnequipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason)
+{
+	if (!IsValid(ItemInstance))
+	{
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;
+		return false;
+	}
+
+	const FGameplayTag Slot = GetSlotForItem(ItemInstance);
+	if (!Slot.IsValid())
+	{
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
+		return false;
+	}
+
+	return TryUnequipSlot(Slot, OutFailureReason);
+}
+
+bool UEquipmentSystemComponent::TryUnequipSlot(const FGameplayTag SlotTag, FGameplayTag& OutFailureReason)
+{
+	return Internal_ProcessUnequip(SlotTag, OutFailureReason);
+}
+
+bool UEquipmentSystemComponent::TrySwapSlots(const FGameplayTag& SlotA, const FGameplayTag& SlotB, FGameplayTag& OutFailureReason)
+{
+	// First validate that both slots exist in our runtime map
+	if (!SlotMapRuntime.Contains(SlotA) || !SlotMapRuntime.Contains(SlotB))
+	{
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
+		return false;
+	}
+
+	const FDynamicEquipmentSlot& SlotDataA = SlotMapRuntime.FindChecked(SlotA);
+	const FDynamicEquipmentSlot& SlotDataB = SlotMapRuntime.FindChecked(SlotB);
+
+	// If both slots are empty, no swap is needed
+	if (!IsValid(SlotDataA.ItemInstance) && !IsValid(SlotDataB.ItemInstance))
+	{
+		return true;
+	}
+
+	// Store slot A contents before we start moving things around
+	UItemInstance* TempItemA = SlotDataA.ItemInstance;
+	UEquipmentInstance* TempEquipA = SlotDataA.EquipmentInstance;
+
+	// First phase: Unequip both slots while preserving the item references
+	if (IsValid(SlotDataA.ItemInstance))
+	{
+		if (!Internal_ProcessUnequip(SlotA, OutFailureReason, true))
+		{
+			return false;
+		}
+	}
+
+	if (IsValid(SlotDataB.ItemInstance))
+	{
+		if (!Internal_ProcessUnequip(SlotB, OutFailureReason, true))
+		{
+			// On failure, restore slot A to its original state
+			if (IsValid(TempItemA))
+			{
+				if (const UItemFragment_Equippable* Frag = TempItemA->FindFragmentByClass<UItemFragment_Equippable>(); Frag->EquipmentDefinition)
+				{
+					Internal_ProcessEquip(TempItemA, SlotA, GetCachedDefinition(Frag->EquipmentDefinition));
+				}
+			}
+			return false;
+		}
+	}
+
+	// Second phase: Cross-equip items into their new slots
+	bool bSuccess = true;
+	if (IsValid(SlotDataB.ItemInstance))
+	{
+		if (const UItemFragment_Equippable* Frag = SlotDataB.ItemInstance->FindFragmentByClass<UItemFragment_Equippable>(); Frag->EquipmentDefinition)
+		{
+			const FEquipmentResult Result = Internal_ProcessEquip(SlotDataB.ItemInstance, SlotA, GetCachedDefinition(Frag->EquipmentDefinition));
+			bSuccess = Result.Succeeded();
+		}
+	}
+
+	if (bSuccess && IsValid(TempItemA))
+	{
+		if (const UItemFragment_Equippable* Frag = TempItemA->FindFragmentByClass<UItemFragment_Equippable>(); Frag->EquipmentDefinition)
+		{
+			const FEquipmentResult Result = Internal_ProcessEquip(TempItemA, SlotB, GetCachedDefinition(Frag->EquipmentDefinition));
+			bSuccess = Result.Succeeded();
+		}
+	}
+
+	return bSuccess;
+}
+
+bool UEquipmentSystemComponent::IsSlotBlocked(const FGameplayTag& SlotTag, const bool bExact) const
+{
+	if (bExact)
+	{
+		return BlockedSlots.GetTagCount(SlotTag) > 0;
+	}
+	return BlockedSlots.HasMatchingGameplayTag(SlotTag);
+}
+
+const FDynamicEquipmentSlot* UEquipmentSystemComponent::FindSlot(const FGameplayTag& SlotTag) const
+{
+	return SlotMapRuntime.Find(SlotTag);
+}
+
+const FGameplayTag& UEquipmentSystemComponent::GetSlotForItem(UItemInstance* ItemInstance)
+{
+	if (IsValid(ItemInstance))
+	{
+		for (const auto& [SlotTag, SlotData] : SlotMapRuntime)
+		{
+			if (SlotData.ItemInstance == ItemInstance)
+			{
+				return SlotTag;
+			}
+		}
+	}
+	return FGameplayTag::EmptyTag;
+}
+
+UItemInstance* UEquipmentSystemComponent::GetItemInSlot(const FGameplayTag& SlotTag)
+{
+	if (SlotMapRuntime.Contains(SlotTag))
+	{
+		return SlotMapRuntime.FindChecked(SlotTag).ItemInstance;
+	}
+	return nullptr;
+}
+
+UEquipmentInstance* UEquipmentSystemComponent::GetEquipmentInSlot(const FGameplayTag& SlotTag)
+{
+	if (SlotMapRuntime.Contains(SlotTag))
+	{
+		return SlotMapRuntime.FindChecked(SlotTag).EquipmentInstance;
+	}
+	return nullptr;
+}
+
+
+void UEquipmentSystemComponent::GetEquippedItems(TMap<FGameplayTag, UItemInstance*>& OutItems) const
+{
+	OutItems.Empty();
+	for (const auto& [SlotTag, SlotData] : SlotMapRuntime)
+	{
+		if (SlotData.ItemInstance)
+		{
+			OutItems.Add(SlotTag, SlotData.ItemInstance);
+		}
+	}
+}
+
+UEquipmentInstance* UEquipmentSystemComponent::GetInstanceOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass)
+{
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UEquipmentInstance* Instance = Entry.Instance)
+		{
+			if (Instance->IsA(InstanceClass))
+			{
+				return Instance;
+			}
+		}
+	}
+	return nullptr;
+}
+
+TArray<UEquipmentInstance*> UEquipmentSystemComponent::GetAllInstancesOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass)
+{
+	TArray<UEquipmentInstance*> Results;
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UEquipmentInstance* Instance = Entry.Instance)
+		{
+			if (Instance->IsA(InstanceClass))
+			{
+				Results.Add(Instance);
+			}
+		}
+	}
+	return Results;
+}
+
+UEquipmentDefinition* UEquipmentSystemComponent::GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const
+{
+	if (IsValid(Cache))
+	{
+		return Cache->GetCachedDefinition(Class);
+	}
+	if (IsValid(Class))
+	{
+		return NewObject<UEquipmentDefinition>(GetOuter(), Class);
+	}
+	return nullptr;
+}
+
+UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance* ItemInstance)
+{
+	for (FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UEquipmentInstance* Instance = Entry.Instance)
+		{
+			if (Instance->GetSourceItem() == ItemInstance)
+			{
+				return Instance;
+			}
+		}
+	}
+	return nullptr;
+}
+
+void UEquipmentSystemComponent::PostEquipmentEquipped(const FEquipmentChangeData& Data)
+{
+	OnEquipmentEquipped.Broadcast(Data);
+}
+
+void UEquipmentSystemComponent::PostEquipmentUnequipped(const FEquipmentChangeData& Data)
+{
+	OnEquipmentUnequipped.Broadcast(Data);
+}
+
+void UEquipmentSystemComponent::PostEquipmentChanged(const FEquipmentChangeData& Data)
+{
+	OnEquipmentChanged.Broadcast(Data);
+}
+
+void UEquipmentSystemComponent::LockSlots(const FGameplayTagContainer& Tags)
+{
+	BlockedSlots.UpdateTagCount(Tags, 1);
+}
+
+void UEquipmentSystemComponent::UnlockSlots(const FGameplayTagContainer& Tags)
+{
+	BlockedSlots.UpdateTagCount(Tags, -1);
+}
+
+FEquipmentResult UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance* ItemInstance, const FGameplayTag& TargetSlot, const UEquipmentDefinition* Definition)
+{
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessEquip);
+
+	FEquipmentResult Result;
+	// Validate input parameters
+	if (!IsValid(ItemInstance))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of a null item instance."));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;
+		return Result;
+	}
+
+	if (!IsValid(Definition))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s with a null equipment definition."), *GetNameSafe(ItemInstance));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return Result;
+	}
+
+	// Validate slot exists in our equipment system
+	if (!FindSlot(TargetSlot))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s but did not found slot %s in the slot map."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
+		return Result;
+	}
+
+	// Check if slot is currently blocked by another item
+	if (IsSlotBlocked(TargetSlot, true))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s on slot %s but the slot is blocked."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotBlocked;
+		return Result;
+	}
+
+	// Check if the slot policy allows this equipment
+	if (const USlotPolicy* Policy = Definition->SlotPolicy)
+	{
+		if (!Policy->CanEquipItem(ItemInstance, TargetSlot, this))
+		{
+			Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_PolicyRefused;
+			return Result;
+		}
+	}
+
+	// Perform the actual equipment operation
+	Result = Internal_EquipOnSlot(TargetSlot, ItemInstance, Definition);
+	if (!Result.Succeeded())
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process equipment of %s as %s on slot %s but failed to instantiate the equipment."), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
+		return Result;
+	}
+	
+	return Result;
+}
+
+bool UEquipmentSystemComponent::Internal_ProcessUnequip(const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason, const bool bPreserveItem)
+{
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessUnequip);
+
+	// Validate that the slot exists in our runtime map
+	if (!SlotMapRuntime.Contains(SlotTag))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment but did not found slot %s in the slot map."), *SlotTag.ToString());
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;
+		return false;
+	}
+
+	auto& SlotData = SlotMapRuntime.FindChecked(SlotTag);
+
+	// Check if there's actually something equipped in this slot
+	if (!IsValid(SlotData.ItemInstance) || !IsValid(SlotData.EquipmentInstance))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment but the slot %s is empty."), *SlotTag.ToString());
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotEmpty;
+		return false;
+	}
+
+	// Validate that the item has the required equippable fragment
+	const UItemFragment_Equippable* Frag = SlotData.ItemInstance->FindFragmentByClass<UItemFragment_Equippable>();
+	if (!Frag || !Frag->EquipmentDefinition)
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment on the slot %s but did found a non-equipable item."), *SlotTag.ToString());
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return false;
+	}
+
+	// Get and validate the equipment definition
+	const UEquipmentDefinition* Def = GetCachedDefinition(Frag->EquipmentDefinition);
+	if (!IsValid(Def))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to process un-equipment on the slot %s but impossible to get the equipment definition."), *SlotTag.ToString());
+		OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
+		return false;
+	}
+
+	// Remove any slot blocking applied by this equipment's policy
+	if (const USlotPolicy* Policy = Def->SlotPolicy)
+	{
+		UnlockSlots(Policy->GetBlockedSlotTags());
+	}
+
+	// Store the instance before clearing slot data
+	UEquipmentInstance* Instance = SlotData.EquipmentInstance;
+	if (!bPreserveItem)
+	{
+		SlotData.ItemInstance = nullptr;
+	}
+	SlotData.EquipmentInstance = nullptr;
+
+	// Clean up the equipment instance
+	if (IsValid(Instance))
+	{
+		if (IsUsingRegisteredSubObjectList())
+		{
+			RemoveReplicatedSubObject(Instance);
+		}
+		Instance->OnUnequipped();
+		EquipmentList.Remove(Instance, OutFailureReason);
+	}
+
+	OutFailureReason = FGameplayTag::EmptyTag;
+	return true;
+}
+
+
+FEquipmentResult UEquipmentSystemComponent::Internal_EquipOnSlot(const FGameplayTag& SlotTag, UItemInstance* ItemInstance, const UEquipmentDefinition* Definition)
+{
+	SCOPE_CYCLE_COUNTER(STAT_Equipment_EquipOnSlot);
+
+	// Create a new equipment instance and add it to our list
+	FEquipmentResult Result = EquipmentList.Add(Definition->GetClass(), ItemInstance);
+	if (!Result.Succeeded())
+	{
+		return Result;
+	}
+
+	// Notify the instance it has been equipped
+	Result.Instance->OnEquipped();
+
+	// Setup replication if needed
+	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+	{
+		AddReplicatedSubObject(Result.Instance);
+	}
+
+	// Update the runtime slot with the new equipment
+	FDynamicEquipmentSlot& RuntimeSlot = SlotMapRuntime.FindChecked(SlotTag);
+	RuntimeSlot.SlotTag = SlotTag;
+	RuntimeSlot.ItemInstance = ItemInstance;
+	RuntimeSlot.EquipmentInstance = Result.Instance;
+
+	// Apply any slot blocking from the equipment policy
+	if (const USlotPolicy* Policy = Definition->SlotPolicy)
+	{
+		LockSlots(Policy->GetBlockedSlotTags());
+	}
+
+	return Result;
+}
+
+#undef LOCTEXT_NAMESPACE
+
+--- EquipmentSystemCore\Private\Data\EquipmentCache.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Data/EquipmentCache.h"
+
+#include "Definitions/EquipmentDefinition.h"
+
+UEquipmentCache::UEquipmentCache()
+{
+	// Register the cache for cleanup after garbage collection
+	FCoreUObjectDelegates::GetPostGarbageCollect().AddUObject(this, &UEquipmentCache::Clean);
+}
+
+UEquipmentCache::~UEquipmentCache()
+{
+	// Unregister from the garbage collection delegate
+	FCoreUObjectDelegates::GetPostGarbageCollect().RemoveAll(this);
+}
+
+UEquipmentDefinition* UEquipmentCache::GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class)
+{
+	if (!IsValid(Class))
+	{
+		return nullptr;
+	}
+
+	// Lock the critical section to ensure thread-safe access to the cache
+	FScopeLock Lock(&CacheLock);
+	if (const TWeakObjectPtr<UEquipmentDefinition>* const FoundDefinition = CachedDefinitionMap.Find(Class))
+	{
+		if (UEquipmentDefinition* Definition = FoundDefinition->Get(); IsValid(Definition))
+		{
+			return Definition;
+		}
+	}
+
+	// If the definition is not cached, create a new instance
+	UEquipmentDefinition* NewDefinition = NewObject<UEquipmentDefinition>(this, Class);
+	CachedDefinitionMap.Add(Class, NewDefinition);
+
+	return NewDefinition;
+}
+
+bool UEquipmentCache::IsCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class)
+{
+	FScopeLock Lock(&CacheLock);
+	const bool IsCachedDefinition = CachedDefinitionMap.Contains(Class);
+	return IsCachedDefinition;
+}
+
+void UEquipmentCache::Clean()
+{
+	if (IsValid(this))
+	{
+		// Lock the critical section to ensure thread-safe access to the cache
+		FScopeLock Lock(&CacheLock);
+		for (auto It = CachedDefinitionMap.CreateIterator(); It; ++It)
+		{
+			if (It.Value() == nullptr || !It.Value().IsValid())
+			{
+				It.RemoveCurrent();
+			}
+		}
+	}
+}
+
+--- EquipmentSystemCore\Private\Data\EquipmentEntry.cpp ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Data/EquipmentEntry.h"
+
+#include "Components/EquipmentSystemComponent.h"
+#include "Data/EquipmentList.h"
+#include "Definitions/EquipmentDefinition.h"
+#include "Instances/EquipmentInstance.h"
+#include "Log/EquipmentSystemLog.h"
+
+void FEquipmentEntry::PreReplicatedRemove(const FEquipmentList& InArraySerializer) const
+{
+	if (InArraySerializer.OwnerComponent)
+	{
+		UE_LOG(LogEquipmentSystem, Verbose, TEXT("%s: OnRemoveEntry (Non-Auth): %s (Last) %s"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), *GetNameSafe(LastInstance.Get()));
+	}
+}
+
+void FEquipmentEntry::PostReplicatedAdd(const FEquipmentList& InArraySerializer) const
+{
+	if (InArraySerializer.OwnerComponent)
+	{
+		UE_LOG(LogEquipmentSystem, Verbose, TEXT("%s: OnAddedEntry (Non-Auth): %s (Last) %s"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), *GetNameSafe(LastInstance.Get()));
+	}
+}
+
+void FEquipmentEntry::PostReplicatedChange(const FEquipmentList& InArraySerializer) const
+{
+	if (InArraySerializer.OwnerComponent)
+	{
+		UE_LOG(LogEquipmentSystem, Verbose, TEXT("%s: OnChangedEntry (Non-Auth): %s (Last) %s"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), *GetNameSafe(LastInstance.Get()));
+	}
+}
+
+FString FEquipmentEntry::GetDebugString() const
+{
+	return FString::Printf(TEXT("%s [Def: %s]"), *GetNameSafe(Instance), *GetNameSafe(EquipmentDefinition.Get()));
+}
+
+--- EquipmentSystemCore\Private\Data\EquipmentList.cpp ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Data/EquipmentList.h"
+
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
+#include "Components/EquipmentSystemComponent.h"
+#include "Data/AbilitySet.h"
+#include "Data/AbilitySetHandles.h"
+#include "Data/EquipmentChangeData.h"
+#include "GameplayTags/EquipmentGameplayTags.h"
+#include "Instances/EquipmentInstance.h"
+#include "Log/EquipmentSystemLog.h"
+
+FEquipmentList::FEquipmentList()
+{
+}
+
+FEquipmentList::FEquipmentList(UEquipmentSystemComponent* InOwnerComponent)
+	: OwnerComponent(InOwnerComponent)
+{
+}
+
+FEquipmentList::~FEquipmentList()
+{
+	Entries.Empty();
+}
+
+void FEquipmentList::PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize)
+{
+	for (const int32 Index : RemovedIndices)
+	{
+		if (FEquipmentEntry& Entry = Entries[Index]; Entry.Instance != nullptr)
+		{
+			Entry.Instance->OnUnequipped();
+			Entry.LastInstance = nullptr;
+
+			Internal_OnEntryRemoved(Index, Entry);
+		}
+	}
+}
+
+void FEquipmentList::PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize)
+{
+	for (const int32 Index : AddedIndices)
+	{
+		if (FEquipmentEntry& Entry = Entries[Index]; Entry.Instance != nullptr)
+		{
+			Entry.Instance->OnEquipped();
+			Entry.LastInstance = MakeWeakObjectPtr<UEquipmentInstance>(Entry.Instance);
+
+			Internal_OnEntryAdded(Index, Entry);
+		}
+	}
+}
+
+void FEquipmentList::PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize)
+{
+	for (const int32 Index : ChangedIndices)
+	{
+		if (Entries.IsValidIndex(Index))
+		{
+			FEquipmentEntry& Entry = Entries[Index];
+
+			if (IsValid(Entry.Instance))
+			{
+				Entry.Instance->OnEquipped();
+			}
+
+			if (Entry.Instance != Entry.LastInstance.Get() && Entry.LastInstance.IsValid())
+			{
+				Entry.LastInstance->OnUnequipped();
+				Entry.LastInstance = MakeWeakObjectPtr<UEquipmentInstance>(Entry.Instance);
+			}
+
+			Internal_OnEntryChanged(Index, Entry);
+		}
+	}
+}
+
+FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance)
+{
+	FEquipmentResult Result;
+	if (DefinitionClass == nullptr || !IsValid(OwnerComponent))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from invalid definition class."));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return Result;
+	}
+
+	AActor* OwnerActor = OwnerComponent->GetOwner();
+	if (!OwnerActor->HasAuthority())
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from invalid definition class."));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NotAuthority;
+		return Result;
+	}
+
+	UEquipmentDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	if (!CachedDefinition->CanBeEquipped(OwnerComponent, Result.FailureReason))
+	{
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from %s, but the definition conditions are not met."), *GetNameSafe(DefinitionClass));
+		if (!Result.FailureReason.IsValid())
+			Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_DefinitionRefused;
+		return Result;
+	}
+
+	// Prepare an instance type to spawn, use the default one by default
+	TSubclassOf<UEquipmentInstance> InstanceType = CachedDefinition->InstanceClass;
+	if (InstanceType == nullptr)
+	{
+		InstanceType = UEquipmentDefinition::StaticClass();
+	}
+
+	// Add default entry
+	FEquipmentEntry& Entry = Entries.AddDefaulted_GetRef();
+
+	Entry.EquipmentDefinition = DefinitionClass;
+	Entry.Instance = NewObject<UEquipmentInstance>(OwnerActor, InstanceType);
+
+	UEquipmentInstance* Instance = Entry.Instance;
+	Instance->SetDefinition(CachedDefinition);
+	Instance->SetInstigator(OwnerActor);
+	Instance->SetSourceItem(SourceItemInstance);
+
+	Result.Instance = Instance;
+
+	// Give the ability sets
+	if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
+	{
+		for (const TObjectPtr<const UAbilitySet>& AbilitySet : CachedDefinition->AbilitySets)
+		{
+			AbilitySet->GiveToAbilitySystem(AbilitySystemComp, &Entry.Handles, Instance);
+		}
+	}
+
+	// Ask the instance to spawn attachment actors
+	Instance->SpawnActors(CachedDefinition->ActorsToSpawn);
+	Instance->OnSpawned();
+
+	// Mark the item dirty for the serializer replication
+	MarkItemDirty(Entry);
+
+	return Result;
+}
+
+void FEquipmentList::Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason)
+{
+	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
+	{
+		if (FEquipmentEntry& Entry = *EntryIterator; Entry.Instance == Instance)
+		{
+			if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
+			{
+				Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);
+			}
+
+			// Ask the instance to destroy its attachment actors
+			Instance->DestroyActors();
+
+			EntryIterator.RemoveCurrent();
+			MarkArrayDirty();
+		}
+	}
+}
+
+void FEquipmentList::Internal_OnEntryChanged(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = Entry.Instance;
+	Data.OldInstance = nullptr;
+	Data.ChangeType = EEquipmentChangeType::Modified;
+
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
+void FEquipmentList::Internal_OnEntryAdded(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = Entry.Instance;
+	Data.OldInstance = nullptr;
+	Data.ChangeType = EEquipmentChangeType::Equipped;
+
+	OwnerComponent->PostEquipmentEquipped(Data);
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
+void FEquipmentList::Internal_OnEntryRemoved(const int32 Index, const FEquipmentEntry& Entry) const
+{
+	FEquipmentChangeData Data;
+	Data.Index = Index;
+	Data.NewInstance = nullptr;
+	Data.OldInstance = Entry.Instance;
+	Data.ChangeType = EEquipmentChangeType::Unequipped;
+
+	OwnerComponent->PostEquipmentUnequipped(Data);
+	OwnerComponent->PostEquipmentChanged(Data);
+}
+
+UAbilitySystemComponent* FEquipmentList::GetAbilitySystemComponent() const
+{
+	check(OwnerComponent);
+
+	const AActor* OwningActor = OwnerComponent->GetOwner();
+	return UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor);
+}
+
+--- EquipmentSystemCore\Private\Data\Slots\EquipmentSlotMapData.cpp ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Data/Slots/EquipmentSlotMapData.h"
+
+FPrimaryAssetId UEquipmentSlotMapData::GetPrimaryAssetId() const
+{
+	return FPrimaryAssetId("SlotMap", GetFName());
+}
+
+--- EquipmentSystemCore\Private\Definitions\EquipmentDefinition.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Definitions/EquipmentDefinition.h"
+
+#include "Definitions/Fragments/EquipmentFragment.h"
+#include "Instances/EquipmentInstance.h"
+
+UEquipmentDefinition::UEquipmentDefinition(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
+{
+	InstanceClass = UEquipmentInstance::StaticClass();
+}
+
+#if WITH_EDITOR
+void UEquipmentDefinition::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	// Check if the Fragments property has changed
+	if (PropertyChangedEvent.Property && PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UEquipmentDefinition, Fragments))
+	{
+		TSet<UClass*> FragmentClasses;
+		for (int32 i = Fragments.Num() - 1; i >= 0; --i)
+		{
+			if (const UEquipmentFragment* Fragment = Fragments[i]; IsValid(Fragment) && FragmentClasses.Contains(Fragment->GetClass()))
+			{
+				// Remove duplicate fragments
+				Fragments.RemoveAt(i);
+
+				UE_LOG(LogTemp, Warning, TEXT("Only one fragment per class is allowed. Duplicate fragment removed."));
+			}
+			else if (Fragment)
+			{
+				FragmentClasses.Add(Fragment->GetClass());
+			}
+		}
+	}
+}
+#endif
+
+const UEquipmentFragment* UEquipmentDefinition::FindFragmentByClass(const TSubclassOf<UEquipmentFragment> FragmentClass) const
+{
+	if (IsValid(FragmentClass))
+	{
+		for (const UEquipmentFragment* Fragment : Fragments)
+		{
+			if (IsValid(Fragment) && Fragment->IsA(FragmentClass))
+			{
+				return Fragment;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+bool UEquipmentDefinition::CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason)
+{
+	return K2_CanBeEquipped(EquipmentSystemComponent, OutFailureReason);
+}
+
+bool UEquipmentDefinition::K2_CanBeEquipped_Implementation(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason)
+{
+	return true;
+}
+
+--- EquipmentSystemCore\Private\Definitions\Fragments\EquipmentFragment.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Definitions/Fragments/EquipmentFragment.h"
+
+void UEquipmentFragment::OnInstanceCreated(UEquipmentInstance* Instance) const
+{
+}
+
+--- EquipmentSystemCore\Private\Definitions\Fragments\ItemFragment_Equippable.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Definitions/Fragments/ItemFragment_Equippable.h"
+
+void UItemFragment_Equippable::OnInstanceCreated(UItemInstance* Instance)
+{
+	Super::OnInstanceCreated(Instance);
+}
+
+--- EquipmentSystemCore\Private\GameplayTags\EquipmentGameplayTags.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "GameplayTags/EquipmentGameplayTags.h"
+
+namespace EquipmentSystemGameplayTags
+{
+	// Base tag for equipment slots
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Slot, "Equipment.Slot", "Root gameplay tag for equipment slots");
+
+	// Equipment failure tags
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure, "Equipment.Failure", "Root tag for equipment failures");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NullItem, "Equipment.Failure.NullItem", "The item to equip is null");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_MissingDefinition, "Equipment.Failure.MissingDefinition", "Equipment definition is missing");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotNotFound, "Equipment.Failure.SlotNotFound", "Requested slot does not exist");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotEmpty, "Equipment.Failure.SlotNotFound", "Requested slot does not exist");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotBlocked, "Equipment.Failure.SlotBlocked", "The slot is currently blocked");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_PolicyRefused, "Equipment.Failure.PolicyRefused", "Equipment policy refused the equipment");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_Internal, "Equipment.Failure.Internal", "Internal error during equipment process");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_DefinitionRefused, "Equipment.Failure.DefinitionRefused", "Equipment definition conditions are not met");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NotAuthority, "Equipment.Failure.NotAuthority", "Internal error during equipment process");
+} // namespace EquipmentSystemGameplayTags
+
+--- EquipmentSystemCore\Private\Instances\EquipmentInstance.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Instances/EquipmentInstance.h"
+
+#include "GameFramework/Character.h"
+#include "Log/EquipmentSystemLog.h"
+#include "Net/UnrealNetwork.h"
+
+#if UE_WITH_IRIS
+#endif
+
+UEquipmentInstance::UEquipmentInstance(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.Get())
+{
+}
+
+UWorld* UEquipmentInstance::GetWorld() const
+{
+	if (const APawn* OwningPawn = GetPawn(); IsValid(OwningPawn))
+	{
+		return OwningPawn->GetWorld();
+	}
+	return nullptr;
+}
+
+void UEquipmentInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	UObject::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ThisClass, DefinitionClass);
+	DOREPLIFETIME(ThisClass, Instigator);
+	DOREPLIFETIME(ThisClass, SpawnedActors);
+	DOREPLIFETIME(ThisClass, Components);
+}
+
+APawn* UEquipmentInstance::GetPawn() const
+{
+	return Cast<APawn>(GetOuter());
+}
+
+APawn* UEquipmentInstance::GetTypedPawn(const TSubclassOf<APawn>& PawnType) const
+{
+	if (UClass* PawnClass = PawnType->GetClass(); IsValid(PawnClass) && IsValid(PawnType))
+	{
+		if (GetOuter()->IsA(PawnClass))
+		{
+			return Cast<APawn>(GetOuter());
+		}
+	}
+	return nullptr;
+}
+
+UEquipmentComponent* UEquipmentInstance::AddComponent(const TSubclassOf<UEquipmentComponent> ComponentClass)
+{
+	if (UEquipmentComponent* const Component = NewObject<UEquipmentComponent>(ComponentClass); IsValid(Component))
+	{
+		Components.Add(Component);
+		return Component;
+	}
+	return nullptr;
+}
+
+const UEquipmentComponent* UEquipmentInstance::FindComponentByClass(const TSubclassOf<UEquipmentComponent> ComponentClass) const
+{
+	if (IsValid(ComponentClass))
+	{
+		for (const UEquipmentComponent* Component : Components)
+		{
+			if (IsValid(Component) && Component->IsA(ComponentClass))
+			{
+				return Component;
+			}
+		}
+	}
+
+	return nullptr;
+}
+
+UObject* UEquipmentInstance::GetInstigator() const
+{
+	return Instigator;
+}
+
+void UEquipmentInstance::SetInstigator(UObject* InInstigator)
+{
+	Instigator = InInstigator;
+}
+
+UItemInstance* UEquipmentInstance::GetSourceItem() const
+{
+	return SourceItem;
+}
+
+TSubclassOf<UEquipmentDefinition> UEquipmentInstance::GetDefinitionClass() const
+{
+	return DefinitionClass;
+}
+
+UEquipmentDefinition* UEquipmentInstance::GetDefinition() const
+{
+	return Definition.Get();
+}
+
+void UEquipmentInstance::SetSourceItem(UItemInstance* InSourceObject)
+{
+	SourceItem = InSourceObject;
+}
+
+void UEquipmentInstance::SetDefinition(UEquipmentDefinition* InDefinition)
+{
+	Definition = InDefinition;
+	if (IsValid(InDefinition))
+	{
+		DefinitionClass = InDefinition->GetClass();
+	}
+}
+
+void UEquipmentInstance::SpawnActors(const TArray<FEquipmentActorSet>& ActorsToSpawn)
+{
+	UWorld* World = GetWorld();
+	verifyf(IsValid(World), TEXT("Invalid world to spawn actors for %s"), *GetName());
+
+	if (APawn* OwningPawn = GetPawn(); IsValid(OwningPawn))
+	{
+		// Use a root scene component as an attachment target by default
+		USceneComponent* AttachTarget = OwningPawn->GetRootComponent();
+		if (const ACharacter* Character = Cast<ACharacter>(OwningPawn))
+		{
+			AttachTarget = Character->GetMesh();
+		}
+
+		for (const auto& [SlotTag, ActorClass, AttachSocket, AttachTransform] : ActorsToSpawn)
+		{
+			if (!IsValid(ActorClass))
+			{
+				UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to spawn equipment actors with an invalid actor class for %s!"), *GetName());
+				continue;
+			}
+
+			if (const auto NewActor = World->SpawnActorDeferred<AActor>(ActorClass, FTransform::Identity, OwningPawn); IsValid(NewActor))
+			{
+				NewActor->SetInstigator(OwningPawn);
+				NewActor->FinishSpawning(FTransform::Identity, true);
+
+				// Set relative transform before attaching
+				NewActor->SetActorRelativeTransform(AttachTransform);
+				NewActor->AttachToComponent(AttachTarget, FAttachmentTransformRules::KeepRelativeTransform, AttachSocket);
+
+				SpawnedActors.Add(NewActor);
+			}
+		}
+		return;
+	}
+
+	UE_LOG(LogEquipmentSystem, Error, TEXT("Tried to spawn equipment actors with an invalid pawn !"));
+}
+
+void UEquipmentInstance::DestroyActors()
+{
+	for (AActor* Actor : SpawnedActors)
+	{
+		if (IsValid(Actor))
+		{
+			Actor->Destroy();
+		}
+	}
+}
+
+void UEquipmentInstance::OnEquipped()
+{
+	K2_OnEquipped();
+}
+
+void UEquipmentInstance::OnUnequipped()
+{
+	K2_OnUnequipped();
+}
+
+void UEquipmentInstance::OnSpawned()
+{
+}
+
+void UEquipmentInstance::OnRep_Instigator()
+{
+}
+
+--- EquipmentSystemCore\Private\Instances\Components\EquipmentComponent.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Instances/Components/EquipmentComponent.h"
+
+void UEquipmentComponent::Initialize(UEquipmentInstance* InInstance)
+{
+	OwningInstance = InInstance;
+}
+
+UEquipmentInstance* UEquipmentComponent::GetOwningInstance()
+{
+	return OwningInstance;
+}
+
+--- EquipmentSystemCore\Private\Log\EquipmentSystemLog.cpp ---
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#include "Log/EquipmentSystemLog.h"
+
+DEFINE_LOG_CATEGORY(LogEquipmentSystem);
+
+--- EquipmentSystemCore\Private\Policies\SlotPolicy.cpp ---
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Policies/SlotPolicy.h"
+
+#include "Components/EquipmentSystemComponent.h"
+
+bool USlotPolicy::DoesBlockTag_Implementation(const FGameplayTag& TargetSlot, const UItemInstance* Item, const UObject* Context) const
+{
+	if (!BlockedSlotTags.IsValid())
+	{
+		return true;
+	}
+
+	return BlockedSlotTags.HasTag(TargetSlot) == false;
+}
+
+void USlotPolicy::GetBlockedSlotTags(FGameplayTagContainer& TagContainer) const
+{
+	TagContainer.Reset();
+	TagContainer.AppendTags(BlockedSlotTags);
+}
+
+bool USlotPolicy::CanEquipItem(const UItemInstance* Item, const FGameplayTag& TargetSlot, const UObject* Context) const
+{
+	return K2_CanEquipItem(Item, TargetSlot, Context);
+}
+
+const FGameplayTagContainer& USlotPolicy::GetBlockedSlotTags() const
+{
+	return BlockedSlotTags;
+}
+
+--- EquipmentSystemCore\Private\Settings\EquipmentSystemSettings.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Settings/EquipmentSystemSettings.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogEquipmentSettings, Warning, All)
+
+FName UEquipmentSystemSettings::GetContainerName() const
+{
+	static const FName Name("Project");
+	return Name;
+}
+
+FName UEquipmentSystemSettings::GetCategoryName() const
+{
+	static const FName Name("Game");
+	return Name;
+}
+
+UEquipmentSystemSettings* UEquipmentSystemSettings::GetEquipmentSystemSettings()
+{
+	// This is a singleton. Use a default object
+	return GetMutableDefault<UEquipmentSystemSettings>();
+}
+
+void UEquipmentSystemSettings::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+}
+
+--- EquipmentSystemCore\Private\Stats\EquipmentSystemStats.cpp ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Stats/EquipmentSystemStats.h"
+
+DEFINE_STAT(STAT_Equipment_ProcessEquip);
+DEFINE_STAT(STAT_Equipment_ProcessUnequip);
+DEFINE_STAT(STAT_Equipment_EquipOnSlot);
+
+--- EquipmentSystemCore\Public\EquipmentSystemCore.h ---
+﻿#pragma once
+
+#include "CoreMinimal.h"
+#include "Modules/ModuleManager.h"
+
+class FEquipmentSystemCoreModule : public IModuleInterface
+{
+public:
+	virtual void StartupModule() override;
+	virtual void ShutdownModule() override;
+};
+
+--- EquipmentSystemCore\Public\Abilities\EquipmentGameplayAbility.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "Abilities/GameplayAbilityBase.h"
+#include "CoreMinimal.h"
+#include "Instances/ItemInstance.h"
+
+#include "EquipmentGameplayAbility.generated.h"
+
+class UItemInstance;
+class UEquipmentInstance;
+
+/**
+ * @class UEquipmentGameplayAbility
+ * @see UGameplayAbilityBase
+ * @brief This class represents a gameplay ability specifically for equipment.
+ * It extends the base gameplay ability with equipment-specific functionality.
+ */
+UCLASS()
+class EQUIPMENTSYSTEMCORE_API UEquipmentGameplayAbility : public UGameplayAbilityBase
+{
+	GENERATED_BODY()
+
+public:
+	UEquipmentGameplayAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	/**
+	 * Gets the source equipment instance for this ability.
+	 * @return The UEquipmentInstance associated with this ability.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UEquipmentInstance* GetSourceEquipmentInstance() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability", BlueprintPure = false, meta = (DeterminesOutputType = InstanceClass))
+	UEquipmentInstance* GetTypedSourceEquipmentInstance(const TSubclassOf<UEquipmentInstance>& InstanceClass) const;
+
+
+	/**
+	 * Gets the source item instance for this ability.
+	 * @return The UItemInstance associated with this ability's equipment.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	UItemInstance* GetSourceItemInstance() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability", BlueprintPure = false, meta = (DeterminesOutputType = InstanceClass))
+	UItemInstance* GetTypedSourceItemInstance(const TSubclassOf<UItemInstance>& InstanceClass) const;
+
+	/** Template method that attempts to get the source object as the specified type.
+	 * @tparam T The type to cast the source object to.
+	 * @return The source object cast to the specified type, or nullptr if invalid.
+	 */
+	template <class T>
+	T* TryGetSourceObject() const;
+
+	/** Template method that retrieves the source item instance as the specified type.
+	 * @tparam T The type to cast the item instance to.
+	 * @return The source item instance cast to the specified type, or nullptr if invalid.
+	 */
+	template <class T>
+	T* GetTypedSourceItemInstance();
+
+	/** Template method that retrieves the source equipment instance as the specified type.
+	 * @tparam T The type to cast the equipment instance to.
+	 * @return The source equipment instance cast to the specified type, or nullptr if invalid.
+	 */
+	template <class T>
+	T* GetTypedSourceEquipmentInstance();
+
+#if WITH_EDITOR
+	/**
+	 * Validates the data for this ability in the editor.
+	 * @param Context The data validation context.
+	 * @return The result of the data validation.
+	 */
+	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
+#endif
+};
+
+template <class T>
+T* UEquipmentGameplayAbility::TryGetSourceObject() const
+{
+	if (UObject* const SourceObject = GetCurrentSourceObject(); IsValid(SourceObject))
+	{
+		return Cast<T>(SourceObject);
+	}
+	return nullptr;
+}
+
+template <class T>
+T* UEquipmentGameplayAbility::GetTypedSourceItemInstance()
+{
+	if (UItemInstance* Instance = GetSourceItemInstance(); IsValid(Instance))
+	{
+		return Cast<T>(Instance);
+	}
+	return nullptr;
+}
+
+template <class T>
+T* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance()
+{
+	return TryGetSourceObject<T>();
+}
+
+--- EquipmentSystemCore\Public\Actors\EquipmentActor.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "EquipmentActor.generated.h"
+
+UCLASS()
+class EQUIPMENTSYSTEMCORE_API AEquipmentActor : public AActor
+{
+	GENERATED_BODY()
+
+public:
+	AEquipmentActor(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	/**
+	 * Get the owning pawn of this equipment.
+	 * @return The owning pawn if it exists, otherwise nullptr.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
+	virtual APawn* GetPawn();
+};
+
+--- EquipmentSystemCore\Public\Components\EquipmentSystemComponent.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
+#include "GameplayTagContainer.h"
+#include "Components/ActorComponent.h"
+#include "Data/EquipmentCache.h"
+#include "Data/EquipmentList.h"
+#include "Data/Slots/DynamicEquipmentSlot.h"
+#include "Instances/EquipmentInstance.h"
+
+#include "EquipmentSystemComponent.generated.h"
+
+class UItemInstance;
+class UEquipmentInstance;
+class UEquipmentDefinition;
+class UEquipmentSlotMapData;
+class USlotPolicy;
+struct FEquipmentChangeData;
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentChange, const FEquipmentChangeData&, Data);
+
+/**
+ * @class UEquipmentSystemComponent
+ * @see UActorComponent
+ * @brief Component managing equipment system functionality for actors
+ * @details Manages equipment slots, item equipping/unequipping, and equipment instances.
+ * Provides runtime validation of equipment changes through policies, maintains a dynamic
+ * slot system, and handles replication of equipped items. Supports blocking/unblocking
+ * equipment slots and broadcasting equipment change events.
+ */
+UCLASS(BlueprintType, meta = (BlueprintSpawnableComponent))
+class EQUIPMENTSYSTEMCORE_API UEquipmentSystemComponent : public UActorComponent
+{
+	GENERATED_BODY()
+
+	friend FEquipmentList;
+
+public:
+	explicit UEquipmentSystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	// UObject
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
+	virtual void ReadyForReplication() override;
+	// ~UObject
+
+	// AActorComponent
+	virtual void InitializeComponent() override;
+	virtual void UninitializeComponent() override;
+	// ~AActorComponent
+
+
+	/**
+	 * Attempts to equip an item in the first available slot
+	 * @param ItemInstance The item to equip
+	 * @return True if the item was successfully equipped
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	FEquipmentResult TryEquipItem(UItemInstance* ItemInstance);
+
+	/**
+	 * Attempts to equip an item in a specific slot
+	 * @param ItemInstance The item to equip
+	 * @param SlotTag The target slot to equip the item in
+	 * @return True if the item was successfully equipped
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	FEquipmentResult TryEquipItemOnSlot(UItemInstance* ItemInstance, const FGameplayTag& SlotTag);
+
+	/**
+	 * Attempts to unequip a currently equipped item
+	 * @param ItemInstance The item to unequip
+	 * @param OutFailureReason Contains the reason if the operation fails
+	 * @return True if the item was successfully unequipped
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	bool TryUnequipItem(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+
+	/**
+	 * Attempts to unequip whatever item is in the specified slot
+	 * @param SlotTag The slot to unequip
+	 * @param OutFailureReason Contains the reason if the operation fails
+	 * @return True if the slot was successfully unequipped
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	bool TryUnequipSlot(const FGameplayTag SlotTag, FGameplayTag& OutFailureReason);
+
+	/**
+	 * Attempts to swap items between two equipment slots
+	 * @param SlotA First slot to swap
+	 * @param SlotB Second slot to swap
+	 * @param OutFailureReason Contains the reason if the operation fails
+	 * @return True if the slots were successfully swapped
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	bool TrySwapSlots(const FGameplayTag& SlotA, const FGameplayTag& SlotB, FGameplayTag& OutFailureReason);
+
+
+	/**
+	 * Checks if a slot is currently blocked from equipment changes
+	 * @param SlotTag The slot to check
+	 * @param bExact If true, only checks for exact tag match
+	 * @return True if the slot is blocked
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	bool IsSlotBlocked(const FGameplayTag& SlotTag, bool bExact = false) const;
+
+	/**
+	 * Finds a slot by its tag
+	 * @param SlotTag The tag of the slot to find
+	 * @return Pointer to the found slot, or nullptr if not found
+	 */
+	//UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	const FDynamicEquipmentSlot* FindSlot(const FGameplayTag& SlotTag) const;
+
+	/**
+	 * Gets the current runtime slot map
+	 * @return Map of all equipment slots
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	TMap<FGameplayTag, FDynamicEquipmentSlot> GetSlotMap() const { return SlotMapRuntime; }
+
+
+	/**
+	 * Gets the slot tag where an item is currently equipped
+	 * @param ItemInstance The item to find the slot for
+	 * @return The tag of the slot containing the item
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	const FGameplayTag& GetSlotForItem(UItemInstance* ItemInstance);
+
+	/**
+	 * Gets the item instance equipped in a specific slot
+	 * @param SlotTag The slot to check
+	 * @return The item in the slot, or nullptr if empty
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	UItemInstance* GetItemInSlot(const FGameplayTag& SlotTag);
+
+	/**
+	 * Gets the equipment instance in a specific slot
+	 * @param SlotTag The slot to check
+	 * @return The equipment in the slot, or nullptr if empty
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment|Slots")
+	UEquipmentInstance* GetEquipmentInSlot(const FGameplayTag& SlotTag);
+
+	/**
+	 * Gets all currently equipped items
+	 * @param OutItems Map of slot tags to equipped items
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	void GetEquippedItems(TMap<FGameplayTag, UItemInstance*>& OutItems) const;
+
+
+	/**
+	 * Gets an instance of the specified equipment type.
+	 * @param InstanceClass The class of the equipment instance to find.
+	 * @return The first found UEquipmentInstance of the specified type.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = InstanceClass))
+	UEquipmentInstance* GetInstanceOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass);
+	/**
+	 * Gets an instance of specified equipment type using templates
+	 * @tparam T The equipment instance type to find
+	 * @return The first found instance of type T, or nullptr if none found
+	 */
+	template <typename T>
+	T* GetInstanceOfType() const;
+
+	/**
+	 * Gets all instances of the specified equipment type.
+	 * @param InstanceClass The class of the equipment instances to find.
+	 * @return An array of UEquipmentInstances of the specified type.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = InstanceClass))
+	TArray<UEquipmentInstance*> GetAllInstancesOfType(const TSubclassOf<UEquipmentInstance>& InstanceClass);
+	/**
+	 * Gets all instances of specified equipment type using templates
+	 * @tparam T The equipment instance type to find
+	 * @return Array of all instances of type T
+	 */
+	template <typename T>
+	TArray<T*> GetAllInstancesOfType() const;
+
+	/**
+	 * Retrieves a cached equipment definition
+	 * @param Class The class of equipment definition to retrieve
+	 * @return The cached equipment definition instance, or nullptr if not found
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment", meta = (DeterminesOutputType = Class))
+	UEquipmentDefinition* GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class) const;
+
+	/**
+	 * Gets the equipment instance of the associated ItemInstance
+	 * @param ItemInstance The instance of the source item
+	 * @return The equipment instance associated with the item, or nullptr if not found
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
+	UEquipmentInstance* GetInstanceFromItem(UItemInstance* ItemInstance);
+
+protected:
+	/**
+	 * Called after equipment is successfully equipped
+	 * @param Data The equipment change data
+	 */
+	virtual void PostEquipmentEquipped(const FEquipmentChangeData& Data);
+
+	/**
+	 * Called after equipment is successfully unequipped
+	 * @param Data The equipment change data
+	 */
+	virtual void PostEquipmentUnequipped(const FEquipmentChangeData& Data);
+
+	/**
+	 * Called after any equipment change occurs
+	 * @param Data The equipment change data
+	 */
+	virtual void PostEquipmentChanged(const FEquipmentChangeData& Data);
+
+	/**
+	 * Locks specified equipment slots from being modified
+	 * @param Tags Container of slot tags to lock
+	 */
+	void LockSlots(const FGameplayTagContainer& Tags);
+
+	/**
+	 * Unlocks previously locked equipment slots
+	 * @param Tags Container of slot tags to unlock
+	 */
+	void UnlockSlots(const FGameplayTagContainer& Tags);
+
+	// Internal Equipment Logic
+	FEquipmentResult Internal_ProcessEquip(UItemInstance* ItemInstance, const FGameplayTag& TargetSlot, const UEquipmentDefinition* Definition);
+	bool Internal_ProcessUnequip(const FGameplayTag& SlotTag, FGameplayTag& OutFailureReason, bool bPreserveItem = false);
+	FEquipmentResult Internal_EquipOnSlot(const FGameplayTag& SlotTag, UItemInstance* ItemInstance, const UEquipmentDefinition* Definition);
+
+public:
+	/** Delegate dispatched when an item is equipped */
+	UPROPERTY(BlueprintAssignable)
+	FOnEquipmentChange OnEquipmentChanged;
+	/** Broadcasts when equipment is equipped, providing the instance. */
+	UPROPERTY(BlueprintAssignable)
+	FOnEquipmentChange OnEquipmentEquipped;
+	/** Broadcasts when equipment is unequipped, providing the instance. */
+	UPROPERTY(BlueprintAssignable)
+	FOnEquipmentChange OnEquipmentUnequipped;
+
+protected:
+	/** The list of equipped items. */
+	UPROPERTY(Replicated)
+	FEquipmentList EquipmentList;
+
+	/** Equipment definitions cache. Not replicated */
+	UPROPERTY()
+	TObjectPtr<UEquipmentCache> Cache;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Slots")
+	TObjectPtr<UEquipmentSlotMapData> SlotMapData;
+
+	UPROPERTY()
+	TMap<FGameplayTag, FDynamicEquipmentSlot> SlotMapRuntime;
+
+	FGameplayTagCountContainer BlockedSlots;
+};
+
+template <typename T>
+T* UEquipmentSystemComponent::GetInstanceOfType() const
+{
+	return Cast<T>(GetInstanceOfType(T::StaticClass()));
+}
+
+template <typename T>
+TArray<T*> UEquipmentSystemComponent::GetAllInstancesOfType() const
+{
+	TArray<T*> Instances;
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (UEquipmentInstance* Instance = Entry.Instance)
+		{
+			if (Instance->IsA<T>())
+			{
+				Instances.Add(Cast<T>(Instance));
+			}
+		}
+	}
+	return Instances;
+}
+
+--- EquipmentSystemCore\Public\Data\EquipmentActorSet.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+#include "GameplayTagContainer.h"
+
+#include "EquipmentActorSet.generated.h"
+
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FEquipmentActorSet
+{
+	GENERATED_BODY()
+
+	FEquipmentActorSet()
+	{
+	};
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment", Meta = (Categories = "Equipment.Slot"))
+	FGameplayTag SlotTag;
+
+	/** The class of actor to spawn and attach. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
+	TSubclassOf<AActor> ActorClass;
+
+	/** The socket on the owning actor to attach the spawned actor to. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
+	FName AttachSocket;
+
+	/** The transform (position, rotation, scale) to apply relative to the socket. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
+	FTransform AttachTransform;
+};
+
+--- EquipmentSystemCore\Public\Data\EquipmentCache.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+
+#include "EquipmentCache.generated.h"
+
+class UEquipmentDefinition;
+
+/**
+ * UEquipmentCache
+ *
+ * A cache system for EquipmentDefinition to improve performance by reducing object creation.
+ * This class manages a thread-safe cache of EquipmentDefinitions.
+ */
+UCLASS()
+class EQUIPMENTSYSTEMCORE_API UEquipmentCache : public UObject
+{
+	GENERATED_BODY()
+
+	friend class UEquipmentSystemComponent;
+
+public:
+	UEquipmentCache();
+	virtual ~UEquipmentCache() override;
+
+	/**
+	 * Get a cached EquipmentDefinition default object.
+	 * If the EquipmentDefinition is not in the cache, it creates a new one and adds it to the cache.
+	 *
+	 * @param Class The class of the EquipmentDefinition to retrieve.
+	 * @return A pointer to the cached or newly created EquipmentDefinition.
+	 */
+	UEquipmentDefinition* GetCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class);
+
+	/**
+	 * Check if the cache contains a cached default object of the given class.
+	 *
+	 * @param Class The class of the EquipmentDefinition.
+	 * @return True if the cache contains a default object of the given class.
+	 */
+	bool IsCachedDefinition(const TSubclassOf<UEquipmentDefinition>& Class);
+
+private:
+	/**
+	 * Clears the cache of any EquipmentDefinitions that are no longer rooted.
+	 * This method is called after garbage collection.
+	 */
+	void Clean();
+
+	/** Map to store cached EquipmentDefinitions */
+	UPROPERTY()
+	TMap<TSubclassOf<UEquipmentDefinition>, TWeakObjectPtr<UEquipmentDefinition>> CachedDefinitionMap;
+
+	/** Critical section to ensure thread-safe access to the cache */
+	FCriticalSection CacheLock;
+};
+
+--- EquipmentSystemCore\Public\Data\EquipmentChangeData.h ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "EquipmentChangeData.generated.h"
+
+class UEquipmentInstance;
+struct FEquipmentEntry;
+class UEquipmentnstance;
+
+/**
+ * Defines the types of changes that can occur to Equipment entries
+ */
+UENUM(BlueprintType)
+enum class EEquipmentChangeType : uint8
+{
+	Equipped, ///< Equipment has just been equipped
+	Unequipped, ///< Equipment has just been unequipped
+	Modified ///< Equipment properties were modified
+};
+
+/**
+ * @struct FEquipmentChangeData
+ * @see UItemInstance, FEquipmentEntry, EEquipmentChangeType
+ * @brief Represents a data payload for tracking Equipment item changes including addition, removal, and modification of items
+ * @details Contains information about the affected item instance, its index in the Equipment, the type of change, 
+ *		  and stack count changes before and after the modification occurred. Used for notifying systems about
+ *		  Equipment state changes and maintaining synchronization.
+ */
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FEquipmentChangeData
+{
+	GENERATED_BODY()
+
+	FEquipmentChangeData()
+	{
+	}
+
+	/**
+	 * Constructs an Equipment change data instance with the specified parameters
+	 * @param InIndex The index of the Equipment entry that was modified
+	 * @param Entry The Equipment entry containing the item instance and stack count
+	 * @param InChangeType The type of modification that occurred
+	 */
+	FEquipmentChangeData(const int32 InIndex, const FEquipmentEntry& Entry, const EEquipmentChangeType InChangeType = EEquipmentChangeType::Equipped);
+
+	/** 
+	 * Zero-based index of the modified Equipment entry
+	 * Set to INDEX_NONE (-1) when the entry is invalid
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Equipment")
+	int32 Index = INDEX_NONE;
+
+	/** 
+	 * Reference to the new equipment instance
+	 * Contains the equipment's definition and properties
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Equipment")
+	TObjectPtr<UEquipmentInstance> NewInstance = nullptr;
+
+	/** 
+	 * Reference to the previous equipment instance
+	 * Contains the equipment's definition and properties
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Equipment")
+	TObjectPtr<UEquipmentInstance> OldInstance = nullptr;
+
+	/** 
+	 * Specifies whether the item was added, removed, or modified
+	 * Defaults to Added when not specified
+	 */
+	UPROPERTY(BlueprintReadOnly)
+	EEquipmentChangeType ChangeType = EEquipmentChangeType::Equipped;
+
+	/**
+	 * Checks if this Equipment change data is valid
+	 * @return True if the index is valid (not INDEX_NONE), false otherwise
+	 */
+	bool IsValid() const { return Index != INDEX_NONE; }
+};
+
+--- EquipmentSystemCore\Public\Data\EquipmentEntry.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Data/AbilitySetHandles.h"
+#include "Net/Serialization/FastArraySerializer.h"
+
+#include "EquipmentEntry.generated.h"
+
+class UEquipmentDefinition;
+class UEquipmentInstance;
+/**
+ * @class FEquipmentEntry
+ *
+ * @see FFastArraySerializerItem
+ * @brief Entry of single equipped equipment
+ */
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FEquipmentEntry : public FFastArraySerializerItem
+{
+	GENERATED_BODY()
+
+	friend class UEquipmentSystemComponent;
+	friend struct FEquipmentList;
+
+	FEquipmentEntry()
+	{
+	}
+
+	~FEquipmentEntry()
+	{
+	};
+
+	// FFastArraySerializer
+	// Functions not virtual in FFAstArraySerializer because called by template
+	void PreReplicatedRemove(const FEquipmentList& InArraySerializer) const;
+	void PostReplicatedAdd(const FEquipmentList& InArraySerializer) const;
+	void PostReplicatedChange(const FEquipmentList& InArraySerializer) const;
+	FString GetDebugString() const;
+	// ~FFastArraySerializer
+
+protected:
+	UPROPERTY(SaveGame)
+	TObjectPtr<UEquipmentInstance> Instance = nullptr;
+
+	UPROPERTY(SaveGame)
+	TSubclassOf<UEquipmentDefinition> EquipmentDefinition;
+
+	// Authority-only list of granted handles for ability sets
+	UPROPERTY(NotReplicated)
+	FAbilitySetHandles Handles;
+
+	UPROPERTY(NotReplicated)
+	TWeakObjectPtr<UEquipmentInstance> LastInstance;
+};
+
+--- EquipmentSystemCore\Public\Data\EquipmentList.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Definitions/EquipmentDefinition.h"
+#include "EquipmentEntry.h"
+#include "Net/Serialization/FastArraySerializer.h"
+
+#include "EquipmentList.generated.h"
+
+class UItemInstance;
+class UAbilitySystemComponent;
+
+struct FNetDeltaSerializeInfo;
+struct FReplicationFlags;
+
+
+USTRUCT(BlueprintType)
+struct FEquipmentResult
+{
+	GENERATED_BODY();
+
+public:
+	
+	UPROPERTY(BlueprintReadOnly)
+	UEquipmentInstance* Instance = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTag FailureReason;
+
+	bool Succeeded() const { return !FailureReason.IsValid(); };
+};
+
+
+/**
+ * @struct FEquipmentList
+ * @see FFastArraySerializer
+ * @brief Represents a list of equipment items that can be efficiently replicated using FastArraySerializer.
+ */
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
+{
+	GENERATED_BODY()
+
+	friend class UEquipmentSystemComponent;
+	friend FEquipmentEntry;
+
+	FEquipmentList();
+	FEquipmentList(UEquipmentSystemComponent* InOwnerComponent);
+	~FEquipmentList();
+
+	// FFastArraySerializer
+	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
+	void PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize);
+	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
+
+	/** Implements network delta serialization for the equipment list. */
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
+	// ~FFastArraySerializer
+
+	/** Add a new equipment instance to the list.
+	 * @param DefinitionClass Definition of the type of equipment to add.
+	 * @param SourceItemInstance
+	 * @param OutFailureReason
+	 * @return Pointer to entry added */
+	FEquipmentResult Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance = nullptr);
+
+	/**
+	 * Remove the specified equipment instance from the list.
+	 * @param Instance The instance to remove.
+	 * @param OutFailureReason
+	 */
+	void Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason);
+
+protected:
+	
+	/**
+	 * Called when an entry is changed.
+	 * @param Index The index of the changed entry.
+	 * @param Entry The changed entry.
+	 */
+	void Internal_OnEntryChanged(int32 Index, const FEquipmentEntry& Entry) const;
+	/**
+	 * Called when an entry is added.
+	 * @param Index The index of the added entry.
+	 * @param Entry The added entry.
+	 */
+	void Internal_OnEntryAdded(int32 Index, const FEquipmentEntry& Entry) const;
+	/**
+	 * Called when an entry is removed.
+	 * @param Index The index of the removed entry.
+	 * @param Entry The removed entry.
+	 */
+	void Internal_OnEntryRemoved(int32 Index, const FEquipmentEntry& Entry) const;
+
+	/** Get the ability system component of the owner. */
+	UAbilitySystemComponent* GetAbilitySystemComponent() const;
+
+protected:
+	
+	/** Array of equipment entries */
+	UPROPERTY()
+	TArray<FEquipmentEntry> Entries;
+
+	/** Owner component of this equipment list */
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UEquipmentSystemComponent> OwnerComponent = nullptr;
+};
+
+// TStructOpsTypeTraits specialization to enable NetDeltaSerializer for FEquipmentList
+template <>
+struct TStructOpsTypeTraits<FEquipmentList> : TStructOpsTypeTraitsBase2<FEquipmentList>
+{
+	enum
+	{
+		WithNetDeltaSerializer = true
+	};
+};
+
+--- EquipmentSystemCore\Public\Data\Slots\DynamicEquipmentSlot.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "Components/ActorComponent.h"
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+
+#include "DynamicEquipmentSlot.generated.h"
+
+class UEquipmentInstance;
+class UItemInstance;
+
+USTRUCT(BlueprintType)
+struct FDynamicEquipmentSlot
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FGameplayTag SlotTag;
+
+	UPROPERTY()
+	TObjectPtr<UItemInstance> ItemInstance = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UEquipmentInstance> EquipmentInstance = nullptr;
+};
+
+--- EquipmentSystemCore\Public\Data\Slots\EquipmentSlotMapData.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Engine/DataAsset.h"
+
+#include "EquipmentSlotMapData.generated.h"
+
+struct FSlotDefinition;
+
+/**
+ *
+ */
+UCLASS(BlueprintType, Const)
+class EQUIPMENTSYSTEMCORE_API UEquipmentSlotMapData : public UPrimaryDataAsset
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FSlotDefinition> Slots;
+
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
+};
+
+--- EquipmentSystemCore\Public\Data\Slots\SlotDefinition.h ---
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "SlotDefinition.generated.h"
+
+class USlotPolicy;
+/**
+*
+*/
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FSlotDefinition
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Slot", meta = (Categories = "Equipment.Slot"))
+	FGameplayTag SlotTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	FName UIGroup;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	int32 DisplayOrder = 0;
+};
+
+--- EquipmentSystemCore\Public\Definitions\EquipmentDefinition.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Data/EquipmentActorSet.h"
+#include "UObject/Object.h"
+
+#include "EquipmentDefinition.generated.h"
+
+class USlotPolicy;
+class UEquipmentSystemComponent;
+class UEquipmentInstance;
+class UAbilitySet;
+class UEquipmentFragment;
+
+/**
+ * @class UEquipmentDefinition
+ * @see UObject
+ * @brief Data asset definition of an item that can be equipped by the pawn.
+ * And what to do to the pawn on which it is equipped
+ */
+UCLASS(Blueprintable, Abstract, BlueprintType)
+class EQUIPMENTSYSTEMCORE_API UEquipmentDefinition : public UObject
+{
+	GENERATED_BODY()
+
+	friend struct FEquipmentList;
+	friend class UEquipmentSystemComponent;
+
+public:
+	UEquipmentDefinition(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	// UObject
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+	// ~UObject
+
+	/**
+	 * Try to find fragment of class FragmentClass in this equipment definition
+	 * @param FragmentClass Class of the EquipmentFragment to search
+	 * @return Pointer to the found fragment, or nullptr if not found
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = FragmentClass))
+	const UEquipmentFragment* FindFragmentByClass(TSubclassOf<UEquipmentFragment> FragmentClass) const;
+
+	/**
+	 * Template function to find fragment of class T in this equipment definition
+	 * @return Pointer to the found fragment of type T, or nullptr if not found
+	 */
+	template <typename T>
+	const T* FindFragmentByClass() const { return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+
+	virtual bool CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintPure)
+	bool K2_CanBeEquipped(UEquipmentSystemComponent* EquipmentSystemComponent, FGameplayTag& OutFailureReason);
+
+	/**
+	 * Get the display name of this equipment
+	 * @return Display name as FText
+	 */
+	FText GetDisplayName() const { return DisplayName; }
+
+protected:
+	/** Instance class to spawn */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Definition")
+	TSubclassOf<UEquipmentInstance> InstanceClass;
+
+	/** Display name of the equipment (used by UI) */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Definition")
+	FText DisplayName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Slot")
+	FGameplayTag SlotTag;
+
+	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Slot")
+	TObjectPtr<const USlotPolicy> SlotPolicy;
+
+	/** Actors to spawn on the pawn when this is equipped */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+	TArray<FEquipmentActorSet> ActorsToSpawn;
+
+	/** Ability sets granted by this equipment */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Gameplay")
+	TArray<TObjectPtr<const UAbilitySet>> AbilitySets;
+
+	/** Equipment fragments for additional functionality */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fragments", Instanced)
+	TArray<TObjectPtr<UEquipmentFragment>> Fragments;
+};
+
+--- EquipmentSystemCore\Public\Definitions\Fragments\EquipmentFragment.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+
+#include "EquipmentFragment.generated.h"
+
+class UEquipmentInstance;
+
+/**
+ * @class UEquipmentFragment
+ * @see UEquipmentDefinition
+ * @brief Represents a fragment of an equipment definition, allow definition extension.
+ */
+UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable, BlueprintType, Abstract)
+class EQUIPMENTSYSTEMCORE_API UEquipmentFragment : public UObject
+{
+	GENERATED_BODY()
+
+public:
+	/**
+	 * Called when an equipment instance is created.
+	 * @param Instance The equipment instance associated with this fragment.
+	 */
+	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const;
+};
+
+--- EquipmentSystemCore\Public\Definitions\Fragments\ItemFragment_Equippable.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "Definitions/Fragments/ItemFragment.h"
+#include "ItemFragment_Equippable.generated.h"
+
+class UEquipmentSystemComponent;
+class UEquipmentDefinition;
+
+/**
+ *
+ */
+UCLASS(DisplayName = "Equipable")
+class EQUIPMENTSYSTEMCORE_API UItemFragment_Equippable : public UItemFragment
+{
+	GENERATED_BODY()
+
+public:
+	/**
+	 * Called when an item instance is created. This method initializes any equipable-specific functionality for the item instance.
+	 * @param Instance The item instance associated with this fragment.
+	 */
+	virtual void OnInstanceCreated(UItemInstance* Instance) override;
+
+	/**
+	 * The equipment definition associated with this fragment.
+	 * @note This defines the properties and behavior of the equipped item.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipable")
+	TSubclassOf<UEquipmentDefinition> EquipmentDefinition;
+};
+
+--- EquipmentSystemCore\Public\GameplayTags\EquipmentGameplayTags.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace EquipmentSystemGameplayTags
+{
+	EQUIPMENTSYSTEMCORE_API FGameplayTag FindTagByString(const FString& TagString, bool bMatchPartialString = false);
+
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Slot);
+
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_NullItem);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_MissingDefinition);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_SlotNotFound);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_SlotEmpty);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_SlotBlocked);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_PolicyRefused);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_NotAuthority);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_DefinitionRefused);
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_Internal);
+}
+
+--- EquipmentSystemCore\Public\Instances\EquipmentInstance.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "Components/EquipmentComponent.h"
+#include "Data/EquipmentActorSet.h"
+#include "Definitions/EquipmentDefinition.h"
+#include "Engine/World.h"
+#include "Instances/Components/ItemComponent.h"
+
+#include "EquipmentInstance.generated.h"
+
+class UEquipmentFragment;
+/**
+ * @class UEquipmentInstance
+ * @see UObject
+ * @brief Represents an instance of equipment that can be equipped by a pawn.
+ */
+UCLASS(BlueprintType, Blueprintable)
+class EQUIPMENTSYSTEMCORE_API UEquipmentInstance : public UObject
+{
+	GENERATED_BODY()
+
+	friend struct FEquipmentList;
+	friend class UEquipmentSlotComponent;
+
+public:
+	UEquipmentInstance(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	// UObject
+	virtual bool IsSupportedForNetworking() const override { return true; }
+	virtual UWorld* GetWorld() const override final;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	// ~UObject
+
+	/** Get the pawn that this equipment instance is attached to. */
+	UFUNCTION(BlueprintPure, Category = "Equipment")
+	APawn* GetPawn() const;
+	/** Get the pawn that this equipment instance is attached to, if applicable. */
+	UFUNCTION(BlueprintPure, Category = "Equipment", meta = (DeterminesOutputType = PawnType))
+	APawn* GetTypedPawn(const TSubclassOf<APawn>& PawnType) const;
+	/** Get the pawn that this equipment instance is attached to, if applicable. */
+	template <class T>
+	T* GetPawn() const { return Cast<T>(GetPawn()); }
+
+	/**
+	 *	Add a new component object of class ComponentClass to this EquipmentInstance
+	 *	@param ComponentClass Class of the EquipmentComponent to search
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = FragmentClass))
+	UEquipmentComponent* AddComponent(TSubclassOf<UEquipmentComponent> ComponentClass);
+	/**
+	 *	Add a new component object of class ComponentClass to this EquipmentInstance
+	 */
+	template <typename T>
+	T* AddComponent() { return Cast<T>(AddComponent(T::StaticClass())); }
+
+	/**
+	 *	Try to find component of class ComponentClass of this equipment instance
+	 *	@param ComponentClass Class of the Equipment Instance's component to search
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, meta = (DeterminesOutputType = ComponentClass))
+	const UEquipmentComponent* FindComponentByClass(TSubclassOf<UEquipmentComponent> ComponentClass) const;
+	/**
+	 *	Try to find fragment of class ComponentClass of this equipment instance
+	 */
+	template <typename T>
+	const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
+
+	/** Get the instigator object that caused this equipment instance to be equipped. */
+	UFUNCTION(BlueprintPure, Category = "Equipment")
+	UObject* GetInstigator() const;
+	/** Set the instigator object for this equipment instance. */
+	void SetInstigator(UObject* InInstigator);
+
+	/** Get the source object that caused this equipment instance to be equipped.  (ItemInstance class)*/
+	UFUNCTION(BlueprintPure, Category = "Equipment")
+	UItemInstance* GetSourceItem() const;
+
+	/**
+	 * Gets the equipment definition class associated with this instance.
+	 * @return The equipment definition class.
+	 */
+	UFUNCTION(BlueprintCallable)
+	TSubclassOf<UEquipmentDefinition> GetDefinitionClass() const;
+
+	/**
+	 * Gets the equipment definition associated with this instance, cached by the Equipment System Component.
+	 * @return The equipment definition default object.
+	 */
+	UFUNCTION(BlueprintCallable)
+	UEquipmentDefinition* GetDefinition() const;
+
+	/**
+	 * Spawn actors defined in the given array and attach them to the pawn.
+	 * @param ActorsToSpawn Array of actor sets defining which actors to spawn and how to attach them. */
+	virtual void SpawnActors(const TArray<FEquipmentActorSet>& ActorsToSpawn);
+	/** Destroy all actors spawned by this equipment instance. */
+	virtual void DestroyActors();
+	/** Get an array of actors spawned by this equipment instance. */
+	UFUNCTION(BlueprintPure, Category = "Equipment")
+	TArray<AActor*> GetSpawnedActors() const { return SpawnedActors; }
+
+	/** Called the equipment instance is equipped. */
+	virtual void OnEquipped();
+	/** Called the equipment instance is unequipped. */
+	virtual void OnUnequipped();
+
+	/** Called the equipment instance is spawned. */
+	virtual void OnSpawned();
+
+protected:
+	/** Set the source object for this equipment instance. (ItemInstance class)*/
+	void SetSourceItem(UItemInstance* InSourceObject);
+
+	/**
+	 * Sets the item definition class for this instance.
+	 * @param InDefinition - The item definition to set.
+	 */
+	void SetDefinition(UEquipmentDefinition* InDefinition);
+
+	/** Blueprint event called when this equipment instance is equipped. */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Equipment", meta = (DisplayName = "OnEquipped"))
+	void K2_OnEquipped();
+
+	/** Blueprint event called when this equipment instance is unequipped. */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Equipment", meta = (DisplayName = "OnUnequipped"))
+	void K2_OnUnequipped();
+
+	UFUNCTION()
+	virtual void OnRep_Instigator();
+
+	UPROPERTY(Replicated)
+	TArray<AActor*> SpawnedActors;
+
+	/** The Equipment definition that this instance is based on.
+	 * Only replicate the class.
+	 */
+	UPROPERTY(Replicated)
+	TSubclassOf<UEquipmentDefinition> DefinitionClass;
+
+	/** The Equipment Definition default object, cached by the local EquipmentSystemComponent cache */
+	UPROPERTY()
+	TObjectPtr<UEquipmentDefinition> Definition;
+
+	UPROPERTY()
+	TObjectPtr<UItemInstance> SourceItem;
+
+	/** Array of components attached to this item instance. */
+	UPROPERTY(Replicated)
+	TArray<UEquipmentComponent*> Components;
+
+	UPROPERTY(Replicated, ReplicatedUsing = OnRep_Instigator)
+	TObjectPtr<UObject> Instigator;
+};
+
+--- EquipmentSystemCore\Public\Instances\Components\EquipmentComponent.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+#include "EquipmentComponent.generated.h"
+
+class UEquipmentInstance;
+/**
+ * @class UEquipmentComponent
+ * @see UObject
+ * @brief Base class for modular components that can be added to equipment instances.
+ *
+ * This class serves as the foundation for creating specialized components
+ * that add specific functionalities to item instances. It allows for a flexible
+ * and extensible equipment system.
+ */
+UCLASS(Abstract)
+class EQUIPMENTSYSTEMCORE_API UEquipmentComponent : public UObject
+{
+	GENERATED_BODY()
+
+public:
+	// UObject
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	// ~UObject
+
+	virtual void Initialize(UEquipmentInstance* InInstance);
+
+	/** Returns the owning equipment instance of the component. */
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UEquipmentInstance* GetOwningInstance();
+
+	UPROPERTY(Transient, Replicated)
+	TObjectPtr<UEquipmentInstance> OwningInstance = nullptr;
+};
+
+--- EquipmentSystemCore\Public\Log\EquipmentSystemLog.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentSystem, Log, All);
+
+--- EquipmentSystemCore\Public\Policies\SlotPolicy.h ---
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "UObject/Object.h"
+#include "SlotPolicy.generated.h"
+
+class UItemInstance;
+/**
+ * Politique de slot d’équipement - règle de validation métier.
+ */
+UCLASS(Abstract, Blueprintable, EditInlineNew, DefaultToInstanced)
+class EQUIPMENTSYSTEMCORE_API USlotPolicy : public UObject
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category="Policy")
+	bool bBlocksAllOtherSlots = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Policy", Meta = (Categories = "Slot"))
+	FGameplayTagContainer BlockedSlotTags;
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Policy")
+	bool DoesBlockTag(const FGameplayTag& TargetSlot, const UItemInstance* Item = nullptr, const UObject* Context = nullptr) const;
+
+	virtual bool CanEquipItem(const UItemInstance* Item, const FGameplayTag& TargetSlot, const UObject* Context) const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Policy")
+	bool K2_CanEquipItem(const UItemInstance* Item, const FGameplayTag& TargetSlot, const UObject* Context) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Policy")
+	const FGameplayTagContainer& GetBlockedSlotTags() const;
+
+	void GetBlockedSlotTags(FGameplayTagContainer& TagContainer) const;
+};
+
+--- EquipmentSystemCore\Public\Settings\EquipmentSystemSettings.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Engine/DeveloperSettings.h"
+#include "EquipmentSystemSettings.generated.h"
+
+struct FGameplayTag;
+
+/**
+ *
+ */
+UCLASS(config = "Game", defaultconfig, meta = (DisplayName = "Equipment System Settings"))
+class EQUIPMENTSYSTEMCORE_API UEquipmentSystemSettings : public UDeveloperSettings
+{
+	GENERATED_BODY()
+
+public:
+	// UDeveloperSettings
+	virtual FName GetContainerName() const override;
+	virtual FName GetCategoryName() const override;
+	// ~UDeveloperSettings
+
+	/** Accessor and initializer */
+	UFUNCTION(BlueprintPure, Category = "Settings", meta=(DisplayName="Get Equipment System Settings"))
+	static UEquipmentSystemSettings* GetEquipmentSystemSettings();
+
+private:
+	// UObject
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+	// ~UObject
+};
+
+--- EquipmentSystemCore\Public\Stats\EquipmentSystemStats.h ---
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Stats/Stats.h"
+
+DECLARE_STATS_GROUP(TEXT("EquipmentSystem"), STATGROUP_EquipmentSystem, STATCAT_Advanced);
+
+DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_ProcessEquip"), STAT_Equipment_ProcessEquip, STATGROUP_EquipmentSystem,);
+DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_ProcessUnequip"), STAT_Equipment_ProcessUnequip, STATGROUP_EquipmentSystem,);
+DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_EquipOnSlot"), STAT_Equipment_EquipOnSlot, STATGROUP_EquipmentSystem,);

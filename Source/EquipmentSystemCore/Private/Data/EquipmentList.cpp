@@ -8,7 +8,9 @@
 #include "Data/AbilitySet.h"
 #include "Data/AbilitySetHandles.h"
 #include "Data/EquipmentChangeData.h"
+#include "GameplayTags/EquipmentGameplayTags.h"
 #include "Instances/EquipmentInstance.h"
+#include "Log/EquipmentSystemLog.h"
 
 FEquipmentList::FEquipmentList()
 {
@@ -76,24 +78,31 @@ void FEquipmentList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 	}
 }
 
-UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance)
+FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& DefinitionClass, UItemInstance* SourceItemInstance)
 {
+	FEquipmentResult Result;
 	if (DefinitionClass == nullptr || !IsValid(OwnerComponent))
 	{
-		return nullptr;
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from invalid definition class."));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;
+		return Result;
 	}
 
 	AActor* OwnerActor = OwnerComponent->GetOwner();
 	if (!OwnerActor->HasAuthority())
 	{
-		return nullptr;
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from invalid definition class."));
+		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NotAuthority;
+		return Result;
 	}
 
 	UEquipmentDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
-
-	if (!CachedDefinition->CanBeEquipped(OwnerComponent))
+	if (!CachedDefinition->CanBeEquipped(OwnerComponent, Result.FailureReason))
 	{
-		return nullptr;
+		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from %s, but the definition conditions are not met."), *GetNameSafe(DefinitionClass));
+		if (!Result.FailureReason.IsValid())
+			Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_DefinitionRefused;
+		return Result;
 	}
 
 	// Prepare an instance type to spawn, use the default one by default
@@ -110,10 +119,11 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 	Entry.Instance = NewObject<UEquipmentInstance>(OwnerActor, InstanceType);
 
 	UEquipmentInstance* Instance = Entry.Instance;
-	// Instance->AsyncLoadAssets();
 	Instance->SetDefinition(CachedDefinition);
 	Instance->SetInstigator(OwnerActor);
 	Instance->SetSourceItem(SourceItemInstance);
+
+	Result.Instance = Instance;
 
 	// Give the ability sets
 	if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
@@ -131,10 +141,10 @@ UEquipmentInstance* FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>&
 	// Mark the item dirty for the serializer replication
 	MarkItemDirty(Entry);
 
-	return Instance;
+	return Result;
 }
 
-void FEquipmentList::Remove(UEquipmentInstance* Instance)
+void FEquipmentList::Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason)
 {
 	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
 	{

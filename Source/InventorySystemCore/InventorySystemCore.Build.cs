@@ -22,6 +22,8 @@ public class InventorySystemCore : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
+				"GameplayAbilities",
+				"GameplayTags",
 				"Slate",
 				"SlateCore"
 			}

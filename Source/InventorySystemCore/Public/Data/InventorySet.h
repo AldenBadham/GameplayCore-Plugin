@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InventoryList.h"
 #include "Engine/DataAsset.h"
 
 #include "InventorySet.generated.h"
 
+struct FGameplayTag;
 struct FInventorySet_ItemSet;
 class UItemDefinition;
 class UInventorySystemComponent;
@@ -29,7 +31,7 @@ public:
 	 * @param InventorySystemComp The target inventory component that will receive the items
 	 * @see UInventorySystemComponent
 	 */
-	void GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
+	FInventoryAddResult GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 
 protected:
 	/**
