@@ -101,7 +101,9 @@ FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& De
 	{
 		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from %s, but the definition conditions are not met."), *GetNameSafe(DefinitionClass));
 		if (!Result.FailureReason.IsValid())
+		{
 			Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_DefinitionRefused;
+		}
 		return Result;
 	}
 

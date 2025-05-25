@@ -7,10 +7,10 @@
 #include "GameplayTags/InventoryGameplayTags.h"
 #include "Log/InventorySystemLog.h"
 
-FInventoryAddResult UInventorySet::GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp)
+FInventoryResult UInventorySet::GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp)
 {
-	FInventoryAddResult Result;
-	
+	FInventoryResult Result;
+
 	if (!IsValid(InventorySystemComp))
 	{
 		UE_LOG(LogInventorySystem, Error, TEXT("Tried to give InventorySet [%s] to an invalid InventorySystemComponent"), *GetFName().ToString());
@@ -27,7 +27,7 @@ FInventoryAddResult UInventorySet::GiveToInventorySystem(UInventorySystemCompone
 			continue;
 		}
 
-		return InventorySystemComp->TryAddItemDefinition(ItemDefinition, Quantity);
+		return InventorySystemComp->TryAddItemDefinitionIn(TargetContainer, ItemDefinition, Quantity);
 	}
 	return Result;
 }

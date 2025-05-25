@@ -10,20 +10,19 @@
 
 #include "InventoryList.generated.h"
 
+class UInventoryContainer;
 struct FGameplayTag;
 class UItemDefinition;
 struct FNetDeltaSerializeInfo;
 struct FReplicationFlags;
 
 
-
 USTRUCT(BlueprintType)
-struct FInventoryAddResult
+struct FInventoryResult
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
+	;
 
-public:
-	
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UItemInstance*> Instances;
 
@@ -48,6 +47,7 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	GENERATED_BODY()
 
 	friend class UInventorySystemComponent;
+	friend class UInventoryContainer;
 	friend FInventoryEntry;
 
 	FInventoryList();
@@ -62,65 +62,31 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams) { return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this); }
 	// ~FFastArraySerializer
 
-	/**
-	 * Adds an item to the inventory list from its definition.
-	 * @param DefinitionClass The item definition class to add.
-	 * @param Count The number of items to add.
-	 * @return Item instances if added successfully, otherwise returns an empty array.
-	 */
-	FInventoryAddResult Add(const TSubclassOf<UItemDefinition>& DefinitionClass, int32 Count = 1);
-	/**
-	 * Removes an item from the inventory.
-	 * @param Instance The item instance to remove.
-	 * @param OutFailureReason
-	 */
-	void Remove(UItemInstance* Instance, FGameplayTag& OutFailureReason);
 
-	FInventoryAddResult AddItemInstance(UItemInstance* ItemInstance, int32 Count = 1);
+	FInventoryResult AddFromDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass, int32 Count = 1);
+	FInventoryResult AddInstance(UItemInstance* ItemInstance, int32 Count = 1);
 
-	void AddItemInstance(const FInventoryEntry& Entry, FGameplayTag& OutFailureReason);
+	void RemoveInstance(UItemInstance* Instance);
+	bool RemoveFromHandle(const FInventoryEntryHandle& Handle, FGameplayTag& OutFailureReason);
+	bool RemoveFromIndex(int32 Index, FGameplayTag& OutFailureReason);
 
-	/**
-	 * Finds the handle of the first entry of a specific item definition.
-	 * @param ItemDefinition The item definition class to find.
-	 * @return The inventory entry handle if found, otherwise an invalid handle.
-	 */
+	FInventoryEntryHandle MakeHandle(int32 Index) const;
+	FInventoryEntryHandle FindHandleFromInstance(UItemInstance* Instance) const;
 	FInventoryEntryHandle FindHandleOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
-	/**
-	 * Gets all handles of a specific item definition.
-	 * @param ItemDefinition The item definition class to find.
-	 * @return An array of inventory entry handles.
-	 */
-	TArray<FInventoryEntryHandle> GetHandlesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
-	/**
-	 * Gets all handles in the inventory.
-	 * @return An array of all inventory entry handles.
-	 */
+
 	TArray<FInventoryEntryHandle> GetAllHandles() const;
-
-	/**
-	 * Finds the first entry of a specific item definition.
-	 * @param ItemDefinition The item definition class to find.
-	 * @return The inventory entry if found, otherwise nullptr.
-	 */
+	TArray<FInventoryEntryHandle> GetHandlesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
+	TArray<FInventoryEntry*> GetAllEntries();
 	FInventoryEntry* FindEntryOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
+	TArray<FInventoryEntry*> GetEntriesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
 
-	/**
-	 * Gets all entries matching the specified item definition
-	 * @param ItemDefinition The item definition class to find
-	 * @return Array of inventory entries matching the definition
-	 * @see FInventoryEntry
-	 */
-	static TArray<FInventoryEntry*> GetEntriesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition);
-	/**
-	 * Gets all entries currently in the inventory
-	 * @return Array containing all inventory entries
-	 * @see FInventoryEntry
-	 */
-	static TArray<FInventoryEntry*> GetAllEntries();
+	int32 GetStackCountByDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const;
+	int32 GetTotalCountByDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const;
+
+	void SetOwningComponent(UInventorySystemComponent* Component);
+	void SetOwningContainer(UInventoryContainer* Container);
 
 protected:
-
 	UItemInstance* CreateItemInstance(const TSubclassOf<UItemDefinition>& DefinitionClass, int32& Count);
 
 	/**
@@ -150,17 +116,18 @@ protected:
 	 * @param Entry The removed entry.
 	 */
 	void Internal_OnEntryRemoved(int32 Index, const FInventoryEntry& Entry) const;
-	
-protected:
 
 	/** Array of inventory entries managed by this list */
 	UPROPERTY()
 	TArray<FInventoryEntry> Entries;
-	
+
 	/** The inventory system component that owns this list. Not replicated */
 	UPROPERTY(NotReplicated)
-	TObjectPtr<UInventorySystemComponent> OwnerComponent = nullptr;
+	TObjectPtr<UInventorySystemComponent> OwningComponent = nullptr;
 
+	/** The inventory container that owns this list. Not replicated */
+	UPROPERTY(NotReplicated)
+	TObjectPtr<UInventoryContainer> OwningContainer = nullptr;
 };
 
 // Required to specify that this structure uses a NetDeltaSerializer method to help serialization operation decision

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagAssetInterface.h"
 #include "GameplayTagContainer.h"
 #include "UObject/Object.h"
 
@@ -20,7 +21,7 @@ class UItemFragment;
  * This is an abstract class that should be inherited to create specific item types.
  */
 UCLASS(Blueprintable, Abstract, BlueprintType)
-class INVENTORYSYSTEMCORE_API UItemDefinition : public UObject
+class INVENTORYSYSTEMCORE_API UItemDefinition : public UObject, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -33,6 +34,10 @@ public:
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 	// ~UObject
+
+	// IGameplayTagAssetInterface
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+	// ~IGameplayTagAssetInterface
 
 	/**
 	 * Searches for a specific fragment type in this item definition
@@ -90,6 +95,10 @@ public:
 	/** Collection of fragments that define the item's behavior and properties */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Fragments", Instanced)
 	TArray<TObjectPtr<UItemFragment>> Fragments;
+
+	/** Tags used to classify or filter this item statically */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Tags")
+	FGameplayTagContainer Tags;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(Transient)

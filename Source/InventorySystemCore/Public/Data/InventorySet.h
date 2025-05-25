@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "InventoryList.h"
 #include "Engine/DataAsset.h"
+#include "GameplayTags/InventoryGameplayTags.h"
 
 #include "InventorySet.generated.h"
 
@@ -20,7 +21,7 @@ class UInventorySystemComponent;
  * @details Used to define groups of items that can be given to an inventory system component at once.
  * Commonly used for starting equipment, loot drops, or quest rewards.
  */
-UCLASS()
+UCLASS(CollapseCategories, BlueprintType, meta = (DisplayName = "Inventory Set"))
 class INVENTORYSYSTEMCORE_API UInventorySet : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
@@ -31,9 +32,12 @@ public:
 	 * @param InventorySystemComp The target inventory component that will receive the items
 	 * @see UInventorySystemComponent
 	 */
-	FInventoryAddResult GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
+	FInventoryResult GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 
 protected:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	FGameplayTag TargetContainer = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 	/**
 	 * Collection of item definitions and their quantities to be granted together
 	 * Each entry specifies an item type and how many of that item should be given

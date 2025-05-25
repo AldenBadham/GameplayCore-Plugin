@@ -3,19 +3,20 @@
 #include "Components/InventorySystemComponent.h"
 
 #include "GameplayTagContainer.h"
+#include "Containers/InventoryContainer.h"
 #include "Data/InventoryCache.h"
 #include "Data/InventoryEntry.h"
+#include "Data/InventorySet.h"
 #include "Engine/ActorChannel.h"
 #include "GameplayTags/InventoryGameplayTags.h"
 #include "Instances/ItemInstance.h"
-#include "Net/UnrealNetwork.h"
 
 UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer.Get()), InventoryList(this)
+	: Super(ObjectInitializer.Get())
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	bWantsInitializeComponent = true;
-	
+
 	SetIsReplicatedByDefault(true);
 	bReplicateUsingRegisteredSubObjectList = true;
 }
@@ -23,19 +24,18 @@ UInventorySystemComponent::UInventorySystemComponent(const FObjectInitializer& O
 void UInventorySystemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	DOREPLIFETIME(ThisClass, InventoryList);
 }
 
 bool UInventorySystemComponent::ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags)
 {
 	bool bReplicated = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);
 
-	for (FInventoryEntry& Entry : InventoryList.Entries)
+	for (const auto& [Tag, Container] : Containers)
 	{
-		if (UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+		if (IsValid(Container))
 		{
-			bReplicated |= Channel->ReplicateSubobject(Instance, *Bunch, *RepFlags);
+			bReplicated |= Channel->ReplicateSubobject(Container, *Bunch, *RepFlags);
+			bReplicated |= Container->ReplicateSubobjects(Channel, Bunch, RepFlags);
 		}
 	}
 
@@ -49,11 +49,20 @@ void UInventorySystemComponent::ReadyForReplication()
 	// Register all item instances ready for replication with the actor component
 	if (IsUsingRegisteredSubObjectList())
 	{
-		for (const FInventoryEntry& Entry : InventoryList.Entries)
+		for (const auto& [Tag, Container] : Containers)
 		{
-			if (UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+			if (IsValid(Container))
 			{
-				AddReplicatedSubObject(Instance);
+				AddReplicatedSubObject(Container);
+
+				FInventoryList& InventoryList = Container->GetInventoryList();
+				for (const FInventoryEntry& Entry : InventoryList.Entries)
+				{
+					if (UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+					{
+						AddReplicatedSubObject(Instance);
+					}
+				}
 			}
 		}
 	}
@@ -65,6 +74,17 @@ void UInventorySystemComponent::InitializeComponent()
 
 	// Cache initialization
 	Cache = NewObject<UInventoryCache>(this);
+	
+	if (IsValid(DefaultContainerClass) && !Containers.Contains(DefaultContainerTag) && IsValidContainerTag(DefaultContainerTag))
+	{
+		UInventoryContainer* DefaultContainer = NewObject<UInventoryContainer>(this, DefaultContainerClass);
+		RegisterContainer(DefaultContainerTag, DefaultContainer);
+	}
+	
+	if (IsValid(DefaultInventorySet))
+	{
+		DefaultInventorySet->GiveToInventorySystem(this);
+	}
 }
 
 void UInventorySystemComponent::UninitializeComponent()
@@ -72,141 +92,185 @@ void UInventorySystemComponent::UninitializeComponent()
 	Super::UninitializeComponent();
 }
 
-FInventoryAddResult UInventorySystemComponent::TryAddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, const int32 Count)
+FInventoryResult UInventorySystemComponent::TryAddItemDefinitionIn(const FGameplayTag& ContainerTag, const TSubclassOf<UItemDefinition> ItemDefinition, const int32 Count)
 {
-	FInventoryAddResult Result;
-	if (!IsValid(ItemDefinition))
+	FInventoryResult Result;
+	if (UInventoryContainer* Container = GetContainer(ContainerTag))
 	{
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullDefinition;
-		return Result;
+		return Container->TryAddItemDefinition(ItemDefinition, Count);
 	}
-	if (Count <= 0)
-	{
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidCount;
-		return Result;
-	}
-
-	return Internal_AddItemDefinition(ItemDefinition, Count);
+	return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_ContainerNotFound};
 }
 
-FInventoryAddResult UInventorySystemComponent::TryAddItemInstance(UItemInstance* ItemInstance, int32 StackCount)
+FInventoryResult UInventorySystemComponent::TryAddItemInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* ItemInstance, const int32 StackCount)
 {
-	FInventoryAddResult Result;
-	if (!IsValid(ItemInstance))
+	if (UInventoryContainer* Container = GetContainer(ContainerTag))
 	{
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullInstance;
-		return Result;
+		return Container->TryAddItemInstance(ItemInstance, StackCount);
 	}
-	if (StackCount <= 0)
-	{
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidCount;
-		return Result;
-	}
-
-	return Internal_AddItemInstance(ItemInstance, StackCount);
+	return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_ContainerNotFound};
 }
 
-bool UInventorySystemComponent::TryRemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason)
+FInventoryResult UInventorySystemComponent::TryAddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, const int32 Count)
 {
-	if (!IsValid(ItemInstance))
+	return TryAddItemDefinitionIn(DefaultContainerTag, ItemDefinition, Count);
+}
+
+FInventoryResult UInventorySystemComponent::TryAddItemInstance(UItemInstance* ItemInstance, const int32 StackCount)
+{
+	return TryAddItemInstanceIn(DefaultContainerTag, ItemInstance, StackCount);
+}
+
+bool UInventorySystemComponent::TryRemoveFromHandle(FInventoryEntryHandle Handle, FGameplayTag& OutFailureReason)
+{
+	if (!Handle.IsHandleValid() || !IsValid(Handle.Container))
 	{
-		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullInstance;
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidHandle;
 		return false;
 	}
 
-	return Internal_RemoveItemInstance(ItemInstance, OutFailureReason);
+	return Handle.Container->TryRemoveItem(Handle, OutFailureReason);
 }
 
-
-FInventoryAddResult UInventorySystemComponent::Internal_AddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count)
+FInventoryResult UInventorySystemComponent::TryMoveByHandle(const FInventoryEntryHandle Handle, UInventoryContainer* TargetContainer)
 {
-	FInventoryAddResult Result = InventoryList.Add(ItemDefinition, Count);
-
-	if (!Result.Succeeded())
+	if (!Handle.IsHandleValid() || !IsValid(Handle.Container) || !IsValid(TargetContainer))
 	{
-		return Result;
+		return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidHandle};
 	}
+	return Handle.Container->TryMoveItemTo(Handle, TargetContainer);
+}
 
-	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+FInventoryEntryHandle UInventorySystemComponent::FindHandleFromInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* Instance) const
+{
+	for (const auto& Pair : Containers)
 	{
-		for (UItemInstance* Instance : Result.Instances)
+		if (const UInventoryContainer* Container = Pair.Value)
 		{
-			if (IsValid(Instance) && !IsReplicatedSubObjectRegistered(Instance))
+			FInventoryEntryHandle Handle = Container->FindHandle(Instance);
+			if (Handle.IsHandleValid())
 			{
-				AddReplicatedSubObject(Instance);
+				return Handle;
 			}
 		}
 	}
-
-	return Result;
+	return FInventoryEntryHandle();
 }
 
-FInventoryAddResult UInventorySystemComponent::Internal_AddItemInstance(UItemInstance* ItemInstance, const int32 StackCount)
+FInventoryEntryHandle UInventorySystemComponent::FindHandleFromInstance(UItemInstance* Instance) const
 {
-	FInventoryAddResult Result = InventoryList.AddItemInstance(ItemInstance, StackCount);
-
-	if (Result.Succeeded() && IsUsingRegisteredSubObjectList() && IsReadyForReplication())
-	{
-		if (!IsReplicatedSubObjectRegistered(ItemInstance))
-		{
-			AddReplicatedSubObject(ItemInstance);
-		}
-	}
-
-	return Result;
-}
-
-bool UInventorySystemComponent::Internal_RemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason)
-{
-	InventoryList.Remove(ItemInstance, OutFailureReason);
-
-	if (IsUsingRegisteredSubObjectList())
-	{
-		RemoveReplicatedSubObject(ItemInstance);
-	}
-
-	OutFailureReason = FGameplayTag::EmptyTag;
-	return true;
+	return FindHandleFromInstanceIn(InventorySystemGameplayTags::TAG_Inventory_Container, Instance);
 }
 
 TArray<FInventoryEntryHandle> UInventorySystemComponent::GetAllStacks() const
 {
-	return InventoryList.GetAllHandles();
+	TArray<FInventoryEntryHandle> Handles;
+	for (const auto& Pair : Containers)
+	{
+		if (UInventoryContainer* Container = Pair.Value)
+		{
+			Handles.Append(Container->GetInventoryList().GetAllHandles());
+		}
+	}
+	return Handles;
+}
+
+int32 UInventorySystemComponent::GetStackCountByDefinitionIn(const TSubclassOf<UItemDefinition> DefinitionClass, const FGameplayTag& ContainerTag) const
+{
+	int32 Count = 0;
+	if (const UInventoryContainer* Container = GetContainer(ContainerTag); IsValid(Container))
+	{
+		Count += Container->GetStackCountByDefinition(DefinitionClass);
+	}
+	return Count;
+}
+
+int32 UInventorySystemComponent::GetTotalCountByDefinitionIn(const TSubclassOf<UItemDefinition> DefinitionClass, const FGameplayTag& ContainerTag) const
+{
+	int32 Count = 0;
+	if (const UInventoryContainer* Container = GetContainer(ContainerTag); IsValid(Container))
+	{
+		Count += Container->GetTotalCountByDefinition(DefinitionClass);
+	}
+	return Count;
 }
 
 int32 UInventorySystemComponent::GetStackCountByDefinition(const TSubclassOf<UItemDefinition> DefinitionClass) const
 {
 	int32 Count = 0;
-	for (const FInventoryEntry& Entry : InventoryList.Entries)
+	for (const auto& Pair : Containers)
 	{
-		if (const UItemInstance* Instance = Entry.Instance; IsValid(Instance))
-		{
-			if (Instance->GetDefinitionClass() == DefinitionClass)
-			{
-				++Count;
-			}
-		}
+		Count += GetStackCountByDefinitionIn(DefinitionClass, Pair.Key);
 	}
-
 	return Count;
 }
 
-int32 UInventorySystemComponent::GetTotalCountByDefinition(const TSubclassOf<UItemDefinition> ItemDefinitionClass) const
+int32 UInventorySystemComponent::GetTotalCountByDefinition(const TSubclassOf<UItemDefinition> DefinitionClass) const
 {
-	int32 TotalCount = 0;
-	for (const FInventoryEntry& Entry : InventoryList.Entries)
+	int32 Count = 0;
+	for (const auto& Pair : Containers)
 	{
-		if (const UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+		Count += GetTotalCountByDefinitionIn(DefinitionClass, Pair.Key);
+	}
+	return Count;
+}
+
+bool UInventorySystemComponent::RegisterContainer(const FGameplayTag& Tag, UInventoryContainer* Container)
+{
+	if (!IsValid(Container) || !Tag.IsValid() || !IsValidContainerTag(Tag))
+	{
+		return false;
+	}
+	Container->SetOwnerComponent(this);
+
+	Containers.Add(Tag, Container);
+	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+	{
+		if (!IsReplicatedSubObjectRegistered(Container))
 		{
-			if (Instance->GetDefinitionClass() == ItemDefinitionClass)
-			{
-				TotalCount += Entry.StackCount;
-			}
+			AddReplicatedSubObject(Container);
 		}
 	}
-
-	return TotalCount;
+	return true;
 }
+
+bool UInventorySystemComponent::UnregisterContainer(const FGameplayTag& Tag)
+{
+	if (!Tag.IsValid() || !Containers.Contains(Tag))
+	{
+		return false;
+	}
+
+	if (IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+	{
+		if (UInventoryContainer* Container = Containers.FindRef(Tag))
+		{
+			RemoveReplicatedSubObject(Container);
+		}
+	}
+	Containers.Remove(Tag);
+	return true;
+}
+
+UInventoryContainer* UInventorySystemComponent::GetContainer(const FGameplayTag& ContainerTag) const
+{
+	if (const TObjectPtr<UInventoryContainer>* Container = Containers.Find(ContainerTag))
+	{
+		return *Container;
+	}
+	return nullptr;
+}
+
+TMap<FGameplayTag, UInventoryContainer*> UInventorySystemComponent::GetAllContainers() const
+{
+	TMap<FGameplayTag, UInventoryContainer*> Out;
+	for (const auto& Pair : Containers)
+	{
+		Out.Add(Pair.Key, Pair.Value);
+	}
+	return Out;
+}
+
 
 UItemDefinition* UInventorySystemComponent::GetCachedDefinition(const TSubclassOf<UItemDefinition>& Class) const
 {
@@ -219,6 +283,11 @@ UItemDefinition* UInventorySystemComponent::GetCachedDefinition(const TSubclassO
 		return NewObject<UItemDefinition>(GetOuter(), Class);
 	}
 	return nullptr;
+}
+
+bool UInventorySystemComponent::IsValidContainerTag(const FGameplayTag& Tag)
+{
+	return Tag.MatchesTag(InventorySystemGameplayTags::TAG_Inventory_Container);
 }
 
 void UInventorySystemComponent::PostInventoryEntryAdded(const FInventoryChangeData& Data)

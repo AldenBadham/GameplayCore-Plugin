@@ -21,7 +21,7 @@ struct FInventoryList;
  * that add specific functionalities.
  */
 UCLASS(BlueprintType, Blueprintable)
-class INVENTORYSYSTEMCORE_API UItemInstance : public UObject
+class INVENTORYSYSTEMCORE_API UItemInstance : public UObject, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -34,6 +34,16 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual bool IsSupportedForNetworking() const override { return true; }
 	// ~UObject
+
+	// IGameplayTagAssetInterface
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+	// ~IGameplayTagAssetInterface
+
+	UFUNCTION(BlueprintCallable, Category="Tags")
+	void AddTag(const FGameplayTag Tag) { Tags.AddTag(Tag); }
+
+	UFUNCTION(BlueprintCallable, Category="Tags")
+	void RemoveTag(const FGameplayTag Tag) { Tags.RemoveTag(Tag); }
 
 	/**
 	 * Gets the inventory system component that owns this item instance
@@ -119,18 +129,22 @@ protected:
 	/** The item definition that this instance is based on.
 	 * Only replicate the class.
 	 */
-	UPROPERTY(Replicated)
+	UPROPERTY(Replicated, BlueprintReadOnly, Category="Tags")
 	TSubclassOf<UItemDefinition> DefinitionClass;
 
 	/** The Item Definition default object, cached by the local InventorySystemComponent cache */
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Tags")
 	TWeakObjectPtr<UItemDefinition> Definition;
 
 	/** Components attached to this item instance providing additional functionality */
-	UPROPERTY(Replicated)
+	UPROPERTY(Replicated, BlueprintReadOnly, Category="Tags")
 	TArray<UItemComponent*> Components;
 
 	/** Cached pointer to the player controller that owns this item instance */
-	UPROPERTY(Transient)
+	UPROPERTY(Transient, BlueprintReadOnly, Category="Tags")
 	mutable APlayerController* OwningController;
+
+	/** Tags used to classify or filter this item statically */
+	UPROPERTY(BlueprintReadOnly, Category="Tags")
+	FGameplayTagContainer Tags;
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InventoryEntry.h"
 
 #include "InventoryEntryHandle.generated.h"
 
@@ -22,7 +23,6 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	GENERATED_BODY()
 
 	FInventoryEntryHandle()
-		: ItemInstance(nullptr), StackCount(0)
 	{
 	}
 
@@ -44,9 +44,10 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	 * @param InIndex Index of the entry in the inventory
 	 * @param InInstance The item instance to reference
 	 * @param InStackCount Number of items in the stack
+	 * @param InContainer
 	 */
-	FInventoryEntryHandle(const int32 InIndex, UItemInstance* InInstance, const int32 InStackCount)
-		: EntryIndex(InIndex), ItemInstance(InInstance), StackCount(InStackCount)
+	FInventoryEntryHandle(const int32 InIndex, UItemInstance* InInstance, const int32 InStackCount, UInventoryContainer* InContainer)
+		: EntryIndex(InIndex), ItemInstance(InInstance), StackCount(InStackCount), Container(InContainer)
 	{
 	}
 
@@ -54,7 +55,12 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	 * Checks if this handle references a valid inventory entry
 	 * @return true if the handle points to a valid entry, false otherwise
 	 */
-	bool IsValid() const { return EntryIndex != INDEX_NONE; }
+	bool IsHandleValid() const;
+
+	bool operator==(const FInventoryEntryHandle& Other) const
+	{
+		return EntryIndex == Other.EntryIndex && ItemInstance == Other.ItemInstance && Container == Other.Container;
+	}
 
 	/**
 	 * Index of the inventory entry in the inventory list
@@ -68,12 +74,15 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	 * Contains the actual item data and properties
 	 */
 	UPROPERTY(BlueprintReadOnly)
-	UItemInstance* ItemInstance;
+	TObjectPtr<UItemInstance> ItemInstance = nullptr;
 
 	/**
 	 * Current number of items in this stack
 	 * Represents how many items of this type are grouped together
 	 */
 	UPROPERTY(BlueprintReadOnly)
-	int32 StackCount;
+	int32 StackCount = 0;
+
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<UInventoryContainer> Container = nullptr;
 };

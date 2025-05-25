@@ -25,7 +25,7 @@ ENUM_CLASS_FLAGS(EItemStorageFlags);
  * @see UItemFragment
  * @brief UItemFragment_Storable defines storage properties for an item. This fragment can be attached to item definitions to specify how they behave in inventory systems.
  */
-UCLASS(DisplayName = "Storable")
+UCLASS(DisplayName = "Storable Fragment")
 class INVENTORYSYSTEMCORE_API UItemFragment_Storable : public UItemFragment
 {
 	GENERATED_BODY()

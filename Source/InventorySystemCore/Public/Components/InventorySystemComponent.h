@@ -4,12 +4,15 @@
 
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
+#include "Containers/InventoryContainer.h"
 #include "Data/InventoryCache.h"
 #include "Data/InventoryList.h"
 #include "Definitions/ItemDefinition.h"
+#include "GameplayTags/InventoryGameplayTags.h"
 
 #include "InventorySystemComponent.generated.h"
 
+class UInventorySet;
 struct FGameplayTag;
 class UEquipmentComponent;
 
@@ -38,7 +41,6 @@ class INVENTORYSYSTEMCORE_API UInventorySystemComponent : public UActorComponent
 	friend FInventoryList;
 
 public:
-	
 	UInventorySystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UObject
@@ -53,53 +55,58 @@ public:
 	// ~AActorComponent
 
 
-	UFUNCTION(BlueprintCallable, Category="Inventory")
-	FInventoryAddResult TryAddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count);
+	UFUNCTION(BlueprintCallable, Category="Inventory", meta = (Categories = "Inventory.Container"))
+	FInventoryResult TryAddItemDefinitionIn(const FGameplayTag& ContainerTag, TSubclassOf<UItemDefinition> ItemDefinition, int32 Count);
+	UFUNCTION(BlueprintCallable, Category="Inventory", meta = (Categories = "Inventory.Container"))
+	FInventoryResult TryAddItemInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* ItemInstance, int32 StackCount);
 
 	UFUNCTION(BlueprintCallable, Category="Inventory")
-	FInventoryAddResult TryAddItemInstance(UItemInstance* ItemInstance, int32 StackCount);
+	FInventoryResult TryAddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count);
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	FInventoryResult TryAddItemInstance(UItemInstance* ItemInstance, int32 StackCount);
 
 	UFUNCTION(BlueprintCallable, Category="Inventory")
-	bool TryRemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+	bool TryRemoveFromHandle(FInventoryEntryHandle Handle, FGameplayTag& OutFailureReason);
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	FInventoryResult TryMoveByHandle(FInventoryEntryHandle Handle, UInventoryContainer* TargetContainer);
 
-	
-	/**
-	 * Retrieves all items currently in the inventory.
-	 * @return An array containing all item instances in the inventory.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Inventory") // BlueprintAuthorityOnly
+
+	UFUNCTION(BlueprintCallable, Category="Inventory|Query", meta = (Categories = "Inventory.Container"))
+	FInventoryEntryHandle FindHandleFromInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* Instance) const;
+	UFUNCTION(BlueprintCallable, Category="Inventory|Query")
+	FInventoryEntryHandle FindHandleFromInstance(UItemInstance* Instance) const;
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FInventoryEntryHandle> GetAllStacks() const;
 
-	/**
-	 * Calculates the sum of all stack counts for items matching the specified definition
-	 * @param DefinitionClass The class of items to count
-	 * @return Total quantity of all matching items across all stacks
-	*/
+	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (Categories = "Inventory.Container"))
+	int32 GetStackCountByDefinitionIn(TSubclassOf<UItemDefinition> DefinitionClass, const FGameplayTag& ContainerTag) const;
+	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (Categories = "Inventory.Container"))
+	int32 GetTotalCountByDefinitionIn(TSubclassOf<UItemDefinition> DefinitionClass, const FGameplayTag& ContainerTag) const;
+
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetStackCountByDefinition(TSubclassOf<UItemDefinition> DefinitionClass) const;
-
-	/**
-	 * Counts the number of separate stacks containing items of the specified definition
-	 * @param DefinitionClass The class of items to count stacks for
-	 * @return Number of inventory slots containing the specified item type
-	 */
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetTotalCountByDefinition(TSubclassOf<UItemDefinition> DefinitionClass) const;
 
-	/**
-	 * Retrieves an item definition from the inventory cache
-	 * @param DefinitionClass The class of the item definition to retrieve
-	 * @return The item definition instance or nullptr if not found
-	 */
+
+	UFUNCTION(BlueprintCallable, Category="Inventory|Container", meta = (Categories = "Inventory.Container"))
+	bool RegisterContainer(const FGameplayTag& Tag, UInventoryContainer* Container);
+	UFUNCTION(BlueprintCallable, Category="Inventory|Container", meta = (Categories = "Inventory.Container"))
+	bool UnregisterContainer(const FGameplayTag& Tag);
+	UFUNCTION(BlueprintPure, Category="Inventory|Container", meta = (Categories = "Inventory.Container"))
+	UInventoryContainer* GetContainer(const FGameplayTag& ContainerTag) const;
+	UFUNCTION(BlueprintPure, Category="Inventory|Container")
+	TMap<FGameplayTag, UInventoryContainer*> GetAllContainers() const;
+
+
 	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (DeterminesOutputType = DefinitionClass))
 	UItemDefinition* GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const;
 
 public:
-
+	
 protected:
-	FInventoryAddResult Internal_AddItemDefinition(const TSubclassOf<UItemDefinition>& ItemDefinition, int32 Count);
-	FInventoryAddResult Internal_AddItemInstance(UItemInstance* ItemInstance, int32 StackCount);
-	bool Internal_RemoveItemInstance(UItemInstance* ItemInstance, FGameplayTag& OutFailureReason);
+	
+	static bool IsValidContainerTag(const FGameplayTag& Tag);
 	
 	/**
 	 * Called after an item is added to the inventory
@@ -126,7 +133,7 @@ protected:
 	virtual void PostInventoryChanged(const FInventoryChangeData& Data);
 
 protected:
-
+	
 	/** Event fired when an item is added to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryAdded;
@@ -142,10 +149,18 @@ protected:
 	/** Event fired after any change to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryChanged;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	TSubclassOf<UInventoryContainer> DefaultContainerClass = UInventoryContainer::StaticClass();
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory", meta = (Categories = "Inventory.Container"))
+	FGameplayTag DefaultContainerTag = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 
-	/** Replicated list of inventory entries managed by this component. */
-	UPROPERTY(Replicated)
-	FInventoryList InventoryList;
+	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	TObjectPtr<UInventorySet> DefaultInventorySet;
+	
+	UPROPERTY(/* Replicated */) // Should be marked as replicated but not supported, so replicated as subobjects
+	TMap<FGameplayTag, TObjectPtr<UInventoryContainer>> Containers;
 
 	/** Inventory definitions cache. Not replicated */
 	UPROPERTY()

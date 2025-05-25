@@ -24,7 +24,7 @@ UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& O
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	bWantsInitializeComponent = true;
-	
+
 	SetIsReplicatedByDefault(true);
 	bReplicateUsingRegisteredSubObjectList = true;
 }
@@ -453,7 +453,7 @@ FEquipmentResult UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance*
 		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
 		return Result;
 	}
-	
+
 	return Result;
 }
 

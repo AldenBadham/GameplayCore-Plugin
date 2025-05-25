@@ -20,6 +20,7 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntry : public FFastArraySerializerItem
 	GENERATED_BODY()
 
 	friend class UInventorySystemComponent;
+	friend class UInventoryContainer;
 	friend struct FInventoryList;
 	friend struct FInventoryChangeData;
 	friend struct FInventoryEntryHandle;

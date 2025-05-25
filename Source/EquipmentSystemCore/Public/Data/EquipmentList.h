@@ -19,10 +19,9 @@ struct FReplicationFlags;
 USTRUCT(BlueprintType)
 struct FEquipmentResult
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
+	;
 
-public:
-	
 	UPROPERTY(BlueprintReadOnly)
 	UEquipmentInstance* Instance = nullptr;
 
@@ -74,7 +73,6 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	void Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason);
 
 protected:
-	
 	/**
 	 * Called when an entry is changed.
 	 * @param Index The index of the changed entry.
@@ -97,8 +95,6 @@ protected:
 	/** Get the ability system component of the owner. */
 	UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
-protected:
-	
 	/** Array of equipment entries */
 	UPROPERTY()
 	TArray<FEquipmentEntry> Entries;

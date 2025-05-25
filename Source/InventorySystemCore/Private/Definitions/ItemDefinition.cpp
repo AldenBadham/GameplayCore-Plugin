@@ -103,6 +103,11 @@ void UItemDefinition::PostEditChangeProperty(FPropertyChangedEvent& PropertyChan
 }
 #endif
 
+void UItemDefinition::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	TagContainer.AppendTags(Tags);
+}
+
 const UItemFragment* UItemDefinition::FindFragmentByClass(const TSubclassOf<UItemFragment> FragmentClass) const
 {
 	if (IsValid(FragmentClass))
@@ -134,4 +139,3 @@ bool UItemDefinition::K2_CanBeGiven_Implementation(UInventorySystemComponent* In
 {
 	return true;
 }
-

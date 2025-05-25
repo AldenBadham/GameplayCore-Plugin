@@ -11,12 +11,11 @@
 #include "Log/InventorySystemLog.h"
 
 FInventoryList::FInventoryList()
-	: OwnerComponent(nullptr)
 {
 }
 
 FInventoryList::FInventoryList(UInventorySystemComponent* InOwnerComponent)
-	: OwnerComponent(InOwnerComponent)
+	: OwningComponent(InOwnerComponent)
 {
 }
 
@@ -63,18 +62,18 @@ void FInventoryList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 	}
 }
 
-FInventoryAddResult FInventoryList::Add(const TSubclassOf<UItemDefinition>& DefinitionClass, const int32 Count)
+FInventoryResult FInventoryList::AddFromDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass, const int32 Count)
 {
-	FInventoryAddResult Result;
-	
-	if (!IsValid(DefinitionClass) || !OwnerComponent)
+	FInventoryResult Result;
+
+	if (!IsValid(DefinitionClass) || !OwningComponent)
 	{
 		UE_LOG(LogInventorySystem, Warning, TEXT("Tried to instantiate an item instance from invalid definition class."));
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullDefinition;
+		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidDefinition;
 		return Result;
 	}
 
-	if (const AActor* OwnerActor = OwnerComponent->GetOwner(); !OwnerActor->HasAuthority())
+	if (const AActor* OwnerActor = OwningComponent->GetOwner(); !OwnerActor->HasAuthority())
 	{
 		UE_LOG(LogInventorySystem, Warning, TEXT("Tried to instantiate an item instance from invalid definition class."));
 		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NotAuthority;
@@ -89,7 +88,7 @@ FInventoryAddResult FInventoryList::Add(const TSubclassOf<UItemDefinition>& Defi
 
 	int32 RemainingCount = Count;
 
-	const UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	const UItemDefinition* CachedDefinition = OwningComponent->GetCachedDefinition(DefinitionClass);
 	const UItemFragment_Storable* StorableFragment = CachedDefinition->FindFragmentByClass<UItemFragment_Storable>();
 
 	// Handles stacking if the object is stackable
@@ -143,7 +142,43 @@ FInventoryAddResult FInventoryList::Add(const TSubclassOf<UItemDefinition>& Defi
 	return Result;
 }
 
-void FInventoryList::Remove(UItemInstance* Instance, FGameplayTag& OutFailureReason)
+FInventoryResult FInventoryList::AddInstance(UItemInstance* ItemInstance, const int32 Count)
+{
+	FInventoryResult Result;
+
+	if (!IsValid(ItemInstance))
+	{
+		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidInstance;
+		return Result;
+	}
+
+	// Check if the item can be added
+	if (const TSubclassOf<UItemDefinition> DefinitionClass = ItemInstance->GetDefinitionClass())
+	{
+		if (!CanAdd(DefinitionClass, Result.FailureReason, Count))
+		{
+			return Result;
+		}
+	}
+
+	// Creating and configuring the new input
+	FInventoryEntry& NewEntry = Entries.AddDefaulted_GetRef();
+	const int32 NewIndex = Entries.Num() - 1;
+
+	NewEntry.Instance = ItemInstance;
+	NewEntry.StackCount = Count;
+	NewEntry.LastStackCount = Count;
+
+	Result.Instances.Add(ItemInstance);
+
+	// Notification du changement
+	Internal_OnEntryAdded(NewIndex, NewEntry);
+	MarkItemDirty(NewEntry);
+
+	return Result;
+}
+
+void FInventoryList::RemoveInstance(UItemInstance* Instance)
 {
 	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
 	{
@@ -156,52 +191,78 @@ void FInventoryList::Remove(UItemInstance* Instance, FGameplayTag& OutFailureRea
 	}
 }
 
-FInventoryAddResult FInventoryList::AddItemInstance(UItemInstance* ItemInstance, const int32 Count)
+bool FInventoryList::RemoveFromHandle(const FInventoryEntryHandle& Handle, FGameplayTag& OutFailureReason)
 {
-	FInventoryAddResult Result;
-	
-	if (!IsValid(ItemInstance))
+	if (!Handle.IsHandleValid())
 	{
-		Result.FailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullInstance;
-		return Result;
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidHandle;
+		return false;
 	}
 
-	// Check if the item can be added
-	if (const TSubclassOf<UItemDefinition> DefinitionClass = ItemInstance->GetDefinitionClass())
+	if (!Entries.IsValidIndex(Handle.EntryIndex))
 	{
-		if (!CanAdd(DefinitionClass, Result.FailureReason, Count))
-			return Result;
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidHandle;
+		return false;
 	}
 
-	// Creating and configuring the new input
-	FInventoryEntry& NewEntry = Entries.AddDefaulted_GetRef();
-	const int32 NewIndex = Entries.Num() - 1;
+	const FInventoryEntry& Entry = Entries[Handle.EntryIndex];
+	if (Entry.Instance != Handle.ItemInstance)
+	{
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_HandleMismatch;
+		return false;
+	}
 
-	NewEntry.Instance = ItemInstance;
-	NewEntry.StackCount = Count;
-	NewEntry.LastStackCount = Count;
+	Internal_OnEntryRemoved(Handle.EntryIndex, Entry);
+	Entries.RemoveAt(Handle.EntryIndex);
+	MarkArrayDirty();
 
-	Result.Instances.Add(ItemInstance);
-	
-	// Notification du changement
-	Internal_OnEntryAdded(NewIndex, NewEntry);
-	MarkItemDirty(NewEntry);
-
-	return Result;
+	OutFailureReason = FGameplayTag::EmptyTag;
+	return true;
 }
 
-void FInventoryList::AddItemInstance(const FInventoryEntry& Entry, FGameplayTag& OutFailureReason)
+bool FInventoryList::RemoveFromIndex(const int32 Index, FGameplayTag& OutFailureReason)
 {
-	AddItemInstance(Entry.Instance, Entry.StackCount);
+	if (!Entries.IsValidIndex(Index))
+	{
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidIndex;
+		return false;
+	}
+
+	Internal_OnEntryRemoved(Index, Entries[Index]);
+	Entries.RemoveAt(Index);
+	MarkArrayDirty();
+	return true;
+}
+
+FInventoryEntryHandle FInventoryList::MakeHandle(const int32 Index) const
+{
+	if (!Entries.IsValidIndex(Index))
+	{
+		return FInventoryEntryHandle();
+	}
+	const FInventoryEntry& Entry = Entries[Index];
+	return FInventoryEntryHandle(Index, Entry.Instance, Entry.StackCount, OwningContainer);
+}
+
+FInventoryEntryHandle FInventoryList::FindHandleFromInstance(UItemInstance* Instance) const
+{
+	FInventoryEntryHandle Handle;
+	if (IsValid(Instance))
+	{
+		for (int32 Index = 0; Index < Entries.Num(); ++Index)
+		{
+			if (const FInventoryEntry& Entry = Entries[Index]; Entry.Instance == Instance)
+			{
+				Handle = FInventoryEntryHandle(Index, Entry);
+				break;
+			}
+		}
+	}
+	return Handle;
 }
 
 FInventoryEntryHandle FInventoryList::FindHandleOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)
 {
-	if (!IsValid(ItemDefinition))
-	{
-		return {};
-	}
-
 	for (int Index = 0; Index < Entries.Num(); ++Index)
 	{
 		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass() == ItemDefinition)
@@ -210,6 +271,24 @@ FInventoryEntryHandle FInventoryList::FindHandleOfType(const TSubclassOf<UItemDe
 		}
 	}
 	return {};
+}
+
+TArray<FInventoryEntryHandle> FInventoryList::GetAllHandles() const
+{
+	TArray<FInventoryEntryHandle> Handles = {};
+
+	// Pre-reserve memory for the array
+	Handles.Reserve(Entries.Num());
+
+	for (int32 Index = 0; Index < Entries.Num(); ++Index)
+	{
+		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance))
+		{
+			FInventoryEntryHandle Handle = FInventoryEntryHandle(Index, Entry);
+			Handles.Add(Handle);
+		}
+	}
+	return Handles;
 }
 
 TArray<FInventoryEntryHandle> FInventoryList::GetHandlesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)
@@ -232,22 +311,18 @@ TArray<FInventoryEntryHandle> FInventoryList::GetHandlesOfType(const TSubclassOf
 	return Handles;
 }
 
-TArray<FInventoryEntryHandle> FInventoryList::GetAllHandles() const
+TArray<FInventoryEntry*> FInventoryList::GetAllEntries()
 {
-	TArray<FInventoryEntryHandle> Handles = {};
+	TArray<FInventoryEntry*> InventoryEntries;
 
 	// Pre-reserve memory for the array
-	Handles.Reserve(Entries.Num());
+	InventoryEntries.Reserve(Entries.Num());
 
-	for (int32 Index = 0; Index < Entries.Num(); ++Index)
+	for (FInventoryEntry& Entry : Entries)
 	{
-		if (const FInventoryEntry& Entry = Entries[Index]; IsValid(Entry.Instance))
-		{
-			FInventoryEntryHandle Handle = FInventoryEntryHandle(Index, Entry);
-			Handles.Add(Handle);
-		}
+		InventoryEntries.Add(&Entry);
 	}
-	return Handles;
+	return InventoryEntries;
 }
 
 FInventoryEntry* FInventoryList::FindEntryOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)
@@ -269,40 +344,62 @@ TArray<FInventoryEntry*> FInventoryList::GetEntriesOfType(const TSubclassOf<UIte
 		return InventoryEntries;
 	}
 
-	for (auto Entry : InventoryEntries)
+	for (FInventoryEntry& Entry : Entries)
 	{
-		if (IsValid(Entry->Instance) && Entry->Instance->GetDefinitionClass()->IsInA(ItemDefinition))
+		if (IsValid(Entry.Instance) && Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition))
 		{
-			InventoryEntries.Add(Entry);
+			InventoryEntries.Add(&Entry);
 		}
 	}
 	return InventoryEntries;
 }
 
-TArray<FInventoryEntry*> FInventoryList::GetAllEntries()
+int32 FInventoryList::GetStackCountByDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const
 {
-	TArray<FInventoryEntry*> InventoryEntries;
-
-	// Pre-reserve memory for the array
-	InventoryEntries.Reserve(InventoryEntries.Num());
-
-	for (auto Entry : InventoryEntries)
+	int32 Count = 0;
+	for (const FInventoryEntry& Entry : Entries)
 	{
-		InventoryEntries.Add(Entry);
+		if (Entry.Instance && Entry.Instance->GetDefinitionClass() == ItemDefinitionClass)
+		{
+			++Count;
+		}
 	}
-	return InventoryEntries;
+	return Count;
+}
+
+int32 FInventoryList::GetTotalCountByDefinition(const TSubclassOf<UItemDefinition>& ItemDefinitionClass) const
+{
+	int32 Total = 0;
+	for (const FInventoryEntry& Entry : Entries)
+	{
+		if (Entry.Instance && Entry.Instance->GetDefinitionClass() == ItemDefinitionClass)
+		{
+			Total += Entry.StackCount;
+		}
+	}
+	return Total;
+}
+
+void FInventoryList::SetOwningComponent(UInventorySystemComponent* Component)
+{
+	OwningComponent = Component;
+}
+
+void FInventoryList::SetOwningContainer(UInventoryContainer* Container)
+{
+	OwningContainer = Container;
 }
 
 UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinition>& DefinitionClass, int32& Count)
 {
-	AActor* OwnerActor = OwnerComponent->GetOwner();
+	AActor* OwnerActor = OwningComponent->GetOwner();
 	if (!OwnerActor->HasAuthority())
 	{
 		return nullptr;
 	}
 
 	// Get item definition instance
-	UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	UItemDefinition* CachedDefinition = OwningComponent->GetCachedDefinition(DefinitionClass);
 	const UItemFragment_Storable* StorableFragment = CachedDefinition->FindFragmentByClass<UItemFragment_Storable>();
 	if (!IsValid(StorableFragment))
 	{
@@ -335,19 +432,21 @@ UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinit
 
 bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass, FGameplayTag& OutFailureReason, const int32 InCount)
 {
-	UItemDefinition* CachedDefinition = OwnerComponent->GetCachedDefinition(DefinitionClass);
+	UItemDefinition* CachedDefinition = OwningComponent->GetCachedDefinition(DefinitionClass);
 	if (!IsValid(CachedDefinition))
 	{
 		UE_LOG(LogInventorySystem, Warning, TEXT("Tried to instantiate an item instance from invalid definition class."));
-		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_NullDefinition;
+		OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidDefinition;
 		return false;
 	}
 
-	if (!CachedDefinition->CanBeGiven(OwnerComponent, OutFailureReason))
+	if (!CachedDefinition->CanBeGiven(OwningComponent, OutFailureReason))
 	{
 		UE_LOG(LogInventorySystem, Warning, TEXT("Tried to instantiate an item instance from %s, but the definition conditions are not met."), *GetNameSafe(DefinitionClass));
 		if (!OutFailureReason.IsValid())
+		{
 			OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_DefinitionRefused;
+		}
 		return false;
 	}
 
@@ -363,11 +462,13 @@ bool FInventoryList::CanAdd(const TSubclassOf<UItemDefinition>& DefinitionClass,
 	// Check if the object is unique
 	if (StorableFragment->IsUnique())
 	{
-		if (const FInventoryEntryHandle Handle = FindHandleOfType(DefinitionClass); Handle.IsValid())
+		if (const FInventoryEntryHandle Handle = FindHandleOfType(DefinitionClass); Handle.IsHandleValid())
 		{
 			// Allow if we can fit in the existing stack
-			if (StorableFragment->CanStack() && (StorableFragment->MaxStackCount - Handle.StackCount <= InCount))
+			if (StorableFragment->CanStack() && StorableFragment->MaxStackCount - Handle.StackCount <= InCount)
+			{
 				return true;
+			}
 
 			UE_LOG(LogInventorySystem, Warning, TEXT("Tried to instantiate a single item instance %s but another instance already exists."), *GetNameSafe(CachedDefinition));
 			OutFailureReason = InventorySystemGameplayTags::TAG_Inventory_Failure_Uniqueness;
@@ -386,8 +487,8 @@ void FInventoryList::Internal_OnEntryChanged(const int32 Index, const FInventory
 	Data.OldCount = Entry.LastStackCount;
 	Data.NewCount = Entry.StackCount;
 
-	OwnerComponent->PostInventoryEntryChanged(Data);
-	OwnerComponent->PostInventoryChanged(Data);
+	OwningComponent->PostInventoryEntryChanged(Data);
+	OwningComponent->PostInventoryChanged(Data);
 }
 
 void FInventoryList::Internal_OnEntryAdded(const int32 Index, const FInventoryEntry& Entry) const
@@ -399,8 +500,8 @@ void FInventoryList::Internal_OnEntryAdded(const int32 Index, const FInventoryEn
 	Data.OldCount = Entry.LastStackCount;
 	Data.NewCount = Entry.StackCount;
 
-	OwnerComponent->PostInventoryEntryAdded(Data);
-	OwnerComponent->PostInventoryChanged(Data);
+	OwningComponent->PostInventoryEntryAdded(Data);
+	OwningComponent->PostInventoryChanged(Data);
 }
 
 void FInventoryList::Internal_OnEntryRemoved(const int32 Index, const FInventoryEntry& Entry) const
@@ -412,6 +513,6 @@ void FInventoryList::Internal_OnEntryRemoved(const int32 Index, const FInventory
 	Data.OldCount = Entry.LastStackCount;
 	Data.NewCount = Entry.StackCount;
 
-	OwnerComponent->PostInventoryEntryRemoved(Data);
-	OwnerComponent->PostInventoryChanged(Data);
+	OwningComponent->PostInventoryEntryRemoved(Data);
+	OwningComponent->PostInventoryChanged(Data);
 }

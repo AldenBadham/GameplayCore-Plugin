@@ -19,6 +19,15 @@ void UItemInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	DOREPLIFETIME(ThisClass, DefinitionClass);
 }
 
+void UItemInstance::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	if (IsValid(Definition.Get()))
+	{
+		Definition->GetOwnedGameplayTags(TagContainer);
+	}
+	TagContainer.AppendTags(Tags);
+}
+
 UInventorySystemComponent* UItemInstance::GetInventorySystemComponent() const
 {
 	if (!IsValid(OwningController))

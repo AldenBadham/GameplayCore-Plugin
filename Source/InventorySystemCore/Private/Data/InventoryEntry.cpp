@@ -9,25 +9,25 @@
 
 void FInventoryEntry::PreReplicatedRemove(const FInventoryList& InArraySerializer) const
 {
-	if (InArraySerializer.OwnerComponent)
+	if (InArraySerializer.OwningContainer)
 	{
-		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnRemoveEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
+		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnRemoveEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwningComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
 	}
 }
 
 void FInventoryEntry::PostReplicatedAdd(const FInventoryList& InArraySerializer) const
 {
-	if (InArraySerializer.OwnerComponent)
+	if (InArraySerializer.OwningContainer)
 	{
-		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
+		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedEntry (Non-Auth): %s. Count: %d"), *GetNameSafe(InArraySerializer.OwningComponent->GetOwner()), *GetNameSafe(Instance), StackCount);
 	}
 }
 
 void FInventoryEntry::PostReplicatedChange(const FInventoryList& InArraySerializer) const
 {
-	if (InArraySerializer.OwnerComponent)
+	if (InArraySerializer.OwningContainer)
 	{
-		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d"), *GetNameSafe(InArraySerializer.OwnerComponent->GetOwner()), *GetNameSafe(Instance), StackCount, LastStackCount);
+		UE_LOG(LogInventorySystem, Verbose, TEXT("%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d"), *GetNameSafe(InArraySerializer.OwningComponent->GetOwner()), *GetNameSafe(Instance), StackCount, LastStackCount);
 	}
 }
 

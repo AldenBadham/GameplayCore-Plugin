@@ -16,7 +16,7 @@ class UGameplayEffect;
  * @details Allows items to be consumed and apply gameplay effects to the user. 
  * The fragment can be configured with multiple effects and a maximum number of uses.
  */
-UCLASS(DefaultToInstanced, EditInlineNew, Blueprintable, BlueprintType, DisplayName = "Consumable")
+UCLASS(DisplayName = "Consumable Fragment")
 class INVENTORYSYSTEMCORE_API UItemFragment_Consumable : public UItemFragment
 {
 	GENERATED_BODY()
