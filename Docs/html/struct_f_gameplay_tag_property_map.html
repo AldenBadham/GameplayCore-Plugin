@@ -105,6 +105,7 @@ $(function(){initNavTree('struct_f_gameplay_tag_property_map.html',''); initResi
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="struct_f_gameplay_tag_property_map-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">FGameplayTagPropertyMap Class Reference</div></div>
@@ -120,8 +121,8 @@ $(function(){initNavTree('struct_f_gameplay_tag_property_map.html',''); initResi
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8664c8222ec2b2fb3866acbe13ca7037" id="r_a8664c8222ec2b2fb3866acbe13ca7037"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8664c8222ec2b2fb3866acbe13ca7037">FGameplayTagPropertyMap</a> (const <a class="el" href="struct_f_gameplay_tag_property_map.html">FGameplayTagPropertyMap</a> &amp;Other)</td></tr>
 <tr class="separator:a8664c8222ec2b2fb3866acbe13ca7037"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa41e4fa834f03fb33a81a13756a57e0b" id="r_aa41e4fa834f03fb33a81a13756a57e0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa41e4fa834f03fb33a81a13756a57e0b">Initialize</a> (UObject *Owner, class UAbilitySystemComponent *AbilitySystemComp)</td></tr>
-<tr class="separator:aa41e4fa834f03fb33a81a13756a57e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a163322dd506e85176e9394e943f42769" id="r_a163322dd506e85176e9394e943f42769"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a163322dd506e85176e9394e943f42769">Initialize</a> (UObject *Owner, UAbilitySystemComponent *AbilitySystemComp)</td></tr>
+<tr class="separator:a163322dd506e85176e9394e943f42769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe1f56a5433d85a7874c50ffc37153a6" id="r_abe1f56a5433d85a7874c50ffc37153a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe1f56a5433d85a7874c50ffc37153a6">ApplyCurrentTags</a> ()</td></tr>
 <tr class="separator:abe1f56a5433d85a7874c50ffc37153a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f2c10efcfb02f6395b82a6f9c954a38" id="r_a6f2c10efcfb02f6395b82a6f9c954a38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f2c10efcfb02f6395b82a6f9c954a38">AddTag</a> (const FGameplayTag &amp;Tag, const FName &amp;PropertyName)</td></tr>
@@ -133,10 +134,13 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ab09415f7338b3a07d3e2ac95802a8bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44e00bfa2768161391630bc5ec9cff86" id="r_a44e00bfa2768161391630bc5ec9cff86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e00bfa2768161391630bc5ec9cff86">GameplayTagEventCallback</a> (const FGameplayTag Tag, int32 NewCount, TWeakObjectPtr&lt; UObject &gt; RegisteredOwner)</td></tr>
 <tr class="separator:a44e00bfa2768161391630bc5ec9cff86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3382bb52f3093c5d49686a50aaa98b0" id="r_aa3382bb52f3093c5d49686a50aaa98b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3382bb52f3093c5d49686a50aaa98b0">IsPropertyTypeValid</a> (const FProperty *Property) const</td></tr>
-<tr class="separator:aa3382bb52f3093c5d49686a50aaa98b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ad4de8118db6045fd4c61bd70bfe8d6" id="r_a3ad4de8118db6045fd4c61bd70bfe8d6"><td class="memItemLeft" align="right" valign="top">EGameplayTagEventType::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ad4de8118db6045fd4c61bd70bfe8d6">GetGameplayTagEventType</a> (const FProperty *Property) const</td></tr>
-<tr class="separator:a3ad4de8118db6045fd4c61bd70bfe8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa278f14355beccbbaf11bae0e94f705c" id="r_aa278f14355beccbbaf11bae0e94f705c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa278f14355beccbbaf11bae0e94f705c">IsPropertyTypeValid</a> (const FProperty *Property)</td></tr>
+<tr class="separator:aa278f14355beccbbaf11bae0e94f705c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac93b554f42162450d2aa3bc757e8c0c9" id="r_ac93b554f42162450d2aa3bc757e8c0c9"><td class="memItemLeft" align="right" valign="top">static EGameplayTagEventType::Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac93b554f42162450d2aa3bc757e8c0c9">GetGameplayTagEventType</a> (const FProperty *Property)</td></tr>
+<tr class="separator:ac93b554f42162450d2aa3bc757e8c0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -168,7 +172,8 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00009">9</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    9</span>{}</div>
+<div class="fragment"><div class="line"><span class="lineno">   10</span>{</div>
+<div class="line"><span class="lineno">   11</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -187,11 +192,11 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00011">11</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   12</span>{</div>
-<div class="line"><span class="lineno">   13</span>    ensureMsgf(Other.CachedOwner.IsExplicitlyNull(), TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap cannot be used inside an array or other container that is copied after register!&quot;</span>));</div>
-<div class="line"><span class="lineno">   14</span>    PropertyMappings = Other.PropertyMappings;</div>
-<div class="line"><span class="lineno">   15</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00013">13</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>{</div>
+<div class="line"><span class="lineno">   15</span>    ensureMsgf(Other.CachedOwner.IsExplicitlyNull(), TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap cannot be used inside an array or other container that is copied after register!&quot;</span>));</div>
+<div class="line"><span class="lineno">   16</span>    PropertyMappings = Other.PropertyMappings;</div>
+<div class="line"><span class="lineno">   17</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -210,10 +215,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00017">17</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
-<div class="line"><span class="lineno">   19</span>    Unregister();</div>
-<div class="line"><span class="lineno">   20</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00019">19</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{</div>
+<div class="line"><span class="lineno">   21</span>    Unregister();</div>
+<div class="line"><span class="lineno">   22</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -244,48 +249,48 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00123">123</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>{</div>
-<div class="line"><span class="lineno">  125</span>    UObject* Owner = CachedOwner.Get();</div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">if</span> (!Owner)</div>
-<div class="line"><span class="lineno">  127</span>    {</div>
-<div class="line"><span class="lineno">  128</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid Owner.&quot;</span>));</div>
-<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  130</span>    }</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>    UClass* OwnerClass = Owner-&gt;GetClass();</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>    UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();</div>
-<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
-<div class="line"><span class="lineno">  136</span>    {</div>
-<div class="line"><span class="lineno">  137</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid AbilitySystemComponent.&quot;</span>));</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>    FProperty* Property = OwnerClass-&gt;FindPropertyByName(PropertyName);</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">if</span> (!Property || !IsPropertyTypeValid(Property))</div>
-<div class="line"><span class="lineno">  143</span>    {</div>
-<div class="line"><span class="lineno">  144</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid property.&quot;</span>));</div>
-<div class="line"><span class="lineno">  145</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  146</span>    }</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>    <span class="keywordflow">if</span> (!Tag.IsValid())</div>
-<div class="line"><span class="lineno">  149</span>    {</div>
-<div class="line"><span class="lineno">  150</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid gameplay tag.&quot;</span>));</div>
-<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  152</span>    }</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>    FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(<span class="keyword">this</span>, &amp;FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>    FGameplayTagBlueprintPropertyMapping Mapping;</div>
-<div class="line"><span class="lineno">  157</span>    Mapping.TagToMap = Tag;</div>
-<div class="line"><span class="lineno">  158</span>    Mapping.PropertyToEdit = Property;</div>
-<div class="line"><span class="lineno">  159</span>    Mapping.PropertyName = PropertyName;</div>
-<div class="line"><span class="lineno">  160</span>    Mapping.DelegateHandle = AbilitySystemComp-&gt;RegisterAndCallGameplayTagEvent(Tag, Delegate, GetGameplayTagEventType(Property));</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>    <span class="comment">// Add the mapping to the map to be able to apply it manually</span></div>
-<div class="line"><span class="lineno">  163</span>    PropertyMappings.Add(Mapping);</div>
-<div class="line"><span class="lineno">  164</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00118">118</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>{</div>
+<div class="line"><span class="lineno">  120</span>    <span class="keyword">const</span> UObject* Owner = CachedOwner.Get();</div>
+<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">if</span> (!Owner)</div>
+<div class="line"><span class="lineno">  122</span>    {</div>
+<div class="line"><span class="lineno">  123</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid Owner.&quot;</span>));</div>
+<div class="line"><span class="lineno">  124</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  125</span>    }</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>    <span class="keyword">const</span> UClass* OwnerClass = Owner-&gt;GetClass();</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>    UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();</div>
+<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
+<div class="line"><span class="lineno">  131</span>    {</div>
+<div class="line"><span class="lineno">  132</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid AbilitySystemComponent.&quot;</span>));</div>
+<div class="line"><span class="lineno">  133</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  134</span>    }</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>    FProperty* Property = OwnerClass-&gt;FindPropertyByName(PropertyName);</div>
+<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">if</span> (!Property || !IsPropertyTypeValid(Property))</div>
+<div class="line"><span class="lineno">  138</span>    {</div>
+<div class="line"><span class="lineno">  139</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid property.&quot;</span>));</div>
+<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  141</span>    }</div>
+<div class="line"><span class="lineno">  142</span> </div>
+<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">if</span> (!Tag.IsValid())</div>
+<div class="line"><span class="lineno">  144</span>    {</div>
+<div class="line"><span class="lineno">  145</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::AddTag called with an invalid gameplay tag.&quot;</span>));</div>
+<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  147</span>    }</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>    <span class="keyword">const</span> FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(<span class="keyword">this</span>, &amp;FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>    FGameplayTagBlueprintPropertyMapping Mapping;</div>
+<div class="line"><span class="lineno">  152</span>    Mapping.TagToMap = Tag;</div>
+<div class="line"><span class="lineno">  153</span>    Mapping.PropertyToEdit = Property;</div>
+<div class="line"><span class="lineno">  154</span>    Mapping.PropertyName = PropertyName;</div>
+<div class="line"><span class="lineno">  155</span>    Mapping.DelegateHandle = AbilitySystemComp-&gt;RegisterAndCallGameplayTagEvent(Tag, Delegate, GetGameplayTagEventType(Property));</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>    <span class="comment">// Add the mapping to the map to be able to apply it manually</span></div>
+<div class="line"><span class="lineno">  158</span>    PropertyMappings.Add(Mapping);</div>
+<div class="line"><span class="lineno">  159</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -305,44 +310,44 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Call to manually apply the current tag state, can handle cases where callbacks were skipped </p>
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00084">84</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>{</div>
-<div class="line"><span class="lineno">   86</span>    UObject* Owner = CachedOwner.Get();</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">if</span> (!Owner)</div>
-<div class="line"><span class="lineno">   88</span>    {</div>
-<div class="line"><span class="lineno">   89</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::ApplyCurrentTags called with an invalid Owner.&quot;</span>));</div>
-<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   91</span>    }</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();</div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
-<div class="line"><span class="lineno">   95</span>    {</div>
-<div class="line"><span class="lineno">   96</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::ApplyCurrentTags called with an invalid AbilitySystemComponent.&quot;</span>));</div>
-<div class="line"><span class="lineno">   97</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   98</span>    }</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>    <span class="comment">// Property mapping</span></div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">for</span> (FGameplayTagBlueprintPropertyMapping&amp; Mapping : PropertyMappings)</div>
-<div class="line"><span class="lineno">  102</span>    {</div>
-<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">if</span> (Mapping.PropertyToEdit.Get() &amp;&amp; Mapping.TagToMap.IsValid())</div>
-<div class="line"><span class="lineno">  104</span>        {</div>
-<div class="line"><span class="lineno">  105</span>            int32 NewCount = AbilitySystemComp-&gt;GetTagCount(Mapping.TagToMap);</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> FBoolProperty* BoolProperty = CastField&lt;const FBoolProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  108</span>            {</div>
-<div class="line"><span class="lineno">  109</span>                BoolProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount &gt; 0);</div>
-<div class="line"><span class="lineno">  110</span>            }</div>
-<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FIntProperty* IntProperty = CastField&lt;const FIntProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  112</span>            {</div>
-<div class="line"><span class="lineno">  113</span>                IntProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount);</div>
-<div class="line"><span class="lineno">  114</span>            }</div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FFloatProperty* FloatProperty = CastField&lt;const FFloatProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  116</span>            {</div>
-<div class="line"><span class="lineno">  117</span>                FloatProperty-&gt;SetPropertyValue_InContainer(Owner, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(NewCount));</div>
-<div class="line"><span class="lineno">  118</span>            }</div>
-<div class="line"><span class="lineno">  119</span>        }</div>
-<div class="line"><span class="lineno">  120</span>    }</div>
-<div class="line"><span class="lineno">  121</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00079">79</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>{</div>
+<div class="line"><span class="lineno">   81</span>    UObject* Owner = CachedOwner.Get();</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!Owner)</div>
+<div class="line"><span class="lineno">   83</span>    {</div>
+<div class="line"><span class="lineno">   84</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::ApplyCurrentTags called with an invalid Owner.&quot;</span>));</div>
+<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   86</span>    }</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>    <span class="keyword">const</span> UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();</div>
+<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
+<div class="line"><span class="lineno">   90</span>    {</div>
+<div class="line"><span class="lineno">   91</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap::ApplyCurrentTags called with an invalid AbilitySystemComponent.&quot;</span>));</div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// Property mapping</span></div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">for</span> (FGameplayTagBlueprintPropertyMapping&amp; Mapping : PropertyMappings)</div>
+<div class="line"><span class="lineno">   97</span>    {</div>
+<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">if</span> (Mapping.PropertyToEdit.Get() &amp;&amp; Mapping.TagToMap.IsValid())</div>
+<div class="line"><span class="lineno">   99</span>        {</div>
+<div class="line"><span class="lineno">  100</span>            int32 NewCount = AbilitySystemComp-&gt;GetTagCount(Mapping.TagToMap);</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">if</span> (<span class="keyword">const</span> FBoolProperty* BoolProperty = CastField&lt;const FBoolProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  103</span>            {</div>
+<div class="line"><span class="lineno">  104</span>                BoolProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount &gt; 0);</div>
+<div class="line"><span class="lineno">  105</span>            }</div>
+<div class="line"><span class="lineno">  106</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FIntProperty* IntProperty = CastField&lt;const FIntProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  107</span>            {</div>
+<div class="line"><span class="lineno">  108</span>                IntProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount);</div>
+<div class="line"><span class="lineno">  109</span>            }</div>
+<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FFloatProperty* FloatProperty = CastField&lt;const FFloatProperty&gt;(Mapping.PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  111</span>            {</div>
+<div class="line"><span class="lineno">  112</span>                FloatProperty-&gt;SetPropertyValue_InContainer(Owner, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(NewCount));</div>
+<div class="line"><span class="lineno">  113</span>            }</div>
+<div class="line"><span class="lineno">  114</span>        }</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -378,47 +383,47 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00187">187</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>{</div>
-<div class="line"><span class="lineno">  189</span>    <span class="comment">// If the index and serial don&#39;t match with registered owner, the memory might be trashed so abort</span></div>
-<div class="line"><span class="lineno">  190</span>    <span class="keywordflow">if</span> (!ensure(RegisteredOwner.HasSameIndexAndSerialNumber(CachedOwner)))</div>
-<div class="line"><span class="lineno">  191</span>    {</div>
-<div class="line"><span class="lineno">  192</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap::GameplayTagEventCallback called with corrupted Owner!&quot;</span>));</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  194</span>    }</div>
-<div class="line"><span class="lineno">  195</span> </div>
-<div class="line"><span class="lineno">  196</span>    UObject* Owner = CachedOwner.Get();</div>
-<div class="line"><span class="lineno">  197</span>    <span class="keywordflow">if</span> (!Owner)</div>
-<div class="line"><span class="lineno">  198</span>    {</div>
-<div class="line"><span class="lineno">  199</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap::GameplayTagEventCallback has an invalid Owner.&quot;</span>));</div>
-<div class="line"><span class="lineno">  200</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  201</span>    }</div>
-<div class="line"><span class="lineno">  202</span> </div>
-<div class="line"><span class="lineno">  203</span>    <span class="comment">// Find the property mapping corresponding to the given gameplay tag.</span></div>
-<div class="line"><span class="lineno">  204</span>    FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](<span class="keyword">const</span> FGameplayTagBlueprintPropertyMapping&amp; Test) { <span class="keywordflow">return</span> (Tag == Test.TagToMap); });</div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>    <span class="comment">// If found, update the bound property</span></div>
-<div class="line"><span class="lineno">  207</span>    <span class="keywordflow">if</span> (Mapping &amp;&amp; Mapping-&gt;PropertyToEdit.Get())</div>
-<div class="line"><span class="lineno">  208</span>    {</div>
-<div class="line"><span class="lineno">  209</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> FBoolProperty* BoolProperty = CastField&lt;const FBoolProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  210</span>        {</div>
-<div class="line"><span class="lineno">  211</span>            BoolProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount &gt; 0);</div>
-<div class="line"><span class="lineno">  212</span>        }</div>
-<div class="line"><span class="lineno">  213</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FIntProperty* IntProperty = CastField&lt;const FIntProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  214</span>        {</div>
-<div class="line"><span class="lineno">  215</span>            IntProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount);</div>
-<div class="line"><span class="lineno">  216</span>        }</div>
-<div class="line"><span class="lineno">  217</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FFloatProperty* FloatProperty = CastField&lt;const FFloatProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
-<div class="line"><span class="lineno">  218</span>        {</div>
-<div class="line"><span class="lineno">  219</span>            FloatProperty-&gt;SetPropertyValue_InContainer(Owner, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(NewCount));</div>
-<div class="line"><span class="lineno">  220</span>        }</div>
-<div class="line"><span class="lineno">  221</span>    }</div>
-<div class="line"><span class="lineno">  222</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00182">182</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>{</div>
+<div class="line"><span class="lineno">  184</span>    <span class="comment">// If the index and serial don&#39;t match with registered owner, the memory might be trashed so abort</span></div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">if</span> (!ensure(RegisteredOwner.HasSameIndexAndSerialNumber(CachedOwner)))</div>
+<div class="line"><span class="lineno">  186</span>    {</div>
+<div class="line"><span class="lineno">  187</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap::GameplayTagEventCallback called with corrupted Owner!&quot;</span>));</div>
+<div class="line"><span class="lineno">  188</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  189</span>    }</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>    UObject* Owner = CachedOwner.Get();</div>
+<div class="line"><span class="lineno">  192</span>    <span class="keywordflow">if</span> (!Owner)</div>
+<div class="line"><span class="lineno">  193</span>    {</div>
+<div class="line"><span class="lineno">  194</span>        UE_LOG(LogAbilitySystem, Warning, TEXT(<span class="stringliteral">&quot;FGameplayTagBlueprintPropertyMap::GameplayTagEventCallback has an invalid Owner.&quot;</span>));</div>
+<div class="line"><span class="lineno">  195</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  196</span>    }</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>    <span class="comment">// Find the property mapping corresponding to the given gameplay tag.</span></div>
+<div class="line"><span class="lineno">  199</span>    <span class="keyword">const</span> FGameplayTagBlueprintPropertyMapping* Mapping = PropertyMappings.FindByPredicate([Tag](<span class="keyword">const</span> FGameplayTagBlueprintPropertyMapping&amp; Test) { <span class="keywordflow">return</span> Tag == Test.TagToMap; });</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>    <span class="comment">// If found, update the bound property</span></div>
+<div class="line"><span class="lineno">  202</span>    <span class="keywordflow">if</span> (Mapping &amp;&amp; Mapping-&gt;PropertyToEdit.Get())</div>
+<div class="line"><span class="lineno">  203</span>    {</div>
+<div class="line"><span class="lineno">  204</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> FBoolProperty* BoolProperty = CastField&lt;const FBoolProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  205</span>        {</div>
+<div class="line"><span class="lineno">  206</span>            BoolProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount &gt; 0);</div>
+<div class="line"><span class="lineno">  207</span>        }</div>
+<div class="line"><span class="lineno">  208</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FIntProperty* IntProperty = CastField&lt;const FIntProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  209</span>        {</div>
+<div class="line"><span class="lineno">  210</span>            IntProperty-&gt;SetPropertyValue_InContainer(Owner, NewCount);</div>
+<div class="line"><span class="lineno">  211</span>        }</div>
+<div class="line"><span class="lineno">  212</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keyword">const</span> FFloatProperty* FloatProperty = CastField&lt;const FFloatProperty&gt;(Mapping-&gt;PropertyToEdit.Get()))</div>
+<div class="line"><span class="lineno">  213</span>        {</div>
+<div class="line"><span class="lineno">  214</span>            FloatProperty-&gt;SetPropertyValue_InContainer(Owner, <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(NewCount));</div>
+<div class="line"><span class="lineno">  215</span>        }</div>
+<div class="line"><span class="lineno">  216</span>    }</div>
+<div class="line"><span class="lineno">  217</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a3ad4de8118db6045fd4c61bd70bfe8d6" name="a3ad4de8118db6045fd4c61bd70bfe8d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ad4de8118db6045fd4c61bd70bfe8d6">&#9670;&#160;</a></span>GetGameplayTagEventType()</h2>
+<a id="ac93b554f42162450d2aa3bc757e8c0c9" name="ac93b554f42162450d2aa3bc757e8c0c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac93b554f42162450d2aa3bc757e8c0c9">&#9670;&#160;</a></span>GetGameplayTagEventType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -430,26 +435,26 @@ Protected Attributes</h2></td></tr>
           <td class="memname">EGameplayTagEventType::Type FGameplayTagPropertyMap::GetGameplayTagEventType </td>
           <td>(</td>
           <td class="paramtype">const FProperty *</td>          <td class="paramname"><span class="paramname"><em>Property</em></span></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00230">230</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  231</span>{</div>
-<div class="line"><span class="lineno">  232</span>    check(Property);</div>
-<div class="line"><span class="lineno">  233</span>    <span class="keywordflow">return</span> (Property-&gt;IsA(FBoolProperty::StaticClass()) ? EGameplayTagEventType::NewOrRemoved : EGameplayTagEventType::AnyCountChange);</div>
-<div class="line"><span class="lineno">  234</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00225">225</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>{</div>
+<div class="line"><span class="lineno">  227</span>    check(Property);</div>
+<div class="line"><span class="lineno">  228</span>    <span class="keywordflow">return</span> Property-&gt;IsA(FBoolProperty::StaticClass()) ? EGameplayTagEventType::NewOrRemoved : EGameplayTagEventType::AnyCountChange;</div>
+<div class="line"><span class="lineno">  229</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="aa41e4fa834f03fb33a81a13756a57e0b" name="aa41e4fa834f03fb33a81a13756a57e0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa41e4fa834f03fb33a81a13756a57e0b">&#9670;&#160;</a></span>Initialize()</h2>
+<a id="a163322dd506e85176e9394e943f42769" name="a163322dd506e85176e9394e943f42769"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a163322dd506e85176e9394e943f42769">&#9670;&#160;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -462,78 +467,71 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">class UAbilitySystemComponent *</td>          <td class="paramname"><span class="paramname"><em>AbilitySystemComp</em></span>&#160;)</td>
+          <td class="paramtype">UAbilitySystemComponent *</td>          <td class="paramname"><span class="paramname"><em>AbilitySystemComp</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Call this to initialize and bind the properties with the ability system component. </p>
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00022">22</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>{</div>
-<div class="line"><span class="lineno">   24</span>    UClass* OwnerClass = (Owner ? Owner-&gt;GetClass() : <span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">if</span> (!OwnerClass)</div>
-<div class="line"><span class="lineno">   26</span>    {</div>
-<div class="line"><span class="lineno">   27</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Initialize() called with an invalid Owner.&quot;</span>));</div>
-<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   29</span>    }</div>
-<div class="line"><span class="lineno">   30</span> </div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
-<div class="line"><span class="lineno">   32</span>    {</div>
-<div class="line"><span class="lineno">   33</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Initialize() called with an invalid AbilitySystemComponent.&quot;</span>));</div>
-<div class="line"><span class="lineno">   34</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   35</span>    }</div>
-<div class="line"><span class="lineno">   36</span> </div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">if</span> ((CachedOwner == Owner) &amp;&amp; (CachedAbilitySystemComponent == AbilitySystemComp))</div>
-<div class="line"><span class="lineno">   38</span>    {</div>
-<div class="line"><span class="lineno">   39</span>        <span class="comment">// Already initialized.</span></div>
-<div class="line"><span class="lineno">   40</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   41</span>    }</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (CachedOwner.IsValid())</div>
-<div class="line"><span class="lineno">   44</span>    {</div>
-<div class="line"><span class="lineno">   45</span>        Unregister();</div>
-<div class="line"><span class="lineno">   46</span>    }</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span>    <span class="comment">// Cache</span></div>
-<div class="line"><span class="lineno">   49</span>    CachedOwner = Owner;</div>
-<div class="line"><span class="lineno">   50</span>    CachedAbilitySystemComponent = AbilitySystemComp;</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>    FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(<span class="keyword">this</span>, &amp;FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00024">24</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keyword">const</span> UClass* OwnerClass = Owner ? Owner-&gt;GetClass() : <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   27</span>    <span class="keywordflow">if</span> (!OwnerClass)</div>
+<div class="line"><span class="lineno">   28</span>    {</div>
+<div class="line"><span class="lineno">   29</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Initialize() called with an invalid Owner.&quot;</span>));</div>
+<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="line"><span class="lineno">   32</span> </div>
+<div class="line"><span class="lineno">   33</span>    <span class="keywordflow">if</span> (!AbilitySystemComp)</div>
+<div class="line"><span class="lineno">   34</span>    {</div>
+<div class="line"><span class="lineno">   35</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Initialize() called with an invalid AbilitySystemComponent.&quot;</span>));</div>
+<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   37</span>    }</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">if</span> (CachedOwner == Owner &amp;&amp; CachedAbilitySystemComponent == AbilitySystemComp)</div>
+<div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>        <span class="comment">// Already initialized.</span></div>
+<div class="line"><span class="lineno">   42</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   43</span>    }</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">if</span> (CachedOwner.IsValid())</div>
+<div class="line"><span class="lineno">   46</span>    {</div>
+<div class="line"><span class="lineno">   47</span>        Unregister();</div>
+<div class="line"><span class="lineno">   48</span>    }</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span>    <span class="comment">// Cache</span></div>
+<div class="line"><span class="lineno">   51</span>    CachedOwner = Owner;</div>
+<div class="line"><span class="lineno">   52</span>    CachedAbilitySystemComponent = AbilitySystemComp;</div>
 <div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>    <span class="comment">// Process array starting at the end so we can remove invalid entries.</span></div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">for</span> (int32 MappingIndex = (PropertyMappings.Num() - 1); MappingIndex &gt;= 0; --MappingIndex)</div>
-<div class="line"><span class="lineno">   56</span>    {</div>
-<div class="line"><span class="lineno">   57</span>        FGameplayTagBlueprintPropertyMapping&amp; Mapping = PropertyMappings[MappingIndex];</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">if</span> (Mapping.TagToMap.IsValid())</div>
-<div class="line"><span class="lineno">   60</span>        {</div>
-<div class="line"><span class="lineno">   61</span>            FProperty* Property = OwnerClass-&gt;FindPropertyByName(Mapping.PropertyName);</div>
-<div class="line"><span class="lineno">   62</span>            <span class="keywordflow">if</span> (Property &amp;&amp; IsPropertyTypeValid(Property))</div>
-<div class="line"><span class="lineno">   63</span>            {</div>
-<div class="line"><span class="lineno">   64</span>                Mapping.PropertyToEdit = Property;</div>
-<div class="line"><span class="lineno">   65</span>                Mapping.DelegateHandle = AbilitySystemComp-&gt;RegisterAndCallGameplayTagEvent(Mapping.TagToMap, Delegate, GetGameplayTagEventType(Property));</div>
-<div class="line"><span class="lineno">   66</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   67</span>            }</div>
-<div class="line"><span class="lineno">   68</span>        }</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>        <span class="comment">// Entry was invalid.  Remove it from the array.</span></div>
-<div class="line"><span class="lineno">   71</span>        UE_LOG(</div>
-<div class="line"><span class="lineno">   72</span>            LogAbilitySystem,</div>
-<div class="line"><span class="lineno">   73</span>            Error,</div>
-<div class="line"><span class="lineno">   74</span>            TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s].&quot;</span>),</div>
-<div class="line"><span class="lineno">   75</span>            MappingIndex,</div>
-<div class="line"><span class="lineno">   76</span>            *Mapping.TagToMap.ToString(),</div>
-<div class="line"><span class="lineno">   77</span>            *Mapping.PropertyName.ToString(),</div>
-<div class="line"><span class="lineno">   78</span>            *GetNameSafe(Owner));</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        PropertyMappings.RemoveAtSwap(MappingIndex, EAllowShrinking::No);</div>
-<div class="line"><span class="lineno">   81</span>    }</div>
-<div class="line"><span class="lineno">   82</span>}</div>
+<div class="line"><span class="lineno">   54</span>    <span class="keyword">const</span> FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(<span class="keyword">this</span>, &amp;FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <span class="comment">// Process array starting at the end so we can remove invalid entries.</span></div>
+<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">for</span> (int32 MappingIndex = PropertyMappings.Num() - 1; MappingIndex &gt;= 0; --MappingIndex)</div>
+<div class="line"><span class="lineno">   58</span>    {</div>
+<div class="line"><span class="lineno">   59</span>        FGameplayTagBlueprintPropertyMapping&amp; Mapping = PropertyMappings[MappingIndex];</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">if</span> (Mapping.TagToMap.IsValid())</div>
+<div class="line"><span class="lineno">   62</span>        {</div>
+<div class="line"><span class="lineno">   63</span>            FProperty* Property = OwnerClass-&gt;FindPropertyByName(Mapping.PropertyName);</div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">if</span> (Property &amp;&amp; IsPropertyTypeValid(Property))</div>
+<div class="line"><span class="lineno">   65</span>            {</div>
+<div class="line"><span class="lineno">   66</span>                Mapping.PropertyToEdit = Property;</div>
+<div class="line"><span class="lineno">   67</span>                Mapping.DelegateHandle = AbilitySystemComp-&gt;RegisterAndCallGameplayTagEvent(Mapping.TagToMap, Delegate, GetGameplayTagEventType(Property));</div>
+<div class="line"><span class="lineno">   68</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   69</span>            }</div>
+<div class="line"><span class="lineno">   70</span>        }</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>        <span class="comment">// Entry was invalid.  Remove it from the array.</span></div>
+<div class="line"><span class="lineno">   73</span>        UE_LOG(LogAbilitySystem, Error, TEXT(<span class="stringliteral">&quot;FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s].&quot;</span>), MappingIndex, *Mapping.TagToMap.ToString(), *Mapping.PropertyName.ToString(), *GetNameSafe(Owner));</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>        PropertyMappings.RemoveAtSwap(MappingIndex, EAllowShrinking::No);</div>
+<div class="line"><span class="lineno">   76</span>    }</div>
+<div class="line"><span class="lineno">   77</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="aa3382bb52f3093c5d49686a50aaa98b0" name="aa3382bb52f3093c5d49686a50aaa98b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3382bb52f3093c5d49686a50aaa98b0">&#9670;&#160;</a></span>IsPropertyTypeValid()</h2>
+<a id="aa278f14355beccbbaf11bae0e94f705c" name="aa278f14355beccbbaf11bae0e94f705c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa278f14355beccbbaf11bae0e94f705c">&#9670;&#160;</a></span>IsPropertyTypeValid()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -545,21 +543,21 @@ Protected Attributes</h2></td></tr>
           <td class="memname">bool FGameplayTagPropertyMap::IsPropertyTypeValid </td>
           <td>(</td>
           <td class="paramtype">const FProperty *</td>          <td class="paramname"><span class="paramname"><em>Property</em></span></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00224">224</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  225</span>{</div>
-<div class="line"><span class="lineno">  226</span>    check(Property);</div>
-<div class="line"><span class="lineno">  227</span>    <span class="keywordflow">return</span> (Property-&gt;IsA&lt;FBoolProperty&gt;() || Property-&gt;IsA&lt;FIntProperty&gt;() || Property-&gt;IsA&lt;FFloatProperty&gt;());</div>
-<div class="line"><span class="lineno">  228</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00219">219</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  220</span>{</div>
+<div class="line"><span class="lineno">  221</span>    check(Property);</div>
+<div class="line"><span class="lineno">  222</span>    <span class="keywordflow">return</span> Property-&gt;IsA&lt;FBoolProperty&gt;() || Property-&gt;IsA&lt;FIntProperty&gt;() || Property-&gt;IsA&lt;FFloatProperty&gt;();</div>
+<div class="line"><span class="lineno">  223</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -586,26 +584,26 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00166">166</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  167</span>{</div>
-<div class="line"><span class="lineno">  168</span>    <span class="comment">// Unregister all delegates for each gameplay tags</span></div>
-<div class="line"><span class="lineno">  169</span>    <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get())</div>
-<div class="line"><span class="lineno">  170</span>    {</div>
-<div class="line"><span class="lineno">  171</span>        <span class="keywordflow">for</span> (FGameplayTagBlueprintPropertyMapping&amp; Mapping : PropertyMappings)</div>
-<div class="line"><span class="lineno">  172</span>        {</div>
-<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">if</span> (Mapping.PropertyToEdit.Get() &amp;&amp; Mapping.TagToMap.IsValid())</div>
-<div class="line"><span class="lineno">  174</span>            {</div>
-<div class="line"><span class="lineno">  175</span>                AbilitySystemComp-&gt;UnregisterGameplayTagEvent(Mapping.DelegateHandle, Mapping.TagToMap, GetGameplayTagEventType(Mapping.PropertyToEdit.Get()));</div>
-<div class="line"><span class="lineno">  176</span>            }</div>
+<p class="definition">Definition at line <a class="el" href="_gameplay_tag_property_map_8cpp_source.html#l00161">161</a> of file <a class="el" href="_gameplay_tag_property_map_8cpp_source.html">GameplayTagPropertyMap.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  162</span>{</div>
+<div class="line"><span class="lineno">  163</span>    <span class="comment">// Unregister all delegates for each gameplay tags</span></div>
+<div class="line"><span class="lineno">  164</span>    <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get())</div>
+<div class="line"><span class="lineno">  165</span>    {</div>
+<div class="line"><span class="lineno">  166</span>        <span class="keywordflow">for</span> (FGameplayTagBlueprintPropertyMapping&amp; Mapping : PropertyMappings)</div>
+<div class="line"><span class="lineno">  167</span>        {</div>
+<div class="line"><span class="lineno">  168</span>            <span class="keywordflow">if</span> (Mapping.PropertyToEdit.Get() &amp;&amp; Mapping.TagToMap.IsValid())</div>
+<div class="line"><span class="lineno">  169</span>            {</div>
+<div class="line"><span class="lineno">  170</span>                AbilitySystemComp-&gt;UnregisterGameplayTagEvent(Mapping.DelegateHandle, Mapping.TagToMap, GetGameplayTagEventType(Mapping.PropertyToEdit.Get()));</div>
+<div class="line"><span class="lineno">  171</span>            }</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>            Mapping.PropertyToEdit = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  174</span>            Mapping.DelegateHandle.Reset();</div>
+<div class="line"><span class="lineno">  175</span>        }</div>
+<div class="line"><span class="lineno">  176</span>    }</div>
 <div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>            Mapping.PropertyToEdit = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  179</span>            Mapping.DelegateHandle.Reset();</div>
-<div class="line"><span class="lineno">  180</span>        }</div>
-<div class="line"><span class="lineno">  181</span>    }</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>    CachedOwner = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  184</span>    CachedAbilitySystemComponent = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  185</span>}</div>
+<div class="line"><span class="lineno">  178</span>    CachedOwner = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  179</span>    CachedAbilitySystemComponent = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  180</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

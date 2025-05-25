@@ -1,7 +1,12 @@
 var searchData=
 [
-  ['unequipitem_0',['UnequipItem',['../class_u_equipment_system_component.html#a209cf026d1807c9175f1ac774b14af10',1,'UEquipmentSystemComponent']]],
-  ['unregisteractorinitstatedelegate_1',['UnregisterActorInitStateDelegate',['../class_u_game_init_state_subsystem.html#a51caf83e0dd5905eab8ed314fc307a94',1,'UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor *Actor, FDelegateHandle &amp;Handle)'],['../class_u_game_init_state_subsystem.html#ac7f006c84bddb2254429aa6423cd265a',1,'UGameInitStateSubsystem::UnregisterActorInitStateDelegate(AActor *Actor, FActorInitStateChangedBPDelegate DelegateToRemove)']]],
-  ['unregisterinitstatedelegate_2',['UnregisterInitStateDelegate',['../class_i_game_init_state_interface.html#a5cb7d1567218c123a3be135bc1e60712',1,'IGameInitStateInterface']]],
-  ['unregisterinitstatefeature_3',['UnregisterInitStateFeature',['../class_i_game_init_state_interface.html#aa792b89673027c8aedd279b1e522a75f',1,'IGameInitStateInterface']]]
+  ['takefromabilitysystem_0',['TakeFromAbilitySystem',['../struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189',1,'FAbilitySetHandles']]],
+  ['tryactivateabilitiesonspawn_1',['TryActivateAbilitiesOnSpawn',['../class_u_ability_system_component_base.html#ae72560802202109730d7c1325197d114',1,'UAbilitySystemComponentBase']]],
+  ['tryactivateabilityonspawn_2',['TryActivateAbilityOnSpawn',['../class_u_gameplay_ability_base.html#a459e3a4263a77141f301fab003061c88',1,'UGameplayAbilityBase']]],
+  ['tryequipitem_3',['TryEquipItem',['../class_u_equipment_system_component.html#a6c76504545bda90a4bf201fdb1dc2d71',1,'UEquipmentSystemComponent']]],
+  ['tryequipitemonslot_4',['TryEquipItemOnSlot',['../class_u_equipment_system_component.html#a7ffb44cbd1a64185f083405412b3879b',1,'UEquipmentSystemComponent']]],
+  ['trygetsourceobject_5',['TryGetSourceObject',['../class_u_equipment_gameplay_ability.html#a316f369a42e3023d4044c99825020d3b',1,'UEquipmentGameplayAbility']]],
+  ['tryswapslots_6',['TrySwapSlots',['../class_u_equipment_system_component.html#af130a97ad7c810c7d6759cc09cd3ecba',1,'UEquipmentSystemComponent']]],
+  ['tryunequipitem_7',['TryUnequipItem',['../class_u_equipment_system_component.html#a2b2fb91e19d5d95a3116ed8ebab91655',1,'UEquipmentSystemComponent']]],
+  ['tryunequipslot_8',['TryUnequipSlot',['../class_u_equipment_system_component.html#ab84b99483850f4605818794944b39772',1,'UEquipmentSystemComponent']]]
 ];

@@ -103,6 +103,7 @@ $(function(){initNavTree('class_a_equipment_actor.html',''); initResizable(true)
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_a_equipment_actor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AEquipmentActor Class Reference</div></div>
 </div><!--header-->
@@ -113,12 +114,20 @@ Inheritance diagram for AEquipmentActor:</div>
  <div class="center">
   <img src="class_a_equipment_actor.png" alt=""/>
  </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a3688297f4dc6dbd0d21fc66ea4b85781" id="r_a3688297f4dc6dbd0d21fc66ea4b85781"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3688297f4dc6dbd0d21fc66ea4b85781">AEquipmentActor</a> (const FObjectInitializer &amp;ObjectInitializer=FObjectInitializer::Get())</td></tr>
+<tr class="separator:a3688297f4dc6dbd0d21fc66ea4b85781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd038e36f28e821d750dcf99f8e4a20" id="r_a6dd038e36f28e821d750dcf99f8e4a20"><td class="memItemLeft" align="right" valign="top">virtual APawn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6dd038e36f28e821d750dcf99f8e4a20">GetPawn</a> ()</td></tr>
+<tr class="separator:a6dd038e36f28e821d750dcf99f8e4a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_equipment_actor_8h_source.html#l00010">10</a> of file <a class="el" href="_equipment_actor_8h_source.html">EquipmentActor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a89f9ee4be87ecb333998beed2917bb07" name="a89f9ee4be87ecb333998beed2917bb07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89f9ee4be87ecb333998beed2917bb07">&#9670;&#160;</a></span>AEquipmentActor()</h2>
+<a id="a3688297f4dc6dbd0d21fc66ea4b85781" name="a3688297f4dc6dbd0d21fc66ea4b85781"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3688297f4dc6dbd0d21fc66ea4b85781">&#9670;&#160;</a></span>AEquipmentActor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,18 +135,51 @@ Inheritance diagram for AEquipmentActor:</div>
         <tr>
           <td class="memname">AEquipmentActor::AEquipmentActor </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const FObjectInitializer &amp;</td>          <td class="paramname"><span class="paramname"><em>ObjectInitializer</em></span><span class="paramdefsep"> = </span><span class="paramdefval">FObjectInitializer::Get()</span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_equipment_actor_8cpp_source.html#l00005">5</a> of file <a class="el" href="_equipment_actor_8cpp_source.html">EquipmentActor.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
+<div class="fragment"><div class="line"><span class="lineno">    5</span>                                                                            : Super(ObjectInitializer.Get())</div>
+<div class="line"><span class="lineno">    6</span>{</div>
 <div class="line"><span class="lineno">    7</span>    PrimaryActorTick.bCanEverTick = <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">    8</span> </div>
 <div class="line"><span class="lineno">    9</span>    SetReplicates(<span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   10</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6dd038e36f28e821d750dcf99f8e4a20" name="a6dd038e36f28e821d750dcf99f8e4a20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd038e36f28e821d750dcf99f8e4a20">&#9670;&#160;</a></span>GetPawn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">APawn * AEquipmentActor::GetPawn </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the owning pawn of this equipment. </p><dl class="section return"><dt>Returns</dt><dd>The owning pawn if it exists, otherwise nullptr. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_actor_8cpp_source.html#l00012">12</a> of file <a class="el" href="_equipment_actor_8cpp_source.html">EquipmentActor.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>{</div>
+<div class="line"><span class="lineno">   14</span>    <span class="keywordflow">return</span> Cast&lt;APawn&gt;(GetOwner());</div>
+<div class="line"><span class="lineno">   15</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

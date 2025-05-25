@@ -1,7 +1,7 @@
 var searchData=
 [
   ['implementer_0',['Implementer',['../struct_f_actor_feature_state.html#af0bba1f9c8426a5e2c46aaf4949b52b5',1,'FActorFeatureState::Implementer'],['../struct_f_actor_init_state_changed_params.html#ab7792762127bfab6dc388881231abec7',1,'FActorInitStateChangedParams::Implementer']]],
-  ['index_1',['Index',['../struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de',1,'FInventoryChangeData']]],
+  ['index_1',['Index',['../struct_f_equipment_change_data.html#a1533bc72d6dc92a4a7725df80294e886',1,'FEquipmentChangeData::Index'],['../struct_f_inventory_change_data.html#a90e4317adcf7ec205ec26aeeef2351de',1,'FInventoryChangeData::Index']]],
   ['inputheldspechandles_2',['InputHeldSpecHandles',['../class_u_ability_system_component_base.html#ad494728dc44b989fb60b9e4d85b857f6',1,'UAbilitySystemComponentBase']]],
   ['inputpressedspechandles_3',['InputPressedSpecHandles',['../class_u_ability_system_component_base.html#ae38c5f945f5ac260efc4c2fbcadd5c11',1,'UAbilitySystemComponentBase']]],
   ['inputreleasedspechandles_4',['InputReleasedSpecHandles',['../class_u_ability_system_component_base.html#af01f562b94750d6b246eb3a7ae3e057b',1,'UAbilitySystemComponentBase']]],

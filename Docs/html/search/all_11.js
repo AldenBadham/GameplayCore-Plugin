@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['takefromabilitysystem_0',['TakeFromAbilitySystem',['../struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189',1,'FAbilitySetHandles']]],
-  ['tryactivateabilitiesonspawn_1',['TryActivateAbilitiesOnSpawn',['../class_u_ability_system_component_base.html#ae72560802202109730d7c1325197d114',1,'UAbilitySystemComponentBase']]],
-  ['tryactivateabilityonspawn_2',['TryActivateAbilityOnSpawn',['../class_u_gameplay_ability_base.html#a459e3a4263a77141f301fab003061c88',1,'UGameplayAbilityBase']]],
-  ['tstructopstypetraits_3c_20fequipmentlist_20_3e_3',['TStructOpsTypeTraits&lt; FEquipmentList &gt;',['../struct_t_struct_ops_type_traits_3_01_f_equipment_list_01_4.html',1,'']]],
-  ['tstructopstypetraits_3c_20finventorylist_20_3e_4',['TStructOpsTypeTraits&lt; FInventoryList &gt;',['../struct_t_struct_ops_type_traits_3_01_f_inventory_list_01_4.html',1,'']]]
+  ['setdefinition_0',['SetDefinition',['../class_u_equipment_instance.html#ac522528c8a9d18dcc301d18147d0796c',1,'UEquipmentInstance::SetDefinition()'],['../class_u_item_instance.html#a1e103a423bb25331da0b95d011d8ebe3',1,'UItemInstance::SetDefinition()']]],
+  ['setinstigator_1',['SetInstigator',['../class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526',1,'UEquipmentInstance']]],
+  ['setsourceitem_2',['SetSourceItem',['../class_u_equipment_instance.html#a631507c1042c942ce4624eb4d9949313',1,'UEquipmentInstance']]],
+  ['spawnactors_3',['SpawnActors',['../class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd',1,'UEquipmentInstance']]],
+  ['stackcount_4',['StackCount',['../struct_f_inventory_entry_handle.html#a2017241ab5fd1c4e74cf1f5b3b1ed244',1,'FInventoryEntryHandle']]],
+  ['startupmodule_5',['StartupModule',['../class_f_gameplay_core_module.html#a863c6ba6c146e42db7600d1e98188eeb',1,'FGameplayCoreModule']]],
+  ['storageflags_6',['StorageFlags',['../class_u_item_fragment___storable.html#af98ddf3e3fb2518d49ac1b7a6f07fb77',1,'UItemFragment_Storable']]]
 ];

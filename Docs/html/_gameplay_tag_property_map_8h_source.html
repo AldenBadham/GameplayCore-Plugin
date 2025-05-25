@@ -105,7 +105,7 @@ $(function(){initNavTree('_gameplay_tag_property_map_8h_source.html',''); initRe
   <div class="headertitle"><div class="title">GameplayTagPropertyMap.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
@@ -124,14 +124,14 @@ $(function(){initNavTree('_gameplay_tag_property_map_8h_source.html',''); initRe
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    FGameplayTagPropertyMap(<span class="keyword">const</span> FGameplayTagPropertyMap&amp; Other);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    ~FGameplayTagPropertyMap();</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_gameplay_tag_property_map.html#aa41e4fa834f03fb33a81a13756a57e0b">Initialize</a>(UObject* Owner, <span class="keyword">class</span> UAbilitySystemComponent* AbilitySystemComp);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_gameplay_tag_property_map.html#a163322dd506e85176e9394e943f42769">Initialize</a>(UObject* Owner, UAbilitySystemComponent* AbilitySystemComp);</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_gameplay_tag_property_map.html#abe1f56a5433d85a7874c50ffc37153a6">ApplyCurrentTags</a>();</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_gameplay_tag_property_map.html#a6f2c10efcfb02f6395b82a6f9c954a38">AddTag</a>(<span class="keyword">const</span> FGameplayTag&amp; Tag, <span class="keyword">const</span> FName&amp; PropertyName);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#if WITH_EDITOR</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    EDataValidationResult IsDataValid(<span class="keyword">const</span> UObject* ContainingAsset, <span class="keyword">class</span> FDataValidationContext&amp; Context) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    EDataValidationResult IsDataValid(<span class="keyword">const</span> UObject* ContainingAsset, FDataValidationContext&amp; Context) <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">protected</span>:</div>
@@ -139,9 +139,9 @@ $(function(){initNavTree('_gameplay_tag_property_map_8h_source.html',''); initRe
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> GameplayTagEventCallback(<span class="keyword">const</span> FGameplayTag Tag, int32 NewCount, TWeakObjectPtr&lt;UObject&gt; RegisteredOwner);</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">bool</span> IsPropertyTypeValid(<span class="keyword">const</span> FProperty* Property) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> IsPropertyTypeValid(<span class="keyword">const</span> FProperty* Property);</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    EGameplayTagEventType::Type GetGameplayTagEventType(<span class="keyword">const</span> FProperty* Property) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">static</span> EGameplayTagEventType::Type GetGameplayTagEventType(<span class="keyword">const</span> FProperty* Property);</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    TWeakObjectPtr&lt;UObject&gt; CachedOwner;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    TWeakObjectPtr&lt;UAbilitySystemComponent&gt; CachedAbilitySystemComponent;</div>
@@ -150,9 +150,9 @@ $(function(){initNavTree('_gameplay_tag_property_map_8h_source.html',''); initRe
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    TArray&lt;FGameplayTagBlueprintPropertyMapping&gt; PropertyMappings;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>};</div>
 </div>
-<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_a6f2c10efcfb02f6395b82a6f9c954a38"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#a6f2c10efcfb02f6395b82a6f9c954a38">FGameplayTagPropertyMap::AddTag</a></div><div class="ttdeci">void AddTag(const FGameplayTag &amp;Tag, const FName &amp;PropertyName)</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00123">GameplayTagPropertyMap.cpp:123</a></div></div>
-<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_aa41e4fa834f03fb33a81a13756a57e0b"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#aa41e4fa834f03fb33a81a13756a57e0b">FGameplayTagPropertyMap::Initialize</a></div><div class="ttdeci">void Initialize(UObject *Owner, class UAbilitySystemComponent *AbilitySystemComp)</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00022">GameplayTagPropertyMap.cpp:22</a></div></div>
-<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_abe1f56a5433d85a7874c50ffc37153a6"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#abe1f56a5433d85a7874c50ffc37153a6">FGameplayTagPropertyMap::ApplyCurrentTags</a></div><div class="ttdeci">void ApplyCurrentTags()</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00084">GameplayTagPropertyMap.cpp:84</a></div></div>
+<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_a163322dd506e85176e9394e943f42769"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#a163322dd506e85176e9394e943f42769">FGameplayTagPropertyMap::Initialize</a></div><div class="ttdeci">void Initialize(UObject *Owner, UAbilitySystemComponent *AbilitySystemComp)</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00024">GameplayTagPropertyMap.cpp:24</a></div></div>
+<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_a6f2c10efcfb02f6395b82a6f9c954a38"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#a6f2c10efcfb02f6395b82a6f9c954a38">FGameplayTagPropertyMap::AddTag</a></div><div class="ttdeci">void AddTag(const FGameplayTag &amp;Tag, const FName &amp;PropertyName)</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00118">GameplayTagPropertyMap.cpp:118</a></div></div>
+<div class="ttc" id="astruct_f_gameplay_tag_property_map_html_abe1f56a5433d85a7874c50ffc37153a6"><div class="ttname"><a href="struct_f_gameplay_tag_property_map.html#abe1f56a5433d85a7874c50ffc37153a6">FGameplayTagPropertyMap::ApplyCurrentTags</a></div><div class="ttdeci">void ApplyCurrentTags()</div><div class="ttdef"><b>Definition</b> <a href="_gameplay_tag_property_map_8cpp_source.html#l00079">GameplayTagPropertyMap.cpp:79</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

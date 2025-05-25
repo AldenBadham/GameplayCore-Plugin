@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['setdefinition_0',['SetDefinition',['../class_u_equipment_instance.html#ac522528c8a9d18dcc301d18147d0796c',1,'UEquipmentInstance::SetDefinition()'],['../class_u_item_instance.html#a1e103a423bb25331da0b95d011d8ebe3',1,'UItemInstance::SetDefinition()']]],
-  ['setinstigator_1',['SetInstigator',['../class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526',1,'UEquipmentInstance']]],
-  ['setsourceitem_2',['SetSourceItem',['../class_u_equipment_instance.html#a631507c1042c942ce4624eb4d9949313',1,'UEquipmentInstance']]],
-  ['spawnactors_3',['SpawnActors',['../class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd',1,'UEquipmentInstance']]],
-  ['startupmodule_4',['StartupModule',['../class_f_gameplay_core_module.html#a863c6ba6c146e42db7600d1e98188eeb',1,'FGameplayCoreModule']]]
+  ['registerandcallforactorinitstate_0',['RegisterAndCallForActorInitState',['../class_i_game_init_state_interface.html#a44d3d62e08444a97d045a297b19d8ed4',1,'IGameInitStateInterface::RegisterAndCallForActorInitState()'],['../class_u_game_init_state_subsystem.html#ac666ccf0c962e766bc7123edc56ca7ee',1,'UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor *Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedDelegate Delegate, bool bCallImmediately=true)'],['../class_u_game_init_state_subsystem.html#abd158441d3d51887193c1070da9fe710',1,'UGameInitStateSubsystem::RegisterAndCallForActorInitState(AActor *Actor, FName FeatureName, FGameplayTag RequiredState, FActorInitStateChangedBPDelegate Delegate, bool bCallImmediately=true)']]],
+  ['registerfeatureimplementer_1',['RegisterFeatureImplementer',['../class_u_game_init_state_subsystem.html#ab03a47bf6286cbed4e9b024fa4e957a7',1,'UGameInitStateSubsystem']]],
+  ['registerinitstatefeature_2',['RegisterInitStateFeature',['../class_i_game_init_state_interface.html#afd180d53e0a3140e0cee3ce7c55ff253',1,'IGameInitStateInterface']]],
+  ['remove_3',['Remove',['../struct_f_equipment_list.html#a526157e31f76c3b3c71b5e8fdca5cdc9',1,'FEquipmentList::Remove()'],['../struct_f_inventory_list.html#a2b7395c902b0a67b51e1359ab1193e16',1,'FInventoryList::Remove()']]],
+  ['removeactorfeaturedata_4',['RemoveActorFeatureData',['../class_u_game_init_state_subsystem.html#adb42ec7f7954a19c7a10dda2f5a20203',1,'UGameInitStateSubsystem']]],
+  ['removefeatureimplementer_5',['RemoveFeatureImplementer',['../class_u_game_init_state_subsystem.html#a221a703076e726f6b6fdfacba749c60f',1,'UGameInitStateSubsystem']]]
 ];

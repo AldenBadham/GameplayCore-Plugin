@@ -118,8 +118,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ace394e75b4bab6528f4197231617d015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cde16ff531ff2dae2de3bed4093791c" id="r_a4cde16ff531ff2dae2de3bed4093791c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cde16ff531ff2dae2de3bed4093791c">FActorFeatureRegisteredDelegate</a> (FActorInitStateChangedBPDelegate &amp;&amp;InDelegate, FName InFeatureName=NAME_None, FGameplayTag InInitState=FGameplayTag())</td></tr>
 <tr class="separator:a4cde16ff531ff2dae2de3bed4093791c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e70914cc4e08da640a59598e3b6114b" id="r_a2e70914cc4e08da640a59598e3b6114b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e70914cc4e08da640a59598e3b6114b">Execute</a> (AActor *OwningActor, FName FeatureName, UObject *Implementer, FGameplayTag FeatureState)</td></tr>
-<tr class="separator:a2e70914cc4e08da640a59598e3b6114b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9463cbbf91cb5e19a18fe422f7715190" id="r_a9463cbbf91cb5e19a18fe422f7715190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9463cbbf91cb5e19a18fe422f7715190">Execute</a> (AActor *OwningActor, FName FeatureName, UObject *Implementer, FGameplayTag FeatureState) const</td></tr>
+<tr class="separator:a9463cbbf91cb5e19a18fe422f7715190"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -165,8 +165,10 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00021">21</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   22</span>        : <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>){};</div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_ac36304276793d845d19b981950aaa96a"><div class="ttname"><a href="#ac36304276793d845d19b981950aaa96a">FActorFeatureRegisteredDelegate::bRemoved</a></div><div class="ttdeci">bool bRemoved</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00046">ActorFeatureRegisteredDelegate.h:46</a></div></div>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>        : <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   23</span>    {</div>
+<div class="line"><span class="lineno">   24</span>    };</div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_ac36304276793d845d19b981950aaa96a"><div class="ttname"><a href="#ac36304276793d845d19b981950aaa96a">FActorFeatureRegisteredDelegate::bRemoved</a></div><div class="ttdeci">bool bRemoved</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00048">ActorFeatureRegisteredDelegate.h:48</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -196,19 +198,15 @@ Public Attributes</h2></td></tr>
 <p>Construct from a native or BP Delegate </p>
 
 <p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">5</a> of file <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html">ActorFeatureRegisteredDelegate.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    6</span>    : <a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>(InDelegate)</div>
-<div class="line"><span class="lineno">    7</span>    , <a class="code hl_variable" href="#a4c1f7e019cafdd33e71a98d4b973312b">DelegateHandle</a>(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle)</div>
-<div class="line"><span class="lineno">    8</span>    , <a class="code hl_variable" href="#a7abe0516f4ee34d88159ebafcdc5dda4">RequiredFeatureName</a>(InFeatureName)</div>
-<div class="line"><span class="lineno">    9</span>    , <a class="code hl_variable" href="#aa18300ff880feb1c50f9652b12dc9575">RequiredInitState</a>(InInitState)</div>
-<div class="line"><span class="lineno">   10</span>    , <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>}</div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a0ef40b70258a7092f64fd2c685697ee4"><div class="ttname"><a href="#a0ef40b70258a7092f64fd2c685697ee4">FActorFeatureRegisteredDelegate::Delegate</a></div><div class="ttdeci">FActorInitStateChangedDelegate Delegate</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00031">ActorFeatureRegisteredDelegate.h:31</a></div></div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a4c1f7e019cafdd33e71a98d4b973312b"><div class="ttname"><a href="#a4c1f7e019cafdd33e71a98d4b973312b">FActorFeatureRegisteredDelegate::DelegateHandle</a></div><div class="ttdeci">FDelegateHandle DelegateHandle</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00037">ActorFeatureRegisteredDelegate.h:37</a></div></div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a7abe0516f4ee34d88159ebafcdc5dda4"><div class="ttname"><a href="#a7abe0516f4ee34d88159ebafcdc5dda4">FActorFeatureRegisteredDelegate::RequiredFeatureName</a></div><div class="ttdeci">FName RequiredFeatureName</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00040">ActorFeatureRegisteredDelegate.h:40</a></div></div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_aa18300ff880feb1c50f9652b12dc9575"><div class="ttname"><a href="#aa18300ff880feb1c50f9652b12dc9575">FActorFeatureRegisteredDelegate::RequiredInitState</a></div><div class="ttdeci">FGameplayTag RequiredInitState</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00043">ActorFeatureRegisteredDelegate.h:43</a></div></div>
+<div class="fragment"><div class="line"><span class="lineno">    6</span>    : <a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>(InDelegate), <a class="code hl_variable" href="#a4c1f7e019cafdd33e71a98d4b973312b">DelegateHandle</a>(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle), <a class="code hl_variable" href="#a7abe0516f4ee34d88159ebafcdc5dda4">RequiredFeatureName</a>(InFeatureName), <a class="code hl_variable" href="#aa18300ff880feb1c50f9652b12dc9575">RequiredInitState</a>(InInitState), <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">    7</span>{</div>
+<div class="line"><span class="lineno">    8</span>}</div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a0ef40b70258a7092f64fd2c685697ee4"><div class="ttname"><a href="#a0ef40b70258a7092f64fd2c685697ee4">FActorFeatureRegisteredDelegate::Delegate</a></div><div class="ttdeci">FActorInitStateChangedDelegate Delegate</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00033">ActorFeatureRegisteredDelegate.h:33</a></div></div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a4c1f7e019cafdd33e71a98d4b973312b"><div class="ttname"><a href="#a4c1f7e019cafdd33e71a98d4b973312b">FActorFeatureRegisteredDelegate::DelegateHandle</a></div><div class="ttdeci">FDelegateHandle DelegateHandle</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00039">ActorFeatureRegisteredDelegate.h:39</a></div></div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a7abe0516f4ee34d88159ebafcdc5dda4"><div class="ttname"><a href="#a7abe0516f4ee34d88159ebafcdc5dda4">FActorFeatureRegisteredDelegate::RequiredFeatureName</a></div><div class="ttdeci">FName RequiredFeatureName</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00042">ActorFeatureRegisteredDelegate.h:42</a></div></div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_aa18300ff880feb1c50f9652b12dc9575"><div class="ttname"><a href="#aa18300ff880feb1c50f9652b12dc9575">FActorFeatureRegisteredDelegate::RequiredInitState</a></div><div class="ttdeci">FGameplayTag RequiredInitState</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00045">ActorFeatureRegisteredDelegate.h:45</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00046">bRemoved</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00031">Delegate</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00037">DelegateHandle</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00040">RequiredFeatureName</a>, and <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00043">RequiredInitState</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00048">bRemoved</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00033">Delegate</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00039">DelegateHandle</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00042">RequiredFeatureName</a>, and <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00045">RequiredInitState</a>.</p>
 
 </div>
 </div>
@@ -236,21 +234,17 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00014">14</a> of file <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html">ActorFeatureRegisteredDelegate.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>    : <a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>(InDelegate)</div>
-<div class="line"><span class="lineno">   16</span>    , <a class="code hl_variable" href="#a4c1f7e019cafdd33e71a98d4b973312b">DelegateHandle</a>(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle)</div>
-<div class="line"><span class="lineno">   17</span>    , <a class="code hl_variable" href="#a7abe0516f4ee34d88159ebafcdc5dda4">RequiredFeatureName</a>(InFeatureName)</div>
-<div class="line"><span class="lineno">   18</span>    , <a class="code hl_variable" href="#aa18300ff880feb1c50f9652b12dc9575">RequiredInitState</a>(InInitState)</div>
-<div class="line"><span class="lineno">   19</span>    , <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">   20</span>{</div>
-<div class="line"><span class="lineno">   21</span>}</div>
-<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a48e0c978d536377c08a8312d81392f6b"><div class="ttname"><a href="#a48e0c978d536377c08a8312d81392f6b">FActorFeatureRegisteredDelegate::BPDelegate</a></div><div class="ttdeci">FActorInitStateChangedBPDelegate BPDelegate</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00034">ActorFeatureRegisteredDelegate.h:34</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00010">10</a> of file <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html">ActorFeatureRegisteredDelegate.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>    : <a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>(InDelegate), <a class="code hl_variable" href="#a4c1f7e019cafdd33e71a98d4b973312b">DelegateHandle</a>(FDelegateHandle::EGenerateNewHandleType::GenerateNewHandle), <a class="code hl_variable" href="#a7abe0516f4ee34d88159ebafcdc5dda4">RequiredFeatureName</a>(InFeatureName), <a class="code hl_variable" href="#aa18300ff880feb1c50f9652b12dc9575">RequiredInitState</a>(InInitState), <a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>(<span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">   12</span>{</div>
+<div class="line"><span class="lineno">   13</span>}</div>
+<div class="ttc" id="astruct_f_actor_feature_registered_delegate_html_a48e0c978d536377c08a8312d81392f6b"><div class="ttname"><a href="#a48e0c978d536377c08a8312d81392f6b">FActorFeatureRegisteredDelegate::BPDelegate</a></div><div class="ttdeci">FActorInitStateChangedBPDelegate BPDelegate</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_registered_delegate_8h_source.html#l00036">ActorFeatureRegisteredDelegate.h:36</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2e70914cc4e08da640a59598e3b6114b" name="a2e70914cc4e08da640a59598e3b6114b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e70914cc4e08da640a59598e3b6114b">&#9670;&#160;</a></span>Execute()</h2>
+<a id="a9463cbbf91cb5e19a18fe422f7715190" name="a9463cbbf91cb5e19a18fe422f7715190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9463cbbf91cb5e19a18fe422f7715190">&#9670;&#160;</a></span>Execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -273,33 +267,33 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">FGameplayTag</td>          <td class="paramname"><span class="paramname"><em>FeatureState</em></span>&#160;)</td>
+          <td class="paramtype">FGameplayTag</td>          <td class="paramname"><span class="paramname"><em>FeatureState</em></span>&#160;) const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Call the appropriate native/bp delegate, this could invalidate this struct </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00023">23</a> of file <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html">ActorFeatureRegisteredDelegate.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>{</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>)</div>
-<div class="line"><span class="lineno">   26</span>    {</div>
-<div class="line"><span class="lineno">   27</span>        <span class="keywordflow">return</span>;</div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00015">15</a> of file <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html">ActorFeatureRegisteredDelegate.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
+<div class="line"><span class="lineno">   17</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ac36304276793d845d19b981950aaa96a">bRemoved</a>)</div>
+<div class="line"><span class="lineno">   18</span>    {</div>
+<div class="line"><span class="lineno">   19</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   20</span>    }</div>
+<div class="line"><span class="lineno">   21</span> </div>
+<div class="line"><span class="lineno">   22</span>    <span class="keyword">const</span> FActorInitStateChangedParams Params(OwningActor, FeatureName, Implementer, FeatureState);</div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>.IsBound())</div>
+<div class="line"><span class="lineno">   24</span>    {</div>
+<div class="line"><span class="lineno">   25</span>        ensure(!<a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.IsBound());</div>
+<div class="line"><span class="lineno">   26</span> </div>
+<div class="line"><span class="lineno">   27</span>        <a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>.Execute(Params);</div>
 <div class="line"><span class="lineno">   28</span>    }</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>    FActorInitStateChangedParams Params(OwningActor, FeatureName, Implementer, FeatureState);</div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>.IsBound())</div>
-<div class="line"><span class="lineno">   32</span>    {</div>
-<div class="line"><span class="lineno">   33</span>        ensure(!<a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.IsBound());</div>
-<div class="line"><span class="lineno">   34</span> </div>
-<div class="line"><span class="lineno">   35</span>        <a class="code hl_variable" href="#a0ef40b70258a7092f64fd2c685697ee4">Delegate</a>.Execute(Params);</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.IsBound())</div>
-<div class="line"><span class="lineno">   38</span>    {</div>
-<div class="line"><span class="lineno">   39</span>        <a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.Execute(Params);</div>
-<div class="line"><span class="lineno">   40</span>    }</div>
-<div class="line"><span class="lineno">   41</span>}</div>
+<div class="line"><span class="lineno">   29</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.IsBound())</div>
+<div class="line"><span class="lineno">   30</span>    {</div>
+<div class="line"><span class="lineno">   31</span>        <a class="code hl_variable" href="#a48e0c978d536377c08a8312d81392f6b">BPDelegate</a>.Execute(Params);</div>
+<div class="line"><span class="lineno">   32</span>    }</div>
+<div class="line"><span class="lineno">   33</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00034">BPDelegate</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00046">bRemoved</a>, and <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00031">Delegate</a>.</p>
+<p class="reference">References <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00036">BPDelegate</a>, <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00048">bRemoved</a>, and <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00033">Delegate</a>.</p>
 
 </div>
 </div>
@@ -317,9 +311,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>BP delegate that is called on notification </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00034">34</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00036">36</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00023">Execute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00015">Execute()</a>.</p>
 
 </div>
 </div>
@@ -336,9 +330,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Indicates this delegate has been removed and will soon be destroyed, do not execute </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00046">46</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00048">48</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00023">Execute()</a>, and <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00015">Execute()</a>, and <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
 
 </div>
 </div>
@@ -355,9 +349,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Delegate that is called on notification </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00031">31</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00033">33</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00023">Execute()</a>, and <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00015">Execute()</a>, and <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
 
 </div>
 </div>
@@ -374,7 +368,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>A handle assigned to this delegate so it acts like a multicast delegate for removal </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00037">37</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00039">39</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
 
@@ -393,7 +387,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>If this is not null, will only activate for specific feature names </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00040">40</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00042">42</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
 
@@ -412,7 +406,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>If this is not null, will only activate for states &gt;= to this </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00043">43</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_registered_delegate_8h_source.html#l00045">45</a> of file <a class="el" href="_actor_feature_registered_delegate_8h_source.html">ActorFeatureRegisteredDelegate.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_actor_feature_registered_delegate_8cpp_source.html#l00005">FActorFeatureRegisteredDelegate()</a>.</p>
 

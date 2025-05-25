@@ -159,7 +159,8 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00015">15</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{};</div>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>    {</div>
+<div class="line"><span class="lineno">   17</span>    };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -186,11 +187,11 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00016">16</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>        : <a class="code hl_variable" href="#afe79ac4334d38960047866f4619cab2c">FeatureName</a>(InFeatureName)</div>
-<div class="line"><span class="lineno">   18</span>    {</div>
-<div class="line"><span class="lineno">   19</span>    }</div>
-<div class="ttc" id="astruct_f_actor_feature_state_html_afe79ac4334d38960047866f4619cab2c"><div class="ttname"><a href="#afe79ac4334d38960047866f4619cab2c">FActorFeatureState::FeatureName</a></div><div class="ttdeci">FName FeatureName</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00022">ActorFeatureState.h:22</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00019">19</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>        : <a class="code hl_variable" href="#afe79ac4334d38960047866f4619cab2c">FeatureName</a>(InFeatureName)</div>
+<div class="line"><span class="lineno">   21</span>    {</div>
+<div class="line"><span class="lineno">   22</span>    }</div>
+<div class="ttc" id="astruct_f_actor_feature_state_html_afe79ac4334d38960047866f4619cab2c"><div class="ttname"><a href="#afe79ac4334d38960047866f4619cab2c">FActorFeatureState::FeatureName</a></div><div class="ttdeci">FName FeatureName</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00025">ActorFeatureState.h:25</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -218,9 +219,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00032">32</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keywordflow">return</span> !(<a class="code hl_variable" href="#afe79ac4334d38960047866f4619cab2c">FeatureName</a>.IsNone() || States.IsEmpty() || !States.Contains(<a class="code hl_variable" href="#ab51be7bfdd756a9dad50d858e1d5283b">CurrentState</a>)); }</div>
-<div class="ttc" id="astruct_f_actor_feature_state_html_ab51be7bfdd756a9dad50d858e1d5283b"><div class="ttname"><a href="#ab51be7bfdd756a9dad50d858e1d5283b">FActorFeatureState::CurrentState</a></div><div class="ttdeci">FGameplayTag CurrentState</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00025">ActorFeatureState.h:25</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00035">35</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keywordflow">return</span> !(<a class="code hl_variable" href="#afe79ac4334d38960047866f4619cab2c">FeatureName</a>.IsNone() || States.IsEmpty() || !States.Contains(<a class="code hl_variable" href="#ab51be7bfdd756a9dad50d858e1d5283b">CurrentState</a>)); }</div>
+<div class="ttc" id="astruct_f_actor_feature_state_html_ab51be7bfdd756a9dad50d858e1d5283b"><div class="ttname"><a href="#ab51be7bfdd756a9dad50d858e1d5283b">FActorFeatureState::CurrentState</a></div><div class="ttdeci">FGameplayTag CurrentState</div><div class="ttdef"><b>Definition</b> <a href="_actor_feature_state_8h_source.html#l00028">ActorFeatureState.h:28</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -238,9 +239,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The state when it was last registered </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00025">25</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00028">28</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00128">UGameInitStateSubsystem::GetInitStateForFeature()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00103">UGameInitStateSubsystem::IsInitStateCurrentOrLate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00127">UGameInitStateSubsystem::GetInitStateForFeature()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00102">UGameInitStateSubsystem::IsInitStateCurrentOrLate()</a>.</p>
 
 </div>
 </div>
@@ -257,9 +258,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The feature this is tracking </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00022">22</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00025">25</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00121">UGameInitStateSubsystem::HasFeatureReachedInitState()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00042">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00120">UGameInitStateSubsystem::HasFeatureReachedInitState()</a>, and <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00041">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
 
 </div>
 </div>
@@ -276,9 +277,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The object implementing this feature, this can be null </p>
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00030">30</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00033">33</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00042">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_game_init_state_subsystem_8cpp_source.html#l00041">UGameInitStateSubsystem::RegisterFeatureImplementer()</a>.</p>
 
 </div>
 </div>
@@ -294,8 +295,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00027">27</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{};</div>
+<p class="definition">Definition at line <a class="el" href="_actor_feature_state_8h_source.html#l00030">30</a> of file <a class="el" href="_actor_feature_state_8h_source.html">ActorFeatureState.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{};</div>
 </div><!-- fragment -->
 </div>
 </div>

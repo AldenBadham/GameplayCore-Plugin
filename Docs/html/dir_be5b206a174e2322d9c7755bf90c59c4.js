@@ -8,6 +8,8 @@ var dir_be5b206a174e2322d9c7755bf90c59c4 =
     [ "GameplayTags", "dir_f8b3cdd90d4c81d55753f7286ca011e1.html", "dir_f8b3cdd90d4c81d55753f7286ca011e1" ],
     [ "Instances", "dir_595740f4c1e2473f01c92bb60e3d40d2.html", "dir_595740f4c1e2473f01c92bb60e3d40d2" ],
     [ "Log", "dir_6c713a460649cb4c9e2ff895dac544c2.html", "dir_6c713a460649cb4c9e2ff895dac544c2" ],
+    [ "Policies", "dir_d71ff25508076182b4074c954c4bb95e.html", "dir_d71ff25508076182b4074c954c4bb95e" ],
     [ "Settings", "dir_4497f5eecddd23fbdf1efc7b6608a1f3.html", "dir_4497f5eecddd23fbdf1efc7b6608a1f3" ],
+    [ "Stats", "dir_cea826efb572eb36b454c17640f765f3.html", "dir_cea826efb572eb36b454c17640f765f3" ],
     [ "EquipmentSystemCore.cpp", "_equipment_system_core_8cpp_source.html", null ]
 ];

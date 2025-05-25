@@ -104,7 +104,8 @@ $(function(){initNavTree('class_u_equipment_definition.html',''); initResizable(
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_u_equipment_definition-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UEquipmentDefinition Class Reference</div></div>
 </div><!--header-->
@@ -130,30 +131,43 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a69202f1f2522e9743b8e4d36776a1816" id="r_a69202f1f2522e9743b8e4d36776a1816"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a69202f1f2522e9743b8e4d36776a1816"><td class="memTemplItemLeft" align="right" valign="top">const T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a69202f1f2522e9743b8e4d36776a1816">FindFragmentByClass</a> () const</td></tr>
 <tr class="separator:a69202f1f2522e9743b8e4d36776a1816"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab993f755499d61cab19535d0779af5b5" id="r_ab993f755499d61cab19535d0779af5b5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab993f755499d61cab19535d0779af5b5">CanEquip</a> (<a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *EquipmentSystemComponent)</td></tr>
-<tr class="separator:ab993f755499d61cab19535d0779af5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c0a461c6aaa518611ee9c23c9c83c21" id="r_a5c0a461c6aaa518611ee9c23c9c83c21"><td class="memItemLeft" align="right" valign="top"><a id="a5c0a461c6aaa518611ee9c23c9c83c21" name="a5c0a461c6aaa518611ee9c23c9c83c21"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>K2_CanEquip</b> (<a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *EquipmentSystemComponent)</td></tr>
-<tr class="separator:a5c0a461c6aaa518611ee9c23c9c83c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9548e94d497b34bfc6d93041ecdbbd5e" id="r_a9548e94d497b34bfc6d93041ecdbbd5e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9548e94d497b34bfc6d93041ecdbbd5e">CanBeEquipped</a> (<a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *EquipmentSystemComponent, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:a9548e94d497b34bfc6d93041ecdbbd5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc8278c41bd3bec921c65a25c68c790" id="r_a7bc8278c41bd3bec921c65a25c68c790"><td class="memItemLeft" align="right" valign="top"><a id="a7bc8278c41bd3bec921c65a25c68c790" name="a7bc8278c41bd3bec921c65a25c68c790"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>K2_CanBeEquipped</b> (<a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *EquipmentSystemComponent, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:a7bc8278c41bd3bec921c65a25c68c790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8365c1064bad0afb4687147d8ec1131" id="r_aa8365c1064bad0afb4687147d8ec1131"><td class="memItemLeft" align="right" valign="top">FText&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8365c1064bad0afb4687147d8ec1131">GetDisplayName</a> () const</td></tr>
+<tr class="separator:aa8365c1064bad0afb4687147d8ec1131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a885193f50b039f87f0d98399ac053014" id="r_a885193f50b039f87f0d98399ac053014"><td class="memItemLeft" align="right" valign="top">FText&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a885193f50b039f87f0d98399ac053014">DisplayName</a></td></tr>
-<tr class="separator:a885193f50b039f87f0d98399ac053014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr class="memitem:ab78e9baab46c2fe328a39b9d2ef45449" id="r_ab78e9baab46c2fe328a39b9d2ef45449"><td class="memItemLeft" align="right" valign="top">TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a></td></tr>
 <tr class="separator:ab78e9baab46c2fe328a39b9d2ef45449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885193f50b039f87f0d98399ac053014" id="r_a885193f50b039f87f0d98399ac053014"><td class="memItemLeft" align="right" valign="top">FText&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a885193f50b039f87f0d98399ac053014">DisplayName</a></td></tr>
+<tr class="separator:a885193f50b039f87f0d98399ac053014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e36c97bcc1c19071a838cc81a0e3353" id="r_a0e36c97bcc1c19071a838cc81a0e3353"><td class="memItemLeft" align="right" valign="top">FGameplayTag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e36c97bcc1c19071a838cc81a0e3353">SlotTag</a></td></tr>
+<tr class="separator:a0e36c97bcc1c19071a838cc81a0e3353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e3b7f2611c14b0a0d8990676f0553f2" id="r_a2e3b7f2611c14b0a0d8990676f0553f2"><td class="memItemLeft" align="right" valign="top">TObjectPtr&lt; const <a class="el" href="class_u_slot_policy.html">USlotPolicy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e3b7f2611c14b0a0d8990676f0553f2">SlotPolicy</a></td></tr>
+<tr class="separator:a2e3b7f2611c14b0a0d8990676f0553f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af42d5b764a4a0652a669f227b6b2f746" id="r_af42d5b764a4a0652a669f227b6b2f746"><td class="memItemLeft" align="right" valign="top">TArray&lt; <a class="el" href="struct_f_equipment_actor_set.html">FEquipmentActorSet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af42d5b764a4a0652a669f227b6b2f746">ActorsToSpawn</a></td></tr>
 <tr class="separator:af42d5b764a4a0652a669f227b6b2f746"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab62b3056bdac8fe1ecea80f5dc93e650" id="r_ab62b3056bdac8fe1ecea80f5dc93e650"><td class="memItemLeft" align="right" valign="top">TArray&lt; TObjectPtr&lt; const <a class="el" href="class_u_ability_set.html">UAbilitySet</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab62b3056bdac8fe1ecea80f5dc93e650">AbilitySets</a></td></tr>
 <tr class="separator:ab62b3056bdac8fe1ecea80f5dc93e650"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d0e2a12af25b71c5e5d62863030c455" id="r_a6d0e2a12af25b71c5e5d62863030c455"><td class="memItemLeft" align="right" valign="top">TArray&lt; TObjectPtr&lt; <a class="el" href="class_u_equipment_fragment.html">UEquipmentFragment</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d0e2a12af25b71c5e5d62863030c455">Fragments</a></td></tr>
 <tr class="separator:a6d0e2a12af25b71c5e5d62863030c455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a7775f39aa6d38cf2a81f36c1009bd8f4" id="r_a7775f39aa6d38cf2a81f36c1009bd8f4"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7775f39aa6d38cf2a81f36c1009bd8f4">FEquipmentList</a></td></tr>
+<tr class="separator:a7775f39aa6d38cf2a81f36c1009bd8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93136ab93d32073bf075e8304791c9d8" id="r_a93136ab93d32073bf075e8304791c9d8"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93136ab93d32073bf075e8304791c9d8">UEquipmentSystemComponent</a></td></tr>
+<tr class="separator:a93136ab93d32073bf075e8304791c9d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data asset definition of an item that can be equipped by the pawn. And what to do to the pawn on which it is equipped. </p>
 <dl class="section see"><dt>See also</dt><dd>UObject </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00023">23</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00024">24</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8cd7ffb0d09b94e9bb1063c64474420a" name="a8cd7ffb0d09b94e9bb1063c64474420a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8cd7ffb0d09b94e9bb1063c64474420a">&#9670;&#160;</a></span>UEquipmentDefinition()</h2>
@@ -170,18 +184,18 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00009">9</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>    : Super(ObjectInitializer.Get())</div>
-<div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>    <a class="code hl_variable" href="#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a> = UEquipmentInstance::StaticClass();</div>
-<div class="line"><span class="lineno">   13</span>}</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00061">EquipmentDefinition.h:61</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00008">8</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    9</span>    : Super(ObjectInitializer.Get())</div>
+<div class="line"><span class="lineno">   10</span>{</div>
+<div class="line"><span class="lineno">   11</span>    <a class="code hl_variable" href="#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a> = UEquipmentInstance::StaticClass();</div>
+<div class="line"><span class="lineno">   12</span>}</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00069">EquipmentDefinition.h:69</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab993f755499d61cab19535d0779af5b5" name="ab993f755499d61cab19535d0779af5b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab993f755499d61cab19535d0779af5b5">&#9670;&#160;</a></span>CanEquip()</h2>
+<a id="a9548e94d497b34bfc6d93041ecdbbd5e" name="a9548e94d497b34bfc6d93041ecdbbd5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9548e94d497b34bfc6d93041ecdbbd5e">&#9670;&#160;</a></span>CanBeEquipped()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,10 +204,14 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool UEquipmentDefinition::CanEquip </td>
+          <td class="memname">bool UEquipmentDefinition::CanBeEquipped </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *</td>          <td class="paramname"><span class="paramname"><em>EquipmentSystemComponent</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> *</td>          <td class="paramname"><span class="paramname"><em>EquipmentSystemComponent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -203,10 +221,10 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00058">58</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>{</div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> K2_CanEquip(EquipmentSystemComponent);</div>
-<div class="line"><span class="lineno">   61</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00057">57</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>{</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">return</span> K2_CanBeEquipped(EquipmentSystemComponent, OutFailureReason);</div>
+<div class="line"><span class="lineno">   60</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -236,13 +254,13 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Template function to find fragment of class T in this equipment definition </p><dl class="section return"><dt>Returns</dt><dd>Pointer to the found fragment of type T, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00048">48</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a69202f1f2522e9743b8e4d36776a1816">FindFragmentByClass</a>(T::StaticClass())); }</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_a69202f1f2522e9743b8e4d36776a1816"><div class="ttname"><a href="#a69202f1f2522e9743b8e4d36776a1816">UEquipmentDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00048">EquipmentDefinition.h:48</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00053">53</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#a69202f1f2522e9743b8e4d36776a1816">FindFragmentByClass</a>(T::StaticClass())); }</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_a69202f1f2522e9743b8e4d36776a1816"><div class="ttname"><a href="#a69202f1f2522e9743b8e4d36776a1816">UEquipmentDefinition::FindFragmentByClass</a></div><div class="ttdeci">const T * FindFragmentByClass() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00053">EquipmentDefinition.h:53</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00048">FindFragmentByClass()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00053">FindFragmentByClass()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_definition_8h_source.html#l00048">FindFragmentByClass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_definition_8h_source.html#l00053">FindFragmentByClass()</a>.</p>
 
 </div>
 </div>
@@ -268,24 +286,105 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the found fragment, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00042">42</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>{</div>
-<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
-<div class="line"><span class="lineno">   45</span>    {</div>
-<div class="line"><span class="lineno">   46</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UEquipmentFragment* Fragment : <a class="code hl_variable" href="#a6d0e2a12af25b71c5e5d62863030c455">Fragments</a>)</div>
-<div class="line"><span class="lineno">   47</span>        {</div>
-<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
-<div class="line"><span class="lineno">   49</span>            {</div>
-<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">return</span> Fragment;</div>
-<div class="line"><span class="lineno">   51</span>            }</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   56</span>}</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_a6d0e2a12af25b71c5e5d62863030c455"><div class="ttname"><a href="#a6d0e2a12af25b71c5e5d62863030c455">UEquipmentDefinition::Fragments</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; UEquipmentFragment &gt; &gt; Fragments</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00073">EquipmentDefinition.h:73</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8cpp_source.html#l00041">41</a> of file <a class="el" href="_equipment_definition_8cpp_source.html">EquipmentDefinition.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>{</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (IsValid(FragmentClass))</div>
+<div class="line"><span class="lineno">   44</span>    {</div>
+<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> UEquipmentFragment* Fragment : <a class="code hl_variable" href="#a6d0e2a12af25b71c5e5d62863030c455">Fragments</a>)</div>
+<div class="line"><span class="lineno">   46</span>        {</div>
+<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">if</span> (IsValid(Fragment) &amp;&amp; Fragment-&gt;IsA(FragmentClass))</div>
+<div class="line"><span class="lineno">   48</span>            {</div>
+<div class="line"><span class="lineno">   49</span>                <span class="keywordflow">return</span> Fragment;</div>
+<div class="line"><span class="lineno">   50</span>            }</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
+<div class="line"><span class="lineno">   52</span>    }</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   55</span>}</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_a6d0e2a12af25b71c5e5d62863030c455"><div class="ttname"><a href="#a6d0e2a12af25b71c5e5d62863030c455">UEquipmentDefinition::Fragments</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; UEquipmentFragment &gt; &gt; Fragments</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00091">EquipmentDefinition.h:91</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00073">Fragments</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00091">Fragments</a>.</p>
+
+</div>
+</div>
+<a id="aa8365c1064bad0afb4687147d8ec1131" name="aa8365c1064bad0afb4687147d8ec1131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8365c1064bad0afb4687147d8ec1131">&#9670;&#160;</a></span>GetDisplayName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FText UEquipmentDefinition::GetDisplayName </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the display name of this equipment </p><dl class="section return"><dt>Returns</dt><dd>Display name as FText </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00064">64</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   64</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#a885193f50b039f87f0d98399ac053014">DisplayName</a>; }</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_a885193f50b039f87f0d98399ac053014"><div class="ttname"><a href="#a885193f50b039f87f0d98399ac053014">UEquipmentDefinition::DisplayName</a></div><div class="ttdeci">FText DisplayName</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00073">EquipmentDefinition.h:73</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00073">DisplayName</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a7775f39aa6d38cf2a81f36c1009bd8f4" name="a7775f39aa6d38cf2a81f36c1009bd8f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7775f39aa6d38cf2a81f36c1009bd8f4">&#9670;&#160;</a></span>FEquipmentList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="struct_f_equipment_list.html">FEquipmentList</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00028">28</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+
+</div>
+</div>
+<a id="a93136ab93d32073bf075e8304791c9d8" name="a93136ab93d32073bf075e8304791c9d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93136ab93d32073bf075e8304791c9d8">&#9670;&#160;</a></span>UEquipmentSystemComponent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00029">29</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
 </div>
 </div>
@@ -295,17 +394,25 @@ template&lt;typename T&gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">TArray&lt;TObjectPtr&lt;const <a class="el" href="class_u_ability_set.html">UAbilitySet</a>&gt; &gt; UEquipmentDefinition::AbilitySets</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Ability sets granted by this equipment </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00069">69</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00087">87</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -314,17 +421,25 @@ template&lt;typename T&gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">TArray&lt;<a class="el" href="struct_f_equipment_actor_set.html">FEquipmentActorSet</a>&gt; UEquipmentDefinition::ActorsToSpawn</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Actors to spawn on the pawn when this is equipped </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00065">65</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00083">83</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">FEquipmentList::Add()</a>.</p>
 
 </div>
 </div>
@@ -333,15 +448,25 @@ template&lt;typename T&gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">FText UEquipmentDefinition::DisplayName</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Display name of the equipment (used by UI) </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00057">57</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00073">73</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_definition_8h_source.html#l00064">GetDisplayName()</a>.</p>
 
 </div>
 </div>
@@ -350,17 +475,25 @@ template&lt;typename T&gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">TArray&lt;TObjectPtr&lt;<a class="el" href="class_u_equipment_fragment.html">UEquipmentFragment</a>&gt; &gt; UEquipmentDefinition::Fragments</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Equipment fragments for additional functionality </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00073">73</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00091">91</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_definition_8cpp_source.html#l00042">FindFragmentByClass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_definition_8cpp_source.html#l00041">FindFragmentByClass()</a>.</p>
 
 </div>
 </div>
@@ -369,17 +502,73 @@ template&lt;typename T&gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">TSubclassOf&lt;<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a>&gt; UEquipmentDefinition::InstanceClass</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>Instance class to spawn </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00061">61</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00069">69</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00051">FEquipmentList::Add()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">FEquipmentList::Add()</a>.</p>
+
+</div>
+</div>
+<a id="a2e3b7f2611c14b0a0d8990676f0553f2" name="a2e3b7f2611c14b0a0d8990676f0553f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e3b7f2611c14b0a0d8990676f0553f2">&#9670;&#160;</a></span>SlotPolicy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TObjectPtr&lt;const <a class="el" href="class_u_slot_policy.html">USlotPolicy</a>&gt; UEquipmentDefinition::SlotPolicy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00079">79</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
+
+</div>
+</div>
+<a id="a0e36c97bcc1c19071a838cc81a0e3353" name="a0e36c97bcc1c19071a838cc81a0e3353"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e36c97bcc1c19071a838cc81a0e3353">&#9670;&#160;</a></span>SlotTag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FGameplayTag UEquipmentDefinition::SlotTag</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_definition_8h_source.html#l00076">76</a> of file <a class="el" href="_equipment_definition_8h_source.html">EquipmentDefinition.h</a>.</p>
 
 </div>
 </div>

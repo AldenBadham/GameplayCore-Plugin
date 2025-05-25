@@ -104,13 +104,15 @@ $(function(){initNavTree('class_u_equipment_system_component.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_u_equipment_system_component-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UEquipmentSystemComponent Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This component manages the equipment system for an actor.  
+<p>Component managing equipment system functionality for actors.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>&gt;</code></p>
@@ -135,34 +137,92 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aed55c3763316fbce9cc3b35e002848d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a346e7db8de55cf372be7df83ddeacc44" id="r_a346e7db8de55cf372be7df83ddeacc44"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a346e7db8de55cf372be7df83ddeacc44">UninitializeComponent</a> () override</td></tr>
 <tr class="separator:a346e7db8de55cf372be7df83ddeacc44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af505b2ab49882f82c948240846ec8ff8" id="r_af505b2ab49882f82c948240846ec8ff8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af505b2ab49882f82c948240846ec8ff8">EquipItem</a> (TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; EquipmentDefinition)</td></tr>
-<tr class="separator:af505b2ab49882f82c948240846ec8ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a209cf026d1807c9175f1ac774b14af10" id="r_a209cf026d1807c9175f1ac774b14af10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a209cf026d1807c9175f1ac774b14af10">UnequipItem</a> (<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *ItemInstance)</td></tr>
-<tr class="separator:a209cf026d1807c9175f1ac774b14af10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1ac5d0e81ae3cc63d66c5a4e560cdd" id="r_a4e1ac5d0e81ae3cc63d66c5a4e560cdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e1ac5d0e81ae3cc63d66c5a4e560cdd">GetInstanceOfType</a> (TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; InstanceClass)</td></tr>
-<tr class="separator:a4e1ac5d0e81ae3cc63d66c5a4e560cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a477df690f494e62d49a9458f1ad78223" id="r_a477df690f494e62d49a9458f1ad78223"><td class="memItemLeft" align="right" valign="top">TArray&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a477df690f494e62d49a9458f1ad78223">GetAllEquipmentInstancesOfType</a> (TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; InstanceClass)</td></tr>
-<tr class="separator:a477df690f494e62d49a9458f1ad78223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6a47e569cc3d7f837f9517f583f2675" id="r_ab6a47e569cc3d7f837f9517f583f2675"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6a47e569cc3d7f837f9517f583f2675">GetEquipmentDefinition</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;Class) const</td></tr>
-<tr class="separator:ab6a47e569cc3d7f837f9517f583f2675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c76504545bda90a4bf201fdb1dc2d71" id="r_a6c76504545bda90a4bf201fdb1dc2d71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c76504545bda90a4bf201fdb1dc2d71">TryEquipItem</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance)</td></tr>
+<tr class="separator:a6c76504545bda90a4bf201fdb1dc2d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ffb44cbd1a64185f083405412b3879b" id="r_a7ffb44cbd1a64185f083405412b3879b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ffb44cbd1a64185f083405412b3879b">TryEquipItemOnSlot</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance, const FGameplayTag &amp;SlotTag)</td></tr>
+<tr class="separator:a7ffb44cbd1a64185f083405412b3879b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b2fb91e19d5d95a3116ed8ebab91655" id="r_a2b2fb91e19d5d95a3116ed8ebab91655"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b2fb91e19d5d95a3116ed8ebab91655">TryUnequipItem</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:a2b2fb91e19d5d95a3116ed8ebab91655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab84b99483850f4605818794944b39772" id="r_ab84b99483850f4605818794944b39772"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab84b99483850f4605818794944b39772">TryUnequipSlot</a> (const FGameplayTag SlotTag, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:ab84b99483850f4605818794944b39772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af130a97ad7c810c7d6759cc09cd3ecba" id="r_af130a97ad7c810c7d6759cc09cd3ecba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af130a97ad7c810c7d6759cc09cd3ecba">TrySwapSlots</a> (const FGameplayTag &amp;SlotA, const FGameplayTag &amp;SlotB, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:af130a97ad7c810c7d6759cc09cd3ecba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad881cd870e342f1901eeafbaa985fb5" id="r_aad881cd870e342f1901eeafbaa985fb5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad881cd870e342f1901eeafbaa985fb5">IsSlotBlocked</a> (const FGameplayTag &amp;SlotTag, bool bExact=false) const</td></tr>
+<tr class="separator:aad881cd870e342f1901eeafbaa985fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6cc15c8c1db36a6f931867e2c93a65" id="r_a9c6cc15c8c1db36a6f931867e2c93a65"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c6cc15c8c1db36a6f931867e2c93a65">FindSlot</a> (const FGameplayTag &amp;SlotTag) const</td></tr>
+<tr class="separator:a9c6cc15c8c1db36a6f931867e2c93a65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a832458a77db83d00aa3929b777b35415" id="r_a832458a77db83d00aa3929b777b35415"><td class="memItemLeft" align="right" valign="top">TMap&lt; FGameplayTag, <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a832458a77db83d00aa3929b777b35415">GetSlotMap</a> () const</td></tr>
+<tr class="separator:a832458a77db83d00aa3929b777b35415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11f2e289c8b9d11badce14c23f11829" id="r_ac11f2e289c8b9d11badce14c23f11829"><td class="memItemLeft" align="right" valign="top">const FGameplayTag &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac11f2e289c8b9d11badce14c23f11829">GetSlotForItem</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance)</td></tr>
+<tr class="separator:ac11f2e289c8b9d11badce14c23f11829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8283ae50baf27ec308d3a5d8cfa93f9b" id="r_a8283ae50baf27ec308d3a5d8cfa93f9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8283ae50baf27ec308d3a5d8cfa93f9b">GetItemInSlot</a> (const FGameplayTag &amp;SlotTag)</td></tr>
+<tr class="separator:a8283ae50baf27ec308d3a5d8cfa93f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c9f136b966a2adcb80e01a582884d00" id="r_a4c9f136b966a2adcb80e01a582884d00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c9f136b966a2adcb80e01a582884d00">GetEquipmentInSlot</a> (const FGameplayTag &amp;SlotTag)</td></tr>
+<tr class="separator:a4c9f136b966a2adcb80e01a582884d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a333d0e17b96149e012ffb991271afaf1" id="r_a333d0e17b96149e012ffb991271afaf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a333d0e17b96149e012ffb991271afaf1">GetEquippedItems</a> (TMap&lt; FGameplayTag, <a class="el" href="class_u_item_instance.html">UItemInstance</a> * &gt; &amp;OutItems) const</td></tr>
+<tr class="separator:a333d0e17b96149e012ffb991271afaf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad246597178e7d595838ed6e6278d24e" id="r_aad246597178e7d595838ed6e6278d24e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad246597178e7d595838ed6e6278d24e">GetInstanceOfType</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; &amp;InstanceClass)</td></tr>
+<tr class="separator:aad246597178e7d595838ed6e6278d24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0f3f7d41cc81f6eb6b571fba43c4772" id="r_ac0f3f7d41cc81f6eb6b571fba43c4772"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ac0f3f7d41cc81f6eb6b571fba43c4772"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac0f3f7d41cc81f6eb6b571fba43c4772">GetInstanceOfType</a> () const</td></tr>
+<tr class="separator:ac0f3f7d41cc81f6eb6b571fba43c4772"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ceb165fe3aaa50b262a02639b4c37c" id="r_ab6ceb165fe3aaa50b262a02639b4c37c"><td class="memItemLeft" align="right" valign="top">TArray&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6ceb165fe3aaa50b262a02639b4c37c">GetAllInstancesOfType</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; &amp;InstanceClass)</td></tr>
+<tr class="separator:ab6ceb165fe3aaa50b262a02639b4c37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a285368567151e8b694284f7fac897bfc" id="r_a285368567151e8b694284f7fac897bfc"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a285368567151e8b694284f7fac897bfc"><td class="memTemplItemLeft" align="right" valign="top">TArray&lt; T * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a285368567151e8b694284f7fac897bfc">GetAllInstancesOfType</a> () const</td></tr>
+<tr class="separator:a285368567151e8b694284f7fac897bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b200fd51f3f817e4668c478dfad1f18" id="r_a8b200fd51f3f817e4668c478dfad1f18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;Class) const</td></tr>
+<tr class="separator:a8b200fd51f3f817e4668c478dfad1f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37060bc4b352766eaef7b768f2067b9e" id="r_a37060bc4b352766eaef7b768f2067b9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37060bc4b352766eaef7b768f2067b9e">GetInstanceFromItem</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance)</td></tr>
 <tr class="separator:a37060bc4b352766eaef7b768f2067b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0440d2d377d5270d71adf77beb4b9ca" id="r_ac0440d2d377d5270d71adf77beb4b9ca"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:ac0440d2d377d5270d71adf77beb4b9ca"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac0440d2d377d5270d71adf77beb4b9ca">GetInstanceOfType</a> ()</td></tr>
-<tr class="separator:ac0440d2d377d5270d71adf77beb4b9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a86c0a0a45c72c40ce0391cc007d07386" id="r_a86c0a0a45c72c40ce0391cc007d07386"><td class="memItemLeft" align="right" valign="top">FOnEquipmentChange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86c0a0a45c72c40ce0391cc007d07386">OnEquipmentChanged</a></td></tr>
+<tr class="separator:a86c0a0a45c72c40ce0391cc007d07386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67d2c10528b79ad5ebac641cd54464d1" id="r_a67d2c10528b79ad5ebac641cd54464d1"><td class="memItemLeft" align="right" valign="top">FOnEquipmentChange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67d2c10528b79ad5ebac641cd54464d1">OnEquipmentEquipped</a></td></tr>
+<tr class="separator:a67d2c10528b79ad5ebac641cd54464d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a163a2e7d43961222552315aaaf2b1a6f" id="r_a163a2e7d43961222552315aaaf2b1a6f"><td class="memItemLeft" align="right" valign="top">FOnEquipmentChange&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a163a2e7d43961222552315aaaf2b1a6f">OnEquipmentUnequipped</a></td></tr>
+<tr class="separator:a163a2e7d43961222552315aaaf2b1a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ad515b77af1ba0e2fdd81c0114eca5fb1" id="r_ad515b77af1ba0e2fdd81c0114eca5fb1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad515b77af1ba0e2fdd81c0114eca5fb1">PostEquipmentEquipped</a> (const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;Data)</td></tr>
+<tr class="separator:ad515b77af1ba0e2fdd81c0114eca5fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc1fceb0a20cfe80d5d00aa3c793103" id="r_adfc1fceb0a20cfe80d5d00aa3c793103"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfc1fceb0a20cfe80d5d00aa3c793103">PostEquipmentUnequipped</a> (const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;Data)</td></tr>
+<tr class="separator:adfc1fceb0a20cfe80d5d00aa3c793103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d7e6f62f7dd29c529c2e75dfe6e046a" id="r_a1d7e6f62f7dd29c529c2e75dfe6e046a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d7e6f62f7dd29c529c2e75dfe6e046a">PostEquipmentChanged</a> (const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;Data)</td></tr>
+<tr class="separator:a1d7e6f62f7dd29c529c2e75dfe6e046a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c52d291bb777381208dcf6a4d73769a" id="r_a7c52d291bb777381208dcf6a4d73769a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c52d291bb777381208dcf6a4d73769a">LockSlots</a> (const FGameplayTagContainer &amp;Tags)</td></tr>
+<tr class="separator:a7c52d291bb777381208dcf6a4d73769a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e5b3b40e88eaa7151643edd43b8402c" id="r_a7e5b3b40e88eaa7151643edd43b8402c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e5b3b40e88eaa7151643edd43b8402c">UnlockSlots</a> (const FGameplayTagContainer &amp;Tags)</td></tr>
+<tr class="separator:a7e5b3b40e88eaa7151643edd43b8402c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0322ea2857030269ca9e7ff671b8e1ed" id="r_a0322ea2857030269ca9e7ff671b8e1ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0322ea2857030269ca9e7ff671b8e1ed">Internal_ProcessEquip</a> (<a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance, const FGameplayTag &amp;TargetSlot, const <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *Definition)</td></tr>
+<tr class="separator:a0322ea2857030269ca9e7ff671b8e1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add4bbcc8d12f79a5e359dfb8e0f3365c" id="r_add4bbcc8d12f79a5e359dfb8e0f3365c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add4bbcc8d12f79a5e359dfb8e0f3365c">Internal_ProcessUnequip</a> (const FGameplayTag &amp;SlotTag, FGameplayTag &amp;OutFailureReason, bool bPreserveItem=false)</td></tr>
+<tr class="separator:add4bbcc8d12f79a5e359dfb8e0f3365c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96611e01d03e99965a7a374570bebb0f" id="r_a96611e01d03e99965a7a374570bebb0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96611e01d03e99965a7a374570bebb0f">Internal_EquipOnSlot</a> (const FGameplayTag &amp;SlotTag, <a class="el" href="class_u_item_instance.html">UItemInstance</a> *ItemInstance, const <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *Definition)</td></tr>
+<tr class="separator:a96611e01d03e99965a7a374570bebb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a20f4072e21000543f1fb62d3d1687491" id="r_a20f4072e21000543f1fb62d3d1687491"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_list.html">FEquipmentList</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a></td></tr>
 <tr class="separator:a20f4072e21000543f1fb62d3d1687491"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25a71ff4cf50261a31d0bb4a5c2269a5" id="r_a25a71ff4cf50261a31d0bb4a5c2269a5"><td class="memItemLeft" align="right" valign="top">TWeakObjectPtr&lt; <a class="el" href="class_u_equipment_cache.html">UEquipmentCache</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a></td></tr>
-<tr class="separator:a25a71ff4cf50261a31d0bb4a5c2269a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b44f3b95b5b230adc902dc7e37b04c9" id="r_a1b44f3b95b5b230adc902dc7e37b04c9"><td class="memItemLeft" align="right" valign="top">TObjectPtr&lt; <a class="el" href="class_u_equipment_cache.html">UEquipmentCache</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b44f3b95b5b230adc902dc7e37b04c9">Cache</a></td></tr>
+<tr class="separator:a1b44f3b95b5b230adc902dc7e37b04c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a077749f5ebb10d77bfa99eb13e1fd1f4" id="r_a077749f5ebb10d77bfa99eb13e1fd1f4"><td class="memItemLeft" align="right" valign="top">TObjectPtr&lt; <a class="el" href="class_u_equipment_slot_map_data.html">UEquipmentSlotMapData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a077749f5ebb10d77bfa99eb13e1fd1f4">SlotMapData</a></td></tr>
+<tr class="separator:a077749f5ebb10d77bfa99eb13e1fd1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0fe280a1f9a0c55f11a00203f07ca3f" id="r_aa0fe280a1f9a0c55f11a00203f07ca3f"><td class="memItemLeft" align="right" valign="top">TMap&lt; FGameplayTag, <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0fe280a1f9a0c55f11a00203f07ca3f">SlotMapRuntime</a></td></tr>
+<tr class="separator:aa0fe280a1f9a0c55f11a00203f07ca3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aacb7b9db10f52df0995113e4cae2b4" id="r_a7aacb7b9db10f52df0995113e4cae2b4"><td class="memItemLeft" align="right" valign="top">FGameplayTagCountContainer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7aacb7b9db10f52df0995113e4cae2b4">BlockedSlots</a></td></tr>
+<tr class="separator:a7aacb7b9db10f52df0995113e4cae2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This component manages the equipment system for an actor. </p>
-<dl class="section see"><dt>See also</dt><dd>UActorComponent </dd></dl>
+<div class="textblock"><p>Component managing equipment system functionality for actors. </p>
+<dl class="section see"><dt>See also</dt><dd>UActorComponent</dd></dl>
+<p>Manages equipment slots, item equipping/unequipping, and equipment instances. Provides runtime validation of equipment changes through policies, maintains a dynamic slot system, and handles replication of equipped items. Supports blocking/unblocking equipment slots and broadcasting equipment change events. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00019">19</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00036">36</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4b48b7eaebdd05a61817263be5a7cdeb" name="a4b48b7eaebdd05a61817263be5a7cdeb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b48b7eaebdd05a61817263be5a7cdeb">&#9670;&#160;</a></span>UEquipmentSystemComponent()</h2>
@@ -187,110 +247,105 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00011">11</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   12</span>    : Super(ObjectInitializer)</div>
-<div class="line"><span class="lineno">   13</span>    , <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>(<span class="keyword">this</span>)</div>
-<div class="line"><span class="lineno">   14</span>{</div>
-<div class="line"><span class="lineno">   15</span>    SetIsReplicatedByDefault(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   16</span>    bWantsInitializeComponent = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   17</span> </div>
-<div class="line"><span class="lineno">   18</span>    <span class="comment">// Cache initialization</span></div>
-<div class="line"><span class="lineno">   19</span>    <a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a> = NewObject&lt;UEquipmentCache&gt;(<span class="keyword">this</span>, UEquipmentCache::StaticClass(), <span class="stringliteral">&quot;Cache&quot;</span>);</div>
-<div class="line"><span class="lineno">   20</span>}</div>
-<div class="ttc" id="aclass_u_equipment_system_component_html_a20f4072e21000543f1fb62d3d1687491"><div class="ttname"><a href="#a20f4072e21000543f1fb62d3d1687491">UEquipmentSystemComponent::EquipmentList</a></div><div class="ttdeci">FEquipmentList EquipmentList</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00088">EquipmentSystemComponent.h:88</a></div></div>
-<div class="ttc" id="aclass_u_equipment_system_component_html_a25a71ff4cf50261a31d0bb4a5c2269a5"><div class="ttname"><a href="#a25a71ff4cf50261a31d0bb4a5c2269a5">UEquipmentSystemComponent::Cache</a></div><div class="ttdeci">TWeakObjectPtr&lt; UEquipmentCache &gt; Cache</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00092">EquipmentSystemComponent.h:92</a></div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a98bd03bca814db4f5d9b46373c94229e" name="a98bd03bca814db4f5d9b46373c94229e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98bd03bca814db4f5d9b46373c94229e">&#9670;&#160;</a></span>~UEquipmentSystemComponent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">UEquipmentSystemComponent::~UEquipmentSystemComponent </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
 <p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00022">22</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   23</span>{</div>
-<div class="line"><span class="lineno">   24</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a>.IsValid())</div>
-<div class="line"><span class="lineno">   25</span>    {</div>
-<div class="line"><span class="lineno">   26</span>        <a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a>-&gt;Clear();</div>
-<div class="line"><span class="lineno">   27</span>    }</div>
-<div class="line"><span class="lineno">   28</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   23</span>    : Super(ObjectInitializer), <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>(<span class="keyword">this</span>)</div>
+<div class="line"><span class="lineno">   24</span>{</div>
+<div class="line"><span class="lineno">   25</span>    PrimaryComponentTick.bCanEverTick = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   26</span>    bWantsInitializeComponent = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   27</span>    </div>
+<div class="line"><span class="lineno">   28</span>    SetIsReplicatedByDefault(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   29</span>    bReplicateUsingRegisteredSubObjectList = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   30</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a20f4072e21000543f1fb62d3d1687491"><div class="ttname"><a href="#a20f4072e21000543f1fb62d3d1687491">UEquipmentSystemComponent::EquipmentList</a></div><div class="ttdeci">FEquipmentList EquipmentList</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00256">EquipmentSystemComponent.h:256</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af505b2ab49882f82c948240846ec8ff8" name="af505b2ab49882f82c948240846ec8ff8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af505b2ab49882f82c948240846ec8ff8">&#9670;&#160;</a></span>EquipItem()</h2>
+<a id="a9c6cc15c8c1db36a6f931867e2c93a65" name="a9c6cc15c8c1db36a6f931867e2c93a65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c6cc15c8c1db36a6f931867e2c93a65">&#9670;&#160;</a></span>FindSlot()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * UEquipmentSystemComponent::EquipItem </td>
+          <td class="memname">const <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a> * UEquipmentSystemComponent::FindSlot </td>
           <td>(</td>
-          <td class="paramtype">TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>EquipmentDefinition</em></span></td><td>)</td>
-          <td></td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Equips an item based on the provided equipment definition. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Finds a slot by its tag </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">EquipmentDefinition</td><td>The class of the equipment to equip. </td></tr>
+    <tr><td class="paramname">SlotTag</td><td>The tag of the slot to find </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The equipped <a class="el" href="class_u_equipment_instance.html" title="Represents an instance of equipment that can be equipped by a pawn.">UEquipmentInstance</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the found slot, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00095">95</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>{</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">if</span> (IsValid(EquipmentDefinition))</div>
-<div class="line"><span class="lineno">   98</span>    {</div>
-<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Add(EquipmentDefinition))</div>
-<div class="line"><span class="lineno">  100</span>        {</div>
-<div class="line"><span class="lineno">  101</span>            Instance-&gt;OnEquipped();</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList() &amp;&amp; IsReadyForReplication())</div>
-<div class="line"><span class="lineno">  104</span>            {</div>
-<div class="line"><span class="lineno">  105</span>                AddReplicatedSubObject(Instance);</div>
-<div class="line"><span class="lineno">  106</span>            }</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">return</span> Instance;</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  112</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00267">267</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  268</span>{</div>
+<div class="line"><span class="lineno">  269</span>    <span class="keywordflow">return</span> SlotMapRuntime.Find(SlotTag);</div>
+<div class="line"><span class="lineno">  270</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00088">EquipmentList</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00132">TryEquipItemOnSlot()</a>.</p>
 
 </div>
 </div>
-<a id="a477df690f494e62d49a9458f1ad78223" name="a477df690f494e62d49a9458f1ad78223"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a477df690f494e62d49a9458f1ad78223">&#9670;&#160;</a></span>GetAllEquipmentInstancesOfType()</h2>
+<a id="a285368567151e8b694284f7fac897bfc" name="a285368567151e8b694284f7fac897bfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a285368567151e8b694284f7fac897bfc">&#9670;&#160;</a></span>GetAllInstancesOfType() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">TArray&lt; T * &gt; UEquipmentSystemComponent::GetAllInstancesOfType </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets all instances of specified equipment type using templates </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The equipment instance type to find </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Array of all instances of type T </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00278">278</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  279</span>{</div>
+<div class="line"><span class="lineno">  280</span>    TArray&lt;T*&gt; Instances;</div>
+<div class="line"><span class="lineno">  281</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">  282</span>    {</div>
+<div class="line"><span class="lineno">  283</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
+<div class="line"><span class="lineno">  284</span>        {</div>
+<div class="line"><span class="lineno">  285</span>            <span class="keywordflow">if</span> (Instance-&gt;IsA&lt;T&gt;())</div>
+<div class="line"><span class="lineno">  286</span>            {</div>
+<div class="line"><span class="lineno">  287</span>                Instances.Add(Cast&lt;T&gt;(Instance));</div>
+<div class="line"><span class="lineno">  288</span>            }</div>
+<div class="line"><span class="lineno">  289</span>        }</div>
+<div class="line"><span class="lineno">  290</span>    }</div>
+<div class="line"><span class="lineno">  291</span>    <span class="keywordflow">return</span> Instances;</div>
+<div class="line"><span class="lineno">  292</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00256">EquipmentList</a>.</p>
+
+</div>
+</div>
+<a id="ab6ceb165fe3aaa50b262a02639b4c37c" name="ab6ceb165fe3aaa50b262a02639b4c37c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ceb165fe3aaa50b262a02639b4c37c">&#9670;&#160;</a></span>GetAllInstancesOfType() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">TArray&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * &gt; UEquipmentSystemComponent::GetAllEquipmentInstancesOfType </td>
+          <td class="memname">TArray&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * &gt; UEquipmentSystemComponent::GetAllInstancesOfType </td>
           <td>(</td>
-          <td class="paramtype">TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>InstanceClass</em></span></td><td>)</td>
+          <td class="paramtype">const TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>InstanceClass</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -303,49 +358,133 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An array of UEquipmentInstances of the specified type. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00143">143</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>{</div>
-<div class="line"><span class="lineno">  145</span>    TArray&lt;UEquipmentInstance*&gt; Results;</div>
-<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">  147</span>    {</div>
-<div class="line"><span class="lineno">  148</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
-<div class="line"><span class="lineno">  149</span>        {</div>
-<div class="line"><span class="lineno">  150</span>            <span class="keywordflow">if</span> (Instance-&gt;IsA(InstanceClass))</div>
-<div class="line"><span class="lineno">  151</span>            {</div>
-<div class="line"><span class="lineno">  152</span>                Results.Add(Instance);</div>
-<div class="line"><span class="lineno">  153</span>            }</div>
-<div class="line"><span class="lineno">  154</span>        }</div>
-<div class="line"><span class="lineno">  155</span>    }</div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> Results;</div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00333">333</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  334</span>{</div>
+<div class="line"><span class="lineno">  335</span>    TArray&lt;UEquipmentInstance*&gt; Results;</div>
+<div class="line"><span class="lineno">  336</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">  337</span>    {</div>
+<div class="line"><span class="lineno">  338</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
+<div class="line"><span class="lineno">  339</span>        {</div>
+<div class="line"><span class="lineno">  340</span>            <span class="keywordflow">if</span> (Instance-&gt;IsA(InstanceClass))</div>
+<div class="line"><span class="lineno">  341</span>            {</div>
+<div class="line"><span class="lineno">  342</span>                Results.Add(Instance);</div>
+<div class="line"><span class="lineno">  343</span>            }</div>
+<div class="line"><span class="lineno">  344</span>        }</div>
+<div class="line"><span class="lineno">  345</span>    }</div>
+<div class="line"><span class="lineno">  346</span>    <span class="keywordflow">return</span> Results;</div>
+<div class="line"><span class="lineno">  347</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00088">EquipmentList</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00256">EquipmentList</a>.</p>
 
 </div>
 </div>
-<a id="ab6a47e569cc3d7f837f9517f583f2675" name="ab6a47e569cc3d7f837f9517f583f2675"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6a47e569cc3d7f837f9517f583f2675">&#9670;&#160;</a></span>GetEquipmentDefinition()</h2>
+<a id="a8b200fd51f3f817e4668c478dfad1f18" name="a8b200fd51f3f817e4668c478dfad1f18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b200fd51f3f817e4668c478dfad1f18">&#9670;&#160;</a></span>GetCachedDefinition()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> * UEquipmentSystemComponent::GetEquipmentDefinition </td>
+          <td class="memname"><a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> * UEquipmentSystemComponent::GetCachedDefinition </td>
           <td>(</td>
           <td class="paramtype">const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>Class</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Retrieves a cached equipment definition </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Class</td><td>The class of equipment definition to retrieve </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The cached equipment definition instance, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00159">159</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  160</span>{</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a>.IsValid())</div>
-<div class="line"><span class="lineno">  162</span>    {</div>
-<div class="line"><span class="lineno">  163</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a>-&gt;GetCachedDefinition(Class);</div>
-<div class="line"><span class="lineno">  164</span>    }</div>
-<div class="line"><span class="lineno">  165</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  166</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00349">349</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  350</span>{</div>
+<div class="line"><span class="lineno">  351</span>    <span class="keywordflow">if</span> (IsValid(<a class="code hl_variable" href="#a1b44f3b95b5b230adc902dc7e37b04c9">Cache</a>))</div>
+<div class="line"><span class="lineno">  352</span>    {</div>
+<div class="line"><span class="lineno">  353</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="#a1b44f3b95b5b230adc902dc7e37b04c9">Cache</a>-&gt;GetCachedDefinition(Class);</div>
+<div class="line"><span class="lineno">  354</span>    }</div>
+<div class="line"><span class="lineno">  355</span>    <span class="keywordflow">if</span> (IsValid(Class))</div>
+<div class="line"><span class="lineno">  356</span>    {</div>
+<div class="line"><span class="lineno">  357</span>        <span class="keywordflow">return</span> NewObject&lt;UEquipmentDefinition&gt;(GetOuter(), Class);</div>
+<div class="line"><span class="lineno">  358</span>    }</div>
+<div class="line"><span class="lineno">  359</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  360</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a1b44f3b95b5b230adc902dc7e37b04c9"><div class="ttname"><a href="#a1b44f3b95b5b230adc902dc7e37b04c9">UEquipmentSystemComponent::Cache</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentCache &gt; Cache</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00260">EquipmentSystemComponent.h:260</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00260">Cache</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00110">TryEquipItem()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00132">TryEquipItemOnSlot()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00188">TrySwapSlots()</a>.</p>
+
+</div>
+</div>
+<a id="a4c9f136b966a2adcb80e01a582884d00" name="a4c9f136b966a2adcb80e01a582884d00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c9f136b966a2adcb80e01a582884d00">&#9670;&#160;</a></span>GetEquipmentInSlot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * UEquipmentSystemComponent::GetEquipmentInSlot </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the equipment instance in a specific slot </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SlotTag</td><td>The slot to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The equipment in the slot, or nullptr if empty </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00296">296</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  297</span>{</div>
+<div class="line"><span class="lineno">  298</span>    <span class="keywordflow">if</span> (SlotMapRuntime.Contains(SlotTag))</div>
+<div class="line"><span class="lineno">  299</span>    {</div>
+<div class="line"><span class="lineno">  300</span>        <span class="keywordflow">return</span> SlotMapRuntime.FindChecked(SlotTag).EquipmentInstance;</div>
+<div class="line"><span class="lineno">  301</span>    }</div>
+<div class="line"><span class="lineno">  302</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  303</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a333d0e17b96149e012ffb991271afaf1" name="a333d0e17b96149e012ffb991271afaf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a333d0e17b96149e012ffb991271afaf1">&#9670;&#160;</a></span>GetEquippedItems()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentSystemComponent::GetEquippedItems </td>
+          <td>(</td>
+          <td class="paramtype">TMap&lt; FGameplayTag, <a class="el" href="class_u_item_instance.html">UItemInstance</a> * &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>OutItems</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets all currently equipped items </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">OutItems</td><td>Map of slot tags to equipped items </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00306">306</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  307</span>{</div>
+<div class="line"><span class="lineno">  308</span>    OutItems.Empty();</div>
+<div class="line"><span class="lineno">  309</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [SlotTag, SlotData] : SlotMapRuntime)</div>
+<div class="line"><span class="lineno">  310</span>    {</div>
+<div class="line"><span class="lineno">  311</span>        <span class="keywordflow">if</span> (SlotData.ItemInstance)</div>
+<div class="line"><span class="lineno">  312</span>        {</div>
+<div class="line"><span class="lineno">  313</span>            OutItems.Add(SlotTag, SlotData.ItemInstance);</div>
+<div class="line"><span class="lineno">  314</span>        }</div>
+<div class="line"><span class="lineno">  315</span>    }</div>
+<div class="line"><span class="lineno">  316</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -369,64 +508,63 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The equipment instance associated with the item, or nullptr if not found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00168">168</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  169</span>{</div>
-<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">for</span> (FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">  171</span>    {</div>
-<div class="line"><span class="lineno">  172</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
-<div class="line"><span class="lineno">  173</span>        {</div>
-<div class="line"><span class="lineno">  174</span>            <span class="keywordflow">if</span> (Instance-&gt;GetSourceItem() == ItemInstance)</div>
-<div class="line"><span class="lineno">  175</span>            {</div>
-<div class="line"><span class="lineno">  176</span>                <span class="keywordflow">return</span> Instance;</div>
-<div class="line"><span class="lineno">  177</span>            }</div>
-<div class="line"><span class="lineno">  178</span>        }</div>
-<div class="line"><span class="lineno">  179</span>    }</div>
-<div class="line"><span class="lineno">  180</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  181</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00362">362</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  363</span>{</div>
+<div class="line"><span class="lineno">  364</span>    <span class="keywordflow">for</span> (FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">  365</span>    {</div>
+<div class="line"><span class="lineno">  366</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
+<div class="line"><span class="lineno">  367</span>        {</div>
+<div class="line"><span class="lineno">  368</span>            <span class="keywordflow">if</span> (Instance-&gt;GetSourceItem() == ItemInstance)</div>
+<div class="line"><span class="lineno">  369</span>            {</div>
+<div class="line"><span class="lineno">  370</span>                <span class="keywordflow">return</span> Instance;</div>
+<div class="line"><span class="lineno">  371</span>            }</div>
+<div class="line"><span class="lineno">  372</span>        }</div>
+<div class="line"><span class="lineno">  373</span>    }</div>
+<div class="line"><span class="lineno">  374</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  375</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00088">EquipmentList</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00256">EquipmentList</a>.</p>
 
 </div>
 </div>
-<a id="ac0440d2d377d5270d71adf77beb4b9ca" name="ac0440d2d377d5270d71adf77beb4b9ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0440d2d377d5270d71adf77beb4b9ca">&#9670;&#160;</a></span>GetInstanceOfType() <span class="overload">[1/2]</span></h2>
+<a id="ac0f3f7d41cc81f6eb6b571fba43c4772" name="ac0f3f7d41cc81f6eb6b571fba43c4772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0f3f7d41cc81f6eb6b571fba43c4772">&#9670;&#160;</a></span>GetInstanceOfType() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">T * UEquipmentSystemComponent::GetInstanceOfType </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<p>Template function to get an instance of a specific equipment type. </p><dl class="section return"><dt>Returns</dt><dd>The first found instance of the specified type. </dd></dl>
+<p>Gets an instance of specified equipment type using templates </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The equipment instance type to find </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The first found instance of type T, or nullptr if none found </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00083">83</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   83</span>{ <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#ac0440d2d377d5270d71adf77beb4b9ca">GetInstanceOfType</a>(T::StaticClass())); }</div>
-<div class="ttc" id="aclass_u_equipment_system_component_html_ac0440d2d377d5270d71adf77beb4b9ca"><div class="ttname"><a href="#ac0440d2d377d5270d71adf77beb4b9ca">UEquipmentSystemComponent::GetInstanceOfType</a></div><div class="ttdeci">T * GetInstanceOfType()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00083">EquipmentSystemComponent.h:83</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00272">272</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  273</span>{</div>
+<div class="line"><span class="lineno">  274</span>    <span class="keywordflow">return</span> Cast&lt;T&gt;(<a class="code hl_function" href="#ac0f3f7d41cc81f6eb6b571fba43c4772">GetInstanceOfType</a>(T::StaticClass()));</div>
+<div class="line"><span class="lineno">  275</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_ac0f3f7d41cc81f6eb6b571fba43c4772"><div class="ttname"><a href="#ac0f3f7d41cc81f6eb6b571fba43c4772">UEquipmentSystemComponent::GetInstanceOfType</a></div><div class="ttdeci">T * GetInstanceOfType() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00272">EquipmentSystemComponent.h:272</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00083">GetInstanceOfType()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8h_source.html#l00083">GetInstanceOfType()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_system_component_8cpp_source.html#l00318">GetInstanceOfType()</a>.</p>
 
 </div>
 </div>
-<a id="a4e1ac5d0e81ae3cc63d66c5a4e560cdd" name="a4e1ac5d0e81ae3cc63d66c5a4e560cdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1ac5d0e81ae3cc63d66c5a4e560cdd">&#9670;&#160;</a></span>GetInstanceOfType() <span class="overload">[2/2]</span></h2>
+<a id="aad246597178e7d595838ed6e6278d24e" name="aad246597178e7d595838ed6e6278d24e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad246597178e7d595838ed6e6278d24e">&#9670;&#160;</a></span>GetInstanceOfType() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -434,7 +572,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * UEquipmentSystemComponent::GetInstanceOfType </td>
           <td>(</td>
-          <td class="paramtype">TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>InstanceClass</em></span></td><td>)</td>
+          <td class="paramtype">const TSubclassOf&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>InstanceClass</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -447,23 +585,58 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The first found <a class="el" href="class_u_equipment_instance.html" title="Represents an instance of equipment that can be equipped by a pawn.">UEquipmentInstance</a> of the specified type. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00128">128</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  129</span>{</div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">for</span> (FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">  131</span>    {</div>
-<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
-<div class="line"><span class="lineno">  133</span>        {</div>
-<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (Instance-&gt;IsA(InstanceClass))</div>
-<div class="line"><span class="lineno">  135</span>            {</div>
-<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">return</span> Instance;</div>
-<div class="line"><span class="lineno">  137</span>            }</div>
-<div class="line"><span class="lineno">  138</span>        }</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
-<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  141</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00318">318</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  319</span>{</div>
+<div class="line"><span class="lineno">  320</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">  321</span>    {</div>
+<div class="line"><span class="lineno">  322</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance)</div>
+<div class="line"><span class="lineno">  323</span>        {</div>
+<div class="line"><span class="lineno">  324</span>            <span class="keywordflow">if</span> (Instance-&gt;IsA(InstanceClass))</div>
+<div class="line"><span class="lineno">  325</span>            {</div>
+<div class="line"><span class="lineno">  326</span>                <span class="keywordflow">return</span> Instance;</div>
+<div class="line"><span class="lineno">  327</span>            }</div>
+<div class="line"><span class="lineno">  328</span>        }</div>
+<div class="line"><span class="lineno">  329</span>    }</div>
+<div class="line"><span class="lineno">  330</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  331</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00088">EquipmentList</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00256">EquipmentList</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8h_source.html#l00272">GetInstanceOfType()</a>.</p>
+
+</div>
+</div>
+<a id="a8283ae50baf27ec308d3a5d8cfa93f9b" name="a8283ae50baf27ec308d3a5d8cfa93f9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8283ae50baf27ec308d3a5d8cfa93f9b">&#9670;&#160;</a></span>GetItemInSlot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_item_instance.html">UItemInstance</a> * UEquipmentSystemComponent::GetItemInSlot </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the item instance equipped in a specific slot </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SlotTag</td><td>The slot to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The item in the slot, or nullptr if empty </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00287">287</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  288</span>{</div>
+<div class="line"><span class="lineno">  289</span>    <span class="keywordflow">if</span> (SlotMapRuntime.Contains(SlotTag))</div>
+<div class="line"><span class="lineno">  290</span>    {</div>
+<div class="line"><span class="lineno">  291</span>        <span class="keywordflow">return</span> SlotMapRuntime.FindChecked(SlotTag).ItemInstance;</div>
+<div class="line"><span class="lineno">  292</span>    }</div>
+<div class="line"><span class="lineno">  293</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  294</span>}</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a424027708d31a283fc579433e19273d3" name="a424027708d31a283fc579433e19273d3"></a>
@@ -489,13 +662,87 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00030">30</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   31</span>{</div>
-<div class="line"><span class="lineno">   32</span>    Super::GetLifetimeReplicatedProps(OutLifetimeProps);</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>    DOREPLIFETIME(ThisClass, <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>);</div>
-<div class="line"><span class="lineno">   35</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00032">32</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>{</div>
+<div class="line"><span class="lineno">   34</span>    Super::GetLifetimeReplicatedProps(OutLifetimeProps);</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   36</span>    DOREPLIFETIME(ThisClass, <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>);</div>
+<div class="line"><span class="lineno">   37</span>}</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ac11f2e289c8b9d11badce14c23f11829" name="ac11f2e289c8b9d11badce14c23f11829"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11f2e289c8b9d11badce14c23f11829">&#9670;&#160;</a></span>GetSlotForItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const FGameplayTag &amp; UEquipmentSystemComponent::GetSlotForItem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the slot tag where an item is currently equipped </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ItemInstance</td><td>The item to find the slot for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The tag of the slot containing the item </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00272">272</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  273</span>{</div>
+<div class="line"><span class="lineno">  274</span>    <span class="keywordflow">if</span> (IsValid(ItemInstance))</div>
+<div class="line"><span class="lineno">  275</span>    {</div>
+<div class="line"><span class="lineno">  276</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [SlotTag, SlotData] : SlotMapRuntime)</div>
+<div class="line"><span class="lineno">  277</span>        {</div>
+<div class="line"><span class="lineno">  278</span>            <span class="keywordflow">if</span> (SlotData.ItemInstance == ItemInstance)</div>
+<div class="line"><span class="lineno">  279</span>            {</div>
+<div class="line"><span class="lineno">  280</span>                <span class="keywordflow">return</span> SlotTag;</div>
+<div class="line"><span class="lineno">  281</span>            }</div>
+<div class="line"><span class="lineno">  282</span>        }</div>
+<div class="line"><span class="lineno">  283</span>    }</div>
+<div class="line"><span class="lineno">  284</span>    <span class="keywordflow">return</span> FGameplayTag::EmptyTag;</div>
+<div class="line"><span class="lineno">  285</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00165">TryUnequipItem()</a>.</p>
+
+</div>
+</div>
+<a id="a832458a77db83d00aa3929b777b35415" name="a832458a77db83d00aa3929b777b35415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a832458a77db83d00aa3929b777b35415">&#9670;&#160;</a></span>GetSlotMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TMap&lt; FGameplayTag, <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a> &gt; UEquipmentSystemComponent::GetSlotMap </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the current runtime slot map </p><dl class="section return"><dt>Returns</dt><dd>Map of all equipment slots </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00125">125</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>{ <span class="keywordflow">return</span> SlotMapRuntime; }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00125">GetSlotMap()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8h_source.html#l00125">GetSlotMap()</a>.</p>
+
 </div>
 </div>
 <a id="aed55c3763316fbce9cc3b35e002848d3" name="aed55c3763316fbce9cc3b35e002848d3"></a>
@@ -521,14 +768,488 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00069">69</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>{</div>
-<div class="line"><span class="lineno">   71</span>    Super::InitializeComponent();</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="comment">// Cache initialization</span></div>
-<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="#a25a71ff4cf50261a31d0bb4a5c2269a5">Cache</a> = NewObject&lt;UEquipmentCache&gt;(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   75</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00071">71</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>{</div>
+<div class="line"><span class="lineno">   73</span>    Super::InitializeComponent();</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <span class="comment">// Cache initialization</span></div>
+<div class="line"><span class="lineno">   76</span>    <a class="code hl_variable" href="#a1b44f3b95b5b230adc902dc7e37b04c9">Cache</a> = NewObject&lt;UEquipmentCache&gt;(<span class="keyword">this</span>, <span class="stringliteral">&quot;Cache&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">if</span> (IsValid(SlotMapData))</div>
+<div class="line"><span class="lineno">   79</span>    {</div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> FSlotDefinition&amp; Def : SlotMapData-&gt;Slots)</div>
+<div class="line"><span class="lineno">   81</span>        {</div>
+<div class="line"><span class="lineno">   82</span>            <span class="keywordflow">if</span> (Def.SlotTag.IsValid())</div>
+<div class="line"><span class="lineno">   83</span>            {</div>
+<div class="line"><span class="lineno">   84</span>                SlotMapRuntime.Add(Def.SlotTag, FDynamicEquipmentSlot{});</div>
+<div class="line"><span class="lineno">   85</span>            }</div>
+<div class="line"><span class="lineno">   86</span>        }</div>
+<div class="line"><span class="lineno">   87</span>    }</div>
+<div class="line"><span class="lineno">   88</span>}</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a96611e01d03e99965a7a374570bebb0f" name="a96611e01d03e99965a7a374570bebb0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96611e01d03e99965a7a374570bebb0f">&#9670;&#160;</a></span>Internal_EquipOnSlot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a> UEquipmentSystemComponent::Internal_EquipOnSlot </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *</td>          <td class="paramname"><span class="paramname"><em>Definition</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00530">530</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  531</span>{</div>
+<div class="line"><span class="lineno">  532</span>    SCOPE_CYCLE_COUNTER(STAT_Equipment_EquipOnSlot);</div>
+<div class="line"><span class="lineno">  533</span> </div>
+<div class="line"><span class="lineno">  534</span>    <span class="comment">// Create a new equipment instance and add it to our list</span></div>
+<div class="line"><span class="lineno">  535</span>    FEquipmentResult Result = <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Add(Definition-&gt;GetClass(), ItemInstance);</div>
+<div class="line"><span class="lineno">  536</span>    <span class="keywordflow">if</span> (!Result.Succeeded())</div>
+<div class="line"><span class="lineno">  537</span>    {</div>
+<div class="line"><span class="lineno">  538</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  539</span>    }</div>
+<div class="line"><span class="lineno">  540</span> </div>
+<div class="line"><span class="lineno">  541</span>    <span class="comment">// Notify the instance it has been equipped</span></div>
+<div class="line"><span class="lineno">  542</span>    Result.Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a4e1c1d7646bf91f96455facdc283642f">OnEquipped</a>();</div>
+<div class="line"><span class="lineno">  543</span> </div>
+<div class="line"><span class="lineno">  544</span>    <span class="comment">// Setup replication if needed</span></div>
+<div class="line"><span class="lineno">  545</span>    <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList() &amp;&amp; IsReadyForReplication())</div>
+<div class="line"><span class="lineno">  546</span>    {</div>
+<div class="line"><span class="lineno">  547</span>        AddReplicatedSubObject(Result.Instance);</div>
+<div class="line"><span class="lineno">  548</span>    }</div>
+<div class="line"><span class="lineno">  549</span> </div>
+<div class="line"><span class="lineno">  550</span>    <span class="comment">// Update the runtime slot with the new equipment</span></div>
+<div class="line"><span class="lineno">  551</span>    FDynamicEquipmentSlot&amp; RuntimeSlot = SlotMapRuntime.FindChecked(SlotTag);</div>
+<div class="line"><span class="lineno">  552</span>    RuntimeSlot.SlotTag = SlotTag;</div>
+<div class="line"><span class="lineno">  553</span>    RuntimeSlot.ItemInstance = ItemInstance;</div>
+<div class="line"><span class="lineno">  554</span>    RuntimeSlot.EquipmentInstance = Result.Instance;</div>
+<div class="line"><span class="lineno">  555</span> </div>
+<div class="line"><span class="lineno">  556</span>    <span class="comment">// Apply any slot blocking from the equipment policy</span></div>
+<div class="line"><span class="lineno">  557</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> USlotPolicy* Policy = Definition-&gt;SlotPolicy)</div>
+<div class="line"><span class="lineno">  558</span>    {</div>
+<div class="line"><span class="lineno">  559</span>        <a class="code hl_function" href="#a7c52d291bb777381208dcf6a4d73769a">LockSlots</a>(Policy-&gt;GetBlockedSlotTags());</div>
+<div class="line"><span class="lineno">  560</span>    }</div>
+<div class="line"><span class="lineno">  561</span> </div>
+<div class="line"><span class="lineno">  562</span>    <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  563</span>}</div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a4e1c1d7646bf91f96455facdc283642f"><div class="ttname"><a href="class_u_equipment_instance.html#a4e1c1d7646bf91f96455facdc283642f">UEquipmentInstance::OnEquipped</a></div><div class="ttdeci">virtual void OnEquipped()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00169">EquipmentInstance.cpp:169</a></div></div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a7c52d291bb777381208dcf6a4d73769a"><div class="ttname"><a href="#a7c52d291bb777381208dcf6a4d73769a">UEquipmentSystemComponent::LockSlots</a></div><div class="ttdeci">void LockSlots(const FGameplayTagContainer &amp;Tags)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00392">EquipmentSystemComponent.cpp:392</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a0322ea2857030269ca9e7ff671b8e1ed" name="a0322ea2857030269ca9e7ff671b8e1ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0322ea2857030269ca9e7ff671b8e1ed">&#9670;&#160;</a></span>Internal_ProcessEquip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a> UEquipmentSystemComponent::Internal_ProcessEquip </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>TargetSlot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> *</td>          <td class="paramname"><span class="paramname"><em>Definition</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00402">402</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  403</span>{</div>
+<div class="line"><span class="lineno">  404</span>    SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessEquip);</div>
+<div class="line"><span class="lineno">  405</span> </div>
+<div class="line"><span class="lineno">  406</span>    FEquipmentResult Result;</div>
+<div class="line"><span class="lineno">  407</span>    <span class="comment">// Validate input parameters</span></div>
+<div class="line"><span class="lineno">  408</span>    <span class="keywordflow">if</span> (!IsValid(ItemInstance))</div>
+<div class="line"><span class="lineno">  409</span>    {</div>
+<div class="line"><span class="lineno">  410</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process equipment of a null item instance.&quot;</span>));</div>
+<div class="line"><span class="lineno">  411</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;</div>
+<div class="line"><span class="lineno">  412</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  413</span>    }</div>
+<div class="line"><span class="lineno">  414</span> </div>
+<div class="line"><span class="lineno">  415</span>    <span class="keywordflow">if</span> (!IsValid(Definition))</div>
+<div class="line"><span class="lineno">  416</span>    {</div>
+<div class="line"><span class="lineno">  417</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process equipment of %s with a null equipment definition.&quot;</span>), *GetNameSafe(ItemInstance));</div>
+<div class="line"><span class="lineno">  418</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;</div>
+<div class="line"><span class="lineno">  419</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  420</span>    }</div>
+<div class="line"><span class="lineno">  421</span> </div>
+<div class="line"><span class="lineno">  422</span>    <span class="comment">// Validate slot exists in our equipment system</span></div>
+<div class="line"><span class="lineno">  423</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="#a9c6cc15c8c1db36a6f931867e2c93a65">FindSlot</a>(TargetSlot))</div>
+<div class="line"><span class="lineno">  424</span>    {</div>
+<div class="line"><span class="lineno">  425</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process equipment of %s as %s but did not found slot %s in the slot map.&quot;</span>), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());</div>
+<div class="line"><span class="lineno">  426</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;</div>
+<div class="line"><span class="lineno">  427</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  428</span>    }</div>
+<div class="line"><span class="lineno">  429</span> </div>
+<div class="line"><span class="lineno">  430</span>    <span class="comment">// Check if slot is currently blocked by another item</span></div>
+<div class="line"><span class="lineno">  431</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="#aad881cd870e342f1901eeafbaa985fb5">IsSlotBlocked</a>(TargetSlot, <span class="keyword">true</span>))</div>
+<div class="line"><span class="lineno">  432</span>    {</div>
+<div class="line"><span class="lineno">  433</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process equipment of %s as %s on slot %s but the slot is blocked.&quot;</span>), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());</div>
+<div class="line"><span class="lineno">  434</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotBlocked;</div>
+<div class="line"><span class="lineno">  435</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  436</span>    }</div>
+<div class="line"><span class="lineno">  437</span> </div>
+<div class="line"><span class="lineno">  438</span>    <span class="comment">// Check if the slot policy allows this equipment</span></div>
+<div class="line"><span class="lineno">  439</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> USlotPolicy* Policy = Definition-&gt;SlotPolicy)</div>
+<div class="line"><span class="lineno">  440</span>    {</div>
+<div class="line"><span class="lineno">  441</span>        <span class="keywordflow">if</span> (!Policy-&gt;CanEquipItem(ItemInstance, TargetSlot, <span class="keyword">this</span>))</div>
+<div class="line"><span class="lineno">  442</span>        {</div>
+<div class="line"><span class="lineno">  443</span>            Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_PolicyRefused;</div>
+<div class="line"><span class="lineno">  444</span>            <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  445</span>        }</div>
+<div class="line"><span class="lineno">  446</span>    }</div>
+<div class="line"><span class="lineno">  447</span> </div>
+<div class="line"><span class="lineno">  448</span>    <span class="comment">// Perform the actual equipment operation</span></div>
+<div class="line"><span class="lineno">  449</span>    Result = Internal_EquipOnSlot(TargetSlot, ItemInstance, Definition);</div>
+<div class="line"><span class="lineno">  450</span>    <span class="keywordflow">if</span> (!Result.Succeeded())</div>
+<div class="line"><span class="lineno">  451</span>    {</div>
+<div class="line"><span class="lineno">  452</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process equipment of %s as %s on slot %s but failed to instantiate the equipment.&quot;</span>), *GetNameSafe(ItemInstance), *GetNameSafe(Definition), *TargetSlot.ToString());</div>
+<div class="line"><span class="lineno">  453</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;</div>
+<div class="line"><span class="lineno">  454</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  455</span>    }</div>
+<div class="line"><span class="lineno">  456</span>    </div>
+<div class="line"><span class="lineno">  457</span>    <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  458</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a9c6cc15c8c1db36a6f931867e2c93a65"><div class="ttname"><a href="#a9c6cc15c8c1db36a6f931867e2c93a65">UEquipmentSystemComponent::FindSlot</a></div><div class="ttdeci">const FDynamicEquipmentSlot * FindSlot(const FGameplayTag &amp;SlotTag) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00267">EquipmentSystemComponent.cpp:267</a></div></div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_aad881cd870e342f1901eeafbaa985fb5"><div class="ttname"><a href="#aad881cd870e342f1901eeafbaa985fb5">UEquipmentSystemComponent::IsSlotBlocked</a></div><div class="ttdeci">bool IsSlotBlocked(const FGameplayTag &amp;SlotTag, bool bExact=false) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00258">EquipmentSystemComponent.cpp:258</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="add4bbcc8d12f79a5e359dfb8e0f3365c" name="add4bbcc8d12f79a5e359dfb8e0f3365c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add4bbcc8d12f79a5e359dfb8e0f3365c">&#9670;&#160;</a></span>Internal_ProcessUnequip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UEquipmentSystemComponent::Internal_ProcessUnequip </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bPreserveItem</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00460">460</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  461</span>{</div>
+<div class="line"><span class="lineno">  462</span>    SCOPE_CYCLE_COUNTER(STAT_Equipment_ProcessUnequip);</div>
+<div class="line"><span class="lineno">  463</span> </div>
+<div class="line"><span class="lineno">  464</span>    <span class="comment">// Validate that the slot exists in our runtime map</span></div>
+<div class="line"><span class="lineno">  465</span>    <span class="keywordflow">if</span> (!SlotMapRuntime.Contains(SlotTag))</div>
+<div class="line"><span class="lineno">  466</span>    {</div>
+<div class="line"><span class="lineno">  467</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process un-equipment but did not found slot %s in the slot map.&quot;</span>), *SlotTag.ToString());</div>
+<div class="line"><span class="lineno">  468</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;</div>
+<div class="line"><span class="lineno">  469</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  470</span>    }</div>
+<div class="line"><span class="lineno">  471</span> </div>
+<div class="line"><span class="lineno">  472</span>    <span class="keyword">auto</span>&amp; SlotData = SlotMapRuntime.FindChecked(SlotTag);</div>
+<div class="line"><span class="lineno">  473</span> </div>
+<div class="line"><span class="lineno">  474</span>    <span class="comment">// Check if there&#39;s actually something equipped in this slot</span></div>
+<div class="line"><span class="lineno">  475</span>    <span class="keywordflow">if</span> (!IsValid(SlotData.ItemInstance) || !IsValid(SlotData.EquipmentInstance))</div>
+<div class="line"><span class="lineno">  476</span>    {</div>
+<div class="line"><span class="lineno">  477</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process un-equipment but the slot %s is empty.&quot;</span>), *SlotTag.ToString());</div>
+<div class="line"><span class="lineno">  478</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotEmpty;</div>
+<div class="line"><span class="lineno">  479</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  480</span>    }</div>
+<div class="line"><span class="lineno">  481</span> </div>
+<div class="line"><span class="lineno">  482</span>    <span class="comment">// Validate that the item has the required equippable fragment</span></div>
+<div class="line"><span class="lineno">  483</span>    <span class="keyword">const</span> UItemFragment_Equippable* Frag = SlotData.ItemInstance-&gt;FindFragmentByClass&lt;UItemFragment_Equippable&gt;();</div>
+<div class="line"><span class="lineno">  484</span>    <span class="keywordflow">if</span> (!Frag || !Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>)</div>
+<div class="line"><span class="lineno">  485</span>    {</div>
+<div class="line"><span class="lineno">  486</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process un-equipment on the slot %s but did found a non-equipable item.&quot;</span>), *SlotTag.ToString());</div>
+<div class="line"><span class="lineno">  487</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;</div>
+<div class="line"><span class="lineno">  488</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  489</span>    }</div>
+<div class="line"><span class="lineno">  490</span> </div>
+<div class="line"><span class="lineno">  491</span>    <span class="comment">// Get and validate the equipment definition</span></div>
+<div class="line"><span class="lineno">  492</span>    <span class="keyword">const</span> UEquipmentDefinition* Def = <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>);</div>
+<div class="line"><span class="lineno">  493</span>    <span class="keywordflow">if</span> (!IsValid(Def))</div>
+<div class="line"><span class="lineno">  494</span>    {</div>
+<div class="line"><span class="lineno">  495</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to process un-equipment on the slot %s but impossible to get the equipment definition.&quot;</span>), *SlotTag.ToString());</div>
+<div class="line"><span class="lineno">  496</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;</div>
+<div class="line"><span class="lineno">  497</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  498</span>    }</div>
+<div class="line"><span class="lineno">  499</span> </div>
+<div class="line"><span class="lineno">  500</span>    <span class="comment">// Remove any slot blocking applied by this equipment&#39;s policy</span></div>
+<div class="line"><span class="lineno">  501</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> USlotPolicy* Policy = Def-&gt;SlotPolicy)</div>
+<div class="line"><span class="lineno">  502</span>    {</div>
+<div class="line"><span class="lineno">  503</span>        <a class="code hl_function" href="#a7e5b3b40e88eaa7151643edd43b8402c">UnlockSlots</a>(Policy-&gt;GetBlockedSlotTags());</div>
+<div class="line"><span class="lineno">  504</span>    }</div>
+<div class="line"><span class="lineno">  505</span> </div>
+<div class="line"><span class="lineno">  506</span>    <span class="comment">// Store the instance before clearing slot data</span></div>
+<div class="line"><span class="lineno">  507</span>    UEquipmentInstance* Instance = SlotData.EquipmentInstance;</div>
+<div class="line"><span class="lineno">  508</span>    <span class="keywordflow">if</span> (!bPreserveItem)</div>
+<div class="line"><span class="lineno">  509</span>    {</div>
+<div class="line"><span class="lineno">  510</span>        SlotData.ItemInstance = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  511</span>    }</div>
+<div class="line"><span class="lineno">  512</span>    SlotData.EquipmentInstance = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  513</span> </div>
+<div class="line"><span class="lineno">  514</span>    <span class="comment">// Clean up the equipment instance</span></div>
+<div class="line"><span class="lineno">  515</span>    <span class="keywordflow">if</span> (IsValid(Instance))</div>
+<div class="line"><span class="lineno">  516</span>    {</div>
+<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList())</div>
+<div class="line"><span class="lineno">  518</span>        {</div>
+<div class="line"><span class="lineno">  519</span>            RemoveReplicatedSubObject(Instance);</div>
+<div class="line"><span class="lineno">  520</span>        }</div>
+<div class="line"><span class="lineno">  521</span>        Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a5b755a82426e88485a748a81ef946853">OnUnequipped</a>();</div>
+<div class="line"><span class="lineno">  522</span>        <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Remove(Instance, OutFailureReason);</div>
+<div class="line"><span class="lineno">  523</span>    }</div>
+<div class="line"><span class="lineno">  524</span> </div>
+<div class="line"><span class="lineno">  525</span>    OutFailureReason = FGameplayTag::EmptyTag;</div>
+<div class="line"><span class="lineno">  526</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  527</span>}</div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a5b755a82426e88485a748a81ef946853"><div class="ttname"><a href="class_u_equipment_instance.html#a5b755a82426e88485a748a81ef946853">UEquipmentInstance::OnUnequipped</a></div><div class="ttdeci">virtual void OnUnequipped()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00174">EquipmentInstance.cpp:174</a></div></div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a7e5b3b40e88eaa7151643edd43b8402c"><div class="ttname"><a href="#a7e5b3b40e88eaa7151643edd43b8402c">UEquipmentSystemComponent::UnlockSlots</a></div><div class="ttdeci">void UnlockSlots(const FGameplayTagContainer &amp;Tags)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00397">EquipmentSystemComponent.cpp:397</a></div></div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a8b200fd51f3f817e4668c478dfad1f18"><div class="ttname"><a href="#a8b200fd51f3f817e4668c478dfad1f18">UEquipmentSystemComponent::GetCachedDefinition</a></div><div class="ttdeci">UEquipmentDefinition * GetCachedDefinition(const TSubclassOf&lt; UEquipmentDefinition &gt; &amp;Class) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00349">EquipmentSystemComponent.cpp:349</a></div></div>
+<div class="ttc" id="aclass_u_item_fragment___equippable_html_adc6080e8291e3edab94cf0bdf40a0422"><div class="ttname"><a href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">UItemFragment_Equippable::EquipmentDefinition</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentDefinition &gt; EquipmentDefinition</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment___equippable_8h_source.html#l00031">ItemFragment_Equippable.h:31</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aad881cd870e342f1901eeafbaa985fb5" name="aad881cd870e342f1901eeafbaa985fb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad881cd870e342f1901eeafbaa985fb5">&#9670;&#160;</a></span>IsSlotBlocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UEquipmentSystemComponent::IsSlotBlocked </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bExact</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks if a slot is currently blocked from equipment changes </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SlotTag</td><td>The slot to check </td></tr>
+    <tr><td class="paramname">bExact</td><td>If true, only checks for exact tag match </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the slot is blocked </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00258">258</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  259</span>{</div>
+<div class="line"><span class="lineno">  260</span>    <span class="keywordflow">if</span> (bExact)</div>
+<div class="line"><span class="lineno">  261</span>    {</div>
+<div class="line"><span class="lineno">  262</span>        <span class="keywordflow">return</span> BlockedSlots.GetTagCount(SlotTag) &gt; 0;</div>
+<div class="line"><span class="lineno">  263</span>    }</div>
+<div class="line"><span class="lineno">  264</span>    <span class="keywordflow">return</span> BlockedSlots.HasMatchingGameplayTag(SlotTag);</div>
+<div class="line"><span class="lineno">  265</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7c52d291bb777381208dcf6a4d73769a" name="a7c52d291bb777381208dcf6a4d73769a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c52d291bb777381208dcf6a4d73769a">&#9670;&#160;</a></span>LockSlots()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentSystemComponent::LockSlots </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTagContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>Tags</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Locks specified equipment slots from being modified </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Tags</td><td>Container of slot tags to lock </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00392">392</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  393</span>{</div>
+<div class="line"><span class="lineno">  394</span>    BlockedSlots.UpdateTagCount(Tags, 1);</div>
+<div class="line"><span class="lineno">  395</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1d7e6f62f7dd29c529c2e75dfe6e046a" name="a1d7e6f62f7dd29c529c2e75dfe6e046a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d7e6f62f7dd29c529c2e75dfe6e046a">&#9670;&#160;</a></span>PostEquipmentChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentSystemComponent::PostEquipmentChanged </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called after any equipment change occurs </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Data</td><td>The equipment change data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00387">387</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  388</span>{</div>
+<div class="line"><span class="lineno">  389</span>    <a class="code hl_variable" href="#a86c0a0a45c72c40ce0391cc007d07386">OnEquipmentChanged</a>.Broadcast(Data);</div>
+<div class="line"><span class="lineno">  390</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a86c0a0a45c72c40ce0391cc007d07386"><div class="ttname"><a href="#a86c0a0a45c72c40ce0391cc007d07386">UEquipmentSystemComponent::OnEquipmentChanged</a></div><div class="ttdeci">FOnEquipmentChange OnEquipmentChanged</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00245">EquipmentSystemComponent.h:245</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00245">OnEquipmentChanged</a>.</p>
+
+</div>
+</div>
+<a id="ad515b77af1ba0e2fdd81c0114eca5fb1" name="ad515b77af1ba0e2fdd81c0114eca5fb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad515b77af1ba0e2fdd81c0114eca5fb1">&#9670;&#160;</a></span>PostEquipmentEquipped()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentSystemComponent::PostEquipmentEquipped </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called after equipment is successfully equipped </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Data</td><td>The equipment change data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00377">377</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  378</span>{</div>
+<div class="line"><span class="lineno">  379</span>    <a class="code hl_variable" href="#a67d2c10528b79ad5ebac641cd54464d1">OnEquipmentEquipped</a>.Broadcast(Data);</div>
+<div class="line"><span class="lineno">  380</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a67d2c10528b79ad5ebac641cd54464d1"><div class="ttname"><a href="#a67d2c10528b79ad5ebac641cd54464d1">UEquipmentSystemComponent::OnEquipmentEquipped</a></div><div class="ttdeci">FOnEquipmentChange OnEquipmentEquipped</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00248">EquipmentSystemComponent.h:248</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00248">OnEquipmentEquipped</a>.</p>
+
+</div>
+</div>
+<a id="adfc1fceb0a20cfe80d5d00aa3c793103" name="adfc1fceb0a20cfe80d5d00aa3c793103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfc1fceb0a20cfe80d5d00aa3c793103">&#9670;&#160;</a></span>PostEquipmentUnequipped()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentSystemComponent::PostEquipmentUnequipped </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_change_data.html">FEquipmentChangeData</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called after equipment is successfully unequipped </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Data</td><td>The equipment change data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00382">382</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  383</span>{</div>
+<div class="line"><span class="lineno">  384</span>    <a class="code hl_variable" href="#a163a2e7d43961222552315aaaf2b1a6f">OnEquipmentUnequipped</a>.Broadcast(Data);</div>
+<div class="line"><span class="lineno">  385</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a163a2e7d43961222552315aaaf2b1a6f"><div class="ttname"><a href="#a163a2e7d43961222552315aaaf2b1a6f">UEquipmentSystemComponent::OnEquipmentUnequipped</a></div><div class="ttdeci">FOnEquipmentChange OnEquipmentUnequipped</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8h_source.html#l00251">EquipmentSystemComponent.h:251</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00251">OnEquipmentUnequipped</a>.</p>
+
 </div>
 </div>
 <a id="a7ef6886dc559694869fe8836c277b4ec" name="a7ef6886dc559694869fe8836c277b4ec"></a>
@@ -554,22 +1275,22 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00052">52</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>{</div>
-<div class="line"><span class="lineno">   54</span>    Super::ReadyForReplication();</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>    <span class="comment">// Register all equipment instances ready for replication with the actor component</span></div>
-<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList())</div>
-<div class="line"><span class="lineno">   58</span>    {</div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">   60</span>        {</div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))</div>
-<div class="line"><span class="lineno">   62</span>            {</div>
-<div class="line"><span class="lineno">   63</span>                AddReplicatedSubObject(Instance);</div>
-<div class="line"><span class="lineno">   64</span>            }</div>
-<div class="line"><span class="lineno">   65</span>        }</div>
-<div class="line"><span class="lineno">   66</span>    }</div>
-<div class="line"><span class="lineno">   67</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00054">54</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{</div>
+<div class="line"><span class="lineno">   56</span>    Super::ReadyForReplication();</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>    <span class="comment">// Register all equipment instances ready for replication with the actor component</span></div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList())</div>
+<div class="line"><span class="lineno">   60</span>    {</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">   62</span>        {</div>
+<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))</div>
+<div class="line"><span class="lineno">   64</span>            {</div>
+<div class="line"><span class="lineno">   65</span>                AddReplicatedSubObject(Instance);</div>
+<div class="line"><span class="lineno">   66</span>            }</div>
+<div class="line"><span class="lineno">   67</span>        }</div>
+<div class="line"><span class="lineno">   68</span>    }</div>
+<div class="line"><span class="lineno">   69</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -605,60 +1326,330 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00037">37</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>{</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordtype">bool</span> bReplicated = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">for</span> (FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">   42</span>    {</div>
-<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))</div>
-<div class="line"><span class="lineno">   44</span>        {</div>
-<div class="line"><span class="lineno">   45</span>            bReplicated |= Channel-&gt;ReplicateSubobject(Instance, *Bunch, *RepFlags);</div>
-<div class="line"><span class="lineno">   46</span>        }</div>
-<div class="line"><span class="lineno">   47</span>    }</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> bReplicated;</div>
-<div class="line"><span class="lineno">   50</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00039">39</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>{</div>
+<div class="line"><span class="lineno">   41</span>    <span class="keywordtype">bool</span> bReplicated = Super::ReplicateSubobjects(Channel, Bunch, RepFlags);</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">for</span> (FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
+<div class="line"><span class="lineno">   44</span>    {</div>
+<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">if</span> (UEquipmentInstance* Instance = Entry.Instance; IsValid(Instance))</div>
+<div class="line"><span class="lineno">   46</span>        {</div>
+<div class="line"><span class="lineno">   47</span>            bReplicated |= Channel-&gt;ReplicateSubobject(Instance, *Bunch, *RepFlags);</div>
+<div class="line"><span class="lineno">   48</span>        }</div>
+<div class="line"><span class="lineno">   49</span>    }</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">return</span> bReplicated;</div>
+<div class="line"><span class="lineno">   52</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a209cf026d1807c9175f1ac774b14af10" name="a209cf026d1807c9175f1ac774b14af10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a209cf026d1807c9175f1ac774b14af10">&#9670;&#160;</a></span>UnequipItem()</h2>
+<a id="a6c76504545bda90a4bf201fdb1dc2d71" name="a6c76504545bda90a4bf201fdb1dc2d71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c76504545bda90a4bf201fdb1dc2d71">&#9670;&#160;</a></span>TryEquipItem()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void UEquipmentSystemComponent::UnequipItem </td>
+          <td class="memname"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a> UEquipmentSystemComponent::TryEquipItem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Unequips the specified item instance. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Attempts to equip an item in the first available slot </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ItemInstance</td><td>The equipment instance to unequip. </td></tr>
+    <tr><td class="paramname">ItemInstance</td><td>The item to equip </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the item was successfully equipped </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00114">114</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  115</span>{</div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">if</span> (IsValid(ItemInstance))</div>
-<div class="line"><span class="lineno">  117</span>    {</div>
-<div class="line"><span class="lineno">  118</span>        <span class="keywordflow">if</span> (IsUsingRegisteredSubObjectList())</div>
-<div class="line"><span class="lineno">  119</span>        {</div>
-<div class="line"><span class="lineno">  120</span>            RemoveReplicatedSubObject(ItemInstance);</div>
-<div class="line"><span class="lineno">  121</span>        }</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>        ItemInstance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a5b755a82426e88485a748a81ef946853">OnUnequipped</a>();</div>
-<div class="line"><span class="lineno">  124</span>        <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Remove(ItemInstance);</div>
-<div class="line"><span class="lineno">  125</span>    }</div>
-<div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a5b755a82426e88485a748a81ef946853"><div class="ttname"><a href="class_u_equipment_instance.html#a5b755a82426e88485a748a81ef946853">UEquipmentInstance::OnUnequipped</a></div><div class="ttdeci">virtual void OnUnequipped()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00171">EquipmentInstance.cpp:171</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00110">110</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>{</div>
+<div class="line"><span class="lineno">  112</span>    FEquipmentResult Result;</div>
+<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">if</span> (!IsValid(ItemInstance))</div>
+<div class="line"><span class="lineno">  114</span>    {</div>
+<div class="line"><span class="lineno">  115</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;</div>
+<div class="line"><span class="lineno">  116</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  117</span>    }</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    <span class="keyword">const</span> UItemFragment_Equippable* Frag = ItemInstance-&gt;<a class="code hl_function" href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">FindFragmentByClass</a>&lt;UItemFragment_Equippable&gt;();</div>
+<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">if</span> (!Frag || !Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>)</div>
+<div class="line"><span class="lineno">  121</span>    {</div>
+<div class="line"><span class="lineno">  122</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  124</span>    }</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    <span class="keyword">const</span> UEquipmentDefinition* Definition = <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>);</div>
+<div class="line"><span class="lineno">  127</span>    <span class="keyword">const</span> FGameplayTag SlotTag = Definition-&gt;SlotTag;</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#a7ffb44cbd1a64185f083405412b3879b">TryEquipItemOnSlot</a>(ItemInstance, Definition-&gt;SlotTag);</div>
+<div class="line"><span class="lineno">  130</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_a7ffb44cbd1a64185f083405412b3879b"><div class="ttname"><a href="#a7ffb44cbd1a64185f083405412b3879b">UEquipmentSystemComponent::TryEquipItemOnSlot</a></div><div class="ttdeci">FEquipmentResult TryEquipItemOnSlot(UItemInstance *ItemInstance, const FGameplayTag &amp;SlotTag)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00132">EquipmentSystemComponent.cpp:132</a></div></div>
+<div class="ttc" id="aclass_u_item_instance_html_a3741a4de653e322a1005970b08b03e9f"><div class="ttname"><a href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">UItemInstance::FindFragmentByClass</a></div><div class="ttdeci">const UItemFragment * FindFragmentByClass(TSubclassOf&lt; UItemFragment &gt; FragmentClass) const</div><div class="ttdef"><b>Definition</b> <a href="_item_instance_8cpp_source.html#l00051">ItemInstance.cpp:51</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_system_component_8h_source.html#l00088">EquipmentList</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00171">UEquipmentInstance::OnUnequipped()</a>.</p>
+<p class="reference">References <a class="el" href="_item_fragment___equippable_8h_source.html#l00031">UItemFragment_Equippable::EquipmentDefinition</a>, <a class="el" href="_item_instance_8cpp_source.html#l00051">UItemInstance::FindFragmentByClass()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00349">GetCachedDefinition()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00132">TryEquipItemOnSlot()</a>.</p>
+
+</div>
+</div>
+<a id="a7ffb44cbd1a64185f083405412b3879b" name="a7ffb44cbd1a64185f083405412b3879b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ffb44cbd1a64185f083405412b3879b">&#9670;&#160;</a></span>TryEquipItemOnSlot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a> UEquipmentSystemComponent::TryEquipItemOnSlot </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Attempts to equip an item in a specific slot </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ItemInstance</td><td>The item to equip </td></tr>
+    <tr><td class="paramname">SlotTag</td><td>The target slot to equip the item in </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the item was successfully equipped </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00132">132</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>    FEquipmentResult Result;</div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">if</span> (!IsValid(ItemInstance))</div>
+<div class="line"><span class="lineno">  136</span>    {</div>
+<div class="line"><span class="lineno">  137</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;</div>
+<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  139</span>    }</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>    <span class="keyword">const</span> UItemFragment_Equippable* Frag = ItemInstance-&gt;<a class="code hl_function" href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">FindFragmentByClass</a>&lt;UItemFragment_Equippable&gt;();</div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">if</span> (!Frag || !Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>)</div>
+<div class="line"><span class="lineno">  143</span>    {</div>
+<div class="line"><span class="lineno">  144</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;</div>
+<div class="line"><span class="lineno">  145</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  146</span>    }</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>    <span class="keyword">const</span> UEquipmentDefinition* Definition = <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;<a class="code hl_variable" href="class_u_item_fragment___equippable.html#adc6080e8291e3edab94cf0bdf40a0422">EquipmentDefinition</a>);</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="comment">// De-equip the current slot if necessary</span></div>
+<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> FDynamicEquipmentSlot* CurrentSlot = <a class="code hl_function" href="#a9c6cc15c8c1db36a6f931867e2c93a65">FindSlot</a>(SlotTag))</div>
+<div class="line"><span class="lineno">  152</span>    {</div>
+<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">if</span> (IsValid(CurrentSlot-&gt;ItemInstance))</div>
+<div class="line"><span class="lineno">  154</span>        {</div>
+<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">if</span> (!Internal_ProcessUnequip(SlotTag, Result.FailureReason))</div>
+<div class="line"><span class="lineno">  156</span>            {</div>
+<div class="line"><span class="lineno">  157</span>                <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  158</span>            }</div>
+<div class="line"><span class="lineno">  159</span>        }</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>    <span class="keywordflow">return</span> Internal_ProcessEquip(ItemInstance, SlotTag, Definition);</div>
+<div class="line"><span class="lineno">  163</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment___equippable_8h_source.html#l00031">UItemFragment_Equippable::EquipmentDefinition</a>, <a class="el" href="_item_instance_8cpp_source.html#l00051">UItemInstance::FindFragmentByClass()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00267">FindSlot()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00349">GetCachedDefinition()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00110">TryEquipItem()</a>.</p>
+
+</div>
+</div>
+<a id="af130a97ad7c810c7d6759cc09cd3ecba" name="af130a97ad7c810c7d6759cc09cd3ecba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af130a97ad7c810c7d6759cc09cd3ecba">&#9670;&#160;</a></span>TrySwapSlots()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UEquipmentSystemComponent::TrySwapSlots </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotA</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>SlotB</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Attempts to swap items between two equipment slots </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SlotA</td><td>First slot to swap </td></tr>
+    <tr><td class="paramname">SlotB</td><td>Second slot to swap </td></tr>
+    <tr><td class="paramname">OutFailureReason</td><td>Contains the reason if the operation fails </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the slots were successfully swapped </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00188">188</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  189</span>{</div>
+<div class="line"><span class="lineno">  190</span>    <span class="comment">// First validate that both slots exist in our runtime map</span></div>
+<div class="line"><span class="lineno">  191</span>    <span class="keywordflow">if</span> (!SlotMapRuntime.Contains(SlotA) || !SlotMapRuntime.Contains(SlotB))</div>
+<div class="line"><span class="lineno">  192</span>    {</div>
+<div class="line"><span class="lineno">  193</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;</div>
+<div class="line"><span class="lineno">  194</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  195</span>    }</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>    <span class="keyword">const</span> FDynamicEquipmentSlot&amp; SlotDataA = SlotMapRuntime.FindChecked(SlotA);</div>
+<div class="line"><span class="lineno">  198</span>    <span class="keyword">const</span> FDynamicEquipmentSlot&amp; SlotDataB = SlotMapRuntime.FindChecked(SlotB);</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>    <span class="comment">// If both slots are empty, no swap is needed</span></div>
+<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">if</span> (!IsValid(SlotDataA.ItemInstance) &amp;&amp; !IsValid(SlotDataB.ItemInstance))</div>
+<div class="line"><span class="lineno">  202</span>    {</div>
+<div class="line"><span class="lineno">  203</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  204</span>    }</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>    <span class="comment">// Store slot A contents before we start moving things around</span></div>
+<div class="line"><span class="lineno">  207</span>    UItemInstance* TempItemA = SlotDataA.ItemInstance;</div>
+<div class="line"><span class="lineno">  208</span>    UEquipmentInstance* TempEquipA = SlotDataA.EquipmentInstance;</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>    <span class="comment">// First phase: Unequip both slots while preserving the item references</span></div>
+<div class="line"><span class="lineno">  211</span>    <span class="keywordflow">if</span> (IsValid(SlotDataA.ItemInstance))</div>
+<div class="line"><span class="lineno">  212</span>    {</div>
+<div class="line"><span class="lineno">  213</span>        <span class="keywordflow">if</span> (!Internal_ProcessUnequip(SlotA, OutFailureReason, <span class="keyword">true</span>))</div>
+<div class="line"><span class="lineno">  214</span>        {</div>
+<div class="line"><span class="lineno">  215</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  216</span>        }</div>
+<div class="line"><span class="lineno">  217</span>    }</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>    <span class="keywordflow">if</span> (IsValid(SlotDataB.ItemInstance))</div>
+<div class="line"><span class="lineno">  220</span>    {</div>
+<div class="line"><span class="lineno">  221</span>        <span class="keywordflow">if</span> (!Internal_ProcessUnequip(SlotB, OutFailureReason, <span class="keyword">true</span>))</div>
+<div class="line"><span class="lineno">  222</span>        {</div>
+<div class="line"><span class="lineno">  223</span>            <span class="comment">// On failure, restore slot A to its original state</span></div>
+<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">if</span> (IsValid(TempItemA))</div>
+<div class="line"><span class="lineno">  225</span>            {</div>
+<div class="line"><span class="lineno">  226</span>                <span class="keywordflow">if</span> (<span class="keyword">const</span> UItemFragment_Equippable* Frag = TempItemA-&gt;<a class="code hl_function" href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">FindFragmentByClass</a>&lt;UItemFragment_Equippable&gt;(); Frag-&gt;EquipmentDefinition)</div>
+<div class="line"><span class="lineno">  227</span>                {</div>
+<div class="line"><span class="lineno">  228</span>                    Internal_ProcessEquip(TempItemA, SlotA, <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;EquipmentDefinition));</div>
+<div class="line"><span class="lineno">  229</span>                }</div>
+<div class="line"><span class="lineno">  230</span>            }</div>
+<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  232</span>        }</div>
+<div class="line"><span class="lineno">  233</span>    }</div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>    <span class="comment">// Second phase: Cross-equip items into their new slots</span></div>
+<div class="line"><span class="lineno">  236</span>    <span class="keywordtype">bool</span> bSuccess = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  237</span>    <span class="keywordflow">if</span> (IsValid(SlotDataB.ItemInstance))</div>
+<div class="line"><span class="lineno">  238</span>    {</div>
+<div class="line"><span class="lineno">  239</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> UItemFragment_Equippable* Frag = SlotDataB.ItemInstance-&gt;FindFragmentByClass&lt;UItemFragment_Equippable&gt;(); Frag-&gt;EquipmentDefinition)</div>
+<div class="line"><span class="lineno">  240</span>        {</div>
+<div class="line"><span class="lineno">  241</span>            <span class="keyword">const</span> FEquipmentResult Result = Internal_ProcessEquip(SlotDataB.ItemInstance, SlotA, <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;EquipmentDefinition));</div>
+<div class="line"><span class="lineno">  242</span>            bSuccess = Result.Succeeded();</div>
+<div class="line"><span class="lineno">  243</span>        }</div>
+<div class="line"><span class="lineno">  244</span>    }</div>
+<div class="line"><span class="lineno">  245</span> </div>
+<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">if</span> (bSuccess &amp;&amp; IsValid(TempItemA))</div>
+<div class="line"><span class="lineno">  247</span>    {</div>
+<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> UItemFragment_Equippable* Frag = TempItemA-&gt;<a class="code hl_function" href="class_u_item_instance.html#a3741a4de653e322a1005970b08b03e9f">FindFragmentByClass</a>&lt;UItemFragment_Equippable&gt;(); Frag-&gt;EquipmentDefinition)</div>
+<div class="line"><span class="lineno">  249</span>        {</div>
+<div class="line"><span class="lineno">  250</span>            <span class="keyword">const</span> FEquipmentResult Result = Internal_ProcessEquip(TempItemA, SlotB, <a class="code hl_function" href="#a8b200fd51f3f817e4668c478dfad1f18">GetCachedDefinition</a>(Frag-&gt;EquipmentDefinition));</div>
+<div class="line"><span class="lineno">  251</span>            bSuccess = Result.Succeeded();</div>
+<div class="line"><span class="lineno">  252</span>        }</div>
+<div class="line"><span class="lineno">  253</span>    }</div>
+<div class="line"><span class="lineno">  254</span> </div>
+<div class="line"><span class="lineno">  255</span>    <span class="keywordflow">return</span> bSuccess;</div>
+<div class="line"><span class="lineno">  256</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_item_fragment___equippable_8h_source.html#l00031">UItemFragment_Equippable::EquipmentDefinition</a>, <a class="el" href="_item_instance_8cpp_source.html#l00051">UItemInstance::FindFragmentByClass()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00349">GetCachedDefinition()</a>.</p>
+
+</div>
+</div>
+<a id="a2b2fb91e19d5d95a3116ed8ebab91655" name="a2b2fb91e19d5d95a3116ed8ebab91655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b2fb91e19d5d95a3116ed8ebab91655">&#9670;&#160;</a></span>TryUnequipItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UEquipmentSystemComponent::TryUnequipItem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>ItemInstance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Attempts to unequip a currently equipped item </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ItemInstance</td><td>The item to unequip </td></tr>
+    <tr><td class="paramname">OutFailureReason</td><td>Contains the reason if the operation fails </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the item was successfully unequipped </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00165">165</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>{</div>
+<div class="line"><span class="lineno">  167</span>    <span class="keywordflow">if</span> (!IsValid(ItemInstance))</div>
+<div class="line"><span class="lineno">  168</span>    {</div>
+<div class="line"><span class="lineno">  169</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NullItem;</div>
+<div class="line"><span class="lineno">  170</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  171</span>    }</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>    <span class="keyword">const</span> FGameplayTag Slot = <a class="code hl_function" href="#ac11f2e289c8b9d11badce14c23f11829">GetSlotForItem</a>(ItemInstance);</div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">if</span> (!Slot.IsValid())</div>
+<div class="line"><span class="lineno">  175</span>    {</div>
+<div class="line"><span class="lineno">  176</span>        OutFailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_SlotNotFound;</div>
+<div class="line"><span class="lineno">  177</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  178</span>    }</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="#ab84b99483850f4605818794944b39772">TryUnequipSlot</a>(Slot, OutFailureReason);</div>
+<div class="line"><span class="lineno">  181</span>}</div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_ab84b99483850f4605818794944b39772"><div class="ttname"><a href="#ab84b99483850f4605818794944b39772">UEquipmentSystemComponent::TryUnequipSlot</a></div><div class="ttdeci">bool TryUnequipSlot(const FGameplayTag SlotTag, FGameplayTag &amp;OutFailureReason)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00183">EquipmentSystemComponent.cpp:183</a></div></div>
+<div class="ttc" id="aclass_u_equipment_system_component_html_ac11f2e289c8b9d11badce14c23f11829"><div class="ttname"><a href="#ac11f2e289c8b9d11badce14c23f11829">UEquipmentSystemComponent::GetSlotForItem</a></div><div class="ttdeci">const FGameplayTag &amp; GetSlotForItem(UItemInstance *ItemInstance)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00272">EquipmentSystemComponent.cpp:272</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_system_component_8cpp_source.html#l00272">GetSlotForItem()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00183">TryUnequipSlot()</a>.</p>
+
+</div>
+</div>
+<a id="ab84b99483850f4605818794944b39772" name="ab84b99483850f4605818794944b39772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab84b99483850f4605818794944b39772">&#9670;&#160;</a></span>TryUnequipSlot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UEquipmentSystemComponent::TryUnequipSlot </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTag</td>          <td class="paramname"><span class="paramname"><em>SlotTag</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Attempts to unequip whatever item is in the specified slot </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">SlotTag</td><td>The slot to unequip </td></tr>
+    <tr><td class="paramname">OutFailureReason</td><td>Contains the reason if the operation fails </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the slot was successfully unequipped </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00183">183</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>{</div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">return</span> Internal_ProcessUnequip(SlotTag, OutFailureReason);</div>
+<div class="line"><span class="lineno">  186</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00165">TryUnequipItem()</a>.</p>
 
 </div>
 </div>
@@ -685,30 +1676,30 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00077">77</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>{</div>
-<div class="line"><span class="lineno">   79</span>    TArray&lt;UEquipmentInstance*&gt; Instances;</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>    <span class="comment">// Gathering all instances before removal to avoid side effects affecting the equipment list iterator</span></div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry : <a class="code hl_variable" href="#a20f4072e21000543f1fb62d3d1687491">EquipmentList</a>.Entries)</div>
-<div class="line"><span class="lineno">   83</span>    {</div>
-<div class="line"><span class="lineno">   84</span>        Instances.Add(Entry.Instance);</div>
-<div class="line"><span class="lineno">   85</span>    }</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">for</span> (UEquipmentInstance* EquipInstance : Instances)</div>
-<div class="line"><span class="lineno">   88</span>    {</div>
-<div class="line"><span class="lineno">   89</span>        <a class="code hl_function" href="#a209cf026d1807c9175f1ac774b14af10">UnequipItem</a>(EquipInstance);</div>
-<div class="line"><span class="lineno">   90</span>    }</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>    Super::UninitializeComponent();</div>
-<div class="line"><span class="lineno">   93</span>}</div>
-<div class="ttc" id="aclass_u_equipment_system_component_html_a209cf026d1807c9175f1ac774b14af10"><div class="ttname"><a href="#a209cf026d1807c9175f1ac774b14af10">UEquipmentSystemComponent::UnequipItem</a></div><div class="ttdeci">void UnequipItem(UEquipmentInstance *ItemInstance)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_system_component_8cpp_source.html#l00114">EquipmentSystemComponent.cpp:114</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00090">90</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>{</div>
+<div class="line"><span class="lineno">   92</span>    TArray&lt;FGameplayTag&gt; SlotsToUnequip;</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; Pair : SlotMapRuntime)</div>
+<div class="line"><span class="lineno">   94</span>    {</div>
+<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">if</span> (IsValid(Pair.Value.ItemInstance))</div>
+<div class="line"><span class="lineno">   96</span>        {</div>
+<div class="line"><span class="lineno">   97</span>            SlotsToUnequip.Add(Pair.Key);</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
+<div class="line"><span class="lineno">   99</span>    }</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>    FGameplayTag FailureReason;</div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FGameplayTag&amp; SlotTag : SlotsToUnequip)</div>
+<div class="line"><span class="lineno">  103</span>    {</div>
+<div class="line"><span class="lineno">  104</span>        <a class="code hl_function" href="#ab84b99483850f4605818794944b39772">TryUnequipSlot</a>(SlotTag, FailureReason);</div>
+<div class="line"><span class="lineno">  105</span>    }</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>    Super::UninitializeComponent();</div>
+<div class="line"><span class="lineno">  108</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a25a71ff4cf50261a31d0bb4a5c2269a5" name="a25a71ff4cf50261a31d0bb4a5c2269a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25a71ff4cf50261a31d0bb4a5c2269a5">&#9670;&#160;</a></span>Cache</h2>
+<a id="a7e5b3b40e88eaa7151643edd43b8402c" name="a7e5b3b40e88eaa7151643edd43b8402c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e5b3b40e88eaa7151643edd43b8402c">&#9670;&#160;</a></span>UnlockSlots()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -717,7 +1708,68 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">TWeakObjectPtr&lt;<a class="el" href="class_u_equipment_cache.html">UEquipmentCache</a>&gt; UEquipmentSystemComponent::Cache</td>
+          <td class="memname">void UEquipmentSystemComponent::UnlockSlots </td>
+          <td>(</td>
+          <td class="paramtype">const FGameplayTagContainer &amp;</td>          <td class="paramname"><span class="paramname"><em>Tags</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Unlocks previously locked equipment slots </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Tags</td><td>Container of slot tags to unlock </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8cpp_source.html#l00397">397</a> of file <a class="el" href="_equipment_system_component_8cpp_source.html">EquipmentSystemComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  398</span>{</div>
+<div class="line"><span class="lineno">  399</span>    BlockedSlots.UpdateTagCount(Tags, -1);</div>
+<div class="line"><span class="lineno">  400</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7aacb7b9db10f52df0995113e4cae2b4" name="a7aacb7b9db10f52df0995113e4cae2b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aacb7b9db10f52df0995113e4cae2b4">&#9670;&#160;</a></span>BlockedSlots</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FGameplayTagCountContainer UEquipmentSystemComponent::BlockedSlots</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00268">268</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="a1b44f3b95b5b230adc902dc7e37b04c9" name="a1b44f3b95b5b230adc902dc7e37b04c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b44f3b95b5b230adc902dc7e37b04c9">&#9670;&#160;</a></span>Cache</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TObjectPtr&lt;<a class="el" href="class_u_equipment_cache.html">UEquipmentCache</a>&gt; UEquipmentSystemComponent::Cache</td>
         </tr>
       </table>
   </td>
@@ -728,7 +1780,9 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>Equipment definitions cache. Not replicated </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00092">92</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00260">260</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00349">GetCachedDefinition()</a>.</p>
 
 </div>
 </div>
@@ -753,9 +1807,114 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 <p>The list of equipped items. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00088">88</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00256">256</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00095">EquipItem()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00143">GetAllEquipmentInstancesOfType()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00168">GetInstanceFromItem()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00128">GetInstanceOfType()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00114">UnequipItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8h_source.html#l00278">GetAllInstancesOfType()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00333">GetAllInstancesOfType()</a>, <a class="el" href="_equipment_system_component_8cpp_source.html#l00362">GetInstanceFromItem()</a>, and <a class="el" href="_equipment_system_component_8cpp_source.html#l00318">GetInstanceOfType()</a>.</p>
+
+</div>
+</div>
+<a id="a86c0a0a45c72c40ce0391cc007d07386" name="a86c0a0a45c72c40ce0391cc007d07386"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c0a0a45c72c40ce0391cc007d07386">&#9670;&#160;</a></span>OnEquipmentChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FOnEquipmentChange UEquipmentSystemComponent::OnEquipmentChanged</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Delegate dispatched when an item is equipped </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00245">245</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00387">PostEquipmentChanged()</a>.</p>
+
+</div>
+</div>
+<a id="a67d2c10528b79ad5ebac641cd54464d1" name="a67d2c10528b79ad5ebac641cd54464d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d2c10528b79ad5ebac641cd54464d1">&#9670;&#160;</a></span>OnEquipmentEquipped</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FOnEquipmentChange UEquipmentSystemComponent::OnEquipmentEquipped</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Broadcasts when equipment is equipped, providing the instance. </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00248">248</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00377">PostEquipmentEquipped()</a>.</p>
+
+</div>
+</div>
+<a id="a163a2e7d43961222552315aaaf2b1a6f" name="a163a2e7d43961222552315aaaf2b1a6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a163a2e7d43961222552315aaaf2b1a6f">&#9670;&#160;</a></span>OnEquipmentUnequipped</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FOnEquipmentChange UEquipmentSystemComponent::OnEquipmentUnequipped</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Broadcasts when equipment is unequipped, providing the instance. </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00251">251</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_system_component_8cpp_source.html#l00382">PostEquipmentUnequipped()</a>.</p>
+
+</div>
+</div>
+<a id="a077749f5ebb10d77bfa99eb13e1fd1f4" name="a077749f5ebb10d77bfa99eb13e1fd1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a077749f5ebb10d77bfa99eb13e1fd1f4">&#9670;&#160;</a></span>SlotMapData</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TObjectPtr&lt;<a class="el" href="class_u_equipment_slot_map_data.html">UEquipmentSlotMapData</a>&gt; UEquipmentSystemComponent::SlotMapData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00263">263</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
+
+</div>
+</div>
+<a id="aa0fe280a1f9a0c55f11a00203f07ca3f" name="aa0fe280a1f9a0c55f11a00203f07ca3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0fe280a1f9a0c55f11a00203f07ca3f">&#9670;&#160;</a></span>SlotMapRuntime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TMap&lt;FGameplayTag, <a class="el" href="struct_f_dynamic_equipment_slot.html">FDynamicEquipmentSlot</a>&gt; UEquipmentSystemComponent::SlotMapRuntime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_component_8h_source.html#l00266">266</a> of file <a class="el" href="_equipment_system_component_8h_source.html">EquipmentSystemComponent.h</a>.</p>
 
 </div>
 </div>

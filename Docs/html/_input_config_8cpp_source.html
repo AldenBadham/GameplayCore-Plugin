@@ -105,7 +105,7 @@ $(function(){initNavTree('_input_config_8cpp_source.html',''); initResizable(tru
   <div class="headertitle"><div class="title">InputConfig.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Input/InputConfig.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Input/InputTagSet.h&quot;</span></div>
@@ -121,7 +121,7 @@ $(function(){initNavTree('_input_config_8cpp_source.html',''); initResizable(tru
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword"></span>{</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [InputAction, InputTag] : InputTagSets)</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">if</span> (InputAction &amp;&amp; (InputTag == Tag))</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">if</span> (InputAction &amp;&amp; InputTag == Tag)</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        {</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <span class="keywordflow">return</span> InputAction;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        }</div>

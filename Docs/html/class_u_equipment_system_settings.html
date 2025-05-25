@@ -125,45 +125,13 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a046f179688a882dabcf8963c93843f3d" id="r_a046f179688a882dabcf8963c93843f3d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_u_equipment_system_settings.html">UEquipmentSystemSettings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a046f179688a882dabcf8963c93843f3d">Get</a> ()</td></tr>
-<tr class="separator:a046f179688a882dabcf8963c93843f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b8037facd76f4d2330fef5895673a39" id="r_a7b8037facd76f4d2330fef5895673a39"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_u_equipment_system_settings.html">UEquipmentSystemSettings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b8037facd76f4d2330fef5895673a39">GetEquipmentSystemSettings</a> ()</td></tr>
+<tr class="separator:a7b8037facd76f4d2330fef5895673a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8h_source.html#l00017">17</a> of file <a class="el" href="_equipment_system_settings_8h_source.html">EquipmentSystemSettings.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8h_source.html#l00015">15</a> of file <a class="el" href="_equipment_system_settings_8h_source.html">EquipmentSystemSettings.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a046f179688a882dabcf8963c93843f3d" name="a046f179688a882dabcf8963c93843f3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a046f179688a882dabcf8963c93843f3d">&#9670;&#160;</a></span>Get()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_u_equipment_system_settings.html">UEquipmentSystemSettings</a> * UEquipmentSystemSettings::Get </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Accessor and initializer </p>
-
-<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8cpp_source.html#l00017">17</a> of file <a class="el" href="_equipment_system_settings_8cpp_source.html">EquipmentSystemSettings.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>{</div>
-<div class="line"><span class="lineno">   19</span>    <span class="comment">// this is singletone. Use default object</span></div>
-<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">return</span> GetMutableDefault&lt;UEquipmentSystemSettings&gt;();</div>
-<div class="line"><span class="lineno">   21</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a id="a4e2411e611e008e0f79fe0d2a86f938e" name="a4e2411e611e008e0f79fe0d2a86f938e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4e2411e611e008e0f79fe0d2a86f938e">&#9670;&#160;</a></span>GetCategoryName()</h2>
 
@@ -187,10 +155,11 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8cpp_source.html#l00012">12</a> of file <a class="el" href="_equipment_system_settings_8cpp_source.html">EquipmentSystemSettings.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>{</div>
-<div class="line"><span class="lineno">   14</span>    <span class="keywordflow">return</span> TEXT(<span class="stringliteral">&quot;Game&quot;</span>);</div>
-<div class="line"><span class="lineno">   15</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8cpp_source.html#l00013">13</a> of file <a class="el" href="_equipment_system_settings_8cpp_source.html">EquipmentSystemSettings.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>{</div>
+<div class="line"><span class="lineno">   15</span>    <span class="keyword">static</span> <span class="keyword">const</span> FName Name(<span class="stringliteral">&quot;Game&quot;</span>);</div>
+<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">return</span> Name;</div>
+<div class="line"><span class="lineno">   17</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -219,8 +188,41 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8cpp_source.html#l00007">7</a> of file <a class="el" href="_equipment_system_settings_8cpp_source.html">EquipmentSystemSettings.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">    8</span>{</div>
-<div class="line"><span class="lineno">    9</span>    <span class="keywordflow">return</span> TEXT(<span class="stringliteral">&quot;Project&quot;</span>);</div>
-<div class="line"><span class="lineno">   10</span>}</div>
+<div class="line"><span class="lineno">    9</span>    <span class="keyword">static</span> <span class="keyword">const</span> FName Name(<span class="stringliteral">&quot;Project&quot;</span>);</div>
+<div class="line"><span class="lineno">   10</span>    <span class="keywordflow">return</span> Name;</div>
+<div class="line"><span class="lineno">   11</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a7b8037facd76f4d2330fef5895673a39" name="a7b8037facd76f4d2330fef5895673a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b8037facd76f4d2330fef5895673a39">&#9670;&#160;</a></span>GetEquipmentSystemSettings()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_equipment_system_settings.html">UEquipmentSystemSettings</a> * UEquipmentSystemSettings::GetEquipmentSystemSettings </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Accessor and initializer </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_system_settings_8cpp_source.html#l00019">19</a> of file <a class="el" href="_equipment_system_settings_8cpp_source.html">EquipmentSystemSettings.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>{</div>
+<div class="line"><span class="lineno">   21</span>    <span class="comment">// This is a singleton. Use a default object</span></div>
+<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">return</span> GetMutableDefault&lt;UEquipmentSystemSettings&gt;();</div>
+<div class="line"><span class="lineno">   23</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

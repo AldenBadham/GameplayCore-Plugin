@@ -12,7 +12,7 @@ var class_u_equipment_instance =
     [ "GetPawn", "class_u_equipment_instance.html#af02ed28eca9be054aa2c8a2d241d8860", null ],
     [ "GetSourceItem", "class_u_equipment_instance.html#abbf27de8a8c897a593f4d842feec5a57", null ],
     [ "GetSpawnedActors", "class_u_equipment_instance.html#a95c1dfd1eaa926fb2b071381697ee574", null ],
-    [ "GetTypedPawn", "class_u_equipment_instance.html#ac6a1e55a1ce20d16a0153aee70934db1", null ],
+    [ "GetTypedPawn", "class_u_equipment_instance.html#a585256799bdee978d0c3d22fde7decc3", null ],
     [ "K2_OnEquipped", "class_u_equipment_instance.html#a4f32bc5386ad61e3b953e5f74ded2cf8", null ],
     [ "K2_OnUnequipped", "class_u_equipment_instance.html#ac05681abdf38ee6271ff4722b6611a40", null ],
     [ "OnEquipped", "class_u_equipment_instance.html#a4e1c1d7646bf91f96455facdc283642f", null ],

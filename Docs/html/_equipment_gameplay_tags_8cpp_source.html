@@ -105,15 +105,27 @@ $(function(){initNavTree('_equipment_gameplay_tags_8cpp_source.html',''); initRe
   <div class="headertitle"><div class="title">EquipmentGameplayTags.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;GameplayTags/EquipmentGameplayTags.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>EquipmentSystemGameplayTags</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="comment">// Plugin bases init state tags</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="comment">// Base tag for equipment slots</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Slot, <span class="stringliteral">&quot;Equipment.Slot&quot;</span>, <span class="stringliteral">&quot;Root gameplay tag for equipment slots&quot;</span>);</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>} <span class="comment">// namespace EquipmentSystemGameplayTags</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="comment">// Equipment failure tags</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure, <span class="stringliteral">&quot;Equipment.Failure&quot;</span>, <span class="stringliteral">&quot;Root tag for equipment failures&quot;</span>);</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NullItem, <span class="stringliteral">&quot;Equipment.Failure.NullItem&quot;</span>, <span class="stringliteral">&quot;The item to equip is null&quot;</span>);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_MissingDefinition, <span class="stringliteral">&quot;Equipment.Failure.MissingDefinition&quot;</span>, <span class="stringliteral">&quot;Equipment definition is missing&quot;</span>);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotNotFound, <span class="stringliteral">&quot;Equipment.Failure.SlotNotFound&quot;</span>, <span class="stringliteral">&quot;Requested slot does not exist&quot;</span>);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotEmpty, <span class="stringliteral">&quot;Equipment.Failure.SlotNotFound&quot;</span>, <span class="stringliteral">&quot;Requested slot does not exist&quot;</span>);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_SlotBlocked, <span class="stringliteral">&quot;Equipment.Failure.SlotBlocked&quot;</span>, <span class="stringliteral">&quot;The slot is currently blocked&quot;</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_PolicyRefused, <span class="stringliteral">&quot;Equipment.Failure.PolicyRefused&quot;</span>, <span class="stringliteral">&quot;Equipment policy refused the equipment&quot;</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_Internal, <span class="stringliteral">&quot;Equipment.Failure.Internal&quot;</span>, <span class="stringliteral">&quot;Internal error during equipment process&quot;</span>);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_DefinitionRefused, <span class="stringliteral">&quot;Equipment.Failure.DefinitionRefused&quot;</span>, <span class="stringliteral">&quot;Equipment definition conditions are not met&quot;</span>);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NotAuthority, <span class="stringliteral">&quot;Equipment.Failure.NotAuthority&quot;</span>, <span class="stringliteral">&quot;Internal error during equipment process&quot;</span>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>} <span class="comment">// namespace EquipmentSystemGameplayTags</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

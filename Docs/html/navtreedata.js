@@ -44,8 +44,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_ability_activation_policy_8h_source.html",
-"class_u_gameplay_ability_base.html",
-"struct_f_inventory_list.html#ac77098925f87a8c86165062dcaa344e1"
+"class_u_equipment_system_component.html#aad246597178e7d595838ed6e6278d24e",
+"struct_f_equipment_entry.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

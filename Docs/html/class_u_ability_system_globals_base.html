@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a154b131510ad1f0724a8a15f0c3cb016" id="r_a154b131510ad1f0724a8a15f0c3cb016"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_u_ability_system_globals_base.html">UAbilitySystemGlobalsBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a154b131510ad1f0724a8a15f0c3cb016">Get</a> ()</td></tr>
 <tr class="separator:a154b131510ad1f0724a8a15f0c3cb016"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4495870457ca32631450cef8730aae31" id="r_a4495870457ca32631450cef8730aae31"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
-<tr class="memitem:a4495870457ca32631450cef8730aae31"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4495870457ca32631450cef8730aae31">GetAbilitySystemComponentFromActor</a> (const AActor *Actor, bool bLookForComponent=true)</td></tr>
-<tr class="separator:a4495870457ca32631450cef8730aae31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a083a36acbce75204ca0de3a7776d9890" id="r_a083a36acbce75204ca0de3a7776d9890"><td class="memTemplParams" colspan="2">template&lt;class T&gt; </td></tr>
+<tr class="memitem:a083a36acbce75204ca0de3a7776d9890"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a083a36acbce75204ca0de3a7776d9890">GetAbilitySystemComponentFromActor</a> (const AActor *Actor, const bool bLookForComponent=true)</td></tr>
+<tr class="separator:a083a36acbce75204ca0de3a7776d9890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -162,8 +162,8 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a4495870457ca32631450cef8730aae31" name="a4495870457ca32631450cef8730aae31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4495870457ca32631450cef8730aae31">&#9670;&#160;</a></span>GetAbilitySystemComponentFromActor()</h2>
+<a id="a083a36acbce75204ca0de3a7776d9890" name="a083a36acbce75204ca0de3a7776d9890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a083a36acbce75204ca0de3a7776d9890">&#9670;&#160;</a></span>GetAbilitySystemComponentFromActor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +181,7 @@ template&lt;class T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bLookForComponent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>bLookForComponent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -191,10 +191,10 @@ template&lt;class T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00025">25</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>    {</div>
-<div class="line"><span class="lineno">   27</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
-<div class="line"><span class="lineno">   28</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="_ability_system_globals_base_8h_source.html#l00026">26</a> of file <a class="el" href="_ability_system_globals_base_8h_source.html">AbilitySystemGlobalsBase.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>    {</div>
+<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
+<div class="line"><span class="lineno">   29</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

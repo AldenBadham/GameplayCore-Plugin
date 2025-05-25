@@ -103,6 +103,7 @@ $(function(){initNavTree('class_u_equipment_slot_map_data.html',''); initResizab
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_u_equipment_slot_map_data-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UEquipmentSlotMapData Class Reference</div></div>
@@ -115,33 +116,70 @@ Inheritance diagram for UEquipmentSlotMapData:</div>
   <img src="class_u_equipment_slot_map_data.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a93dcd8a2c5b8bb66f097d88cf4b2db98" id="r_a93dcd8a2c5b8bb66f097d88cf4b2db98"><td class="memItemLeft" align="right" valign="top">virtual FPrimaryAssetId&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93dcd8a2c5b8bb66f097d88cf4b2db98">GetPrimaryAssetId</a> () const override</td></tr>
+<tr class="separator:a93dcd8a2c5b8bb66f097d88cf4b2db98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:af32cd72df4797f9270fa4d2bcccc5c97" id="r_af32cd72df4797f9270fa4d2bcccc5c97"><td class="memItemLeft" align="right" valign="top">TArray&lt; FGameplayTag &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af32cd72df4797f9270fa4d2bcccc5c97">Slots</a></td></tr>
-<tr class="separator:af32cd72df4797f9270fa4d2bcccc5c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b1613018a95f17a43688c635c74d563" id="r_a2b1613018a95f17a43688c635c74d563"><td class="memItemLeft" align="right" valign="top">TArray&lt; <a class="el" href="struct_f_slot_definition.html">FSlotDefinition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b1613018a95f17a43688c635c74d563">Slots</a></td></tr>
+<tr class="separator:a2b1613018a95f17a43688c635c74d563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_equipment_slot_map_data_8h_source.html#l00015">15</a> of file <a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="af32cd72df4797f9270fa4d2bcccc5c97" name="af32cd72df4797f9270fa4d2bcccc5c97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af32cd72df4797f9270fa4d2bcccc5c97">&#9670;&#160;</a></span>Slots</h2>
+<p class="definition">Definition at line <a class="el" href="_equipment_slot_map_data_8h_source.html#l00016">16</a> of file <a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a93dcd8a2c5b8bb66f097d88cf4b2db98" name="a93dcd8a2c5b8bb66f097d88cf4b2db98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93dcd8a2c5b8bb66f097d88cf4b2db98">&#9670;&#160;</a></span>GetPrimaryAssetId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FPrimaryAssetId UEquipmentSlotMapData::GetPrimaryAssetId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_slot_map_data_8cpp_source.html#l00005">5</a> of file <a class="el" href="_equipment_slot_map_data_8cpp_source.html">EquipmentSlotMapData.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
+<div class="line"><span class="lineno">    7</span>    <span class="keywordflow">return</span> FPrimaryAssetId(<span class="stringliteral">&quot;SlotMap&quot;</span>, GetFName());</div>
+<div class="line"><span class="lineno">    8</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2b1613018a95f17a43688c635c74d563" name="a2b1613018a95f17a43688c635c74d563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b1613018a95f17a43688c635c74d563">&#9670;&#160;</a></span>Slots</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">TArray&lt;FGameplayTag&gt; UEquipmentSlotMapData::Slots</td>
+          <td class="memname">TArray&lt;<a class="el" href="struct_f_slot_definition.html">FSlotDefinition</a>&gt; UEquipmentSlotMapData::Slots</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_slot_map_data_8h_source.html#l00021">21</a> of file <a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_slot_map_data_8h_source.html#l00022">22</a> of file <a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Source/EquipmentSystemCore/Public/Data/<a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>Source/EquipmentSystemCore/Public/Data/Slots/<a class="el" href="_equipment_slot_map_data_8h_source.html">EquipmentSlotMapData.h</a></li>
+<li>Source/EquipmentSystemCore/Private/Data/Slots/<a class="el" href="_equipment_slot_map_data_8cpp_source.html">EquipmentSlotMapData.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7efactorfeaturedata_0',['~FActorFeatureData',['../struct_f_actor_feature_data.html#a0af07396c16d5c195e19af4d7b426436',1,'FActorFeatureData']]]
+  ['weight_0',['Weight',['../class_u_item_fragment___storable.html#a94aad3d7c624536f414fa4e175164da1',1,'UItemFragment_Storable']]]
 ];

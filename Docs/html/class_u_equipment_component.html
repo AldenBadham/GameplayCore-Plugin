@@ -104,6 +104,7 @@ $(function(){initNavTree('class_u_equipment_component.html',''); initResizable(t
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_u_equipment_component-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">UEquipmentComponent Class Reference</div></div>
 </div><!--header-->
@@ -117,16 +118,22 @@ $(function(){initNavTree('class_u_equipment_component.html',''); initResizable(t
 Inheritance diagram for UEquipmentComponent:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="class_u_equipment_component.png" usemap="#UEquipmentComponent_map" alt=""/>
-  <map id="UEquipmentComponent_map" name="UEquipmentComponent_map">
-<area href="class_u_equipment_component___blessable.html" title="Component for blessable equipment, adding usage-related functionality. This component adds properties..." alt="UEquipmentComponent_Blessable" shape="rect" coords="0,112,201,136"/>
-  </map>
-</div></div>
+  <img src="class_u_equipment_component.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a09f2643dc78bfc02fc8e478fd3edd392" id="r_a09f2643dc78bfc02fc8e478fd3edd392"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09f2643dc78bfc02fc8e478fd3edd392">GetLifetimeReplicatedProps</a> (TArray&lt; class FLifetimeProperty &gt; &amp;OutLifetimeProps) const override</td></tr>
-<tr class="separator:a09f2643dc78bfc02fc8e478fd3edd392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a179cb8ac6d4d4755b01d7675647ae5bf" id="r_a179cb8ac6d4d4755b01d7675647ae5bf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a179cb8ac6d4d4755b01d7675647ae5bf">GetLifetimeReplicatedProps</a> (TArray&lt; FLifetimeProperty &gt; &amp;OutLifetimeProps) const override</td></tr>
+<tr class="separator:a179cb8ac6d4d4755b01d7675647ae5bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b987621b615129776b9107da76bb43f" id="r_a6b987621b615129776b9107da76bb43f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b987621b615129776b9107da76bb43f">Initialize</a> (<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *InInstance)</td></tr>
+<tr class="separator:a6b987621b615129776b9107da76bb43f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d2213e3b523f4b9c56f92dd4e4430ad" id="r_a8d2213e3b523f4b9c56f92dd4e4430ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d2213e3b523f4b9c56f92dd4e4430ad">GetOwningInstance</a> ()</td></tr>
+<tr class="separator:a8d2213e3b523f4b9c56f92dd4e4430ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a342ea29136756f986cf5c07ef15e8f09" id="r_a342ea29136756f986cf5c07ef15e8f09"><td class="memItemLeft" align="right" valign="top">TObjectPtr&lt; <a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a342ea29136756f986cf5c07ef15e8f09">OwningInstance</a> = nullptr</td></tr>
+<tr class="separator:a342ea29136756f986cf5c07ef15e8f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for modular components that can be added to equipment instances. </p>
@@ -135,8 +142,8 @@ Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_equipment_component_8h_source.html#l00020">20</a> of file <a class="el" href="_equipment_component_8h_source.html">EquipmentComponent.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a09f2643dc78bfc02fc8e478fd3edd392" name="a09f2643dc78bfc02fc8e478fd3edd392"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09f2643dc78bfc02fc8e478fd3edd392">&#9670;&#160;</a></span>GetLifetimeReplicatedProps()</h2>
+<a id="a179cb8ac6d4d4755b01d7675647ae5bf" name="a179cb8ac6d4d4755b01d7675647ae5bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a179cb8ac6d4d4755b01d7675647ae5bf">&#9670;&#160;</a></span>GetLifetimeReplicatedProps()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +154,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void UEquipmentComponent::GetLifetimeReplicatedProps </td>
           <td>(</td>
-          <td class="paramtype">TArray&lt; class FLifetimeProperty &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>OutLifetimeProps</em></span></td><td>)</td>
+          <td class="paramtype">TArray&lt; FLifetimeProperty &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>OutLifetimeProps</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -163,8 +170,79 @@ Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a id="a8d2213e3b523f4b9c56f92dd4e4430ad" name="a8d2213e3b523f4b9c56f92dd4e4430ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d2213e3b523f4b9c56f92dd4e4430ad">&#9670;&#160;</a></span>GetOwningInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * UEquipmentComponent::GetOwningInstance </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the owning equipment instance of the component. </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_component_8cpp_source.html#l00010">10</a> of file <a class="el" href="_equipment_component_8cpp_source.html">EquipmentComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
+<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">return</span> OwningInstance;</div>
+<div class="line"><span class="lineno">   13</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a6b987621b615129776b9107da76bb43f" name="a6b987621b615129776b9107da76bb43f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b987621b615129776b9107da76bb43f">&#9670;&#160;</a></span>Initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UEquipmentComponent::Initialize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>InInstance</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_component_8cpp_source.html#l00005">5</a> of file <a class="el" href="_equipment_component_8cpp_source.html">EquipmentComponent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    6</span>{</div>
+<div class="line"><span class="lineno">    7</span>    OwningInstance = InInstance;</div>
+<div class="line"><span class="lineno">    8</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a342ea29136756f986cf5c07ef15e8f09" name="a342ea29136756f986cf5c07ef15e8f09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a342ea29136756f986cf5c07ef15e8f09">&#9670;&#160;</a></span>OwningInstance</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TObjectPtr&lt;<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a>&gt; UEquipmentComponent::OwningInstance = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_component_8h_source.html#l00036">36</a> of file <a class="el" href="_equipment_component_8h_source.html">EquipmentComponent.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>Source/EquipmentSystemCore/Public/Instances/Components/<a class="el" href="_equipment_component_8h_source.html">EquipmentComponent.h</a></li>
+<li>Source/EquipmentSystemCore/Private/Instances/Components/<a class="el" href="_equipment_component_8cpp_source.html">EquipmentComponent.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

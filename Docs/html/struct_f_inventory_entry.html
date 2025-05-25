@@ -127,6 +127,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad814726650d7a10508f141411bc394b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1a90a858f8f53d37d490f3bdffba031" id="r_aa1a90a858f8f53d37d490f3bdffba031"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1a90a858f8f53d37d490f3bdffba031">PostReplicatedAdd</a> (const <a class="el" href="struct_f_inventory_list.html">FInventoryList</a> &amp;InArraySerializer) const</td></tr>
 <tr class="separator:aa1a90a858f8f53d37d490f3bdffba031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95888f64645cfb438e6be5345457167" id="r_ac95888f64645cfb438e6be5345457167"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac95888f64645cfb438e6be5345457167">PostReplicatedChange</a> (const <a class="el" href="struct_f_inventory_list.html">FInventoryList</a> &amp;InArraySerializer) const</td></tr>
+<tr class="separator:ac95888f64645cfb438e6be5345457167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93d751c8c5d8f9e41d6ea8eb9784215e" id="r_a93d751c8c5d8f9e41d6ea8eb9784215e"><td class="memItemLeft" align="right" valign="top">FString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93d751c8c5d8f9e41d6ea8eb9784215e">GetDebugString</a> () const</td></tr>
 <tr class="separator:a93d751c8c5d8f9e41d6ea8eb9784215e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -171,7 +173,8 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00027">27</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{};</div>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>    {</div>
+<div class="line"><span class="lineno">   29</span>    };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -198,8 +201,9 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00029">29</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>{};</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8h_source.html#l00031">31</a> of file <a class="el" href="_inventory_entry_8h_source.html">InventoryEntry.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>    {</div>
+<div class="line"><span class="lineno">   33</span>    };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -219,10 +223,10 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00026">26</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{</div>
-<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;(%s)&quot;</span>), *GetNameSafe(Instance));</div>
-<div class="line"><span class="lineno">   29</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00034">34</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{</div>
+<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">return</span> FString::Printf(TEXT(<span class="stringliteral">&quot;(%s)&quot;</span>), *GetNameSafe(Instance));</div>
+<div class="line"><span class="lineno">   37</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -248,7 +252,32 @@ Friends</h2></td></tr>
 <div class="line"><span class="lineno">   22</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedEntry (Non-Auth): %s. Count: %d&quot;</span>), *GetNameSafe(InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>-&gt;GetOwner()), *GetNameSafe(Instance), StackCount);</div>
 <div class="line"><span class="lineno">   23</span>    }</div>
 <div class="line"><span class="lineno">   24</span>}</div>
-<div class="ttc" id="astruct_f_inventory_list_html_a211a6e05939766ade86e0d9908ac8940"><div class="ttname"><a href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">FInventoryList::OwnerComponent</a></div><div class="ttdeci">TObjectPtr&lt; UInventorySystemComponent &gt; OwnerComponent</div><div class="ttdef"><b>Definition</b> <a href="_inventory_list_8h_source.html#l00119">InventoryList.h:119</a></div></div>
+<div class="ttc" id="astruct_f_inventory_list_html_a211a6e05939766ade86e0d9908ac8940"><div class="ttname"><a href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">FInventoryList::OwnerComponent</a></div><div class="ttdeci">TObjectPtr&lt; UInventorySystemComponent &gt; OwnerComponent</div><div class="ttdef"><b>Definition</b> <a href="_inventory_list_8h_source.html#l00162">InventoryList.h:162</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac95888f64645cfb438e6be5345457167" name="ac95888f64645cfb438e6be5345457167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac95888f64645cfb438e6be5345457167">&#9670;&#160;</a></span>PostReplicatedChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FInventoryEntry::PostReplicatedChange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_f_inventory_list.html">FInventoryList</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>InArraySerializer</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_inventory_entry_8cpp_source.html#l00026">26</a> of file <a class="el" href="_inventory_entry_8cpp_source.html">InventoryEntry.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>{</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">if</span> (InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>)</div>
+<div class="line"><span class="lineno">   29</span>    {</div>
+<div class="line"><span class="lineno">   30</span>        UE_LOG(LogInventorySystem, Verbose, TEXT(<span class="stringliteral">&quot;%s: OnAddedChanged (Non-Auth): %s. Count: %d   LastCount: %d&quot;</span>), *GetNameSafe(InArraySerializer.<a class="code hl_variable" href="struct_f_inventory_list.html#a211a6e05939766ade86e0d9908ac8940">OwnerComponent</a>-&gt;GetOwner()), *GetNameSafe(Instance), StackCount, LastStackCount);</div>
+<div class="line"><span class="lineno">   31</span>    }</div>
+<div class="line"><span class="lineno">   32</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

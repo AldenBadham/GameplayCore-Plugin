@@ -105,17 +105,18 @@ $(function(){initNavTree('_inventory_system_settings_8cpp_source.html',''); init
   <div class="headertitle"><div class="title">InventorySystemSettings.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Settings/ItemFragmentRule.h&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;Settings/InventorySystemSettings.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#if WITH_EDITOR</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">const</span> <a class="code hl_struct" href="struct_f_item_fragment_rule.html">FItemFragmentRule</a>* UInventorySystemSettings::FindRuleForClass(<span class="keyword">const</span> TSubclassOf&lt;UItemFragment&gt;&amp; FragmentClass)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword"></span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keywordflow">return</span> FragmentRules.Find(FragmentClass);</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>}</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Settings/InventorySystemSettings.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;Settings/ItemFragmentRule.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#if WITH_EDITOR</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">const</span> <a class="code hl_struct" href="struct_f_item_fragment_rule.html">FItemFragmentRule</a>* UInventorySystemSettings::FindRuleForClass(<span class="keyword">const</span> TSubclassOf&lt;UItemFragment&gt;&amp; FragmentClass)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword"></span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keywordflow">return</span> FragmentRules.Find(FragmentClass);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>}</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="astruct_f_item_fragment_rule_html"><div class="ttname"><a href="struct_f_item_fragment_rule.html">FItemFragmentRule</a></div><div class="ttdoc">Defines rules for validating item fragments in the inventory system. This structure allows specifying...</div><div class="ttdef"><b>Definition</b> <a href="_item_fragment_rule_8h_source.html#l00021">ItemFragmentRule.h:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

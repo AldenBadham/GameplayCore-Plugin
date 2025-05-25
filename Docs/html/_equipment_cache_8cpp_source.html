@@ -105,7 +105,7 @@ $(function(){initNavTree('_equipment_cache_8cpp_source.html',''); initResizable(
   <div class="headertitle"><div class="title">EquipmentCache.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Data/EquipmentCache.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
@@ -114,7 +114,7 @@ $(function(){initNavTree('_equipment_cache_8cpp_source.html',''); initResizable(
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>UEquipmentCache::UEquipmentCache()</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="comment">// Register the cache for cleanup after garbage collection</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    FCoreUObjectDelegates::GetPostGarbageCollect().AddUObject(<span class="keyword">this</span>, &amp;UEquipmentCache::Clear);</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    FCoreUObjectDelegates::GetPostGarbageCollect().AddUObject(<span class="keyword">this</span>, &amp;UEquipmentCache::Clean);</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>}</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>UEquipmentCache::~UEquipmentCache()</div>
@@ -133,43 +133,49 @@ $(function(){initNavTree('_equipment_cache_8cpp_source.html',''); initResizable(
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="comment">// Lock the critical section to ensure thread-safe access to the cache</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    FScopeLock Lock(&amp;CacheLock);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (<a class="code hl_class" href="class_u_equipment_definition.html">UEquipmentDefinition</a>** FoundDefinition = CachedDefinitionMap.Find(Class))</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> *FoundDefinition;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// If the definition is not cached, create a new instance</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_class" href="class_u_equipment_definition.html">UEquipmentDefinition</a>* NewDefinition = NewObject&lt;UEquipmentDefinition&gt;(<span class="keyword">this</span>, Class);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    CachedDefinitionMap.Add(Class, NewDefinition);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> NewDefinition;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> TWeakObjectPtr&lt;UEquipmentDefinition&gt;* <span class="keyword">const</span> FoundDefinition = CachedDefinitionMap.Find(Class))</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">if</span> (<a class="code hl_class" href="class_u_equipment_definition.html">UEquipmentDefinition</a>* Definition = FoundDefinition-&gt;Get(); IsValid(Definition))</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">return</span> Definition;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// If the definition is not cached, create a new instance</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_class" href="class_u_equipment_definition.html">UEquipmentDefinition</a>* NewDefinition = NewObject&lt;UEquipmentDefinition&gt;(<span class="keyword">this</span>, Class);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    CachedDefinitionMap.Add(Class, NewDefinition);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">return</span> NewDefinition;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
 </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="class_u_equipment_cache.html#ae1730746591fd7d0fed946e978cefb35">   41</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_u_equipment_cache.html#ae1730746591fd7d0fed946e978cefb35">UEquipmentCache::IsCachedDefinition</a>(<span class="keyword">const</span> TSubclassOf&lt;UEquipmentDefinition&gt;&amp; Class)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword"></span>{</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> CachedDefinitionMap.Contains(Class);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="class_u_equipment_cache.html#a18bf62072976d45b01b557fd6cb4b97f">   43</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_u_equipment_cache.html#a18bf62072976d45b01b557fd6cb4b97f">UEquipmentCache::IsCachedDefinition</a>(<span class="keyword">const</span> TSubclassOf&lt;UEquipmentDefinition&gt;&amp; Class)</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>{</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    FScopeLock Lock(&amp;CacheLock);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_u_equipment_cache.html#a18bf62072976d45b01b557fd6cb4b97f">IsCachedDefinition</a> = CachedDefinitionMap.Contains(Class);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="class_u_equipment_cache.html#a18bf62072976d45b01b557fd6cb4b97f">IsCachedDefinition</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
 </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">void</span> UEquipmentCache::Clear()</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// Lock the critical section to ensure thread-safe access to the cache</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    FScopeLock Lock(&amp;CacheLock);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; Pair : CachedDefinitionMap)</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">if</span> (Pair.Value &amp;&amp; !Pair.Value-&gt;IsRooted())</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            CachedDefinitionMap.Remove(Pair.Key);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        }</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">void</span> UEquipmentCache::Clean()</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>{</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">if</span> (IsValid(<span class="keyword">this</span>))</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="comment">// Lock the critical section to ensure thread-safe access to the cache</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        FScopeLock Lock(&amp;CacheLock);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> It = CachedDefinitionMap.CreateIterator(); It; ++It)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">if</span> (It.Value() == <span class="keyword">nullptr</span> || !It.Value().IsValid())</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                It.RemoveCurrent();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="ttc" id="aclass_u_equipment_cache_html_a18bf62072976d45b01b557fd6cb4b97f"><div class="ttname"><a href="class_u_equipment_cache.html#a18bf62072976d45b01b557fd6cb4b97f">UEquipmentCache::IsCachedDefinition</a></div><div class="ttdeci">bool IsCachedDefinition(const TSubclassOf&lt; UEquipmentDefinition &gt; &amp;Class)</div><div class="ttdef"><b>Definition</b> <a href="#l00043">EquipmentCache.cpp:43</a></div></div>
 <div class="ttc" id="aclass_u_equipment_cache_html_a8124de44fb9b0d3fc1c1b8a5c5d8bd97"><div class="ttname"><a href="class_u_equipment_cache.html#a8124de44fb9b0d3fc1c1b8a5c5d8bd97">UEquipmentCache::GetCachedDefinition</a></div><div class="ttdeci">UEquipmentDefinition * GetCachedDefinition(const TSubclassOf&lt; UEquipmentDefinition &gt; &amp;Class)</div><div class="ttdef"><b>Definition</b> <a href="#l00019">EquipmentCache.cpp:19</a></div></div>
-<div class="ttc" id="aclass_u_equipment_cache_html_ae1730746591fd7d0fed946e978cefb35"><div class="ttname"><a href="class_u_equipment_cache.html#ae1730746591fd7d0fed946e978cefb35">UEquipmentCache::IsCachedDefinition</a></div><div class="ttdeci">bool IsCachedDefinition(const TSubclassOf&lt; UEquipmentDefinition &gt; &amp;Class) const</div><div class="ttdef"><b>Definition</b> <a href="#l00041">EquipmentCache.cpp:41</a></div></div>
-<div class="ttc" id="aclass_u_equipment_definition_html"><div class="ttname"><a href="class_u_equipment_definition.html">UEquipmentDefinition</a></div><div class="ttdoc">Data asset definition of an item that can be equipped by the pawn. And what to do to the pawn on whic...</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00023">EquipmentDefinition.h:24</a></div></div>
+<div class="ttc" id="aclass_u_equipment_definition_html"><div class="ttname"><a href="class_u_equipment_definition.html">UEquipmentDefinition</a></div><div class="ttdoc">Data asset definition of an item that can be equipped by the pawn. And what to do to the pawn on whic...</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00024">EquipmentDefinition.h:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

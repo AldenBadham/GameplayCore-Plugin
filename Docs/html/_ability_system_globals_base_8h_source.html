@@ -105,7 +105,7 @@ $(function(){initNavTree('_ability_system_globals_base_8h_source.html',''); init
   <div class="headertitle"><div class="title">AbilitySystemGlobalsBase.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
@@ -125,11 +125,12 @@ $(function(){initNavTree('_ability_system_globals_base_8h_source.html',''); init
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> InitGlobalTags() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">static</span> T* GetAbilitySystemComponentFromActor(<span class="keyword">const</span> AActor* Actor, <span class="keywordtype">bool</span> bLookForComponent = <span class="keyword">true</span>)</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">static</span> T* GetAbilitySystemComponentFromActor(<span class="keyword">const</span> AActor* Actor, <span class="keyword">const</span> <span class="keywordtype">bool</span> bLookForComponent = <span class="keyword">true</span>)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">return</span> Cast&lt;T&gt;(UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Actor, bLookForComponent));</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
 </div>
 <div class="ttc" id="aclass_u_ability_system_globals_base_html"><div class="ttname"><a href="class_u_ability_system_globals_base.html">UAbilitySystemGlobalsBase</a></div><div class="ttdef"><b>Definition</b> <a href="#l00014">AbilitySystemGlobalsBase.h:15</a></div></div>
 <div class="ttc" id="aclass_u_ability_system_globals_base_html_a154b131510ad1f0724a8a15f0c3cb016"><div class="ttname"><a href="class_u_ability_system_globals_base.html#a154b131510ad1f0724a8a15f0c3cb016">UAbilitySystemGlobalsBase::Get</a></div><div class="ttdeci">static UAbilitySystemGlobalsBase &amp; Get()</div><div class="ttdef"><b>Definition</b> <a href="#l00020">AbilitySystemGlobalsBase.h:20</a></div></div>

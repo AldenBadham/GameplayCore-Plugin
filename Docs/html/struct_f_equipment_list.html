@@ -105,6 +105,8 @@ $(function(){initNavTree('struct_f_equipment_list.html',''); initResizable(true)
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="struct_f_equipment_list-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">FEquipmentList Struct Reference</div></div>
@@ -130,17 +132,37 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0d115123844a38accaef2c70a38aa188"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ed6c99b35783e9a9b7aa092fd66259a" id="r_a3ed6c99b35783e9a9b7aa092fd66259a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ed6c99b35783e9a9b7aa092fd66259a">PostReplicatedAdd</a> (const TArrayView&lt; int32 &gt; AddedIndices, int32 FinalSize)</td></tr>
 <tr class="separator:a3ed6c99b35783e9a9b7aa092fd66259a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3b6bcbfeaf799f798dcb04aa3f13e6c" id="r_af3b6bcbfeaf799f798dcb04aa3f13e6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3b6bcbfeaf799f798dcb04aa3f13e6c">PostReplicatedChange</a> (const TArrayView&lt; int32 &gt; ChangedIndices, int32 FinalSize)</td></tr>
+<tr class="separator:af3b6bcbfeaf799f798dcb04aa3f13e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfc4be7e31a9ceb39abe4fa0a8190732" id="r_adfc4be7e31a9ceb39abe4fa0a8190732"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfc4be7e31a9ceb39abe4fa0a8190732">NetDeltaSerialize</a> (FNetDeltaSerializeInfo &amp;DeltaParms)</td></tr>
 <tr class="separator:adfc4be7e31a9ceb39abe4fa0a8190732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a590718694240f87cd8afff83eca473f4" id="r_a590718694240f87cd8afff83eca473f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a590718694240f87cd8afff83eca473f4">Add</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;DefinitionClass, int32 Count=1)</td></tr>
-<tr class="separator:a590718694240f87cd8afff83eca473f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c969bfc69b0dd8f21470da5b8303a52" id="r_a8c969bfc69b0dd8f21470da5b8303a52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c969bfc69b0dd8f21470da5b8303a52">Remove</a> (<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *Instance)</td></tr>
-<tr class="separator:a8c969bfc69b0dd8f21470da5b8303a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a842ca21e670110a9304e58d70bee7993" id="r_a842ca21e670110a9304e58d70bee7993"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a842ca21e670110a9304e58d70bee7993">Add</a> (const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;DefinitionClass, <a class="el" href="class_u_item_instance.html">UItemInstance</a> *SourceItemInstance=nullptr)</td></tr>
+<tr class="separator:a842ca21e670110a9304e58d70bee7993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526157e31f76c3b3c71b5e8fdca5cdc9" id="r_a526157e31f76c3b3c71b5e8fdca5cdc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a526157e31f76c3b3c71b5e8fdca5cdc9">Remove</a> (<a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *Instance, FGameplayTag &amp;OutFailureReason)</td></tr>
+<tr class="separator:a526157e31f76c3b3c71b5e8fdca5cdc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ac978e097e27e4eebad87ce512b94919d" id="r_ac978e097e27e4eebad87ce512b94919d"><td class="memItemLeft" align="right" valign="top">friend&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac978e097e27e4eebad87ce512b94919d">FEquipmentEntry</a></td></tr>
 <tr class="separator:ac978e097e27e4eebad87ce512b94919d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7112dccd305b5e94be92a4ecb74fdbbf" id="r_a7112dccd305b5e94be92a4ecb74fdbbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7112dccd305b5e94be92a4ecb74fdbbf">Internal_OnEntryChanged</a> (int32 Index, const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;Entry) const</td></tr>
+<tr class="separator:a7112dccd305b5e94be92a4ecb74fdbbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af50a0324216b882b7ed642b4bef083de" id="r_af50a0324216b882b7ed642b4bef083de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af50a0324216b882b7ed642b4bef083de">Internal_OnEntryAdded</a> (int32 Index, const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;Entry) const</td></tr>
+<tr class="separator:af50a0324216b882b7ed642b4bef083de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdedd00584adf79c87b6ecc4fcd7c87c" id="r_abdedd00584adf79c87b6ecc4fcd7c87c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdedd00584adf79c87b6ecc4fcd7c87c">Internal_OnEntryRemoved</a> (int32 Index, const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;Entry) const</td></tr>
+<tr class="separator:abdedd00584adf79c87b6ecc4fcd7c87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21c92faac23331c78330c4dbd6f86f91" id="r_a21c92faac23331c78330c4dbd6f86f91"><td class="memItemLeft" align="right" valign="top">UAbilitySystemComponent *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21c92faac23331c78330c4dbd6f86f91">GetAbilitySystemComponent</a> () const</td></tr>
+<tr class="separator:a21c92faac23331c78330c4dbd6f86f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a2ee04e46a946006b9a5e5c8a4ae05086" id="r_a2ee04e46a946006b9a5e5c8a4ae05086"><td class="memItemLeft" align="right" valign="top">TArray&lt; <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a></td></tr>
+<tr class="separator:a2ee04e46a946006b9a5e5c8a4ae05086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61993e36b451ccb7c18265c0cb01aab2" id="r_a61993e36b451ccb7c18265c0cb01aab2"><td class="memItemLeft" align="right" valign="top">TObjectPtr&lt; <a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a> = nullptr</td></tr>
+<tr class="separator:a61993e36b451ccb7c18265c0cb01aab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -151,7 +173,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Represents a list of equipment items that can be efficiently replicated using FastArraySerializer. </p>
 <dl class="section see"><dt>See also</dt><dd>FFastArraySerializer </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00023">23</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00042">42</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad1886996b79e88378fabed05b574eb51" name="ad1886996b79e88378fabed05b574eb51"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1886996b79e88378fabed05b574eb51">&#9670;&#160;</a></span>FEquipmentList() <span class="overload">[1/2]</span></h2>
@@ -168,10 +190,9 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00012">12</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>    : OwnerComponent(<span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   14</span>{</div>
-<div class="line"><span class="lineno">   15</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00015">15</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{</div>
+<div class="line"><span class="lineno">   17</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -190,11 +211,11 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00017">17</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>    : Entries()</div>
-<div class="line"><span class="lineno">   19</span>    , OwnerComponent(InOwnerComponent)</div>
-<div class="line"><span class="lineno">   20</span>{</div>
-<div class="line"><span class="lineno">   21</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00019">19</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   20</span>    : <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>(InOwnerComponent)</div>
+<div class="line"><span class="lineno">   21</span>{</div>
+<div class="line"><span class="lineno">   22</span>}</div>
+<div class="ttc" id="astruct_f_equipment_list_html_a61993e36b451ccb7c18265c0cb01aab2"><div class="ttname"><a href="#a61993e36b451ccb7c18265c0cb01aab2">FEquipmentList::OwnerComponent</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentSystemComponent &gt; OwnerComponent</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8h_source.html#l00108">EquipmentList.h:108</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -213,106 +234,310 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00023">23</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   24</span>{</div>
-<div class="line"><span class="lineno">   25</span>    Entries.Empty();</div>
-<div class="line"><span class="lineno">   26</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00024">24</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   25</span>{</div>
+<div class="line"><span class="lineno">   26</span>    <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>.Empty();</div>
+<div class="line"><span class="lineno">   27</span>}</div>
+<div class="ttc" id="astruct_f_equipment_list_html_a2ee04e46a946006b9a5e5c8a4ae05086"><div class="ttname"><a href="#a2ee04e46a946006b9a5e5c8a4ae05086">FEquipmentList::Entries</a></div><div class="ttdeci">TArray&lt; FEquipmentEntry &gt; Entries</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8h_source.html#l00104">EquipmentList.h:104</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a590718694240f87cd8afff83eca473f4" name="a590718694240f87cd8afff83eca473f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a590718694240f87cd8afff83eca473f4">&#9670;&#160;</a></span>Add()</h2>
+<a id="a842ca21e670110a9304e58d70bee7993" name="a842ca21e670110a9304e58d70bee7993"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a842ca21e670110a9304e58d70bee7993">&#9670;&#160;</a></span>Add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> * FEquipmentList::Add </td>
+          <td class="memname"><a class="el" href="struct_f_equipment_result.html">FEquipmentResult</a> FEquipmentList::Add </td>
           <td>(</td>
           <td class="paramtype">const TSubclassOf&lt; <a class="el" href="class_u_equipment_definition.html">UEquipmentDefinition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>DefinitionClass</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int32</td>          <td class="paramname"><span class="paramname"><em>Count</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="class_u_item_instance.html">UItemInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>SourceItemInstance</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Add a new equipment instance to the list. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">DefinitionClass</td><td>Definition of the type of equipment to add. </td></tr>
-    <tr><td class="paramname">Count</td><td>Number of instances to add (default is 1). </td></tr>
+    <tr><td class="paramname">SourceItemInstance</td><td></td></tr>
+    <tr><td class="paramname">OutFailureReason</td><td></td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to entry added </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00051">51</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>{</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (DefinitionClass == <span class="keyword">nullptr</span> || !IsValid(OwnerComponent))</div>
-<div class="line"><span class="lineno">   54</span>    {</div>
-<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   56</span>    }</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    AActor* OwnerActor = OwnerComponent-&gt;GetOwner();</div>
-<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">if</span> (!OwnerActor-&gt;HasAuthority())</div>
-<div class="line"><span class="lineno">   60</span>    {</div>
-<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   62</span>    }</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>    UEquipmentDefinition* CachedDefinition = OwnerComponent-&gt;GetEquipmentDefinition(DefinitionClass);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">if</span> (!CachedDefinition-&gt;CanEquip(OwnerComponent))</div>
-<div class="line"><span class="lineno">   67</span>    {</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="comment">// Prepare instance type to spawn, use default one by default</span></div>
-<div class="line"><span class="lineno">   72</span>    TSubclassOf&lt;UEquipmentInstance&gt; InstanceType = CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a>;</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">if</span> (InstanceType == <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   74</span>    {</div>
-<div class="line"><span class="lineno">   75</span>        InstanceType = UEquipmentDefinition::StaticClass();</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">// Add default entry</span></div>
-<div class="line"><span class="lineno">   79</span>    FEquipmentEntry&amp; Entry = Entries.AddDefaulted_GetRef();</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>    Entry.EquipmentDefinition = DefinitionClass;</div>
-<div class="line"><span class="lineno">   82</span>    Entry.Instance = NewObject&lt;UEquipmentInstance&gt;(OwnerActor, InstanceType);</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>    UEquipmentInstance* Instance = Entry.Instance;</div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">// Instance-&gt;AsyncLoadAssets();</span></div>
-<div class="line"><span class="lineno">   86</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#ac522528c8a9d18dcc301d18147d0796c">SetDefinition</a>(CachedDefinition);</div>
-<div class="line"><span class="lineno">   87</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526">SetInstigator</a>(OwnerActor);</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">// Give ability set</span></div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())</div>
-<div class="line"><span class="lineno">   91</span>    {</div>
-<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> TObjectPtr&lt;const UAbilitySet&gt;&amp; AbilitySet : CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#ab62b3056bdac8fe1ecea80f5dc93e650">AbilitySets</a>)</div>
-<div class="line"><span class="lineno">   93</span>        {</div>
-<div class="line"><span class="lineno">   94</span>            AbilitySet-&gt;GiveToAbilitySystem(AbilitySystemComp, &amp;Entry.Handles, Instance);</div>
-<div class="line"><span class="lineno">   95</span>        }</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>    <span class="comment">// Ask the instance to spawn attachment actors</span></div>
-<div class="line"><span class="lineno">   99</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd">SpawnActors</a>(CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#af42d5b764a4a0652a669f227b6b2f746">ActorsToSpawn</a>);</div>
-<div class="line"><span class="lineno">  100</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#ab15905381b20ae7d315b8d0110a6c2ab">OnSpawned</a>();</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>    <span class="comment">// Mark the item dirty for the serializer replication</span></div>
-<div class="line"><span class="lineno">  103</span>    MarkItemDirty(Entry);</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> Instance;</div>
-<div class="line"><span class="lineno">  106</span>}</div>
-<div class="ttc" id="aclass_u_equipment_definition_html_ab62b3056bdac8fe1ecea80f5dc93e650"><div class="ttname"><a href="class_u_equipment_definition.html#ab62b3056bdac8fe1ecea80f5dc93e650">UEquipmentDefinition::AbilitySets</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; const UAbilitySet &gt; &gt; AbilitySets</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00069">EquipmentDefinition.h:69</a></div></div>
-<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00061">EquipmentDefinition.h:61</a></div></div>
-<div class="ttc" id="aclass_u_equipment_definition_html_af42d5b764a4a0652a669f227b6b2f746"><div class="ttname"><a href="class_u_equipment_definition.html#af42d5b764a4a0652a669f227b6b2f746">UEquipmentDefinition::ActorsToSpawn</a></div><div class="ttdeci">TArray&lt; FEquipmentActorSet &gt; ActorsToSpawn</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00065">EquipmentDefinition.h:65</a></div></div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a00789c7d61c2c0ab039abbae5b45bbdd"><div class="ttname"><a href="class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd">UEquipmentInstance::SpawnActors</a></div><div class="ttdeci">virtual void SpawnActors(const TArray&lt; FEquipmentActorSet &gt; &amp;ActorsToSpawn)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00115">EquipmentInstance.cpp:115</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00081">81</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>{</div>
+<div class="line"><span class="lineno">   83</span>    FEquipmentResult Result;</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">if</span> (DefinitionClass == <span class="keyword">nullptr</span> || !IsValid(<a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>))</div>
+<div class="line"><span class="lineno">   85</span>    {</div>
+<div class="line"><span class="lineno">   86</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to instantiate an equipment instance from invalid definition class.&quot;</span>));</div>
+<div class="line"><span class="lineno">   87</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_MissingDefinition;</div>
+<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">   89</span>    }</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    AActor* OwnerActor = <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;GetOwner();</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">if</span> (!OwnerActor-&gt;HasAuthority())</div>
+<div class="line"><span class="lineno">   93</span>    {</div>
+<div class="line"><span class="lineno">   94</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to instantiate an equipment instance from invalid definition class.&quot;</span>));</div>
+<div class="line"><span class="lineno">   95</span>        Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_NotAuthority;</div>
+<div class="line"><span class="lineno">   96</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">   97</span>    }</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>    UEquipmentDefinition* CachedDefinition = <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;GetCachedDefinition(DefinitionClass);</div>
+<div class="line"><span class="lineno">  100</span>    <span class="keywordflow">if</span> (!CachedDefinition-&gt;CanBeEquipped(<a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>, Result.FailureReason))</div>
+<div class="line"><span class="lineno">  101</span>    {</div>
+<div class="line"><span class="lineno">  102</span>        UE_LOG(LogEquipmentSystem, Warning, TEXT(<span class="stringliteral">&quot;Tried to instantiate an equipment instance from %s, but the definition conditions are not met.&quot;</span>), *GetNameSafe(DefinitionClass));</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">if</span> (!Result.FailureReason.IsValid())</div>
+<div class="line"><span class="lineno">  104</span>            Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_DefinitionRefused;</div>
+<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  106</span>    }</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>    <span class="comment">// Prepare an instance type to spawn, use the default one by default</span></div>
+<div class="line"><span class="lineno">  109</span>    TSubclassOf&lt;UEquipmentInstance&gt; InstanceType = CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449">InstanceClass</a>;</div>
+<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">if</span> (InstanceType == <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  111</span>    {</div>
+<div class="line"><span class="lineno">  112</span>        InstanceType = UEquipmentDefinition::StaticClass();</div>
+<div class="line"><span class="lineno">  113</span>    }</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>    <span class="comment">// Add default entry</span></div>
+<div class="line"><span class="lineno">  116</span>    FEquipmentEntry&amp; Entry = <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>.AddDefaulted_GetRef();</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>    Entry.EquipmentDefinition = DefinitionClass;</div>
+<div class="line"><span class="lineno">  119</span>    Entry.Instance = NewObject&lt;UEquipmentInstance&gt;(OwnerActor, InstanceType);</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>    UEquipmentInstance* Instance = Entry.Instance;</div>
+<div class="line"><span class="lineno">  122</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#ac522528c8a9d18dcc301d18147d0796c">SetDefinition</a>(CachedDefinition);</div>
+<div class="line"><span class="lineno">  123</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526">SetInstigator</a>(OwnerActor);</div>
+<div class="line"><span class="lineno">  124</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a631507c1042c942ce4624eb4d9949313">SetSourceItem</a>(SourceItemInstance);</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    Result.Instance = Instance;</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>    <span class="comment">// Give the ability sets</span></div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = <a class="code hl_function" href="#a21c92faac23331c78330c4dbd6f86f91">GetAbilitySystemComponent</a>())</div>
+<div class="line"><span class="lineno">  130</span>    {</div>
+<div class="line"><span class="lineno">  131</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> TObjectPtr&lt;const UAbilitySet&gt;&amp; AbilitySet : CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#ab62b3056bdac8fe1ecea80f5dc93e650">AbilitySets</a>)</div>
+<div class="line"><span class="lineno">  132</span>        {</div>
+<div class="line"><span class="lineno">  133</span>            AbilitySet-&gt;GiveToAbilitySystem(AbilitySystemComp, &amp;Entry.Handles, Instance);</div>
+<div class="line"><span class="lineno">  134</span>        }</div>
+<div class="line"><span class="lineno">  135</span>    }</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>    <span class="comment">// Ask the instance to spawn attachment actors</span></div>
+<div class="line"><span class="lineno">  138</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd">SpawnActors</a>(CachedDefinition-&gt;<a class="code hl_variable" href="class_u_equipment_definition.html#af42d5b764a4a0652a669f227b6b2f746">ActorsToSpawn</a>);</div>
+<div class="line"><span class="lineno">  139</span>    Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#ab15905381b20ae7d315b8d0110a6c2ab">OnSpawned</a>();</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>    <span class="comment">// Mark the item dirty for the serializer replication</span></div>
+<div class="line"><span class="lineno">  142</span>    MarkItemDirty(Entry);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> Result;</div>
+<div class="line"><span class="lineno">  145</span>}</div>
+<div class="ttc" id="aclass_u_equipment_definition_html_ab62b3056bdac8fe1ecea80f5dc93e650"><div class="ttname"><a href="class_u_equipment_definition.html#ab62b3056bdac8fe1ecea80f5dc93e650">UEquipmentDefinition::AbilitySets</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; const UAbilitySet &gt; &gt; AbilitySets</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00087">EquipmentDefinition.h:87</a></div></div>
+<div class="ttc" id="aclass_u_equipment_definition_html_ab78e9baab46c2fe328a39b9d2ef45449"><div class="ttname"><a href="class_u_equipment_definition.html#ab78e9baab46c2fe328a39b9d2ef45449">UEquipmentDefinition::InstanceClass</a></div><div class="ttdeci">TSubclassOf&lt; UEquipmentInstance &gt; InstanceClass</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00069">EquipmentDefinition.h:69</a></div></div>
+<div class="ttc" id="aclass_u_equipment_definition_html_af42d5b764a4a0652a669f227b6b2f746"><div class="ttname"><a href="class_u_equipment_definition.html#af42d5b764a4a0652a669f227b6b2f746">UEquipmentDefinition::ActorsToSpawn</a></div><div class="ttdeci">TArray&lt; FEquipmentActorSet &gt; ActorsToSpawn</div><div class="ttdef"><b>Definition</b> <a href="_equipment_definition_8h_source.html#l00083">EquipmentDefinition.h:83</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a00789c7d61c2c0ab039abbae5b45bbdd"><div class="ttname"><a href="class_u_equipment_instance.html#a00789c7d61c2c0ab039abbae5b45bbdd">UEquipmentInstance::SpawnActors</a></div><div class="ttdeci">virtual void SpawnActors(const TArray&lt; FEquipmentActorSet &gt; &amp;ActorsToSpawn)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00118">EquipmentInstance.cpp:118</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a631507c1042c942ce4624eb4d9949313"><div class="ttname"><a href="class_u_equipment_instance.html#a631507c1042c942ce4624eb4d9949313">UEquipmentInstance::SetSourceItem</a></div><div class="ttdeci">void SetSourceItem(UItemInstance *InSourceObject)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00104">EquipmentInstance.cpp:104</a></div></div>
 <div class="ttc" id="aclass_u_equipment_instance_html_a75e55655a2908a23cccaea2caad94526"><div class="ttname"><a href="class_u_equipment_instance.html#a75e55655a2908a23cccaea2caad94526">UEquipmentInstance::SetInstigator</a></div><div class="ttdeci">void SetInstigator(UObject *InInstigator)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00084">EquipmentInstance.cpp:84</a></div></div>
-<div class="ttc" id="aclass_u_equipment_instance_html_ab15905381b20ae7d315b8d0110a6c2ab"><div class="ttname"><a href="class_u_equipment_instance.html#ab15905381b20ae7d315b8d0110a6c2ab">UEquipmentInstance::OnSpawned</a></div><div class="ttdeci">virtual void OnSpawned()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00176">EquipmentInstance.cpp:176</a></div></div>
+<div class="ttc" id="aclass_u_equipment_instance_html_ab15905381b20ae7d315b8d0110a6c2ab"><div class="ttname"><a href="class_u_equipment_instance.html#ab15905381b20ae7d315b8d0110a6c2ab">UEquipmentInstance::OnSpawned</a></div><div class="ttdeci">virtual void OnSpawned()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00179">EquipmentInstance.cpp:179</a></div></div>
 <div class="ttc" id="aclass_u_equipment_instance_html_ac522528c8a9d18dcc301d18147d0796c"><div class="ttname"><a href="class_u_equipment_instance.html#ac522528c8a9d18dcc301d18147d0796c">UEquipmentInstance::SetDefinition</a></div><div class="ttdeci">void SetDefinition(UEquipmentDefinition *InDefinition)</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00109">EquipmentInstance.cpp:109</a></div></div>
+<div class="ttc" id="astruct_f_equipment_list_html_a21c92faac23331c78330c4dbd6f86f91"><div class="ttname"><a href="#a21c92faac23331c78330c4dbd6f86f91">FEquipmentList::GetAbilitySystemComponent</a></div><div class="ttdeci">UAbilitySystemComponent * GetAbilitySystemComponent() const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8cpp_source.html#l00202">EquipmentList.cpp:202</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00069">UEquipmentDefinition::AbilitySets</a>, <a class="el" href="_equipment_definition_8h_source.html#l00065">UEquipmentDefinition::ActorsToSpawn</a>, <a class="el" href="_equipment_definition_8h_source.html#l00061">UEquipmentDefinition::InstanceClass</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00176">UEquipmentInstance::OnSpawned()</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00109">UEquipmentInstance::SetDefinition()</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00084">UEquipmentInstance::SetInstigator()</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00115">UEquipmentInstance::SpawnActors()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_definition_8h_source.html#l00087">UEquipmentDefinition::AbilitySets</a>, <a class="el" href="_equipment_definition_8h_source.html#l00083">UEquipmentDefinition::ActorsToSpawn</a>, <a class="el" href="_equipment_list_8h_source.html#l00104">Entries</a>, <a class="el" href="_equipment_list_8cpp_source.html#l00202">GetAbilitySystemComponent()</a>, <a class="el" href="_equipment_definition_8h_source.html#l00069">UEquipmentDefinition::InstanceClass</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00179">UEquipmentInstance::OnSpawned()</a>, <a class="el" href="_equipment_list_8h_source.html#l00108">OwnerComponent</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00109">UEquipmentInstance::SetDefinition()</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00084">UEquipmentInstance::SetInstigator()</a>, <a class="el" href="_equipment_instance_8cpp_source.html#l00104">UEquipmentInstance::SetSourceItem()</a>, and <a class="el" href="_equipment_instance_8cpp_source.html#l00118">UEquipmentInstance::SpawnActors()</a>.</p>
+
+</div>
+</div>
+<a id="a21c92faac23331c78330c4dbd6f86f91" name="a21c92faac23331c78330c4dbd6f86f91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21c92faac23331c78330c4dbd6f86f91">&#9670;&#160;</a></span>GetAbilitySystemComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">UAbilitySystemComponent * FEquipmentList::GetAbilitySystemComponent </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the ability system component of the owner. </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00202">202</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  203</span>{</div>
+<div class="line"><span class="lineno">  204</span>    check(<a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>);</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>    <span class="keyword">const</span> AActor* OwningActor = <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;GetOwner();</div>
+<div class="line"><span class="lineno">  207</span>    <span class="keywordflow">return</span> UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor);</div>
+<div class="line"><span class="lineno">  208</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_list_8h_source.html#l00108">OwnerComponent</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">Add()</a>, and <a class="el" href="_equipment_list_8cpp_source.html#l00147">Remove()</a>.</p>
+
+</div>
+</div>
+<a id="af50a0324216b882b7ed642b4bef083de" name="af50a0324216b882b7ed642b4bef083de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af50a0324216b882b7ed642b4bef083de">&#9670;&#160;</a></span>Internal_OnEntryAdded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FEquipmentList::Internal_OnEntryAdded </td>
+          <td>(</td>
+          <td class="paramtype">int32</td>          <td class="paramname"><span class="paramname"><em>Index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Entry</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called when an entry is added. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Index</td><td>The index of the added entry. </td></tr>
+    <tr><td class="paramname">Entry</td><td>The added entry. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00178">178</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  179</span>{</div>
+<div class="line"><span class="lineno">  180</span>    FEquipmentChangeData Data;</div>
+<div class="line"><span class="lineno">  181</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a1533bc72d6dc92a4a7725df80294e886">Index</a> = Index;</div>
+<div class="line"><span class="lineno">  182</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a59b3de9cab48cbdb936c256a422c5db2">NewInstance</a> = Entry.Instance;</div>
+<div class="line"><span class="lineno">  183</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a9cf5ce811b399c2b7bd87f4fe81b5cfc">OldInstance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  184</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a0463328e46233db3740cafe715ac49bd">ChangeType</a> = EEquipmentChangeType::Equipped;</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>    <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;PostEquipmentEquipped(Data);</div>
+<div class="line"><span class="lineno">  187</span>    <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;PostEquipmentChanged(Data);</div>
+<div class="line"><span class="lineno">  188</span>}</div>
+<div class="ttc" id="astruct_f_equipment_change_data_html_a0463328e46233db3740cafe715ac49bd"><div class="ttname"><a href="struct_f_equipment_change_data.html#a0463328e46233db3740cafe715ac49bd">FEquipmentChangeData::ChangeType</a></div><div class="ttdeci">EEquipmentChangeType ChangeType</div><div class="ttdef"><b>Definition</b> <a href="_equipment_change_data_8h_source.html#l00073">EquipmentChangeData.h:73</a></div></div>
+<div class="ttc" id="astruct_f_equipment_change_data_html_a1533bc72d6dc92a4a7725df80294e886"><div class="ttname"><a href="struct_f_equipment_change_data.html#a1533bc72d6dc92a4a7725df80294e886">FEquipmentChangeData::Index</a></div><div class="ttdeci">int32 Index</div><div class="ttdef"><b>Definition</b> <a href="_equipment_change_data_8h_source.html#l00052">EquipmentChangeData.h:52</a></div></div>
+<div class="ttc" id="astruct_f_equipment_change_data_html_a59b3de9cab48cbdb936c256a422c5db2"><div class="ttname"><a href="struct_f_equipment_change_data.html#a59b3de9cab48cbdb936c256a422c5db2">FEquipmentChangeData::NewInstance</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentInstance &gt; NewInstance</div><div class="ttdef"><b>Definition</b> <a href="_equipment_change_data_8h_source.html#l00059">EquipmentChangeData.h:59</a></div></div>
+<div class="ttc" id="astruct_f_equipment_change_data_html_a9cf5ce811b399c2b7bd87f4fe81b5cfc"><div class="ttname"><a href="struct_f_equipment_change_data.html#a9cf5ce811b399c2b7bd87f4fe81b5cfc">FEquipmentChangeData::OldInstance</a></div><div class="ttdeci">TObjectPtr&lt; UEquipmentInstance &gt; OldInstance</div><div class="ttdef"><b>Definition</b> <a href="_equipment_change_data_8h_source.html#l00066">EquipmentChangeData.h:66</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_change_data_8h_source.html#l00073">FEquipmentChangeData::ChangeType</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00052">FEquipmentChangeData::Index</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00059">FEquipmentChangeData::NewInstance</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00066">FEquipmentChangeData::OldInstance</a>, and <a class="el" href="_equipment_list_8h_source.html#l00108">OwnerComponent</a>.</p>
+
+</div>
+</div>
+<a id="a7112dccd305b5e94be92a4ecb74fdbbf" name="a7112dccd305b5e94be92a4ecb74fdbbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7112dccd305b5e94be92a4ecb74fdbbf">&#9670;&#160;</a></span>Internal_OnEntryChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FEquipmentList::Internal_OnEntryChanged </td>
+          <td>(</td>
+          <td class="paramtype">int32</td>          <td class="paramname"><span class="paramname"><em>Index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Entry</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called when an entry is changed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Index</td><td>The index of the changed entry. </td></tr>
+    <tr><td class="paramname">Entry</td><td>The changed entry. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00167">167</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  168</span>{</div>
+<div class="line"><span class="lineno">  169</span>    FEquipmentChangeData Data;</div>
+<div class="line"><span class="lineno">  170</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a1533bc72d6dc92a4a7725df80294e886">Index</a> = Index;</div>
+<div class="line"><span class="lineno">  171</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a59b3de9cab48cbdb936c256a422c5db2">NewInstance</a> = Entry.Instance;</div>
+<div class="line"><span class="lineno">  172</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a9cf5ce811b399c2b7bd87f4fe81b5cfc">OldInstance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  173</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a0463328e46233db3740cafe715ac49bd">ChangeType</a> = EEquipmentChangeType::Modified;</div>
+<div class="line"><span class="lineno">  174</span> </div>
+<div class="line"><span class="lineno">  175</span>    <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;PostEquipmentChanged(Data);</div>
+<div class="line"><span class="lineno">  176</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_change_data_8h_source.html#l00073">FEquipmentChangeData::ChangeType</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00052">FEquipmentChangeData::Index</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00059">FEquipmentChangeData::NewInstance</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00066">FEquipmentChangeData::OldInstance</a>, and <a class="el" href="_equipment_list_8h_source.html#l00108">OwnerComponent</a>.</p>
+
+</div>
+</div>
+<a id="abdedd00584adf79c87b6ecc4fcd7c87c" name="abdedd00584adf79c87b6ecc4fcd7c87c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdedd00584adf79c87b6ecc4fcd7c87c">&#9670;&#160;</a></span>Internal_OnEntryRemoved()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FEquipmentList::Internal_OnEntryRemoved </td>
+          <td>(</td>
+          <td class="paramtype">int32</td>          <td class="paramname"><span class="paramname"><em>Index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>Entry</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Called when an entry is removed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Index</td><td>The index of the removed entry. </td></tr>
+    <tr><td class="paramname">Entry</td><td>The removed entry. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00190">190</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  191</span>{</div>
+<div class="line"><span class="lineno">  192</span>    FEquipmentChangeData Data;</div>
+<div class="line"><span class="lineno">  193</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a1533bc72d6dc92a4a7725df80294e886">Index</a> = Index;</div>
+<div class="line"><span class="lineno">  194</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a59b3de9cab48cbdb936c256a422c5db2">NewInstance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  195</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a9cf5ce811b399c2b7bd87f4fe81b5cfc">OldInstance</a> = Entry.Instance;</div>
+<div class="line"><span class="lineno">  196</span>    Data.<a class="code hl_variable" href="struct_f_equipment_change_data.html#a0463328e46233db3740cafe715ac49bd">ChangeType</a> = EEquipmentChangeType::Unequipped;</div>
+<div class="line"><span class="lineno">  197</span> </div>
+<div class="line"><span class="lineno">  198</span>    <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;PostEquipmentUnequipped(Data);</div>
+<div class="line"><span class="lineno">  199</span>    <a class="code hl_variable" href="#a61993e36b451ccb7c18265c0cb01aab2">OwnerComponent</a>-&gt;PostEquipmentChanged(Data);</div>
+<div class="line"><span class="lineno">  200</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_change_data_8h_source.html#l00073">FEquipmentChangeData::ChangeType</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00052">FEquipmentChangeData::Index</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00059">FEquipmentChangeData::NewInstance</a>, <a class="el" href="_equipment_change_data_8h_source.html#l00066">FEquipmentChangeData::OldInstance</a>, and <a class="el" href="_equipment_list_8h_source.html#l00108">OwnerComponent</a>.</p>
 
 </div>
 </div>
@@ -340,9 +565,11 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <p>Implements network delta serialization for the equipment list. </p>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00040">40</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{ <span class="keywordflow">return</span> FastArrayDeltaSerialize&lt;FEquipmentEntry, FEquipmentList&gt;(Entries, DeltaParms, *<span class="keyword">this</span>); }</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00059">59</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{ <span class="keywordflow">return</span> FastArrayDeltaSerialize&lt;FEquipmentEntry, FEquipmentList&gt;(<a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>, DeltaParms, *<span class="keyword">this</span>); }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="_equipment_list_8h_source.html#l00104">Entries</a>.</p>
+
 </div>
 </div>
 <a id="a3ed6c99b35783e9a9b7aa092fd66259a" name="a3ed6c99b35783e9a9b7aa092fd66259a"></a>
@@ -364,17 +591,66 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00039">39</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>{</div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> int32 Index : AddedIndices)</div>
-<div class="line"><span class="lineno">   42</span>    {</div>
-<div class="line"><span class="lineno">   43</span>        <span class="keyword">const</span> FEquipmentEntry&amp; Entry = Entries[Index];</div>
-<div class="line"><span class="lineno">   44</span>        <span class="keywordflow">if</span> (Entry.Instance != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   45</span>        {</div>
-<div class="line"><span class="lineno">   46</span>            Entry.Instance-&gt;OnEquipped();</div>
-<div class="line"><span class="lineno">   47</span>        }</div>
-<div class="line"><span class="lineno">   48</span>    }</div>
-<div class="line"><span class="lineno">   49</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00043">43</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>{</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> int32 Index : AddedIndices)</div>
+<div class="line"><span class="lineno">   46</span>    {</div>
+<div class="line"><span class="lineno">   47</span>        <span class="keywordflow">if</span> (FEquipmentEntry&amp; Entry = <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>[Index]; Entry.Instance != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">   48</span>        {</div>
+<div class="line"><span class="lineno">   49</span>            Entry.Instance-&gt;OnEquipped();</div>
+<div class="line"><span class="lineno">   50</span>            Entry.LastInstance = MakeWeakObjectPtr&lt;UEquipmentInstance&gt;(Entry.Instance);</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>            <a class="code hl_function" href="#af50a0324216b882b7ed642b4bef083de">Internal_OnEntryAdded</a>(Index, Entry);</div>
+<div class="line"><span class="lineno">   53</span>        }</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+<div class="line"><span class="lineno">   55</span>}</div>
+<div class="ttc" id="astruct_f_equipment_list_html_af50a0324216b882b7ed642b4bef083de"><div class="ttname"><a href="#af50a0324216b882b7ed642b4bef083de">FEquipmentList::Internal_OnEntryAdded</a></div><div class="ttdeci">void Internal_OnEntryAdded(int32 Index, const FEquipmentEntry &amp;Entry) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8cpp_source.html#l00178">EquipmentList.cpp:178</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af3b6bcbfeaf799f798dcb04aa3f13e6c" name="af3b6bcbfeaf799f798dcb04aa3f13e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3b6bcbfeaf799f798dcb04aa3f13e6c">&#9670;&#160;</a></span>PostReplicatedChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FEquipmentList::PostReplicatedChange </td>
+          <td>(</td>
+          <td class="paramtype">const TArrayView&lt; int32 &gt;</td>          <td class="paramname"><span class="paramname"><em>ChangedIndices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32</td>          <td class="paramname"><span class="paramname"><em>FinalSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00057">57</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>{</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> int32 Index : ChangedIndices)</div>
+<div class="line"><span class="lineno">   60</span>    {</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>.IsValidIndex(Index))</div>
+<div class="line"><span class="lineno">   62</span>        {</div>
+<div class="line"><span class="lineno">   63</span>            FEquipmentEntry&amp; Entry = <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>[Index];</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> (IsValid(Entry.Instance))</div>
+<div class="line"><span class="lineno">   66</span>            {</div>
+<div class="line"><span class="lineno">   67</span>                Entry.Instance-&gt;OnEquipped();</div>
+<div class="line"><span class="lineno">   68</span>            }</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">if</span> (Entry.Instance != Entry.LastInstance.Get() &amp;&amp; Entry.LastInstance.IsValid())</div>
+<div class="line"><span class="lineno">   71</span>            {</div>
+<div class="line"><span class="lineno">   72</span>                Entry.LastInstance-&gt;OnUnequipped();</div>
+<div class="line"><span class="lineno">   73</span>                Entry.LastInstance = MakeWeakObjectPtr&lt;UEquipmentInstance&gt;(Entry.Instance);</div>
+<div class="line"><span class="lineno">   74</span>            }</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>            <a class="code hl_function" href="#a7112dccd305b5e94be92a4ecb74fdbbf">Internal_OnEntryChanged</a>(Index, Entry);</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
+<div class="line"><span class="lineno">   78</span>    }</div>
+<div class="line"><span class="lineno">   79</span>}</div>
+<div class="ttc" id="astruct_f_equipment_list_html_a7112dccd305b5e94be92a4ecb74fdbbf"><div class="ttname"><a href="#a7112dccd305b5e94be92a4ecb74fdbbf">FEquipmentList::Internal_OnEntryChanged</a></div><div class="ttdeci">void Internal_OnEntryChanged(int32 Index, const FEquipmentEntry &amp;Entry) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8cpp_source.html#l00167">EquipmentList.cpp:167</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -397,21 +673,25 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00028">28</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>{</div>
-<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> int32 Index : RemovedIndices)</div>
-<div class="line"><span class="lineno">   31</span>    {</div>
-<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">if</span> (<span class="keyword">const</span> FEquipmentEntry&amp; Entry = Entries[Index]; Entry.Instance != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">   33</span>        {</div>
-<div class="line"><span class="lineno">   34</span>            Entry.Instance-&gt;OnUnequipped();</div>
-<div class="line"><span class="lineno">   35</span>        }</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
-<div class="line"><span class="lineno">   37</span>}</div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00029">29</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{</div>
+<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> int32 Index : RemovedIndices)</div>
+<div class="line"><span class="lineno">   32</span>    {</div>
+<div class="line"><span class="lineno">   33</span>        <span class="keywordflow">if</span> (FEquipmentEntry&amp; Entry = <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>[Index]; Entry.Instance != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">   34</span>        {</div>
+<div class="line"><span class="lineno">   35</span>            Entry.Instance-&gt;OnUnequipped();</div>
+<div class="line"><span class="lineno">   36</span>            Entry.LastInstance = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>            <a class="code hl_function" href="#abdedd00584adf79c87b6ecc4fcd7c87c">Internal_OnEntryRemoved</a>(Index, Entry);</div>
+<div class="line"><span class="lineno">   39</span>        }</div>
+<div class="line"><span class="lineno">   40</span>    }</div>
+<div class="line"><span class="lineno">   41</span>}</div>
+<div class="ttc" id="astruct_f_equipment_list_html_abdedd00584adf79c87b6ecc4fcd7c87c"><div class="ttname"><a href="#abdedd00584adf79c87b6ecc4fcd7c87c">FEquipmentList::Internal_OnEntryRemoved</a></div><div class="ttdeci">void Internal_OnEntryRemoved(int32 Index, const FEquipmentEntry &amp;Entry) const</div><div class="ttdef"><b>Definition</b> <a href="_equipment_list_8cpp_source.html#l00190">EquipmentList.cpp:190</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a8c969bfc69b0dd8f21470da5b8303a52" name="a8c969bfc69b0dd8f21470da5b8303a52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c969bfc69b0dd8f21470da5b8303a52">&#9670;&#160;</a></span>Remove()</h2>
+<a id="a526157e31f76c3b3c71b5e8fdca5cdc9" name="a526157e31f76c3b3c71b5e8fdca5cdc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a526157e31f76c3b3c71b5e8fdca5cdc9">&#9670;&#160;</a></span>Remove()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,40 +699,45 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">void FEquipmentList::Remove </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>Instance</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_u_equipment_instance.html">UEquipmentInstance</a> *</td>          <td class="paramname"><span class="paramname"><em>Instance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">FGameplayTag &amp;</td>          <td class="paramname"><span class="paramname"><em>OutFailureReason</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Remove the specified equipment instance from the list. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">Instance</td><td>The instance to remove. </td></tr>
+    <tr><td class="paramname">OutFailureReason</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00108">108</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>{</div>
-<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)</div>
-<div class="line"><span class="lineno">  111</span>    {</div>
-<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">if</span> (FEquipmentEntry&amp; Entry = *EntryIterator; Entry.Instance == Instance)</div>
-<div class="line"><span class="lineno">  113</span>        {</div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())</div>
-<div class="line"><span class="lineno">  115</span>            {</div>
-<div class="line"><span class="lineno">  116</span>                Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);</div>
-<div class="line"><span class="lineno">  117</span>            }</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>            <span class="comment">// Ask the instance to destroy its attachment actors</span></div>
-<div class="line"><span class="lineno">  120</span>            Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a64cdd4364cfa7baa73189a499081b9b3">DestroyActors</a>();</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>            EntryIterator.RemoveCurrent();</div>
-<div class="line"><span class="lineno">  123</span>            MarkArrayDirty();</div>
-<div class="line"><span class="lineno">  124</span>        }</div>
-<div class="line"><span class="lineno">  125</span>    }</div>
-<div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="aclass_u_equipment_instance_html_a64cdd4364cfa7baa73189a499081b9b3"><div class="ttname"><a href="class_u_equipment_instance.html#a64cdd4364cfa7baa73189a499081b9b3">UEquipmentInstance::DestroyActors</a></div><div class="ttdeci">virtual void DestroyActors()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00155">EquipmentInstance.cpp:155</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8cpp_source.html#l00147">147</a> of file <a class="el" href="_equipment_list_8cpp_source.html">EquipmentList.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>{</div>
+<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> EntryIterator = <a class="code hl_variable" href="#a2ee04e46a946006b9a5e5c8a4ae05086">Entries</a>.CreateIterator(); EntryIterator; ++EntryIterator)</div>
+<div class="line"><span class="lineno">  150</span>    {</div>
+<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">if</span> (FEquipmentEntry&amp; Entry = *EntryIterator; Entry.Instance == Instance)</div>
+<div class="line"><span class="lineno">  152</span>        {</div>
+<div class="line"><span class="lineno">  153</span>            <span class="keywordflow">if</span> (UAbilitySystemComponent* AbilitySystemComp = <a class="code hl_function" href="#a21c92faac23331c78330c4dbd6f86f91">GetAbilitySystemComponent</a>())</div>
+<div class="line"><span class="lineno">  154</span>            {</div>
+<div class="line"><span class="lineno">  155</span>                Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);</div>
+<div class="line"><span class="lineno">  156</span>            }</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>            <span class="comment">// Ask the instance to destroy its attachment actors</span></div>
+<div class="line"><span class="lineno">  159</span>            Instance-&gt;<a class="code hl_function" href="class_u_equipment_instance.html#a64cdd4364cfa7baa73189a499081b9b3">DestroyActors</a>();</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>            EntryIterator.RemoveCurrent();</div>
+<div class="line"><span class="lineno">  162</span>            MarkArrayDirty();</div>
+<div class="line"><span class="lineno">  163</span>        }</div>
+<div class="line"><span class="lineno">  164</span>    }</div>
+<div class="line"><span class="lineno">  165</span>}</div>
+<div class="ttc" id="aclass_u_equipment_instance_html_a64cdd4364cfa7baa73189a499081b9b3"><div class="ttname"><a href="class_u_equipment_instance.html#a64cdd4364cfa7baa73189a499081b9b3">UEquipmentInstance::DestroyActors</a></div><div class="ttdeci">virtual void DestroyActors()</div><div class="ttdef"><b>Definition</b> <a href="_equipment_instance_8cpp_source.html#l00158">EquipmentInstance.cpp:158</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_equipment_instance_8cpp_source.html#l00155">UEquipmentInstance::DestroyActors()</a>, and <a class="el" href="_ability_set_handles_8cpp_source.html#l00029">FAbilitySetHandles::TakeFromAbilitySystem()</a>.</p>
+<p class="reference">References <a class="el" href="_equipment_instance_8cpp_source.html#l00158">UEquipmentInstance::DestroyActors()</a>, <a class="el" href="_equipment_list_8h_source.html#l00104">Entries</a>, <a class="el" href="_equipment_list_8cpp_source.html#l00202">GetAbilitySystemComponent()</a>, and <a class="el" href="_ability_set_handles_8cpp_source.html#l00028">FAbilitySetHandles::TakeFromAbilitySystem()</a>.</p>
 
 </div>
 </div>
@@ -477,11 +762,38 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00027">27</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00046">46</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2ee04e46a946006b9a5e5c8a4ae05086" name="a2ee04e46a946006b9a5e5c8a4ae05086"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ee04e46a946006b9a5e5c8a4ae05086">&#9670;&#160;</a></span>Entries</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TArray&lt;<a class="el" href="struct_f_equipment_entry.html">FEquipmentEntry</a>&gt; FEquipmentList::Entries</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Array of equipment entries </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00104">104</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">Add()</a>, <a class="el" href="_equipment_list_8h_source.html#l00059">NetDeltaSerialize()</a>, and <a class="el" href="_equipment_list_8cpp_source.html#l00147">Remove()</a>.</p>
+
+</div>
+</div>
 <a id="ac978e097e27e4eebad87ce512b94919d" name="ac978e097e27e4eebad87ce512b94919d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac978e097e27e4eebad87ce512b94919d">&#9670;&#160;</a></span>FEquipmentEntry</h2>
 
@@ -494,7 +806,34 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00028">28</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00047">47</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+
+</div>
+</div>
+<a id="a61993e36b451ccb7c18265c0cb01aab2" name="a61993e36b451ccb7c18265c0cb01aab2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61993e36b451ccb7c18265c0cb01aab2">&#9670;&#160;</a></span>OwnerComponent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TObjectPtr&lt;<a class="el" href="class_u_equipment_system_component.html">UEquipmentSystemComponent</a>&gt; FEquipmentList::OwnerComponent = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Owner component of this equipment list </p>
+
+<p class="definition">Definition at line <a class="el" href="_equipment_list_8h_source.html#l00108">108</a> of file <a class="el" href="_equipment_list_8h_source.html">EquipmentList.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_equipment_list_8cpp_source.html#l00081">Add()</a>, <a class="el" href="_equipment_list_8cpp_source.html#l00202">GetAbilitySystemComponent()</a>, <a class="el" href="_equipment_list_8cpp_source.html#l00178">Internal_OnEntryAdded()</a>, <a class="el" href="_equipment_list_8cpp_source.html#l00167">Internal_OnEntryChanged()</a>, and <a class="el" href="_equipment_list_8cpp_source.html#l00190">Internal_OnEntryRemoved()</a>.</p>
 
 </div>
 </div>

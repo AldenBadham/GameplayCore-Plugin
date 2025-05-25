@@ -10,8 +10,10 @@ var hierarchy =
     [ "FActorFeatureRegisteredDelegate", "struct_f_actor_feature_registered_delegate.html", null ],
     [ "FActorFeatureState", "struct_f_actor_feature_state.html", null ],
     [ "FActorInitStateChangedParams", "struct_f_actor_init_state_changed_params.html", null ],
+    [ "FDynamicEquipmentSlot", "struct_f_dynamic_equipment_slot.html", null ],
     [ "FEquipmentActorSet", "struct_f_equipment_actor_set.html", null ],
-    [ "FEquipmentSlotSet", "struct_f_equipment_slot_set.html", null ],
+    [ "FEquipmentChangeData", "struct_f_equipment_change_data.html", null ],
+    [ "FEquipmentResult", "struct_f_equipment_result.html", null ],
     [ "FFastArraySerializer", null, [
       [ "FEquipmentList", "struct_f_equipment_list.html", null ],
       [ "FInventoryList", "struct_f_inventory_list.html", null ]
@@ -22,10 +24,12 @@ var hierarchy =
     ] ],
     [ "FGameplayTagPropertyMap", "struct_f_gameplay_tag_property_map.html", null ],
     [ "FInputTagSet", "struct_f_input_tag_set.html", null ],
+    [ "FInventoryAddResult", "struct_f_inventory_add_result.html", null ],
     [ "FInventoryChangeData", "struct_f_inventory_change_data.html", null ],
     [ "FInventoryEntryHandle", "struct_f_inventory_entry_handle.html", null ],
     [ "FInventorySet_ItemSet", "struct_f_inventory_set___item_set.html", null ],
     [ "FItemFragmentRule", "struct_f_item_fragment_rule.html", null ],
+    [ "FSlotDefinition", "struct_f_slot_definition.html", null ],
     [ "IGameInitStateInterface", "class_i_game_init_state_interface.html", null ],
     [ "IInventorySystemInterface", "class_i_inventory_system_interface.html", null ],
     [ "IModuleInterface", null, [
@@ -51,7 +55,6 @@ var hierarchy =
       [ "UAbilitySystemGlobalsBase", "class_u_ability_system_globals_base.html", null ]
     ] ],
     [ "UActorComponent", null, [
-      [ "UEquipmentSlotComponent", "class_u_equipment_slot_component.html", null ],
       [ "UEquipmentSystemComponent", "class_u_equipment_system_component.html", null ]
     ] ],
     [ "UAnimInstance", null, [
@@ -85,13 +88,9 @@ var hierarchy =
     [ "UInventorySystemComponent", "class_u_inventory_system_component.html", null ],
     [ "UObject", null, [
       [ "UEquipmentCache", "class_u_equipment_cache.html", null ],
-      [ "UEquipmentComponent", "class_u_equipment_component.html", [
-        [ "UEquipmentComponent_Blessable", "class_u_equipment_component___blessable.html", null ]
-      ] ],
+      [ "UEquipmentComponent", "class_u_equipment_component.html", null ],
       [ "UEquipmentDefinition", "class_u_equipment_definition.html", null ],
-      [ "UEquipmentFragment", "class_u_equipment_fragment.html", [
-        [ "UEquipmentFragment_Blessable", "class_u_equipment_fragment___blessable.html", null ]
-      ] ],
+      [ "UEquipmentFragment", "class_u_equipment_fragment.html", null ],
       [ "UEquipmentInstance", "class_u_equipment_instance.html", null ],
       [ "UInventoryCache", "class_u_inventory_cache.html", null ],
       [ "UItemComponent", "class_u_item_component.html", [
@@ -100,12 +99,11 @@ var hierarchy =
       [ "UItemDefinition", "class_u_item_definition.html", null ],
       [ "UItemFragment", "class_u_item_fragment.html", [
         [ "UItemFragment_Consumable", "class_u_item_fragment___consumable.html", null ],
-        [ "UItemFragment_Dropable", "class_u_item_fragment___dropable.html", null ],
-        [ "UItemFragment_EquipableItem", "class_u_item_fragment___equipable_item.html", null ],
-        [ "UItemFragment_Storable", "class_u_item_fragment___storable.html", null ],
-        [ "UItemFragment_Tradable", "class_u_item_fragment___tradable.html", null ]
+        [ "UItemFragment_Equippable", "class_u_item_fragment___equippable.html", null ],
+        [ "UItemFragment_Storable", "class_u_item_fragment___storable.html", null ]
       ] ],
-      [ "UItemInstance", "class_u_item_instance.html", null ]
+      [ "UItemInstance", "class_u_item_instance.html", null ],
+      [ "USlotPolicy", "class_u_slot_policy.html", null ]
     ] ],
     [ "UPrimaryDataAsset", null, [
       [ "UAbilitySet", "class_u_ability_set.html", null ],

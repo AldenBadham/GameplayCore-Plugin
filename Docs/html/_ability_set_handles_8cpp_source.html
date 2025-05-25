@@ -105,77 +105,76 @@ $(function(){initNavTree('_ability_set_handles_8cpp_source.html',''); initResiza
   <div class="headertitle"><div class="title">AbilitySetHandles.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Fill out your copyright notice in the Description page of Project Settings.</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Licensed under the MIT License. See the LICENSE file in the project root for full license information.</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;Data/AbilitySetHandles.h&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;Data/AbilitySet.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;Log/AbilitySystemLog.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="foldopen" id="foldopen00008" data-start="{" data-end="}">
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">    8</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a>(<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; Handle)</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keywordflow">if</span> (Handle.IsValid())</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>.Add(Handle);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    }</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>}</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">    7</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a>(<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; Handle)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keywordflow">if</span> (Handle.IsValid())</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>.Add(Handle);</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    }</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>}</div>
 </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">   16</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a>(<span class="keyword">const</span> FActiveGameplayEffectHandle&amp; Handle)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>{</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">if</span> (Handle.IsValid())</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>.Add(Handle);</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    }</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">   15</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a>(<span class="keyword">const</span> FActiveGameplayEffectHandle&amp; Handle)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">if</span> (Handle.IsValid())</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>.Add(Handle);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
 </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a>(UAttributeSet* Set)</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>.Add(Set);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a>(UAttributeSet* Set)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>.Add(Set);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
 </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">   29</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">FAbilitySetHandles::TakeFromAbilitySystem</a>(UAbilitySystemComponent* AbilitySystemComp)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    check(AbilitySystemComp);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    ensure(!AbilitySystemComp-&gt;IsOwnerActorAuthoritative());</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; Handle : <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    {</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">if</span> (Handle.IsValid())</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            AbilitySystemComp-&gt;ClearAbility(Handle);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FActiveGameplayEffectHandle&amp; Handle : <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">if</span> (Handle.IsValid())</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            AbilitySystemComp-&gt;RemoveActiveGameplayEffect(Handle);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">for</span> (UAttributeSet* Set : <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>)</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        AbilitySystemComp-&gt;RemoveSpawnedAttribute(Set);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>.Reset();</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>.Reset();</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>.Reset();</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">FAbilitySetHandles::TakeFromAbilitySystem</a>(UAbilitySystemComponent* AbilitySystemComp)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    check(AbilitySystemComp);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    ensure(!AbilitySystemComp-&gt;IsOwnerActorAuthoritative());</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FGameplayAbilitySpecHandle&amp; Handle : <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>)</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">if</span> (Handle.IsValid())</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            AbilitySystemComp-&gt;ClearAbility(Handle);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> FActiveGameplayEffectHandle&amp; Handle : <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">if</span> (Handle.IsValid())</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            AbilitySystemComp-&gt;RemoveActiveGameplayEffect(Handle);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">for</span> (UAttributeSet* Set : <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>)</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        AbilitySystemComp-&gt;RemoveSpawnedAttribute(Set);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">AbilitySpecHandles</a>.Reset();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">GameplayEffectHandles</a>.Reset();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_variable" href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">GrantedAttributeSets</a>.Reset();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
 </div>
 <div class="ttc" id="astruct_f_ability_set_handles_html_a18c7e53dfb72cb5148627ce5af409985"><div class="ttname"><a href="struct_f_ability_set_handles.html#a18c7e53dfb72cb5148627ce5af409985">FAbilitySetHandles::AbilitySpecHandles</a></div><div class="ttdeci">TArray&lt; FGameplayAbilitySpecHandle &gt; AbilitySpecHandles</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8h_source.html#l00046">AbilitySetHandles.h:46</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a205e46bf9ae996fd5a1e8b6cb7fe2b73"><div class="ttname"><a href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a></div><div class="ttdeci">void AddGameplayEffectHandle(const FActiveGameplayEffectHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="#l00016">AbilitySetHandles.cpp:16</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a2be9ceaba418eda7d5e3ff5da5ba3189"><div class="ttname"><a href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">FAbilitySetHandles::TakeFromAbilitySystem</a></div><div class="ttdeci">void TakeFromAbilitySystem(UAbilitySystemComponent *AbilitySystemComp)</div><div class="ttdef"><b>Definition</b> <a href="#l00029">AbilitySetHandles.cpp:29</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a310be1b95c6083c5a55828bfbbe55a33"><div class="ttname"><a href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a></div><div class="ttdeci">void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="#l00008">AbilitySetHandles.cpp:8</a></div></div>
-<div class="ttc" id="astruct_f_ability_set_handles_html_a5ce1ad585ea6334ad640ebd2246645f9"><div class="ttname"><a href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a></div><div class="ttdeci">void AddAttributeSet(UAttributeSet *Set)</div><div class="ttdef"><b>Definition</b> <a href="#l00024">AbilitySetHandles.cpp:24</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a205e46bf9ae996fd5a1e8b6cb7fe2b73"><div class="ttname"><a href="struct_f_ability_set_handles.html#a205e46bf9ae996fd5a1e8b6cb7fe2b73">FAbilitySetHandles::AddGameplayEffectHandle</a></div><div class="ttdeci">void AddGameplayEffectHandle(const FActiveGameplayEffectHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="#l00015">AbilitySetHandles.cpp:15</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a2be9ceaba418eda7d5e3ff5da5ba3189"><div class="ttname"><a href="struct_f_ability_set_handles.html#a2be9ceaba418eda7d5e3ff5da5ba3189">FAbilitySetHandles::TakeFromAbilitySystem</a></div><div class="ttdeci">void TakeFromAbilitySystem(UAbilitySystemComponent *AbilitySystemComp)</div><div class="ttdef"><b>Definition</b> <a href="#l00028">AbilitySetHandles.cpp:28</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a310be1b95c6083c5a55828bfbbe55a33"><div class="ttname"><a href="struct_f_ability_set_handles.html#a310be1b95c6083c5a55828bfbbe55a33">FAbilitySetHandles::AddAbilitySpecHandle</a></div><div class="ttdeci">void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle &amp;Handle)</div><div class="ttdef"><b>Definition</b> <a href="#l00007">AbilitySetHandles.cpp:7</a></div></div>
+<div class="ttc" id="astruct_f_ability_set_handles_html_a5ce1ad585ea6334ad640ebd2246645f9"><div class="ttname"><a href="struct_f_ability_set_handles.html#a5ce1ad585ea6334ad640ebd2246645f9">FAbilitySetHandles::AddAttributeSet</a></div><div class="ttdeci">void AddAttributeSet(UAttributeSet *Set)</div><div class="ttdef"><b>Definition</b> <a href="#l00023">AbilitySetHandles.cpp:23</a></div></div>
 <div class="ttc" id="astruct_f_ability_set_handles_html_a6563c6ea49fdfa22dc4ea91164e8ccad"><div class="ttname"><a href="struct_f_ability_set_handles.html#a6563c6ea49fdfa22dc4ea91164e8ccad">FAbilitySetHandles::GameplayEffectHandles</a></div><div class="ttdeci">TArray&lt; FActiveGameplayEffectHandle &gt; GameplayEffectHandles</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8h_source.html#l00050">AbilitySetHandles.h:50</a></div></div>
 <div class="ttc" id="astruct_f_ability_set_handles_html_acfe9d21d5efeffb581672e97b3982fe0"><div class="ttname"><a href="struct_f_ability_set_handles.html#acfe9d21d5efeffb581672e97b3982fe0">FAbilitySetHandles::GrantedAttributeSets</a></div><div class="ttdeci">TArray&lt; TObjectPtr&lt; UAttributeSet &gt; &gt; GrantedAttributeSets</div><div class="ttdef"><b>Definition</b> <a href="_ability_set_handles_8h_source.html#l00054">AbilitySetHandles.h:54</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
