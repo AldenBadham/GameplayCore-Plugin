@@ -3,7 +3,6 @@
 #pragma once
 
 #include "AbilitySetHandles.h"
-#include "AbilitySystemComponent.h"
 #include "CoreMinimal.h"
 
 #include "AbilitySet.generated.h"

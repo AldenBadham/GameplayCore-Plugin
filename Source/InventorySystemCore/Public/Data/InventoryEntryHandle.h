@@ -37,6 +37,7 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 		EntryIndex = InIndex;
 		ItemInstance = InEntry.Instance;
 		StackCount = InEntry.StackCount;
+		Container = InEntry.OwningContainer;
 	}
 
 	/**

@@ -6,7 +6,6 @@
 #include "Data/EquipmentActorSet.h"
 #include "Definitions/EquipmentDefinition.h"
 #include "Engine/World.h"
-#include "Instances/Components/ItemComponent.h"
 
 #include "EquipmentInstance.generated.h"
 

@@ -63,4 +63,12 @@ private:
 	 */
 	UPROPERTY(NotReplicated)
 	int32 LastStackCount = INDEX_NONE;
+
+	/** 
+	 * Used to detect local stack changes without replication
+	 * Helps with client-side prediction of stack modifications
+	 * @note Not replicated - used for client prediction only
+	 */
+	UPROPERTY(NotReplicated, Transient)
+	UInventoryContainer* OwningContainer = nullptr;
 };

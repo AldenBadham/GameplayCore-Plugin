@@ -30,6 +30,8 @@ struct FInventoryResult
 	FGameplayTag FailureReason;
 
 	bool Succeeded() const { return FailureReason.IsValid() == false; };
+
+	int32 Num() const { return Instances.Num(); }
 };
 
 

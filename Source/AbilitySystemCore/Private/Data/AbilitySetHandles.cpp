@@ -2,8 +2,6 @@
 
 #include "Data/AbilitySetHandles.h"
 
-#include "Data/AbilitySet.h"
-
 void FAbilitySetHandles::AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle)
 {
 	if (Handle.IsValid())

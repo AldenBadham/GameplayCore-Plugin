@@ -70,6 +70,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	FInventoryResult TryMoveByHandle(FInventoryEntryHandle Handle, UInventoryContainer* TargetContainer);
 
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void Empty();
 
 	UFUNCTION(BlueprintCallable, Category="Inventory|Query", meta = (Categories = "Inventory.Container"))
 	FInventoryEntryHandle FindHandleFromInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* Instance) const;
@@ -102,12 +104,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (DeterminesOutputType = DefinitionClass))
 	UItemDefinition* GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const;
 
-public:
-	
 protected:
-	
 	static bool IsValidContainerTag(const FGameplayTag& Tag);
-	
+
 	/**
 	 * Called after an item is added to the inventory
 	 * @param Data Information about the added inventory entry
@@ -132,8 +131,6 @@ protected:
 	 */
 	virtual void PostInventoryChanged(const FInventoryChangeData& Data);
 
-protected:
-	
 	/** Event fired when an item is added to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryAdded;
@@ -149,16 +146,16 @@ protected:
 	/** Event fired after any change to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryChanged;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	TSubclassOf<UInventoryContainer> DefaultContainerClass = UInventoryContainer::StaticClass();
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory", meta = (Categories = "Inventory.Container"))
 	FGameplayTag DefaultContainerTag = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	TObjectPtr<UInventorySet> DefaultInventorySet;
-	
+
 	UPROPERTY(/* Replicated */) // Should be marked as replicated but not supported, so replicated as subobjects
 	TMap<FGameplayTag, TObjectPtr<UInventoryContainer>> Containers;
 

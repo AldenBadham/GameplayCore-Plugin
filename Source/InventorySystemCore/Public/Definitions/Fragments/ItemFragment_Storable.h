@@ -10,7 +10,7 @@
  * @enum EItemStorageFlags
  * @brief Enum defining various storage flags for items. These flags can be combined to describe the storage properties of an item.
  */
-UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsPinnedByValue = true))
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = true))
 enum class EItemStorageFlags : uint8
 {
 	None = 0 UMETA(ToolTip = "No special storage properties.", Hidden),

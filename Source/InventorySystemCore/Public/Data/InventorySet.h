@@ -35,7 +35,6 @@ public:
 	FInventoryResult GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 
 protected:
-	
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	FGameplayTag TargetContainer = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 	/**

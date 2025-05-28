@@ -33,6 +33,11 @@
       "Name": "InventorySystemCore",
       "Type": "Runtime",
       "LoadingPhase": "PostEngineInit"
+    },
+    {
+      "Name": "InventorySystemEditor",
+      "Type": "Editor",
+      "LoadingPhase": "Default"
     }
   ],
   "Plugins": [

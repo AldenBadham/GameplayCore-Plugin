@@ -412,7 +412,7 @@ UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinit
 
 	Entry.Instance = NewObject<UItemInstance>(OwnerActor);
 	Entry.Instance->SetDefinition(CachedDefinition);
-
+	Entry.OwningContainer = OwningContainer;
 	Entry.StackCount = StorableFragment->CanStack() ? FMath::Min(Count, StorableFragment->MaxStackCount) : 1;
 	Count -= Entry.StackCount;
 

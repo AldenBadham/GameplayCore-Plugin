@@ -7,6 +7,7 @@ namespace InventorySystemGameplayTags
 	// Inventory container tags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container, "Inventory.Container", "Root tag for inventory containers");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container_Default, "Inventory.Container.Default", "Default gameplay tag used for inventory container");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container_Bag, "Inventory.Container.Bag", "Default gameplay tag used for inventory container");
 
 	// Inventory failure tags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Failure, "Inventory.Failure", "Root tag for inventory failures");
