@@ -54,7 +54,7 @@ void FInventoryList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 		if (Entries.IsValidIndex(Index))
 		{
 			FInventoryEntry& Entry = Entries[Index];
-			ensureMsgf(Entry.LastStackCount != INDEX_NONE, TEXT("LastStackCount is invalid (INDEX_NONE) for entry at index %d. Should replicate this change"), Index);
+			ensureMsgf(Entry.LastStackCount != INDEX_NONE, TEXT("LastStackCount is invalid (INDEX_NONE) for entry at index %d. Should replicate this change" ), Index);
 
 			Internal_OnEntryChanged(Index, Entry);
 			Entry.LastStackCount = Entry.StackCount;
@@ -332,7 +332,10 @@ FInventoryEntry* FInventoryList::FindEntryOfType(const TSubclassOf<UItemDefiniti
 		return nullptr;
 	}
 
-	return Entries.FindByPredicate([ItemDefinition](const FInventoryEntry& Entry) { return Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition); });
+	return Entries.FindByPredicate([ItemDefinition](const FInventoryEntry& Entry)
+	{
+		return Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition);
+	});
 }
 
 TArray<FInventoryEntry*> FInventoryList::GetEntriesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)

@@ -1,14 +1,36 @@
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
+
 #include "Components/AbilitySystemComponentBase.h"
 
 #include "Abilities/AbilityActivationPolicy.h"
 #include "Abilities/GameplayAbilityBase.h"
 #include "AbilitySystemCoreTags.h"
+#include "Data/AbilitySet.h"
 
 UAbilitySystemComponentBase::UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.Get())
 {
+}
+
+void UAbilitySystemComponentBase::InitializeComponent()
+{
+	Super::InitializeComponent();
+	
+	// Give initial ability sets
+	for (const TObjectPtr<UAbilitySet> AbilitySet : DefaultAbilitySets)
+	{
+		if (IsValid(AbilitySet))
+		{
+			FAbilitySetHandles GivenHandles;
+			AbilitySet->GiveToAbilitySystem(this, &GivenHandles, this);
+		}
+	}
+}
+
+void UAbilitySystemComponentBase::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void UAbilitySystemComponentBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -30,7 +52,7 @@ void UAbilitySystemComponentBase::InitAbilityActorInfo(AActor* InOwnerActor, AAc
 	}
 
 	// Check if we have a new pawn avatar
-	const bool bHasNewAvatar = Cast<APawn>(InAvatarActor) && InAvatarActor != ActorInfo->AvatarActor;
+	const bool bHasNewAvatar = InAvatarActor != ActorInfo->AvatarActor;
 	Super::InitAbilityActorInfo(InOwnerActor, InAvatarActor);
 
 	// If we get a new pawn as avatar actor, initialize new actor info
@@ -78,7 +100,7 @@ void UAbilitySystemComponentBase::AbilityInputTagReleased(const FGameplayTag& In
 void UAbilitySystemComponentBase::ProcessAbilityInput(float DeltaTime, bool bGamePaused)
 {
 	// Check if abilities input activation is blocked
-	if (HasMatchingGameplayTag(AbilitySystemCoreTags::TAG_Gameplay_AbilitiesBlocked))
+	if (HasMatchingGameplayTag(AbilitySystemCoreTags::TAG_GAMEPLAY_ABILITIESBLOCKED))
 	{
 		ClearAbilityInput();
 		return;
@@ -120,7 +142,6 @@ void UAbilitySystemComponentBase::ProcessAbilityInput(float DeltaTime, bool bGam
 				else
 				{
 					const UGameplayAbilityBase* BaseAbilityCDO = Cast<UGameplayAbilityBase>(AbilitySpec->Ability);
-
 					if (BaseAbilityCDO && BaseAbilityCDO->GetActivationPolicy() == EAbilityActivationPolicy::OnInputTriggered)
 					{
 						AbilitiesToActivate.AddUnique(AbilitySpec->Handle);
@@ -169,7 +190,7 @@ void UAbilitySystemComponentBase::ClearAbilityInput()
 }
 
 void UAbilitySystemComponentBase::InitAbilitiesOnNewActorInfo()
-{
+{	
 	if ([[maybe_unused]] const FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get())
 	{
 		TryActivateAbilitiesOnSpawn();

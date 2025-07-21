@@ -61,7 +61,11 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams) { return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this); }
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams)
+	{
+		return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this);
+	}
+
 	// ~FFastArraySerializer
 
 

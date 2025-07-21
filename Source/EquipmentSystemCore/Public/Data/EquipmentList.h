@@ -55,7 +55,11 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
+	{
+		return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this);
+	}
+
 	// ~FFastArraySerializer
 
 	/** Add a new equipment instance to the list.

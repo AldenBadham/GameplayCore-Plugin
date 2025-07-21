@@ -23,7 +23,10 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentComponent : public UObject
 
 public:
 	// UObject
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override
+	{
+		Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	};
 	// ~UObject
 
 	virtual void Initialize(UEquipmentInstance* InInstance);

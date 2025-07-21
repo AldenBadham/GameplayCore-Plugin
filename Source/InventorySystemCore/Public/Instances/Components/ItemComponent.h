@@ -6,6 +6,7 @@
 #include "UObject/Object.h"
 #include "ItemComponent.generated.h"
 
+class UItemFragment;
 class UItemInstance;
 
 /**
@@ -28,20 +29,30 @@ public:
 	 * Sets up property replication for the component
 	 * @param OutLifetimeProps Array of lifetime properties to be filled with replication properties
 	 */
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override
+	{
+		Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	};
 	// ~UObject
 
-	virtual void Initialize(UItemInstance* InInstance);
+	virtual void Initialize(UItemInstance& InInstance, UItemFragment* InSourceFragment = nullptr);
+	virtual void PostInitialize() {}
+	virtual void Uninitialize() {}
 
 	/**
 	 * Returns the item instance that owns this fragment
 	 * @return The owning item instance, or nullptr if not attached
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	UItemInstance* GetOwningInstance();
+	UItemInstance* GetOwningInstance();	
 
 protected:
+	
 	/** The item instance that owns this fragment instance */
 	UPROPERTY(Transient)
 	TObjectPtr<UItemInstance> OwningInstance = nullptr;
+	
+	/** The item instance that owns this fragment instance */
+	UPROPERTY(Transient)
+	TObjectPtr<UItemFragment> SourceFragment = nullptr;
 };

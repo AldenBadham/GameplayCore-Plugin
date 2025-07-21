@@ -15,7 +15,7 @@
  * This struct can not be used in containers (such as TArray) since it uses a raw pointer
  * to bind the delegate and it's address could change causing an invalid binding.
  */
-USTRUCT()
+USTRUCT(BlueprintType)
 struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 {
 	GENERATED_BODY()
@@ -33,8 +33,9 @@ struct ABILITYSYSTEMCORE_API FGameplayTagPropertyMap
 	/** Bind the give class property (bool, int or float) to the GameplayTag.
 	 * @param Tag Gameplay tag to listen
 	 * @param PropertyName FName of the property to bind. Use GET_MEMBER_NAME_CHECKED macro for that
+	 * @param bIgnoreWarning True to ignore missing ability system warnings and let tag to be added
 	 */
-	void AddTag(const FGameplayTag& Tag, const FName& PropertyName);
+	void AddTag(const FGameplayTag& Tag, const FName& PropertyName, const bool& bIgnoreWarning = false);
 
 #if WITH_EDITOR
 	/** This can optionally be called in the owner's IsDataValid() for data validation. */

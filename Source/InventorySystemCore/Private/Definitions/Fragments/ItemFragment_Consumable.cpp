@@ -12,10 +12,11 @@ void UItemFragment_Consumable::OnInstanceCreated(UItemInstance* Instance)
 
 	if (const auto Component = Instance->AddComponent<UItemComponent_Consumable>(); IsValid(Component))
 	{
-		Component->CurrentUse = MaxUsesCount;
-		Component->Initialize(Instance);
+		Component->GameplayEffect = GameplayEffect;
+		Component->MaxUseCount = MaxUsesCount;
+		Component->Initialize(*Instance);
 		return;
 	}
 
-	UE_LOG(LogInventorySystem, Warning, TEXT("Failed to add ItemComponent_Consumable to ItemInstance: %s"), *GetNameSafe(Instance));
+	UE_LOG(LogInventorySystem, Warning, TEXT("Failed to add ItemComponent_Consumable to ItemInstance: %s"), *GetNameSafe(Instance->GetDefinitionClass()));
 }

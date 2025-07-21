@@ -64,6 +64,7 @@ public:
 	FText GetDisplayName() const { return DisplayName; }
 
 protected:
+	
 	/** Instance class to spawn */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Definition")
 	TSubclassOf<UEquipmentInstance> InstanceClass;

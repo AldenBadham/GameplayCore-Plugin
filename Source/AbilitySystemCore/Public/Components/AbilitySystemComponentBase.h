@@ -8,12 +8,13 @@
 
 #include "AbilitySystemComponentBase.generated.h"
 
+class UAbilitySet;
 /**
  * @class UAbilitySystemComponentBase
  * @see UAbilitySystemComponent
  * @brief This class extends the base UAbilitySystemComponent to provide additional functionality.
  */
-UCLASS(BlueprintType, ClassGroup = "Abilities", meta = (BlueprintSpawnableComponent))
+UCLASS(BlueprintType, ClassGroup = "Abilities", HideCategories=("Attribute Test"), meta = (BlueprintSpawnableComponent))
 class ABILITYSYSTEMCORE_API UAbilitySystemComponentBase : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
@@ -24,6 +25,8 @@ public:
 	UAbilitySystemComponentBase(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// UActorComponent
+	virtual void InitializeComponent() override;
+	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	// ~UActorComponent
 
@@ -42,29 +45,35 @@ public:
 	 * Handles the pressing of an ability input tag.
 	 * @param InputTag The input tag that was pressed.
 	 */
-	void AbilityInputTagPressed(const FGameplayTag& InputTag);
+	virtual void AbilityInputTagPressed(const FGameplayTag& InputTag);
 	/**
 	 * Handles the release of an ability input tag.
 	 * @param InputTag The input tag that was released.
 	 */
-	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	virtual void AbilityInputTagReleased(const FGameplayTag& InputTag);
 
 	/**
 	 * Processes ability input.
 	 * @param DeltaTime The time since the last frame.
 	 * @param bGamePaused Whether the game is paused.
 	 */
-	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
+	virtual void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
 
 	/** Clears all ability input. */
 	void ClearAbilityInput();
 
+public:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Activation", meta = (DisplayAfter = "bAutoActivate"))
+	TArray<TObjectPtr<UAbilitySet>> DefaultAbilitySets = {};
+
 protected:
+	
 	/** Initializes abilities when a new actor info is set. */
-	void InitAbilitiesOnNewActorInfo();
+	virtual void InitAbilitiesOnNewActorInfo();
 
 	/** Tries to activate abilities on spawn. Applicable if the activation policy of the ability is EAbilityActivationPolicy::OnSpawn*/
-	void TryActivateAbilitiesOnSpawn();
+	virtual void TryActivateAbilitiesOnSpawn();
 
 	/**
 	 * Handles when an ability spec input is pressed.
@@ -77,6 +86,8 @@ protected:
 	 */
 	virtual void AbilitySpecInputReleased(FGameplayAbilitySpec& Spec) override;
 
+protected:
+	
 	/** Handles to abilities that had their input pressed this frame. */
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;
 

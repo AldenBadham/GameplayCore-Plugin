@@ -43,13 +43,13 @@ struct ABILITYSYSTEMCORE_API FAbilitySetHandles
 protected:
 	/** Handles to the granted abilities. */
 	UPROPERTY()
-	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles = {};
 
 	/** Handles to the granted gameplay effects. */
 	UPROPERTY()
-	TArray<FActiveGameplayEffectHandle> GameplayEffectHandles;
+	TArray<FActiveGameplayEffectHandle> GameplayEffectHandles = {};
 
 	/** Pointers to the granted attribute sets. */
 	UPROPERTY()
-	TArray<TObjectPtr<UAttributeSet>> GrantedAttributeSets;
+	TArray<TObjectPtr<UAttributeSet>> GrantedAttributeSets = {};
 };

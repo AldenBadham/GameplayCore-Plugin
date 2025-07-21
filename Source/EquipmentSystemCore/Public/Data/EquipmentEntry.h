@@ -49,7 +49,7 @@ protected:
 
 	// Authority-only list of granted handles for ability sets
 	UPROPERTY(NotReplicated)
-	FAbilitySetHandles Handles;
+	FAbilitySetHandles Handles = {};
 
 	UPROPERTY(NotReplicated)
 	TWeakObjectPtr<UEquipmentInstance> LastInstance;

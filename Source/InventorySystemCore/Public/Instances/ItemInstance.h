@@ -39,6 +39,11 @@ public:
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 	// ~IGameplayTagAssetInterface
 
+	
+	virtual void Initialize(UItemDefinition* InDefinition);
+	virtual void Uninitialize();
+
+	
 	UFUNCTION(BlueprintCallable, Category="Tags")
 	void AddTag(const FGameplayTag Tag) { Tags.AddTag(Tag); }
 
@@ -53,17 +58,17 @@ public:
 	UInventorySystemComponent* GetInventorySystemComponent() const;
 
 	/**
-	 * Gets the player controller that owns this item instance
-	 * @return The owning player controller
+	 * Gets the actor that owns this item instance
+	 * @return The owning actor
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Instance")
-	APlayerController* GetOwningController() const;
+	AActor* GetOwningActor() const;
 	/**
-	 * Gets the owning controller cast to the specified type
-	 * @return The owning controller cast to type T, or nullptr if cast fails
+	 * Gets the actor cast to the specified type
+	 * @return The actor cast to type T, or nullptr if cast fails
 	 */
 	template <typename T>
-	const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
+	const T* GetOwningActor() const { return Cast<T>(GetOwningActor(T::StaticClass())); }
 
 	/**
 	 * Gets the item definition class associated with this instance.
@@ -120,6 +125,10 @@ public:
 	const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 protected:
+	
+	virtual void PostInitialize();
+
+	
 	/**
 	 * Sets the item definition class for this instance.
 	 * @param InDefinition - The item definition to set.
@@ -140,11 +149,11 @@ protected:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category="Tags")
 	TArray<UItemComponent*> Components;
 
-	/** Cached pointer to the player controller that owns this item instance */
-	UPROPERTY(Transient, BlueprintReadOnly, Category="Tags")
-	mutable APlayerController* OwningController;
-
 	/** Tags used to classify or filter this item statically */
 	UPROPERTY(BlueprintReadOnly, Category="Tags")
 	FGameplayTagContainer Tags;
+
+	/** Cached pointer to owning inventory system component pawn */
+	UPROPERTY(Transient)
+	mutable AActor* OwningActor;
 };

@@ -16,17 +16,11 @@ struct FInventorySet_ItemSet
 {
 	GENERATED_BODY()
 
-	/**
-	 * Checks if the item in this set can be equipped
-	 * @return True if the item definition is valid and represents an equippable item
-	 */
-	bool IsEquipable() const;
-
 	/** The item definition class that defines the type of item to be given */
 	UPROPERTY(EditDefaultsOnly, DisplayName = "Definition")
 	TSubclassOf<UItemDefinition> ItemDefinition = nullptr;
 
 	/** The number of items of this type to give */
 	UPROPERTY(EditDefaultsOnly)
-	int Quantity = 1.0f;
+	int Quantity = 1;
 };

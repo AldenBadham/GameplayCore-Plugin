@@ -2,10 +2,12 @@
 
 #include "Data/AbilitySet.h"
 
-#include "Abilities/GameplayAbilityBase.h"
+#include "AbilitySystemComponent.h"
+#include "Data/AbilitySetHandles.h"
 #include "Data/AbilitySet_GameplayAbility.h"
 #include "Data/AbilitySet_GameplayEffect.h"
-#include "Data/AbilitySetHandles.h"
+#include "GameplayEffects/UGameplayEffect_Infinite.h"
+#include "GameplayTags/AbilitySystemTags.h"
 #include "Log/AbilitySystemLog.h"
 
 UAbilitySet::UAbilitySet(const FObjectInitializer& ObjectInitializer)
@@ -16,36 +18,32 @@ UAbilitySet::UAbilitySet(const FObjectInitializer& ObjectInitializer)
 void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComp, FAbilitySetHandles* Handles, UObject* SourceObject) const
 {
 	check(AbilitySystemComp);
-	if (!AbilitySystemComp->IsOwnerActorAuthoritative()) UE_LOG(LogAbilitySystem, Error, TEXT("Must be authoritive to give or take ability sets"));
-
-	// Grant the attribut sets
-	for (int Index = 0; Index < AttributeSets.Num(); ++Index)
+	if (!AbilitySystemComp->IsOwnerActorAuthoritative())
 	{
-		const TSubclassOf<UAttributeSet>& AttributeSetClass = AttributeSets[Index];
-
-		UE_CLOG(!IsValid(AttributeSetClass), LogAbilitySystem, Error, TEXT("Attributes[%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
-
-		UAttributeSet* AttributeSet = NewObject<UAttributeSet>(AbilitySystemComp, AttributeSetClass);
-		AbilitySystemComp->AddAttributeSetSubobject(AttributeSet);
-
-		if (Handles)
-		{
-			Handles->AddAttributeSet(AttributeSet);
-		}
+		UE_LOG(LogAbilitySystem, Error, TEXT("Must be authoritative to give or take ability sets"));
+		return;
 	}
 
+
 	// Grant the gameplay abilities
-	for (int Index = 0; Index < GameplayAbilities.Num(); ++Index)
+	for (int Index = 0; Index < GameplayAbilitySets.Num(); ++Index)
 	{
-		const FAbilitySet_GameplayAbility& GameplayAbilitySet = GameplayAbilities[Index];
+		const auto& [Ability, Level, InputTag] = GameplayAbilitySets[Index];
+		if (!IsValid(Ability))
+		{
+			UE_LOG(LogAbilitySystem, Error, TEXT("Ability [%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
+			continue;
+		}
 
-		UE_CLOG(!IsValid(GameplayAbilitySet.Ability), LogAbilitySystem, Error, TEXT("Attributes[%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
+		UGameplayAbilityBase* const AbilityCDO = Ability->GetDefaultObject<UGameplayAbilityBase>();
 
-		UGameplayAbilityBase* AbilityCDO = GameplayAbilitySet.Ability->GetDefaultObject<UGameplayAbilityBase>();
-
-		FGameplayAbilitySpec AbilitySpec(AbilityCDO, GameplayAbilitySet.AbilityLevel);
+		FGameplayAbilitySpec AbilitySpec(AbilityCDO, Level);
 		AbilitySpec.SourceObject = SourceObject;
-		AbilitySpec.GetDynamicSpecSourceTags().AddTag(GameplayAbilitySet.InputTag);
+
+		if (InputTag.IsValid())
+		{
+			AbilitySpec.GetDynamicSpecSourceTags().AddTag(InputTag);
+		}
 
 		const FGameplayAbilitySpecHandle AbilitySpecHandle = AbilitySystemComp->GiveAbility(AbilitySpec);
 
@@ -56,18 +54,46 @@ void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComp
 	}
 
 	// Grant the gameplay effects.
-	for (int32 Index = 0; Index < GameplayEffects.Num(); ++Index)
+	for (int Index = 0; Index < GameplayEffectSets.Num(); ++Index)
 	{
-		const FAbilitySet_GameplayEffect& GameplayEffectSet = GameplayEffects[Index];
+		const auto& [GameplayEffect, Level] = GameplayEffectSets[Index];
 
-		UE_CLOG(!IsValid(GameplayEffectSet.GameplayEffect), LogAbilitySystem, Error, TEXT("Attributes[%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
+		UE_CLOG(!IsValid(GameplayEffect), LogAbilitySystem, Error, TEXT("GameplayEffect [%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
 
-		const UGameplayEffect* GameplayEffect = GameplayEffectSet.GameplayEffect->GetDefaultObject<UGameplayEffect>();
-		const FActiveGameplayEffectHandle GameplayEffectHandle = AbilitySystemComp->ApplyGameplayEffectToSelf(GameplayEffect, GameplayEffectSet.EffectLevel, AbilitySystemComp->MakeEffectContext());
+		const UGameplayEffect* const GameplayEffectCDO = GameplayEffect->GetDefaultObject<UGameplayEffect>();
+		const FActiveGameplayEffectHandle GameplayEffectHandle = AbilitySystemComp->ApplyGameplayEffectToSelf(GameplayEffectCDO, Level, AbilitySystemComp->MakeEffectContext());
 
 		if (Handles)
 		{
 			Handles->AddGameplayEffectHandle(GameplayEffectHandle);
 		}
+	}
+
+	// Grant the attribute sets
+	for (int Index = 0; Index < AttributeSets.Num(); ++Index)
+	{
+		const TSubclassOf<UAttributeSet>& AttributeSetClass = AttributeSets[Index];
+
+		UE_CLOG(!IsValid(AttributeSetClass), LogAbilitySystem, Error, TEXT("Attributes [%d] on ability set [%s] is not valid"), Index, *GetNameSafe(this));
+
+		UAttributeSet* AttributeSet = NewObject<UAttributeSet>(AbilitySystemComp, AttributeSetClass);
+		AbilitySystemComp->AddAttributeSetSubobject(AttributeSet);
+
+		if (Handles)
+		{
+			Handles->AddAttributeSet(AttributeSet);
+		}
+	}
+
+	// Give gameplay tags by granting an infinite gameplay effect
+	const FGameplayEffectContextHandle Context = AbilitySystemComp->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = AbilitySystemComp->MakeOutgoingSpec(UGameplayEffect_Infinite::StaticClass(), 1.0, Context);
+
+	if (FGameplayEffectSpec* const Spec = SpecHandle.Data.Get())
+	{
+		Spec->DynamicGrantedTags = GameplayTags;
+		Spec->AddDynamicAssetTag(AbilitySystemTags::TAG_DATA_EFFECT_PERSISTENT);
+
+		AbilitySystemComp->ApplyGameplayEffectSpecToSelf(*Spec, AbilitySystemComp->GetPredictionKeyForNewAction());
 	}
 }

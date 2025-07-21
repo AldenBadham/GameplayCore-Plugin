@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FEquipmentSystemCoreModule : public IModuleInterface
+class FEquipmentSystemCoreModule final : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;

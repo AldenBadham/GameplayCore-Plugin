@@ -29,10 +29,10 @@ public:
 	virtual void OnInstanceCreated(UItemInstance* Instance) override;
 
 	/**
-	 * List of gameplay effects to apply when the item is consumed
+	 * Gameplay effects to apply when the item is consumed
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Consumable")
-	TArray<TSubclassOf<UGameplayEffect>> Effects = {};
+	TSubclassOf<UGameplayEffect> GameplayEffect = nullptr;
 
 	/**
 	 * Maximum number of times this item can be consumed

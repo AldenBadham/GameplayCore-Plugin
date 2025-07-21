@@ -14,9 +14,6 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentActorSet
 	{
 	};
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment", Meta = (Categories = "Equipment.Slot"))
-	FGameplayTag SlotTag;
-
 	/** The class of actor to spawn and attach. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
 	TSubclassOf<AActor> ActorClass;

@@ -2,9 +2,11 @@
 
 #include "Instances/Components/ItemComponent.h"
 
-void UItemComponent::Initialize(UItemInstance* InInstance)
+
+void UItemComponent::Initialize(UItemInstance& InInstance, UItemFragment* InSourceFragment)
 {
-	OwningInstance = InInstance;
+	OwningInstance = &InInstance;
+	SourceFragment = InSourceFragment;
 }
 
 UItemInstance* UItemComponent::GetOwningInstance()

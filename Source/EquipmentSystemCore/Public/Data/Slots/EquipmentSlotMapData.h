@@ -12,7 +12,7 @@ struct FSlotDefinition;
 /**
  *
  */
-UCLASS(BlueprintType, Const)
+UCLASS(BlueprintType, Blueprintable)
 class EQUIPMENTSYSTEMCORE_API UEquipmentSlotMapData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()

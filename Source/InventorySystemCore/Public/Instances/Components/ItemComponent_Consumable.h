@@ -6,6 +6,8 @@
 #include "ItemComponent.h"
 #include "ItemComponent_Consumable.generated.h"
 
+struct FGameplayEffectContextHandle;
+class UGameplayEffect;
 class UGameplayAbility;
 
 /**
@@ -21,18 +23,38 @@ class INVENTORYSYSTEMCORE_API UItemComponent_Consumable : public UItemComponent
 {
 	GENERATED_BODY()
 
-public:
-	// UObject
-	/**
-	 * Sets up property replication for the consumable component
-	 * @param OutLifetimeProps Array of properties to be replicated
-	 */
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	friend class UItemFragment_Consumable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> AbilityClass;
+public:
+	
+	// UObject
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	// ~UObject
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	virtual bool CanConsume(const int32 UseCount = 1) const;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void Consume(const int32 UseCount = 1);
+
+	UFUNCTION(BlueprintCallable)
+	virtual void SetRemainingUses(const int32 Count = 1);
+
+	UFUNCTION(BlueprintCallable)
+	virtual void RestoreUses();
+	
+protected:
+	
 
 	/** Tracks the current usage progress of the consumable item. 0 means unused, higher values indicate usage progress */
 	UPROPERTY(Replicated)
-	float CurrentUse = 0.0f;
+	int32 RemainingUses = 0;
+
+	UPROPERTY(Transient)
+	int32 MaxUseCount = 0;
+	
+	UPROPERTY(Transient)
+	TSubclassOf<UGameplayEffect> GameplayEffect;
+	
+	bool ShouldStackEffects = false;
 };

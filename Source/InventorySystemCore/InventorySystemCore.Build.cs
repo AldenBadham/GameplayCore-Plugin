@@ -12,8 +12,7 @@ public class InventorySystemCore : ModuleRules
 				"Core",
 				"DeveloperSettings",
 				"GameplayAbilities",
-				"NetCore",
-				"EquipmentSystemCore"
+				"NetCore"
 			}
 		);
 

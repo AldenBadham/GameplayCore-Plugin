@@ -2,6 +2,7 @@
 
 #include "Components/EquipmentSystemComponent.h"
 
+#include "Actors/WeaponActor.h"
 #include "Data/EquipmentCache.h"
 #include "Data/EquipmentEntry.h"
 #include "Data/Slots/EquipmentSlotMapData.h"
@@ -89,6 +90,7 @@ void UEquipmentSystemComponent::InitializeComponent()
 
 void UEquipmentSystemComponent::UninitializeComponent()
 {
+	/**
 	TArray<FGameplayTag> SlotsToUnequip;
 	for (const auto& Pair : SlotMapRuntime)
 	{
@@ -102,7 +104,7 @@ void UEquipmentSystemComponent::UninitializeComponent()
 	for (const FGameplayTag& SlotTag : SlotsToUnequip)
 	{
 		TryUnequipSlot(SlotTag, FailureReason);
-	}
+	}*/
 
 	Super::UninitializeComponent();
 }
@@ -371,6 +373,40 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance
 			}
 		}
 	}
+	return nullptr;
+}
+
+AWeaponActor* UEquipmentSystemComponent::FindWeaponActorAttachedToBone(const FName& BoneName) const
+{
+	if (BoneName.IsNone())
+		return nullptr;
+
+	auto Predicate = [BoneName](const AActor* Actor)
+	{
+		if (!IsValid(Actor)) return false;
+
+		if (!Actor->IsA(AWeaponActor::StaticClass()))
+			return false;
+
+		if (const USceneComponent* Root = Actor->GetRootComponent(); IsValid(Root))
+		{
+			return Root->GetAttachSocketName() == BoneName;
+		}
+		return false;
+	};
+	
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (const UEquipmentInstance* Instance = Entry.Instance)
+		{
+			TArray<AActor*> SpawnedActors = Instance->GetSpawnedActors();
+			if (AActor* FoundActor = *SpawnedActors.FindByPredicate(Predicate); IsValid(FoundActor))
+			{
+				return Cast<AWeaponActor>(FoundActor);
+			}
+		}
+	}
+	
 	return nullptr;
 }
 

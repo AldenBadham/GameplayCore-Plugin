@@ -148,13 +148,16 @@ FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& De
 
 void FEquipmentList::Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason)
 {
+	if (!IsValid(Instance))
+		return;
+	
 	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
 	{
 		if (FEquipmentEntry& Entry = *EntryIterator; Entry.Instance == Instance)
 		{
 			if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
 			{
-				Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);
+					Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);
 			}
 
 			// Ask the instance to destroy its attachment actors

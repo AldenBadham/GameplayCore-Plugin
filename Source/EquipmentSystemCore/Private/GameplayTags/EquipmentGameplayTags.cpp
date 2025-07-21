@@ -18,4 +18,7 @@ namespace EquipmentSystemGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_Internal, "Equipment.Failure.Internal", "Internal error during equipment process");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_DefinitionRefused, "Equipment.Failure.DefinitionRefused", "Equipment definition conditions are not met");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NotAuthority, "Equipment.Failure.NotAuthority", "Internal error during equipment process");
+
+	// Weapon collision tags
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Event_CollisionHit, "Equipment.Event.CollisionHit", "Gameplay event sent when a weapon hit an actor");
 } // namespace EquipmentSystemGameplayTags

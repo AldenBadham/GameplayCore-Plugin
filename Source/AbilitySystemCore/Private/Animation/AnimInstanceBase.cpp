@@ -9,6 +9,7 @@
 UAnimInstanceBase::UAnimInstanceBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.Get())
 {
+	GameplayTagPropertyMap.Initialize(this, nullptr);
 }
 
 void UAnimInstanceBase::InitializeWithAbilitySystem(UAbilitySystemComponent* AbilitySystemComp)
@@ -28,33 +29,6 @@ void UAnimInstanceBase::NativeInitializeAnimation()
 			InitializeWithAbilitySystem(AbilitySystemComp);
 		}
 	}
-}
-
-float UAnimInstanceBase::CalculateDirection(const FVector& Velocity, const FRotator& BaseRotation)
-{
-	if (!Velocity.IsNearlyZero())
-	{
-		const FMatrix RotMatrix = FRotationMatrix(BaseRotation);
-		const FVector ForwardVector = RotMatrix.GetScaledAxis(EAxis::X);
-		const FVector RightVector = RotMatrix.GetScaledAxis(EAxis::Y);
-		const FVector NormalizedVel = Velocity.GetSafeNormal2D();
-
-		// get a cos(alpha) of forward vector vs velocity
-		const float ForwardCosAngle = static_cast<float>(FVector::DotProduct(ForwardVector, NormalizedVel));
-		// now get the alpha and convert to degree
-		float ForwardDeltaDegree = FMath::RadiansToDegrees(FMath::Acos(ForwardCosAngle));
-
-		// depending on where right vector is, flip it
-		const float RightCosAngle = static_cast<float>(FVector::DotProduct(RightVector, NormalizedVel));
-		if (RightCosAngle < 0.f)
-		{
-			ForwardDeltaDegree *= -1.f;
-		}
-
-		return ForwardDeltaDegree;
-	}
-
-	return 0.f;
 }
 
 #if WITH_EDITOR

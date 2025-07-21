@@ -2,7 +2,22 @@
 
 #include "Settings/EquipmentSystemSettings.h"
 
+#include "Misc/ConfigUtilities.h"
+
 DEFINE_LOG_CATEGORY_STATIC(LogEquipmentSettings, Warning, All)
+
+void UEquipmentSystemSettings::PostInitProperties()
+{
+	Super::PostInitProperties();
+	
+	if (IsTemplate())
+	{
+		// We want the .ini file to have precedence over the CVar constructor, so we apply the ini to the CVar before following the regular UDeveloperSettingsBackedByCVars flow
+		UE::ConfigUtilities::ApplyCVarSettingsFromIni(TEXT("/Script/EquipmentSystemCore.EquipmentSystemSettings"), *GEngineIni, ECVF_SetByProjectSetting);
+	}
+
+	Super::PostInitProperties();
+}
 
 FName UEquipmentSystemSettings::GetContainerName() const
 {

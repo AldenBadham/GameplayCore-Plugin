@@ -12,7 +12,7 @@ FGameplayTagPropertyMap::FGameplayTagPropertyMap()
 
 FGameplayTagPropertyMap::FGameplayTagPropertyMap(const FGameplayTagPropertyMap& Other)
 {
-	ensureMsgf(Other.CachedOwner.IsExplicitlyNull(), TEXT("FGameplayTagBlueprintPropertyMap cannot be used inside an array or other container that is copied after register!"));
+	ensureMsgf(Other.CachedOwner.IsExplicitlyNull(), TEXT( "FGameplayTagBlueprintPropertyMap cannot be used inside an array or other container that is copied after register!" ));
 	PropertyMappings = Other.PropertyMappings;
 }
 
@@ -30,9 +30,17 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent
 		return;
 	}
 
+	if (CachedOwner.IsValid())
+	{
+		Unregister();
+	}
+
+
+	// Cache
+	CachedOwner = Owner;
+
 	if (!AbilitySystemComp)
 	{
-		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Initialize() called with an invalid AbilitySystemComponent."));
 		return;
 	}
 
@@ -41,14 +49,6 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent
 		// Already initialized.
 		return;
 	}
-
-	if (CachedOwner.IsValid())
-	{
-		Unregister();
-	}
-
-	// Cache
-	CachedOwner = Owner;
 	CachedAbilitySystemComponent = AbilitySystemComp;
 
 	const FOnGameplayEffectTagCountChanged::FDelegate Delegate = FOnGameplayEffectTagCountChanged::FDelegate::CreateRaw(this, &FGameplayTagPropertyMap::GameplayTagEventCallback, CachedOwner);
@@ -61,7 +61,7 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent
 		if (Mapping.TagToMap.IsValid())
 		{
 			FProperty* Property = OwnerClass->FindPropertyByName(Mapping.PropertyName);
-			if (Property && IsPropertyTypeValid(Property))
+			if (Property && IsPropertyTypeValid(Property) && !Mapping.DelegateHandle.IsValid())
 			{
 				Mapping.PropertyToEdit = Property;
 				Mapping.DelegateHandle = AbilitySystemComp->RegisterAndCallGameplayTagEvent(Mapping.TagToMap, Delegate, GetGameplayTagEventType(Property));
@@ -70,7 +70,7 @@ void FGameplayTagPropertyMap::Initialize(UObject* Owner, UAbilitySystemComponent
 		}
 
 		// Entry was invalid.  Remove it from the array.
-		UE_LOG(LogAbilitySystem, Error, TEXT("FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]."), MappingIndex, *Mapping.TagToMap.ToString(), *Mapping.PropertyName.ToString(), *GetNameSafe(Owner));
+		UE_LOG(LogAbilitySystem, Error, TEXT( "FGameplayTagPropertyMap: Removing invalid GameplayTagBlueprintPropertyMapping [Index: %d, Tag:%s, Property:%s] for [%s]." ), MappingIndex, *Mapping.TagToMap.ToString(), *Mapping.PropertyName.ToString(), *GetNameSafe(Owner));
 
 		PropertyMappings.RemoveAtSwap(MappingIndex, EAllowShrinking::No);
 	}
@@ -115,7 +115,7 @@ void FGameplayTagPropertyMap::ApplyCurrentTags()
 	}
 }
 
-void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& PropertyName)
+void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& PropertyName, const bool& bIgnoreWarning)
 {
 	const UObject* Owner = CachedOwner.Get();
 	if (!Owner)
@@ -127,7 +127,7 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 	const UClass* OwnerClass = Owner->GetClass();
 
 	UAbilitySystemComponent* AbilitySystemComp = CachedAbilitySystemComponent.Get();
-	if (!AbilitySystemComp)
+	if (!AbilitySystemComp && !bIgnoreWarning)
 	{
 		UE_LOG(LogAbilitySystem, Warning, TEXT("FGameplayTagPropertyMap::AddTag called with an invalid AbilitySystemComponent."));
 		return;
@@ -152,7 +152,11 @@ void FGameplayTagPropertyMap::AddTag(const FGameplayTag& Tag, const FName& Prope
 	Mapping.TagToMap = Tag;
 	Mapping.PropertyToEdit = Property;
 	Mapping.PropertyName = PropertyName;
-	Mapping.DelegateHandle = AbilitySystemComp->RegisterAndCallGameplayTagEvent(Tag, Delegate, GetGameplayTagEventType(Property));
+
+	if (AbilitySystemComp)
+	{
+		Mapping.DelegateHandle = AbilitySystemComp->RegisterAndCallGameplayTagEvent(Tag, Delegate, GetGameplayTagEventType(Property));
+	}
 
 	// Add the mapping to the map to be able to apply it manually
 	PropertyMappings.Add(Mapping);

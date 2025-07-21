@@ -1,38 +1,5 @@
 
---- InventorySystemCore\InventorySystemCore.Build.cs ---
-﻿using UnrealBuildTool;
-
-public class InventorySystemCore : ModuleRules
-{
-	public InventorySystemCore(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
-		PublicDependencyModuleNames.AddRange(
-			new[]
-			{
-				"Core",
-				"DeveloperSettings",
-				"GameplayAbilities",
-				"NetCore",
-				"EquipmentSystemCore"
-			}
-		);
-
-		PrivateDependencyModuleNames.AddRange(
-			new[]
-			{
-				"CoreUObject",
-				"Engine",
-				"GameplayAbilities",
-				"GameplayTags",
-				"Slate",
-				"SlateCore"
-			}
-		);
-	}
-}
---- InventorySystemCore\Private\InventorySystemCore.cpp ---
+############## Private\InventorySystemCore.cpp ###############
 ﻿#include "InventorySystemCore.h"
 
 #define LOCTEXT_NAMESPACE "FInventorySystemCoreModule"
@@ -49,7 +16,8 @@ void FInventorySystemCoreModule::ShutdownModule()
 
 IMPLEMENT_MODULE(FInventorySystemCoreModule, InventorySystemCore)
 
---- InventorySystemCore\Private\Components\InventorySystemComponent.cpp ---
+
+############## Private\Components\InventorySystemComponent.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Components/InventorySystemComponent.h"
@@ -126,13 +94,13 @@ void UInventorySystemComponent::InitializeComponent()
 
 	// Cache initialization
 	Cache = NewObject<UInventoryCache>(this);
-	
+
 	if (IsValid(DefaultContainerClass) && !Containers.Contains(DefaultContainerTag) && IsValidContainerTag(DefaultContainerTag))
 	{
 		UInventoryContainer* DefaultContainer = NewObject<UInventoryContainer>(this, DefaultContainerClass);
 		RegisterContainer(DefaultContainerTag, DefaultContainer);
 	}
-	
+
 	if (IsValid(DefaultInventorySet))
 	{
 		DefaultInventorySet->GiveToInventorySystem(this);
@@ -146,10 +114,20 @@ void UInventorySystemComponent::UninitializeComponent()
 
 FInventoryResult UInventorySystemComponent::TryAddItemDefinitionIn(const FGameplayTag& ContainerTag, const TSubclassOf<UItemDefinition> ItemDefinition, const int32 Count)
 {
-	FInventoryResult Result;
 	if (UInventoryContainer* Container = GetContainer(ContainerTag))
 	{
-		return Container->TryAddItemDefinition(ItemDefinition, Count);
+		FInventoryResult Result = Container->TryAddItemDefinition(ItemDefinition, Count);
+		if (Result.Succeeded() && IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+		{
+			for (UItemInstance* Instance : Result.Instances)
+			{
+				if (!IsReplicatedSubObjectRegistered(Instance))
+				{
+					AddReplicatedSubObject(Instance);
+				}
+			}
+		}
+		return Result;
 	}
 	return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_ContainerNotFound};
 }
@@ -158,7 +136,18 @@ FInventoryResult UInventorySystemComponent::TryAddItemInstanceIn(const FGameplay
 {
 	if (UInventoryContainer* Container = GetContainer(ContainerTag))
 	{
-		return Container->TryAddItemInstance(ItemInstance, StackCount);
+		FInventoryResult Result = Container->TryAddItemInstance(ItemInstance, StackCount);
+		if (Result.Succeeded() && IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+		{
+			for (UItemInstance* Instance : Result.Instances)
+			{
+				if (!IsReplicatedSubObjectRegistered(Instance))
+				{
+					AddReplicatedSubObject(Instance);
+				}
+			}
+		}
+		return Result;
 	}
 	return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_ContainerNotFound};
 }
@@ -181,7 +170,12 @@ bool UInventorySystemComponent::TryRemoveFromHandle(FInventoryEntryHandle Handle
 		return false;
 	}
 
-	return Handle.Container->TryRemoveItem(Handle, OutFailureReason);
+	const bool Succeed = Handle.Container->TryRemoveItem(Handle, OutFailureReason);
+	if (Succeed && IsUsingRegisteredSubObjectList() && IsReadyForReplication())
+	{
+		RemoveReplicatedSubObject(Handle.ItemInstance);
+	}
+	return Succeed;
 }
 
 FInventoryResult UInventorySystemComponent::TryMoveByHandle(const FInventoryEntryHandle Handle, UInventoryContainer* TargetContainer)
@@ -191,6 +185,31 @@ FInventoryResult UInventorySystemComponent::TryMoveByHandle(const FInventoryEntr
 		return {{}, InventorySystemGameplayTags::TAG_Inventory_Failure_InvalidHandle};
 	}
 	return Handle.Container->TryMoveItemTo(Handle, TargetContainer);
+}
+
+void UInventorySystemComponent::Empty()
+{
+	if (!IsUsingRegisteredSubObjectList())
+	{
+		return;
+	}
+
+	TArray<FInventoryEntryHandle> Handles;
+	for (const auto& Pair : Containers)
+	{
+		if (UInventoryContainer* Container = Pair.Value)
+		{
+			FInventoryList& InventoryList = Container->GetInventoryList();
+			for (const FInventoryEntry& Entry : InventoryList.Entries)
+			{
+				if (UItemInstance* Instance = Entry.Instance; IsValid(Instance))
+				{
+					RemoveReplicatedSubObject(Instance);
+				}
+			}
+			Container->GetInventoryList().Entries.Empty();
+		}
+	}
 }
 
 FInventoryEntryHandle UInventorySystemComponent::FindHandleFromInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* Instance) const
@@ -362,7 +381,8 @@ void UInventorySystemComponent::PostInventoryChanged(const FInventoryChangeData&
 	OnInventoryChanged.Broadcast(Data);
 }
 
---- InventorySystemCore\Private\Containers\InventoryContainer.cpp ---
+
+############## Private\Containers\InventoryContainer.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 
@@ -535,7 +555,8 @@ void UInventoryContainer::AddStoragePolicy(UStoragePolicy* Policy)
 	}
 }
 
---- InventorySystemCore\Private\Containers\Policies\StoragePolicy.cpp ---
+
+############## Private\Containers\Policies\StoragePolicy.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 
@@ -546,7 +567,8 @@ bool UStoragePolicy::CanStoreItem_Implementation(UItemInstance* Instance, FGamep
 	return true;
 }
 
---- InventorySystemCore\Private\Containers\Policies\StoragePolicy_TagRequirement.cpp ---
+
+############## Private\Containers\Policies\StoragePolicy_TagRequirement.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 
@@ -576,7 +598,8 @@ bool UStoragePolicy_TagRequirement::CanStoreItem_Implementation(UItemInstance* I
 	return false;
 }
 
---- InventorySystemCore\Private\Data\InventoryCache.cpp ---
+
+############## Private\Data\InventoryCache.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/InventoryCache.h"
@@ -639,7 +662,8 @@ void UInventoryCache::Clear()
 	}
 }
 
---- InventorySystemCore\Private\Data\InventoryChangeData.cpp ---
+
+############## Private\Data\InventoryChangeData.cpp ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/InventoryChangeData.h"
@@ -655,7 +679,8 @@ FInventoryChangeData::FInventoryChangeData(const int32 InIndex, const FInventory
 	ChangeType = InChangeType;
 }
 
---- InventorySystemCore\Private\Data\InventoryEntry.cpp ---
+
+############## Private\Data\InventoryEntry.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/InventoryEntry.h"
@@ -694,7 +719,8 @@ FString FInventoryEntry::GetDebugString() const
 	return FString::Printf(TEXT("(%s)"), *GetNameSafe(Instance));
 }
 
---- InventorySystemCore\Private\Data\InventoryEntryHandle.cpp ---
+
+############## Private\Data\InventoryEntryHandle.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -708,7 +734,8 @@ bool FInventoryEntryHandle::IsHandleValid() const
 	return EntryIndex != INDEX_NONE && IsValid(Container);
 }
 
---- InventorySystemCore\Private\Data\InventoryList.cpp ---
+
+############## Private\Data\InventoryList.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/InventoryList.h"
@@ -765,7 +792,7 @@ void FInventoryList::PostReplicatedChange(const TArrayView<int32> ChangedIndices
 		if (Entries.IsValidIndex(Index))
 		{
 			FInventoryEntry& Entry = Entries[Index];
-			ensureMsgf(Entry.LastStackCount != INDEX_NONE, TEXT("LastStackCount is invalid (INDEX_NONE) for entry at index %d. Should replicate this change"), Index);
+			ensureMsgf(Entry.LastStackCount != INDEX_NONE, TEXT("LastStackCount is invalid (INDEX_NONE) for entry at index %d. Should replicate this change" ), Index);
 
 			Internal_OnEntryChanged(Index, Entry);
 			Entry.LastStackCount = Entry.StackCount;
@@ -1043,7 +1070,10 @@ FInventoryEntry* FInventoryList::FindEntryOfType(const TSubclassOf<UItemDefiniti
 		return nullptr;
 	}
 
-	return Entries.FindByPredicate([ItemDefinition](const FInventoryEntry& Entry) { return Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition); });
+	return Entries.FindByPredicate([ItemDefinition](const FInventoryEntry& Entry)
+	{
+		return Entry.Instance->GetDefinitionClass()->IsInA(ItemDefinition);
+	});
 }
 
 TArray<FInventoryEntry*> FInventoryList::GetEntriesOfType(const TSubclassOf<UItemDefinition>& ItemDefinition)
@@ -1123,7 +1153,7 @@ UItemInstance* FInventoryList::CreateItemInstance(const TSubclassOf<UItemDefinit
 
 	Entry.Instance = NewObject<UItemInstance>(OwnerActor);
 	Entry.Instance->SetDefinition(CachedDefinition);
-
+	Entry.OwningContainer = OwningContainer;
 	Entry.StackCount = StorableFragment->CanStack() ? FMath::Min(Count, StorableFragment->MaxStackCount) : 1;
 	Count -= Entry.StackCount;
 
@@ -1228,7 +1258,8 @@ void FInventoryList::Internal_OnEntryRemoved(const int32 Index, const FInventory
 	OwningComponent->PostInventoryChanged(Data);
 }
 
---- InventorySystemCore\Private\Data\InventorySet.cpp ---
+
+############## Private\Data\InventorySet.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/InventorySet.h"
@@ -1263,7 +1294,8 @@ FInventoryResult UInventorySet::GiveToInventorySystem(UInventorySystemComponent*
 	return Result;
 }
 
---- InventorySystemCore\Private\Definitions\ItemDefinition.cpp ---
+
+############## Private\Definitions\ItemDefinition.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/ItemDefinition.h"
@@ -1406,12 +1438,14 @@ bool UItemDefinition::K2_CanBeGiven_Implementation(UInventorySystemComponent* In
 	return true;
 }
 
---- InventorySystemCore\Private\Definitions\Fragments\ItemFragment.cpp ---
+
+############## Private\Definitions\Fragments\ItemFragment.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/Fragments/ItemFragment.h"
 
---- InventorySystemCore\Private\Definitions\Fragments\ItemFragment_Consumable.cpp ---
+
+############## Private\Definitions\Fragments\ItemFragment_Consumable.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/Fragments/ItemFragment_Consumable.h"
@@ -1426,15 +1460,17 @@ void UItemFragment_Consumable::OnInstanceCreated(UItemInstance* Instance)
 
 	if (const auto Component = Instance->AddComponent<UItemComponent_Consumable>(); IsValid(Component))
 	{
-		Component->CurrentUse = MaxUsesCount;
-		Component->Initialize(Instance);
+		Component->GameplayEffect = GameplayEffect;
+		Component->MaxUseCount = MaxUsesCount;
+		Component->Initialize(*Instance);
 		return;
 	}
 
-	UE_LOG(LogInventorySystem, Warning, TEXT("Failed to add ItemComponent_Consumable to ItemInstance: %s"), *GetNameSafe(Instance));
+	UE_LOG(LogInventorySystem, Warning, TEXT("Failed to add ItemComponent_Consumable to ItemInstance: %s"), *GetNameSafe(Instance->GetDefinitionClass()));
 }
 
---- InventorySystemCore\Private\Definitions\Fragments\ItemFragment_Storable.cpp ---
+
+############## Private\Definitions\Fragments\ItemFragment_Storable.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/Fragments/ItemFragment_Storable.h"
@@ -1449,27 +1485,8 @@ bool UItemFragment_Storable::IsUnique() const
 	return (StorageFlags & static_cast<int32>(EItemStorageFlags::Unique)) != 0;
 }
 
---- InventorySystemCore\Private\Definitions\Fragments\ItemFragment_TagModifier.cpp ---
-﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
-
-#include "Definitions/Fragments/ItemFragment_TagModifier.h"
-
-void UItemFragment_TagModifier::OnInstanceCreated(UItemInstance* Instance)
-{
-	Super::OnInstanceCreated(Instance);
-
-	for (const FGameplayTag& Tag : TagsToAdd)
-	{
-		Instance->AddTag(Tag);
-	}
-	for (const FGameplayTag& Tag : TagsToRemove)
-	{
-		Instance->RemoveTag(Tag);
-	}
-}
-
---- InventorySystemCore\Private\GameplayTags\InventoryGameplayTags.cpp ---
+############## Private\GameplayTags\InventoryGameplayTags.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "GameplayTags/InventoryGameplayTags.h"
@@ -1479,6 +1496,7 @@ namespace InventorySystemGameplayTags
 	// Inventory container tags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container, "Inventory.Container", "Root tag for inventory containers");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container_Default, "Inventory.Container.Default", "Default gameplay tag used for inventory container");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Container_Bag, "Inventory.Container.Bag", "Default gameplay tag used for inventory container");
 
 	// Inventory failure tags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Failure, "Inventory.Failure", "Root tag for inventory failures");
@@ -1498,19 +1516,21 @@ namespace InventorySystemGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Inventory_Failure_InvalidIndex, "Inventory.Failure.InvalidIndex", "Invalid inventory entry handle");
 } // namespace InventorySystemGameplayTags
 
---- InventorySystemCore\Private\Instances\ItemInstance.cpp ---
+
+############## Private\Instances\ItemInstance.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Instances/ItemInstance.h"
 
 #include "Components/InventorySystemComponent.h"
 #include "Definitions/Fragments/ItemFragment.h"
+#include "Interfaces/InventorySystemInterface.h"
 #include "Net/UnrealNetwork.h"
 
 UItemInstance::UItemInstance(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	OwningController = GetTypedOuter<APlayerController>();
+	OwningActor = GetTypedOuter<AActor>();
 }
 
 void UItemInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -1529,23 +1549,46 @@ void UItemInstance::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) co
 	TagContainer.AppendTags(Tags);
 }
 
+void UItemInstance::Initialize(UItemDefinition* InDefinition)
+{
+	SetDefinition(InDefinition);
+
+	for (UItemFragment* Fragment : InDefinition->Fragments)
+	{
+		if (IsValid(Fragment))
+		{
+			Fragment->OnInstanceCreated(this);
+		}
+	}
+
+	PostInitialize();
+}
+
+void UItemInstance::Uninitialize()
+{
+	for (UItemComponent* Component : Components)
+	{
+		Component->Uninitialize();
+	}
+}
+
 UInventorySystemComponent* UItemInstance::GetInventorySystemComponent() const
 {
-	if (!IsValid(OwningController))
+	if (!IsValid(OwningActor) || !OwningActor->Implements<UInventorySystemInterface>())
 	{
 		return nullptr;
 	}
 
-	if (UInventorySystemComponent* InventorySystemComp = OwningController->GetComponentByClass<UInventorySystemComponent>(); IsValid(InventorySystemComp))
+	if (const IInventorySystemInterface* Implementer = Cast<IInventorySystemInterface>(OwningActor))
 	{
-		return InventorySystemComp;
+		return Implementer->GetInventorySystemComponent();
 	}
 	return nullptr;
 }
 
-APlayerController* UItemInstance::GetOwningController() const
+AActor* UItemInstance::GetOwningActor() const
 {
-	return OwningController;
+	return OwningActor;
 }
 
 TSubclassOf<UItemDefinition> UItemInstance::GetDefinitionClass() const
@@ -1582,10 +1625,22 @@ UItemComponent* UItemInstance::AddComponent(const TSubclassOf<UItemComponent> Co
 {
 	if (UItemComponent* Component = NewObject<UItemComponent>(this, ComponentClass); IsValid(Component))
 	{
+		Component->Initialize(*this);
 		Components.Add(Component);
 		return Component;
 	}
 	return nullptr;
+}
+
+void UItemInstance::PostInitialize()
+{
+	for (UItemComponent* Component : Components)
+	{
+		if (IsValid(Component))
+		{
+			Component->PostInitialize();	
+		}
+	}
 }
 
 void UItemInstance::SetDefinition(UItemDefinition* InDefinition)
@@ -1610,14 +1665,17 @@ const UItemComponent* UItemInstance::FindComponentByClass(const TSubclassOf<UIte
 	return nullptr;
 }
 
---- InventorySystemCore\Private\Instances\Components\ItemComponent.cpp ---
+
+############## Private\Instances\Components\ItemComponent.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Instances/Components/ItemComponent.h"
 
-void UItemComponent::Initialize(UItemInstance* InInstance)
+
+void UItemComponent::Initialize(UItemInstance& InInstance, UItemFragment* InSourceFragment)
 {
-	OwningInstance = InInstance;
+	OwningInstance = &InInstance;
+	SourceFragment = InSourceFragment;
 }
 
 UItemInstance* UItemComponent::GetOwningInstance()
@@ -1625,28 +1683,88 @@ UItemInstance* UItemComponent::GetOwningInstance()
 	return OwningInstance;
 }
 
---- InventorySystemCore\Private\Instances\Components\ItemComponent_Consumable.cpp ---
+############## Private\Instances\Components\ItemComponent_Consumable.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Instances/Components/ItemComponent_Consumable.h"
 
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
+#include "Definitions/Fragments/ItemFragment_Consumable.h"
+#include "GeometryCollection/GeometryCollectionComponent.h"
+#include "Instances/ItemInstance.h"
+#include "Log/InventorySystemLog.h"
 #include "Net/UnrealNetwork.h"
 
 void UItemComponent_Consumable::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(ThisClass, CurrentUse);
+	DOREPLIFETIME(UItemComponent_Consumable, RemainingUses);
 }
 
---- InventorySystemCore\Private\Interfaces\InventorySystemInterface.cpp ---
+bool UItemComponent_Consumable::CanConsume(const int32 UseCount) const
+{
+	return RemainingUses >= UseCount;
+}
+
+void UItemComponent_Consumable::Consume(const int32 UseCount)
+{
+	if (!CanConsume(UseCount) && !IsValid(GameplayEffect))
+	{
+		return;
+	}
+
+	const AActor* OwnerActor = OwningInstance->GetOwningActor();
+	if (!OwnerActor)
+	{
+		return;
+	}
+	
+	if (UAbilitySystemComponent* const TargetAbilityComponent = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwnerActor))
+	{
+		FGameplayEffectContextHandle EffectContext = TargetAbilityComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(OwningInstance.Get());
+
+		const int32 EffectCount = ShouldStackEffects ? UseCount : 1;
+		
+		// Even if one time has succeeded, reduce the count of uses left.
+		bool Succeeded = false;
+		for (int32 i = 0; i < EffectCount; ++i)
+		{
+			const UGameplayEffect* const GameplayEffectCDO = GameplayEffect->GetDefaultObject<UGameplayEffect>();
+			const FActiveGameplayEffectHandle GameplayEffectHandle = TargetAbilityComponent->ApplyGameplayEffectToSelf(GameplayEffectCDO, 0, EffectContext);
+
+			Succeeded |= GameplayEffectHandle.WasSuccessfullyApplied();
+		}
+			
+		if (Succeeded)
+		{
+			RemainingUses -= UseCount;
+		}
+	}
+}
+
+void UItemComponent_Consumable::SetRemainingUses(const int32 Count)
+{
+	UE_CLOG(Count > MaxUseCount, LogInventorySystem, Warning, TEXT("Tried to set remaining uses for consumable item [%s] to %d but clamps to maximum use count %d."), *GetNameSafe(OwningInstance->GetDefinitionClass()), Count, MaxUseCount);
+	RemainingUses = FMath::Clamp(Count, 0, MaxUseCount);
+}
+
+void UItemComponent_Consumable::RestoreUses()
+{
+	RemainingUses = MaxUseCount;
+}
+
+############## Private\Interfaces\InventorySystemInterface.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Interfaces/InventorySystemInterface.h"
 
 // Add default functionality here for any IInventorySystemInterface functions that are not pure virtual.
 
---- InventorySystemCore\Private\Library\InventoryFunctionLibrary.cpp ---
+
+############## Private\Library\InventoryFunctionLibrary.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Library/InventoryFunctionLibrary.h"
@@ -1663,14 +1781,16 @@ const UItemFragment* UInventoryFunctionLibrary::FindItemDefinitionFragment(const
 	return nullptr;
 }
 
---- InventorySystemCore\Private\Log\InventorySystemLog.cpp ---
+
+############## Private\Log\InventorySystemLog.cpp ###############
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Log/InventorySystemLog.h"
 
 DEFINE_LOG_CATEGORY(LogInventorySystem);
 
---- InventorySystemCore\Private\Settings\InventorySystemSettings.cpp ---
+
+############## Private\Settings\InventorySystemSettings.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Settings/InventorySystemSettings.h"
@@ -1684,7 +1804,8 @@ const FItemFragmentRule* UInventorySystemSettings::FindRuleForClass(const TSubcl
 }
 #endif
 
---- InventorySystemCore\Private\Settings\ItemFragmentRule.cpp ---
+
+############## Private\Settings\ItemFragmentRule.cpp ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Settings/ItemFragmentRule.h"
@@ -1723,20 +1844,22 @@ bool FItemFragmentRule::IsRuleSatisfied(const TArray<TSubclassOf<UItemFragment>>
 	return bIsSatisfied;
 }
 
---- InventorySystemCore\Public\InventorySystemCore.h ---
+
+############## Public\InventorySystemCore.h ###############
 ﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FInventorySystemCoreModule : public IModuleInterface
+class FInventorySystemCoreModule final : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 };
 
---- InventorySystemCore\Public\Components\InventorySystemComponent.h ---
+
+############## Public\Components\InventorySystemComponent.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1809,6 +1932,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Inventory")
 	FInventoryResult TryMoveByHandle(FInventoryEntryHandle Handle, UInventoryContainer* TargetContainer);
 
+	UFUNCTION(BlueprintCallable, Category="Inventory")
+	void Empty();
 
 	UFUNCTION(BlueprintCallable, Category="Inventory|Query", meta = (Categories = "Inventory.Container"))
 	FInventoryEntryHandle FindHandleFromInstanceIn(const FGameplayTag& ContainerTag, UItemInstance* Instance) const;
@@ -1841,12 +1966,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory", meta = (DeterminesOutputType = DefinitionClass))
 	UItemDefinition* GetCachedDefinition(const TSubclassOf<UItemDefinition>& DefinitionClass) const;
 
-public:
-	
 protected:
-	
 	static bool IsValidContainerTag(const FGameplayTag& Tag);
-	
+
 	/**
 	 * Called after an item is added to the inventory
 	 * @param Data Information about the added inventory entry
@@ -1871,8 +1993,6 @@ protected:
 	 */
 	virtual void PostInventoryChanged(const FInventoryChangeData& Data);
 
-protected:
-	
 	/** Event fired when an item is added to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryEntryAdded;
@@ -1888,16 +2008,16 @@ protected:
 	/** Event fired after any change to the inventory */
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")
 	FOnInventoryChange OnInventoryChanged;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	TSubclassOf<UInventoryContainer> DefaultContainerClass = UInventoryContainer::StaticClass();
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory", meta = (Categories = "Inventory.Container"))
 	FGameplayTag DefaultContainerTag = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
 	TObjectPtr<UInventorySet> DefaultInventorySet;
-	
+
 	UPROPERTY(/* Replicated */) // Should be marked as replicated but not supported, so replicated as subobjects
 	TMap<FGameplayTag, TObjectPtr<UInventoryContainer>> Containers;
 
@@ -1906,7 +2026,8 @@ protected:
 	TObjectPtr<UInventoryCache> Cache;
 };
 
---- InventorySystemCore\Public\Containers\InventoryContainer.h ---
+
+############## Public\Containers\InventoryContainer.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1982,7 +2103,8 @@ protected:
 	TArray<TObjectPtr<UStoragePolicy>> Policies;
 };
 
---- InventorySystemCore\Public\Containers\Policies\StoragePolicy.h ---
+
+############## Public\Containers\Policies\StoragePolicy.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2013,7 +2135,8 @@ public:
 	bool CanStoreItem(UItemInstance* Instance, FGameplayTag& OutFailureReason) const;
 };
 
---- InventorySystemCore\Public\Containers\Policies\StoragePolicy_TagRequirement.h ---
+
+############## Public\Containers\Policies\StoragePolicy_TagRequirement.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2047,7 +2170,8 @@ public:
 	virtual bool CanStoreItem_Implementation(UItemInstance* Instance, FGameplayTag& OutFailureReason) const override;
 };
 
---- InventorySystemCore\Public\Data\InventoryCache.h ---
+
+############## Public\Data\InventoryCache.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2117,7 +2241,8 @@ private:
 	FCriticalSection CacheLock;
 };
 
---- InventorySystemCore\Public\Data\InventoryChangeData.h ---
+
+############## Public\Data\InventoryChangeData.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2205,7 +2330,8 @@ struct INVENTORYSYSTEMCORE_API FInventoryChangeData
 	bool IsValid() const { return Index != INDEX_NONE; }
 };
 
---- InventorySystemCore\Public\Data\InventoryEntry.h ---
+
+############## Public\Data\InventoryEntry.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2271,9 +2397,18 @@ private:
 	 */
 	UPROPERTY(NotReplicated)
 	int32 LastStackCount = INDEX_NONE;
+
+	/** 
+	 * Used to detect local stack changes without replication
+	 * Helps with client-side prediction of stack modifications
+	 * @note Not replicated - used for client prediction only
+	 */
+	UPROPERTY(NotReplicated, Transient)
+	UInventoryContainer* OwningContainer = nullptr;
 };
 
---- InventorySystemCore\Public\Data\InventoryEntryHandle.h ---
+
+############## Public\Data\InventoryEntryHandle.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2313,6 +2448,7 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 		EntryIndex = InIndex;
 		ItemInstance = InEntry.Instance;
 		StackCount = InEntry.StackCount;
+		Container = InEntry.OwningContainer;
 	}
 
 	/**
@@ -2363,7 +2499,8 @@ struct INVENTORYSYSTEMCORE_API FInventoryEntryHandle
 	TObjectPtr<UInventoryContainer> Container = nullptr;
 };
 
---- InventorySystemCore\Public\Data\InventoryList.h ---
+
+############## Public\Data\InventoryList.h ###############
 ﻿// Copyright (C) [Year] [Company Name]. All Rights Reserved.
 
 #pragma once
@@ -2396,6 +2533,8 @@ struct FInventoryResult
 	FGameplayTag FailureReason;
 
 	bool Succeeded() const { return FailureReason.IsValid() == false; };
+
+	int32 Num() const { return Instances.Num(); }
 };
 
 
@@ -2425,7 +2564,11 @@ struct INVENTORYSYSTEMCORE_API FInventoryList : public FFastArraySerializer
 	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams) { return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this); }
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParams)
+	{
+		return FastArrayDeltaSerialize<FInventoryEntry, FInventoryList>(Entries, DeltaParams, *this);
+	}
+
 	// ~FFastArraySerializer
 
 
@@ -2506,7 +2649,8 @@ struct TStructOpsTypeTraits<FInventoryList> : TStructOpsTypeTraitsBase2<FInvento
 	};
 };
 
---- InventorySystemCore\Public\Data\InventorySet.h ---
+
+############## Public\Data\InventorySet.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2544,8 +2688,7 @@ public:
 	FInventoryResult GiveToInventorySystem(UInventorySystemComponent* InventorySystemComp);
 
 protected:
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, Category = "Container")
 	FGameplayTag TargetContainer = InventorySystemGameplayTags::TAG_Inventory_Container_Default;
 	/**
 	 * Collection of item definitions and their quantities to be granted together
@@ -2555,7 +2698,8 @@ protected:
 	TArray<FInventorySet_ItemSet> Items;
 };
 
---- InventorySystemCore\Public\Data\InventorySet_ItemSet.h ---
+
+############## Public\Data\InventorySet_ItemSet.h ###############
 #pragma once
 
 #include "Definitions/ItemDefinition.h"
@@ -2574,22 +2718,17 @@ struct FInventorySet_ItemSet
 {
 	GENERATED_BODY()
 
-	/**
-	 * Checks if the item in this set can be equipped
-	 * @return True if the item definition is valid and represents an equippable item
-	 */
-	bool IsEquipable() const;
-
 	/** The item definition class that defines the type of item to be given */
 	UPROPERTY(EditDefaultsOnly, DisplayName = "Definition")
 	TSubclassOf<UItemDefinition> ItemDefinition = nullptr;
 
 	/** The number of items of this type to give */
 	UPROPERTY(EditDefaultsOnly)
-	int Quantity = 1.0f;
+	int Quantity = 1;
 };
 
---- InventorySystemCore\Public\Definitions\ItemDefinition.h ---
+
+############## Public\Definitions\ItemDefinition.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2698,7 +2837,8 @@ public:
 #endif
 };
 
---- InventorySystemCore\Public\Definitions\Fragments\ItemFragment.h ---
+
+############## Public\Definitions\Fragments\ItemFragment.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2732,7 +2872,8 @@ public:
 	}
 };
 
---- InventorySystemCore\Public\Definitions\Fragments\ItemFragment_Consumable.h ---
+
+############## Public\Definitions\Fragments\ItemFragment_Consumable.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2764,10 +2905,10 @@ public:
 	virtual void OnInstanceCreated(UItemInstance* Instance) override;
 
 	/**
-	 * List of gameplay effects to apply when the item is consumed
+	 * Gameplay effects to apply when the item is consumed
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Consumable")
-	TArray<TSubclassOf<UGameplayEffect>> Effects = {};
+	TSubclassOf<UGameplayEffect> GameplayEffect = nullptr;
 
 	/**
 	 * Maximum number of times this item can be consumed
@@ -2776,7 +2917,8 @@ public:
 	int32 MaxUsesCount = 1;
 };
 
---- InventorySystemCore\Public\Definitions\Fragments\ItemFragment_Storable.h ---
+
+############## Public\Definitions\Fragments\ItemFragment_Storable.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2789,7 +2931,7 @@ public:
  * @enum EItemStorageFlags
  * @brief Enum defining various storage flags for items. These flags can be combined to describe the storage properties of an item.
  */
-UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsPinnedByValue = true))
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = true))
 enum class EItemStorageFlags : uint8
 {
 	None = 0 UMETA(ToolTip = "No special storage properties.", Hidden),
@@ -2841,37 +2983,8 @@ public:
 	bool IsUnique() const;
 };
 
---- InventorySystemCore\Public\Definitions\Fragments\ItemFragment_TagModifier.h ---
-﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
-#pragma once
-
-#include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
-#include "ItemFragment.h"
-#include "ItemFragment_TagModifier.generated.h"
-
-/**
- * 
- */
-UCLASS(DisplayName = "Storable Fragment")
-class INVENTORYSYSTEMCORE_API UItemFragment_TagModifier : public UItemFragment
-{
-	GENERATED_BODY()
-
-public:
-	// UItemFragment
-	virtual void OnInstanceCreated(UItemInstance* Instance) override;
-	// ~UItemFragment
-
-	UPROPERTY(EditDefaultsOnly)
-	FGameplayTagContainer TagsToAdd;
-
-	UPROPERTY(EditDefaultsOnly)
-	FGameplayTagContainer TagsToRemove;
-};
-
---- InventorySystemCore\Public\GameplayTags\InventoryGameplayTags.h ---
+############## Public\GameplayTags\InventoryGameplayTags.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2884,6 +2997,7 @@ namespace InventorySystemGameplayTags
 
 	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Container);
 	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Container_Default);
+	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Container_Bag);
 
 	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure);
 	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_ContainerNotFound);
@@ -2902,7 +3016,8 @@ namespace InventorySystemGameplayTags
 	INVENTORYSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Inventory_Failure_InvalidIndex);
 }
 
---- InventorySystemCore\Public\Instances\ItemInstance.h ---
+
+############## Public\Instances\ItemInstance.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2944,6 +3059,11 @@ public:
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 	// ~IGameplayTagAssetInterface
 
+	
+	virtual void Initialize(UItemDefinition* InDefinition);
+	virtual void Uninitialize();
+
+	
 	UFUNCTION(BlueprintCallable, Category="Tags")
 	void AddTag(const FGameplayTag Tag) { Tags.AddTag(Tag); }
 
@@ -2958,17 +3078,17 @@ public:
 	UInventorySystemComponent* GetInventorySystemComponent() const;
 
 	/**
-	 * Gets the player controller that owns this item instance
-	 * @return The owning player controller
+	 * Gets the actor that owns this item instance
+	 * @return The owning actor
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Instance")
-	APlayerController* GetOwningController() const;
+	AActor* GetOwningActor() const;
 	/**
-	 * Gets the owning controller cast to the specified type
-	 * @return The owning controller cast to type T, or nullptr if cast fails
+	 * Gets the actor cast to the specified type
+	 * @return The actor cast to type T, or nullptr if cast fails
 	 */
 	template <typename T>
-	const T* GetOwningController() const { return Cast<T>(GetOwningController(T::StaticClass())); }
+	const T* GetOwningActor() const { return Cast<T>(GetOwningActor(T::StaticClass())); }
 
 	/**
 	 * Gets the item definition class associated with this instance.
@@ -3025,6 +3145,10 @@ public:
 	const T* FindComponentByClass() const { return Cast<T*>(FindComponentByClass(T::StaticClass())); }
 
 protected:
+	
+	virtual void PostInitialize();
+
+	
 	/**
 	 * Sets the item definition class for this instance.
 	 * @param InDefinition - The item definition to set.
@@ -3045,16 +3169,17 @@ protected:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category="Tags")
 	TArray<UItemComponent*> Components;
 
-	/** Cached pointer to the player controller that owns this item instance */
-	UPROPERTY(Transient, BlueprintReadOnly, Category="Tags")
-	mutable APlayerController* OwningController;
-
 	/** Tags used to classify or filter this item statically */
 	UPROPERTY(BlueprintReadOnly, Category="Tags")
 	FGameplayTagContainer Tags;
+
+	/** Cached pointer to owning inventory system component pawn */
+	UPROPERTY(Transient)
+	mutable AActor* OwningActor;
 };
 
---- InventorySystemCore\Public\Instances\Components\ItemComponent.h ---
+
+############## Public\Instances\Components\ItemComponent.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3063,6 +3188,7 @@ protected:
 #include "UObject/Object.h"
 #include "ItemComponent.generated.h"
 
+class UItemFragment;
 class UItemInstance;
 
 /**
@@ -3085,25 +3211,36 @@ public:
 	 * Sets up property replication for the component
 	 * @param OutLifetimeProps Array of lifetime properties to be filled with replication properties
 	 */
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override
+	{
+		Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	};
 	// ~UObject
 
-	virtual void Initialize(UItemInstance* InInstance);
+	virtual void Initialize(UItemInstance& InInstance, UItemFragment* InSourceFragment = nullptr);
+	virtual void PostInitialize() {}
+	virtual void Uninitialize() {}
 
 	/**
 	 * Returns the item instance that owns this fragment
 	 * @return The owning item instance, or nullptr if not attached
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	UItemInstance* GetOwningInstance();
+	UItemInstance* GetOwningInstance();	
 
 protected:
+	
 	/** The item instance that owns this fragment instance */
 	UPROPERTY(Transient)
 	TObjectPtr<UItemInstance> OwningInstance = nullptr;
+	
+	/** The item instance that owns this fragment instance */
+	UPROPERTY(Transient)
+	TObjectPtr<UItemFragment> SourceFragment = nullptr;
 };
 
---- InventorySystemCore\Public\Instances\Components\ItemComponent_Consumable.h ---
+
+############## Public\Instances\Components\ItemComponent_Consumable.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3112,6 +3249,8 @@ protected:
 #include "ItemComponent.h"
 #include "ItemComponent_Consumable.generated.h"
 
+struct FGameplayEffectContextHandle;
+class UGameplayEffect;
 class UGameplayAbility;
 
 /**
@@ -3127,23 +3266,44 @@ class INVENTORYSYSTEMCORE_API UItemComponent_Consumable : public UItemComponent
 {
 	GENERATED_BODY()
 
-public:
-	// UObject
-	/**
-	 * Sets up property replication for the consumable component
-	 * @param OutLifetimeProps Array of properties to be replicated
-	 */
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	friend class UItemFragment_Consumable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> AbilityClass;
+public:
+	
+	// UObject
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	// ~UObject
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	virtual bool CanConsume(const int32 UseCount = 1) const;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void Consume(const int32 UseCount = 1);
+
+	UFUNCTION(BlueprintCallable)
+	virtual void SetRemainingUses(const int32 Count = 1);
+
+	UFUNCTION(BlueprintCallable)
+	virtual void RestoreUses();
+	
+protected:
+	
 
 	/** Tracks the current usage progress of the consumable item. 0 means unused, higher values indicate usage progress */
 	UPROPERTY(Replicated)
-	float CurrentUse = 0.0f;
+	int32 RemainingUses = 0;
+
+	UPROPERTY(Transient)
+	int32 MaxUseCount = 0;
+	
+	UPROPERTY(Transient)
+	TSubclassOf<UGameplayEffect> GameplayEffect;
+	
+	bool ShouldStackEffects = false;
 };
 
---- InventorySystemCore\Public\Interfaces\InventorySystemInterface.h ---
+
+############## Public\Interfaces\InventorySystemInterface.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3188,7 +3348,8 @@ public:
 	virtual UInventorySystemComponent* GetInventorySystemComponent() const = 0;
 };
 
---- InventorySystemCore\Public\Library\InventoryFunctionLibrary.h ---
+
+############## Public\Library\InventoryFunctionLibrary.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3223,7 +3384,8 @@ public:
 	static const UItemFragment* FindItemDefinitionFragment(TSubclassOf<UItemDefinition> ItemDef, TSubclassOf<UItemFragment> FragmentClass);
 };
 
---- InventorySystemCore\Public\Log\InventorySystemLog.h ---
+
+############## Public\Log\InventorySystemLog.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3232,7 +3394,8 @@ public:
 
 DECLARE_LOG_CATEGORY_EXTERN(LogInventorySystem, Log, All);
 
---- InventorySystemCore\Public\Settings\InventorySystemSettings.h ---
+
+############## Public\Settings\InventorySystemSettings.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -3270,7 +3433,8 @@ public:
 	// TODO : Add item categories
 };
 
---- InventorySystemCore\Public\Settings\ItemFragmentRule.h ---
+
+############## Public\Settings\ItemFragmentRule.h ###############
 // Copyright 2025 TARA Gaming Limited. All Rights Reserved.
 
 #pragma once
@@ -3316,3 +3480,4 @@ struct FItemFragmentRule
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<UItemFragment>> RequiredFragments;
 };
+

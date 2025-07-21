@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "GameplayTagContainer.h"
+#include "Abilities/GameplayAbilityBase.h"
 #include "AbilitySet_GameplayAbility.generated.h"
 
-class UGameplayAbilityBase;
 
 /**
  * FAbilitySet_GameplayAbility
@@ -21,7 +21,7 @@ struct FAbilitySet_GameplayAbility
 
 	// Level of ability to grant.
 	UPROPERTY(EditDefaultsOnly)
-	int32 AbilityLevel = 1;
+	int32 Level = 1;
 
 	// Tag used to process input for the ability.
 	UPROPERTY(EditDefaultsOnly, Meta = (Categories = "InputTag"))

@@ -1,50 +1,5 @@
 
---- EquipmentSystemCore\EquipmentSystemCore.Build.cs ---
-﻿using UnrealBuildTool;
-
-public class EquipmentSystemCore : ModuleRules
-{
-	public EquipmentSystemCore(ReadOnlyTargetRules Target) : base(Target)
-	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
-		PublicDependencyModuleNames.AddRange(
-			new[]
-			{
-				"AbilitySystemCore",
-				"Core",
-				"DeveloperSettings",
-				"GameplayAbilities",
-				"InventorySystemCore",
-				"NetCore"
-				// ... add other public dependencies that you statically link with here ...
-			}
-		);
-
-
-		PrivateDependencyModuleNames.AddRange(
-			new[]
-			{
-				"AbilitySystemCore",
-				"CoreUObject",
-				"Engine",
-				"GameplayAbilities",
-				"GameplayTags",
-				"InventorySystemCore"
-				// ... add private dependencies that you statically link with here ...	
-			}
-		);
-
-
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-				// ... add any modules that your module loads dynamically here ...
-			}
-		);
-	}
-}
---- EquipmentSystemCore\Private\EquipmentSystemCore.cpp ---
+############## Private\EquipmentSystemCore.cpp ###############
 ﻿#include "EquipmentSystemCore.h"
 
 #define LOCTEXT_NAMESPACE "FEquipmentSystemCoreModule"
@@ -61,7 +16,8 @@ void FEquipmentSystemCoreModule::ShutdownModule()
 
 IMPLEMENT_MODULE(FEquipmentSystemCoreModule, EquipmentSystemCore)
 
---- EquipmentSystemCore\Private\Abilities\EquipmentGameplayAbility.cpp ---
+
+############## Private\Abilities\EquipmentGameplayAbility.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Abilities/EquipmentGameplayAbility.h"
@@ -128,7 +84,8 @@ EDataValidationResult UEquipmentGameplayAbility::IsDataValid(FDataValidationCont
 }
 #endif
 
---- EquipmentSystemCore\Private\Actors\EquipmentActor.cpp ---
+
+############## Private\Actors\EquipmentActor.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Actors/EquipmentActor.h"
@@ -145,11 +102,618 @@ APawn* AEquipmentActor::GetPawn()
 	return Cast<APawn>(GetOwner());
 }
 
---- EquipmentSystemCore\Private\Components\EquipmentSystemComponent.cpp ---
+
+############## Private\Actors\WeaponActor.cpp ###############
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#include "Actors/WeaponActor.h"
+
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
+#include "Collisions/ShapeElementSet.h"
+#include "GameplayTags/EquipmentGameplayTags.h"
+#include "PhysicsEngine/PhysicsAsset.h"
+#include "PhysicsEngine/SkeletalBodySetup.h"
+#include "Settings/EquipmentSystemSettings.h"
+#include "Utils/DebugDrawExtension.h"
+
+// For Unreal Profiler
+DECLARE_CYCLE_STAT(TEXT("CollisionTick"), STAT_CollisionTick, STATGROUP_WeaponBase);
+
+AWeaponActor::AWeaponActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer.Get())
+{
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	bReplicates = true;
+
+	SkeletalMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	SetRootComponent(SkeletalMeshComponent);
+}
+
+void AWeaponActor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UpdateShapeElementSets();
+
+	AsyncTraceDelegate.BindUObject(this, &ThisClass::OnAsyncTraceComplete);
+}
+
+void AWeaponActor::Tick(const float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+#if !UE_BUILD_SHIPPING
+	const UWorld* const World = GetWorld();
+	if (!IsValid(World) || !IsValid(SkeletalMeshComponent))
+	{
+		return;
+	}
+	
+	// Don't draw the debug collision if we're in GameWorld and haven't enabled collision drawing with the console variable
+	if (World->IsGameWorld() && !GET_EQUIPMENT_SETTINGS_VAR(bDrawWeaponColliders))
+	{
+		return;
+	}
+	
+	const float Thickness = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesLineThickness);
+
+	for (auto& [ShapeElement, BoneName, LastTransform, CollisionEnabled, ForwardHandle, BackwardHandle] : ShapeElementSets)
+	{
+		const FTransform BoneTransform = SkeletalMeshComponent->GetBoneTransform(BoneName, RTS_World);
+		
+		FTransform ShapeTransform;
+		FTransform WorldTransform;
+		const FVector Scale = BoneTransform.GetScale3D();
+		FColor Color;
+		GetCollisionColor(CollisionEnabled, Color);
+
+		if (ShapeElement.IsType<FKSphereElem>())
+		{
+			FKSphereElem& Elem = ShapeElement.Get<FKSphereElem>();
+			
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+			const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+			
+			DrawDebugSphere( World, WorldTransform.GetLocation(), Radius, 12, Color, false, -1, 0, Thickness);
+		}
+		else if (ShapeElement.IsType<FKBoxElem>())
+		{
+			FKBoxElem& Elem = ShapeElement.Get<FKBoxElem>();
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			FVector Extent = FVector(Elem.X * Scale.X, Elem.Y * Scale.Y, Elem.Z * Scale.Z) * 0.5f;
+			
+			DrawDebugBox( World, WorldTransform.GetLocation(), Extent, WorldTransform.GetRotation(), Color, false, -1, 0, Thickness);
+		}
+		else if (ShapeElement.IsType<FKSphylElem>())
+		{
+			FKSphylElem& Elem = ShapeElement.Get<FKSphylElem>();
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+			const float HalfHeight = (Elem.Length + Radius*2.f) * 0.5f * Scale.Z;
+			
+			DrawDebugCapsule( World, WorldTransform.GetLocation(), HalfHeight, Radius, WorldTransform.GetRotation(), Color, false, -1, 0, Thickness);
+		}
+		else if (ShapeElement.IsType<FKConvexElem>())
+		{
+			FKConvexElem& Elem = ShapeElement.Get<FKConvexElem>();
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			TArray<FVector> Vertices = Elem.VertexData;
+			for (FVector& Vertex : Vertices)
+			{
+				Vertex = WorldTransform.TransformPosition(Vertex);
+			}
+			TArray<int32> Indices = Elem.IndexData;
+			
+			DrawDebugMesh( World, Vertices, Indices, Color, false, -1, 0);
+		}
+	}
+#endif
+}
+
+void AWeaponActor::OpenCollisionWindow(ECollisionHitPolicy& HitPolicy)
+{
+	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		return;
+	}
+
+	CollisionWindow = FCollisionWindow(HitPolicy);
+	
+	// Update collision shape element sets on initial state
+	UpdateShapeElementSets();
+	
+	World->GetTimerManager().SetTimer(
+		CollisionWindow.TimerHandle,
+		this,
+		&AWeaponActor::OnCollisionTick,
+		GET_EQUIPMENT_SETTINGS_VAR(SweepTraceTickRate),
+		true);
+}
+
+void AWeaponActor::CloseCollisionWindow()
+{
+	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		return;
+	}
+
+	World->GetTimerManager().ClearTimer(CollisionWindow.TimerHandle);
+}
+
+void AWeaponActor::SetPhysicsAssets(UPhysicsAsset* PhysicsAsset)
+{
+	const UWorld* const World = GetWorld();
+	if (!IsValid(World) || !IsValid(SkeletalMeshComponent))
+	{
+		return;
+	}
+
+	SkeletalMeshComponent->SetPhysicsAsset(PhysicsAsset);
+	UpdateShapeElementSets();
+}
+
+void AWeaponActor::OnCollisionTick()
+{
+	UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		return;
+	}
+	
+	// Do not start a new trace if we're blocked could cause access conflict
+	if (!bIsPreviousTraceComplete)
+	{
+		return;
+	}
+
+	
+	SCOPE_CYCLE_COUNTER(STAT_CollisionTick);
+
+	ForwardHitResults.Empty();
+	
+	// Prepare sweep test parameters
+	FCollisionQueryParams Params;
+	Params.bTraceComplex = bTraceComplex;
+	Params.bReturnFaceIndex = bReturnFaceIndex;
+	Params.bReturnPhysicalMaterial = bReturnPhysicalMaterial;
+	Params.bIgnoreBlocks = bIgnoreBlocks;
+	Params.bIgnoreTouches = bIgnoreTouches;
+	Params.bSkipNarrowPhase = bSkipNarrowPhase;
+	Params.bReturnPhysicalMaterial = true;
+
+	ECollisionChannel SweepChannel = GET_EQUIPMENT_SETTINGS_VAR(SweepChannel);
+	
+	const TArray<AActor*> HitActors = {this, GetOwner()};
+	Params.AddIgnoredActors(HitActors);
+
+	for (auto& [ShapeElement, BoneName, LastLocation, CollisionEnabled, ForwardHandle, BackwardHandle] : ShapeElementSets)
+	{
+		if (!(CollisionEnabled == ECollisionEnabled::Type::QueryAndPhysics || CollisionEnabled == ECollisionEnabled::Type::QueryAndProbe || CollisionEnabled == ECollisionEnabled::Type::QueryOnly))
+			continue;
+		
+		const FTransform BoneTransform = SkeletalMeshComponent->GetBoneTransform(BoneName, RTS_World);
+		
+		FTransform ShapeTransform;
+		FTransform WorldTransform;
+		const FVector Scale = BoneTransform.GetScale3D();
+		
+		FColor Color;
+		GetCollisionColor(CollisionEnabled, Color);
+		FCollisionShape CollisionShape;
+
+		if (ShapeElement.IsType<FKSphereElem>())
+		{
+			const FKSphereElem& Elem = ShapeElement.Get<FKSphereElem>();
+			
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+			const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+			
+			CollisionShape = FCollisionShape::MakeSphere(Radius);
+		}
+		else if (ShapeElement.IsType<FKBoxElem>())
+		{
+			const FKBoxElem& Elem = ShapeElement.Get<FKBoxElem>();
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			FVector Extent = FVector(Elem.X * Scale.X, Elem.Y * Scale.Y, Elem.Z * Scale.Z) * 0.5f;
+			
+			CollisionShape = FCollisionShape::MakeBox(Extent);
+		}
+		else if (ShapeElement.IsType<FKSphylElem>())
+		{
+			const FKSphylElem& Elem = ShapeElement.Get<FKSphylElem>();
+			ShapeTransform = Elem.GetTransform();
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+			const float HalfHeight = (Elem.Length + Radius*2.f) * 0.5f * Scale.Z;
+
+			CollisionShape = FCollisionShape::MakeCapsule(Radius, HalfHeight);
+		}
+		else if (ShapeElement.IsType<FKConvexElem>())
+		{
+			const FKConvexElem& Elem = ShapeElement.Get<FKConvexElem>();
+			ShapeTransform = Elem.GetTransform();
+			ShapeTransform.SetLocation(Elem.ElemBox.GetCenter());
+			WorldTransform = ShapeTransform * BoneTransform;
+
+			// Use the bounding box of the convex hull
+			const FBox BoundingBox = Elem.ElemBox;
+			const FVector Extent = BoundingBox.GetExtent() * Scale;
+			
+			CollisionShape = FCollisionShape::MakeBox(Extent);
+		}else
+		{
+			continue;
+		}
+
+		FVector EndLocation = WorldTransform.GetLocation();
+		
+		ForwardHandle = World->AsyncSweepByChannel(
+			EAsyncTraceType::Multi,
+			LastLocation,
+			EndLocation,
+			WorldTransform.GetRotation(),
+			SweepChannel,
+			CollisionShape,
+			Params,
+			FCollisionResponseParams::DefaultResponseParam,
+			&AsyncTraceDelegate);
+
+		LastLocation = EndLocation;
+	}
+}
+
+void AWeaponActor::OnAsyncTraceComplete(const FTraceHandle& TraceHandle, FTraceDatum& Data)
+{
+	const UWorld* World = GetWorld();
+	if (!IsValid(World))
+	{
+		return;
+	}
+	
+	auto Predicate = [&](const FShapeElementSet& Set)
+	{
+		return Set.ForwardTraceHandle.IsValid() && Set.ForwardTraceHandle == TraceHandle;
+	};
+	
+	FShapeElementSet* const ShapeElementSetPtr = ShapeElementSets.FindByPredicate(Predicate);
+	if (!ShapeElementSetPtr) return;		
+
+	// Clear forward trace handle
+	ShapeElementSetPtr->ForwardTraceHandle = FTraceHandle();
+
+	for (const FHitResult& HitResult : Data.OutHits)
+	{
+		if (HitResult.bBlockingHit)
+		{
+			ForwardHitResults.Add(HitResult);
+		}
+	}
+
+#if !UE_BUILD_SHIPPING
+	// Gather console settings
+	const bool bDrawSweepTraces = GET_EQUIPMENT_SETTINGS_VAR(bDrawSweepTraces);
+	const float SweepTraceDuration = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesDuration);
+	const FColor SweepTraceColor = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesColor);
+	const bool bDrawHitNormal = GET_EQUIPMENT_SETTINGS_VAR(bDrawSweepTracesHitNormals);
+	const float HitDuration = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesHitNormalsDuration);
+	const float LineThickness = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesLineThickness);
+	const FColor HitNormalColor = GET_EQUIPMENT_SETTINGS_VAR(SweepTracesHitNormalsColor);
+
+	const FTransform BoneTransform = SkeletalMeshComponent->GetBoneTransform(ShapeElementSetPtr->BoneName, RTS_World);
+	const FVector Scale = BoneTransform.GetScale3D();
+	
+	
+	TVariant<FKSphereElem, FKBoxElem, FKSphylElem, FKConvexElem>& ShapeElement = ShapeElementSetPtr->ShapeElement;
+	if (ShapeElement.IsType<FKSphereElem>())
+	{
+		const FKSphereElem& Elem = ShapeElement.Get<FKSphereElem>();
+			
+		const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+		UDebugDrawExtension::DrawSphereSweep(World, Data.Start, Data.End, Radius, Data.OutHits, bDrawSweepTraces, SweepTraceColor, SweepTraceDuration, bDrawHitNormal, HitNormalColor, HitDuration, LineThickness);
+	}
+	else if (ShapeElement.IsType<FKBoxElem>())
+	{
+		const FKBoxElem& Elem = ShapeElement.Get<FKBoxElem>();
+		const FTransform ShapeTransform = Elem.GetTransform();
+		const FTransform WorldTransform = ShapeTransform * BoneTransform;
+
+		FVector Extent = FVector(Elem.X * Scale.X, Elem.Y * Scale.Y, Elem.Z * Scale.Z) * 0.5f;
+			
+		UDebugDrawExtension::DrawBoxSweep(World, Data.Start, Data.End, Extent, WorldTransform.GetRotation(), Data.OutHits, bDrawSweepTraces, SweepTraceColor, SweepTraceDuration, bDrawHitNormal, HitNormalColor, HitDuration, LineThickness);
+	}
+	else if (ShapeElement.IsType<FKSphylElem>())
+	{
+		const FKSphylElem& Elem = ShapeElement.Get<FKSphylElem>();
+		const FTransform ShapeTransform = Elem.GetTransform();
+		const FTransform WorldTransform = ShapeTransform * BoneTransform;
+
+		const float Radius = Elem.Radius * FMath::Max(Scale.X, Scale.Y);
+		const float HalfHeight = (Elem.Length + Radius*2.f) * 0.5f * Scale.Z;
+
+		UDebugDrawExtension::DrawCapsuleSweep(World, Data.Start, Data.End, HalfHeight, Radius, WorldTransform.GetRotation(), Data.OutHits, bDrawSweepTraces, SweepTraceColor, SweepTraceDuration, bDrawHitNormal, HitNormalColor, HitDuration, LineThickness);
+	}
+	else if (ShapeElement.IsType<FKConvexElem>())
+	{
+		const FKConvexElem& Elem = ShapeElement.Get<FKConvexElem>();
+		const FTransform ShapeTransform = Elem.GetTransform();
+		const FTransform WorldTransform = ShapeTransform * BoneTransform;
+
+		// Use the bounding box of the convex hull
+		const FBox BoundingBox = Elem.ElemBox;
+		const FVector Extent = BoundingBox.GetExtent() * Scale;
+			
+		UDebugDrawExtension::DrawBoxSweep(World, Data.Start, Data.End, Extent, WorldTransform.GetRotation(), Data.OutHits, bDrawSweepTraces, SweepTraceColor, SweepTraceDuration, bDrawHitNormal, HitNormalColor, HitDuration, LineThickness);
+	}
+#endif
+
+	// Check if all the async traces are finished
+	bool AreAllTracesFinished = true;
+	for (FShapeElementSet& ElementSet : ShapeElementSets)
+	{
+		if (ElementSet.ForwardTraceHandle.IsValid())
+		{
+			AreAllTracesFinished = false;
+			break;
+		}
+	}
+
+	if (AreAllTracesFinished) ProcessHitResults();
+
+	bIsPreviousTraceComplete = AreAllTracesFinished;
+}
+
+void AWeaponActor::ProcessHitResults()
+{
+	for (const FHitResult& HitResult : ForwardHitResults)
+	{
+		ComputeCollisionHit(HitResult);
+	}
+}
+
+void AWeaponActor::ComputeCollisionHit(const FHitResult& SweepResult)
+{
+	OnSweepCollisionHit.Broadcast(SweepResult);
+	K2_OnSweepCollisionHit(SweepResult);
+
+	// Do not do anything if we already touched an actor in OneHitOnly
+	if (CollisionWindow.Policy == ECollisionHitPolicy::OneHitOnly && CollisionWindow.HitActors.Num() > 0)
+	{
+		return;		
+	}
+	
+	const APawn* const InstigatorPawn = GetInstigator();
+	AActor* const TargetActor = SweepResult.GetActor();	
+	if (IsValid(TargetActor) && IsValid(InstigatorPawn) && InstigatorPawn != TargetActor)
+	{
+		// Do not send event if we already hit this actor in OneHitPerActor or OneHitPerSuccessiveActor
+		if (CollisionWindow.Policy > ECollisionHitPolicy::OneHitOnly
+			&& CollisionWindow.HitActors.Contains(TargetActor))
+		{
+			return;
+		}
+
+		// Send gameplay event to instigator ability system component
+		if (InstigatorPawn->Implements<UAbilitySystemInterface>())
+		{
+			if (const IAbilitySystemInterface* Implementer = Cast<IAbilitySystemInterface>(InstigatorPawn))
+			{
+				if (UAbilitySystemComponent* InstigatorASC = Implementer->GetAbilitySystemComponent(); IsValid(InstigatorASC))
+				{
+					FScopedPredictionWindow PredictionWindow(InstigatorASC, true);
+
+					FGameplayAbilityTargetData_SingleTargetHit* TargetData = new FGameplayAbilityTargetData_SingleTargetHit();
+					TargetData->HitResult = SweepResult;
+
+					FGameplayEventData Payload;
+					Payload.Instigator = InstigatorPawn;
+					Payload.Target = TargetActor;
+					Payload.EventTag = EquipmentSystemGameplayTags::TAG_Equipment_Event_CollisionHit;
+					Payload.InstigatorTags = InstigatorASC->GetOwnedGameplayTags();
+					Payload.OptionalObject = this;
+					Payload.TargetData = FGameplayAbilityTargetDataHandle(TargetData);
+
+					if (TargetActor->Implements<UAbilitySystemInterface>())
+					{
+						if (UAbilitySystemComponent* TargetASC = Implementer->GetAbilitySystemComponent(); IsValid(TargetASC))
+						{
+							Payload.TargetTags = TargetASC->GetOwnedGameplayTags();
+						}
+					}
+
+					InstigatorASC->HandleGameplayEvent(Payload.EventTag, &Payload);
+				}
+			}			
+		}
+
+		// Manage hit history depending on the window policy
+		if (CollisionWindow.Policy == ECollisionHitPolicy::OneHitPerSuccessiveActor)
+		{
+			CollisionWindow.HitActors.Empty(1);
+		}
+		CollisionWindow.HitActors.Emplace(TargetActor);
+	}
+}
+
+void AWeaponActor::UpdateShapeElementSets()
+{
+	UPhysicsAsset* PhysicsAsset = SkeletalMeshComponent->GetPhysicsAsset();
+	if (!IsValid(PhysicsAsset))
+	{
+		ShapeElementSets.Empty();
+		CachedPhysicsAsset = nullptr;
+		return;
+	}
+
+	ShapeElementSets.Empty(PhysicsAsset->SkeletalBodySetups.Num());
+
+	for (USkeletalBodySetup* const BodySetup : PhysicsAsset->SkeletalBodySetups)
+	{
+		if (!IsValid(BodySetup)) continue;
+
+		FName BoneName = BodySetup->BoneName;
+		const FTransform BoneTransform = SkeletalMeshComponent->GetBoneTransform(BoneName, RTS_World);
+		const FVector Scale = BoneTransform.GetScale3D();
+
+		for (FKSphereElem& Elem : BodySetup->AggGeom.SphereElems)
+		{
+			FShapeElementSet Set;
+			Set.ShapeElement.Set<FKSphereElem>(Elem);
+			
+			Set.BoneName = BoneName;
+			Set.CollisionEnabled = Elem.GetCollisionEnabled();
+			Set.LastLocation = (Elem.GetTransform() * BoneTransform).GetLocation();
+			
+			ShapeElementSets.Emplace(Set);
+		}
+		for (FKBoxElem& Elem : BodySetup->AggGeom.BoxElems)
+		{
+			FShapeElementSet Set;
+			Set.ShapeElement.Set<FKBoxElem>(Elem);
+			Set.BoneName = BoneName;
+			Set.CollisionEnabled = Elem.GetCollisionEnabled();
+			Set.LastLocation = (Elem.GetTransform() * BoneTransform).GetLocation();
+			
+			ShapeElementSets.Emplace(Set);
+		}
+		for (FKSphylElem& Elem : BodySetup->AggGeom.SphylElems)
+		{
+			FShapeElementSet Set;
+			Set.ShapeElement.Set<FKSphylElem>(Elem);
+			Set.BoneName = BoneName;
+			Set.CollisionEnabled = Elem.GetCollisionEnabled();
+			Set.LastLocation = (Elem.GetTransform() * BoneTransform).GetLocation();
+			
+			ShapeElementSets.Emplace(Set);
+		}
+		for (FKConvexElem& Elem : BodySetup->AggGeom.ConvexElems)
+		{
+			FShapeElementSet Set;
+			Set.ShapeElement.Set<FKConvexElem>(Elem);
+			Set.BoneName = BoneName;
+			Set.CollisionEnabled = Elem.GetCollisionEnabled();
+			
+			FTransform ShapeTransform = Elem.GetTransform();
+			ShapeTransform.SetLocation(Elem.ElemBox.GetCenter());
+			Set.LastLocation = (BoneTransform * ShapeTransform).GetLocation();
+			
+			ShapeElementSets.Emplace(Set);
+		}
+	}
+
+	CachedPhysicsAsset = PhysicsAsset;
+}
+
+void AWeaponActor::GetCollisionColor(const ECollisionEnabled::Type CollisionType, FColor& Color)
+{
+	switch (CollisionType)
+	{
+	case ECollisionEnabled::NoCollision:
+		Color = FColor::Red;
+		break;
+	case ECollisionEnabled::QueryOnly:
+		Color = FColor::Blue;
+		break;
+	case ECollisionEnabled::PhysicsOnly:
+		Color = FColor::Yellow;
+		break;
+	case ECollisionEnabled::QueryAndPhysics:
+		Color = FColor::Green;
+		break;
+	case ECollisionEnabled::ProbeOnly:
+		Color = FColor::Magenta;
+		break;
+	case ECollisionEnabled::QueryAndProbe:
+		Color = FColor::Purple;
+		break;
+	default:
+		Color = FColor::White;
+		break;
+	}
+}
+
+
+############## Private\Animation\CollisionNotifyState.cpp ###############
+﻿// // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+
+#include "Animation/CollisionNotifyState.h"
+
+#include "Actors/WeaponActor.h"
+#include "Components/EquipmentSystemComponent.h"
+#include "Interfaces/EquipmentSystemInterface.h"
+
+FString UCollisionNotifyState::GetNotifyName_Implementation() const
+{
+	return FString::Printf(TEXT("Collision [%s]"), *BoneName.ToString());
+}
+
+void UCollisionNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration, const FAnimNotifyEventReference& EventReference)
+{
+	Super::NotifyBegin(MeshComp, Animation, TotalDuration, EventReference);
+
+	if (!IsValid(MeshComp))
+	{
+		UE_LOG(LogAnimation, Warning, TEXT("Attempt to begin a notification with an invalid component or collision set."));
+		return;
+	}
+
+	AActor* Owner = MeshComp->GetOwner();
+	
+	if (!IsValid(Owner) || !Owner->Implements<UEquipmentSystemInterface>())
+	{
+		return;
+	}
+
+	if (const IEquipmentSystemInterface* Implementer = Cast<IEquipmentSystemInterface>(Owner))
+	{
+		if (const UEquipmentSystemComponent* const EquipmentSystemComponent = Implementer->GetEquipmentSystemComponent(); IsValid(EquipmentSystemComponent))
+		{
+			if (AWeaponActor* Weapon = EquipmentSystemComponent->FindWeaponActorAttachedToBone(BoneName); IsValid(Weapon))
+			{
+				Weapon->OpenCollisionWindow(HitPolicy);
+				CachedWeapon = Weapon;
+			}			
+		}
+	}
+}
+
+void UCollisionNotifyState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
+{
+	Super::NotifyEnd(MeshComp, Animation, EventReference);
+
+	if (!IsValid(MeshComp))
+	{
+		UE_LOG(LogAnimation, Warning, TEXT("Attempt to end a notification with an invalid component or collision set."));
+		return;
+	}
+
+	if (IsValid(CachedWeapon))
+	{
+		CachedWeapon->CloseCollisionWindow();
+	}
+}
+
+
+############## Private\Components\EquipmentSystemComponent.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Components/EquipmentSystemComponent.h"
 
+#include "Actors/WeaponActor.h"
 #include "Data/EquipmentCache.h"
 #include "Data/EquipmentEntry.h"
 #include "Data/Slots/EquipmentSlotMapData.h"
@@ -172,7 +736,7 @@ UEquipmentSystemComponent::UEquipmentSystemComponent(const FObjectInitializer& O
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	bWantsInitializeComponent = true;
-	
+
 	SetIsReplicatedByDefault(true);
 	bReplicateUsingRegisteredSubObjectList = true;
 }
@@ -522,6 +1086,40 @@ UEquipmentInstance* UEquipmentSystemComponent::GetInstanceFromItem(UItemInstance
 	return nullptr;
 }
 
+AWeaponActor* UEquipmentSystemComponent::FindWeaponActorAttachedToBone(const FName& BoneName) const
+{
+	if (BoneName.IsNone())
+		return nullptr;
+
+	auto Predicate = [BoneName](const AActor* Actor)
+	{
+		if (!IsValid(Actor)) return false;
+
+		if (!Actor->IsA(AWeaponActor::StaticClass()))
+			return false;
+
+		if (const USceneComponent* Root = Actor->GetRootComponent(); IsValid(Root))
+		{
+			return Root->GetAttachSocketName() == BoneName;
+		}
+		return false;
+	};
+	
+	for (const FEquipmentEntry& Entry : EquipmentList.Entries)
+	{
+		if (const UEquipmentInstance* Instance = Entry.Instance)
+		{
+			TArray<AActor*> SpawnedActors = Instance->GetSpawnedActors();
+			if (AActor* FoundActor = *SpawnedActors.FindByPredicate(Predicate); IsValid(FoundActor))
+			{
+				return Cast<AWeaponActor>(FoundActor);
+			}
+		}
+	}
+	
+	return nullptr;
+}
+
 void UEquipmentSystemComponent::PostEquipmentEquipped(const FEquipmentChangeData& Data)
 {
 	OnEquipmentEquipped.Broadcast(Data);
@@ -601,7 +1199,7 @@ FEquipmentResult UEquipmentSystemComponent::Internal_ProcessEquip(UItemInstance*
 		Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_Internal;
 		return Result;
 	}
-	
+
 	return Result;
 }
 
@@ -712,7 +1310,8 @@ FEquipmentResult UEquipmentSystemComponent::Internal_EquipOnSlot(const FGameplay
 
 #undef LOCTEXT_NAMESPACE
 
---- EquipmentSystemCore\Private\Data\EquipmentCache.cpp ---
+
+############## Private\Data\EquipmentCache.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/EquipmentCache.h"
@@ -778,7 +1377,8 @@ void UEquipmentCache::Clean()
 	}
 }
 
---- EquipmentSystemCore\Private\Data\EquipmentEntry.cpp ---
+
+############## Private\Data\EquipmentEntry.cpp ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/EquipmentEntry.h"
@@ -818,7 +1418,8 @@ FString FEquipmentEntry::GetDebugString() const
 	return FString::Printf(TEXT("%s [Def: %s]"), *GetNameSafe(Instance), *GetNameSafe(EquipmentDefinition.Get()));
 }
 
---- EquipmentSystemCore\Private\Data\EquipmentList.cpp ---
+
+############## Private\Data\EquipmentList.cpp ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/EquipmentList.h"
@@ -922,7 +1523,9 @@ FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& De
 	{
 		UE_LOG(LogEquipmentSystem, Warning, TEXT("Tried to instantiate an equipment instance from %s, but the definition conditions are not met."), *GetNameSafe(DefinitionClass));
 		if (!Result.FailureReason.IsValid())
+		{
 			Result.FailureReason = EquipmentSystemGameplayTags::TAG_Equipment_Failure_DefinitionRefused;
+		}
 		return Result;
 	}
 
@@ -967,13 +1570,16 @@ FEquipmentResult FEquipmentList::Add(const TSubclassOf<UEquipmentDefinition>& De
 
 void FEquipmentList::Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason)
 {
+	if (!IsValid(Instance))
+		return;
+	
 	for (auto EntryIterator = Entries.CreateIterator(); EntryIterator; ++EntryIterator)
 	{
 		if (FEquipmentEntry& Entry = *EntryIterator; Entry.Instance == Instance)
 		{
 			if (UAbilitySystemComponent* AbilitySystemComp = GetAbilitySystemComponent())
 			{
-				Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);
+					Entry.Handles.TakeFromAbilitySystem(AbilitySystemComp);
 			}
 
 			// Ask the instance to destroy its attachment actors
@@ -1028,7 +1634,8 @@ UAbilitySystemComponent* FEquipmentList::GetAbilitySystemComponent() const
 	return UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(OwningActor);
 }
 
---- EquipmentSystemCore\Private\Data\Slots\EquipmentSlotMapData.cpp ---
+
+############## Private\Data\Slots\EquipmentSlotMapData.cpp ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Data/Slots/EquipmentSlotMapData.h"
@@ -1038,7 +1645,8 @@ FPrimaryAssetId UEquipmentSlotMapData::GetPrimaryAssetId() const
 	return FPrimaryAssetId("SlotMap", GetFName());
 }
 
---- EquipmentSystemCore\Private\Definitions\EquipmentDefinition.cpp ---
+
+############## Private\Definitions\EquipmentDefinition.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/EquipmentDefinition.h"
@@ -1105,7 +1713,8 @@ bool UEquipmentDefinition::K2_CanBeEquipped_Implementation(UEquipmentSystemCompo
 	return true;
 }
 
---- EquipmentSystemCore\Private\Definitions\Fragments\EquipmentFragment.cpp ---
+
+############## Private\Definitions\Fragments\EquipmentFragment.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/Fragments/EquipmentFragment.h"
@@ -1114,7 +1723,8 @@ void UEquipmentFragment::OnInstanceCreated(UEquipmentInstance* Instance) const
 {
 }
 
---- EquipmentSystemCore\Private\Definitions\Fragments\ItemFragment_Equippable.cpp ---
+
+############## Private\Definitions\Fragments\ItemFragment_Equippable.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Definitions/Fragments/ItemFragment_Equippable.h"
@@ -1124,7 +1734,8 @@ void UItemFragment_Equippable::OnInstanceCreated(UItemInstance* Instance)
 	Super::OnInstanceCreated(Instance);
 }
 
---- EquipmentSystemCore\Private\GameplayTags\EquipmentGameplayTags.cpp ---
+
+############## Private\GameplayTags\EquipmentGameplayTags.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "GameplayTags/EquipmentGameplayTags.h"
@@ -1145,9 +1756,13 @@ namespace EquipmentSystemGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_Internal, "Equipment.Failure.Internal", "Internal error during equipment process");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_DefinitionRefused, "Equipment.Failure.DefinitionRefused", "Equipment definition conditions are not met");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Failure_NotAuthority, "Equipment.Failure.NotAuthority", "Internal error during equipment process");
+
+	// Weapon collision tags
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Equipment_Event_CollisionHit, "Equipment.Event.CollisionHit", "Gameplay event sent when a weapon hit an actor");
 } // namespace EquipmentSystemGameplayTags
 
---- EquipmentSystemCore\Private\Instances\EquipmentInstance.cpp ---
+
+############## Private\Instances\EquipmentInstance.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Instances/EquipmentInstance.h"
@@ -1279,7 +1894,7 @@ void UEquipmentInstance::SpawnActors(const TArray<FEquipmentActorSet>& ActorsToS
 			AttachTarget = Character->GetMesh();
 		}
 
-		for (const auto& [SlotTag, ActorClass, AttachSocket, AttachTransform] : ActorsToSpawn)
+		for (const auto& [ActorClass, AttachSocket, AttachTransform] : ActorsToSpawn)
 		{
 			if (!IsValid(ActorClass))
 			{
@@ -1334,7 +1949,8 @@ void UEquipmentInstance::OnRep_Instigator()
 {
 }
 
---- EquipmentSystemCore\Private\Instances\Components\EquipmentComponent.cpp ---
+
+############## Private\Instances\Components\EquipmentComponent.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Instances/Components/EquipmentComponent.h"
@@ -1349,14 +1965,16 @@ UEquipmentInstance* UEquipmentComponent::GetOwningInstance()
 	return OwningInstance;
 }
 
---- EquipmentSystemCore\Private\Log\EquipmentSystemLog.cpp ---
+
+############## Private\Log\EquipmentSystemLog.cpp ###############
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "Log/EquipmentSystemLog.h"
 
 DEFINE_LOG_CATEGORY(LogEquipmentSystem);
 
---- EquipmentSystemCore\Private\Policies\SlotPolicy.cpp ---
+
+############## Private\Policies\SlotPolicy.cpp ###############
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -1390,12 +2008,28 @@ const FGameplayTagContainer& USlotPolicy::GetBlockedSlotTags() const
 	return BlockedSlotTags;
 }
 
---- EquipmentSystemCore\Private\Settings\EquipmentSystemSettings.cpp ---
+
+############## Private\Settings\EquipmentSystemSettings.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Settings/EquipmentSystemSettings.h"
 
+#include "Misc/ConfigUtilities.h"
+
 DEFINE_LOG_CATEGORY_STATIC(LogEquipmentSettings, Warning, All)
+
+void UEquipmentSystemSettings::PostInitProperties()
+{
+	Super::PostInitProperties();
+	
+	if (IsTemplate())
+	{
+		// We want the .ini file to have precedence over the CVar constructor, so we apply the ini to the CVar before following the regular UDeveloperSettingsBackedByCVars flow
+		UE::ConfigUtilities::ApplyCVarSettingsFromIni(TEXT("/Script/EquipmentSystemCore.EquipmentSystemSettings"), *GEngineIni, ECVF_SetByProjectSetting);
+	}
+
+	Super::PostInitProperties();
+}
 
 FName UEquipmentSystemSettings::GetContainerName() const
 {
@@ -1420,7 +2054,8 @@ void UEquipmentSystemSettings::PostEditChangeProperty(FPropertyChangedEvent& Pro
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 
---- EquipmentSystemCore\Private\Stats\EquipmentSystemStats.cpp ---
+
+############## Private\Stats\EquipmentSystemStats.cpp ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #include "Stats/EquipmentSystemStats.h"
@@ -1429,20 +2064,22 @@ DEFINE_STAT(STAT_Equipment_ProcessEquip);
 DEFINE_STAT(STAT_Equipment_ProcessUnequip);
 DEFINE_STAT(STAT_Equipment_EquipOnSlot);
 
---- EquipmentSystemCore\Public\EquipmentSystemCore.h ---
+
+############## Public\EquipmentSystemCore.h ###############
 ﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FEquipmentSystemCoreModule : public IModuleInterface
+class FEquipmentSystemCoreModule final : public IModuleInterface
 {
 public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 };
 
---- EquipmentSystemCore\Public\Abilities\EquipmentGameplayAbility.h ---
+
+############## Public\Abilities\EquipmentGameplayAbility.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1548,7 +2185,8 @@ T* UEquipmentGameplayAbility::GetTypedSourceEquipmentInstance()
 	return TryGetSourceObject<T>();
 }
 
---- EquipmentSystemCore\Public\Actors\EquipmentActor.h ---
+
+############## Public\Actors\EquipmentActor.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1573,7 +2211,293 @@ public:
 	virtual APawn* GetPawn();
 };
 
---- EquipmentSystemCore\Public\Components\EquipmentSystemComponent.h ---
+
+############## Public\Actors\WeaponActor.h ###############
+﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "EquipmentActor.h"
+#include "Collisions/CollisionHitPolicy.h"
+#include "Collisions/CollisionWindow.h"
+#include "WeaponActor.generated.h"
+
+class USkeletalMeshComponent;
+struct FShapeElementSet;
+
+// For Unreal Profiler
+DECLARE_STATS_GROUP(TEXT("AWeaponActor"), STATGROUP_WeaponBase, STATCAT_Advanced);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnSweepCollisionHit, const FHitResult&, SweepResult);
+
+/**
+ * AWeaponActor
+ *
+ * Base class for weapons in the game, inheriting from AEquipmentActor.
+ * Manages collision profiles, gameplay tags, collision windows, and handles overlap events.
+ */
+UCLASS(BlueprintType, Blueprintable)
+class EQUIPMENTSYSTEMCORE_API AWeaponActor : public AEquipmentActor
+{
+	GENERATED_BODY()
+
+public:
+
+	AWeaponActor(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	// UObject
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	// ~UObject
+
+	/** Delegate called when the weapon collide on a sweep test. */
+	UPROPERTY(BlueprintAssignable, Category = "Collision")
+	FOnSweepCollisionHit OnSweepCollisionHit;
+	
+	UFUNCTION(BlueprintCallable, Category = "Collision")
+	void OpenCollisionWindow(ECollisionHitPolicy& HitPolicy);
+	UFUNCTION(BlueprintCallable, Category = "Collision")
+	void CloseCollisionWindow();
+
+	/**
+	 * Blueprint event called when a collision component begins overlapping with another component.
+	 * @param SweepResult Result of the sweep if it occurred.
+	 */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Collision", DisplayName = "OnSweepCollisionHit")
+	void K2_OnSweepCollisionHit(const FHitResult& SweepResult);
+
+
+	UFUNCTION(BlueprintCallable, Category = "Collision")
+	void SetPhysicsAssets(UPhysicsAsset* PhysicsAsset);
+	
+protected:
+
+	UFUNCTION()
+	virtual void OnCollisionTick();
+	
+	void OnAsyncTraceComplete(const FTraceHandle& TraceHandle, FTraceDatum& Data);
+	
+	void ProcessHitResults();
+	void ComputeCollisionHit(const FHitResult& SweepResult);
+
+	void UpdateShapeElementSets();
+
+	static void GetCollisionColor(const ECollisionEnabled::Type CollisionType, FColor& Color);
+
+protected:
+	
+	/** Skeletal mesh component of the weapon */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USkeletalMeshComponent> SkeletalMeshComponent;
+
+	
+	/** Whether we should trace against complex collision */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Trace Complex", AllowPrivateAccess))
+	bool bTraceComplex = false;
+	
+	/** Whether we want to return the triangle face index for complex static mesh traces */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Return Face Index", AllowPrivateAccess))
+	bool bReturnFaceIndex = false;
+
+	/** Whether we want to include the physical material in the results. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Return Physical Material", AllowPrivateAccess))
+	bool bReturnPhysicalMaterial = false;
+
+	/** Whether to ignore blocking results. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Ignore Blocks", AllowPrivateAccess))
+	bool bIgnoreBlocks = false;
+
+	/** Whether to ignore touch/overlap results. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Ignore Touches", AllowPrivateAccess))
+	bool bIgnoreTouches = false;
+
+	/** Whether to skip narrow phase checks (only for overlaps). */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Collision|Sweep Collision", AdvancedDisplay, meta = (DisplayName = "Skip Narrow Phase", AllowPrivateAccess))
+	bool bSkipNarrowPhase = false;
+
+	
+	UPROPERTY()
+	FCollisionWindow CollisionWindow;
+
+	UPROPERTY()
+	TArray<FShapeElementSet> ShapeElementSets;
+
+	UPROPERTY()
+	TObjectPtr<UPhysicsAsset> CachedPhysicsAsset = nullptr;
+
+	UPROPERTY()
+	bool bIsPreviousTraceComplete = true;
+
+	FTraceDelegate AsyncTraceDelegate;
+	TArray<FHitResult> ForwardHitResults;
+};
+
+
+############## Public\Animation\CollisionNotifyState.h ###############
+﻿// // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "Animation/AnimNotifies/AnimNotifyState.h"
+#include "Collisions/CollisionHitPolicy.h"
+#include "CollisionNotifyState.generated.h"
+
+class AWeaponActor;
+/**
+ * 
+ */
+UCLASS()
+class EQUIPMENTSYSTEMCORE_API UCollisionNotifyState : public UAnimNotifyState
+{
+	GENERATED_BODY()
+
+public:
+
+	// UAnimNotifyState
+	virtual FString GetNotifyName_Implementation() const override;
+	virtual void NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration, const FAnimNotifyEventReference& EventReference) override;
+	virtual void NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
+	// ~UAnimNotifyState
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Collision")
+	FName BoneName;
+	
+	/** Policy for handling hits during the collision window */
+	UPROPERTY(EditAnywhere, Category = "Collision")
+	ECollisionHitPolicy HitPolicy = ECollisionHitPolicy::OneHitPerActor;
+
+	UPROPERTY(Transient)
+	TObjectPtr<AWeaponActor> CachedWeapon = nullptr;
+};
+
+
+############## Public\Collisions\CollisionHitPolicy.h ###############
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+
+#include "CollisionHitPolicy.generated.h"
+
+/**
+ * EHitCollisionPolicy
+ *
+ * Defines how to handle collision on a weapon actor
+ */
+UENUM(BlueprintType)
+enum class ECollisionHitPolicy : uint8
+{
+	OneHitOnly UMETA(DisplayName = "One Hit Only", ToolTip = "One hit for the whole window"),
+	OneHitPerActor UMETA(DisplayName = "One Hit Per Actor", ToolTip = "One hit is allowed per actor on the whole window"),
+	OneHitPerSuccessiveActor UMETA(DisplayName = "One Hit Per Successive Actor", ToolTip = "Only hits actor if different from previous actor"),
+	Count UMETA(Hidden)
+};
+
+############## Public\Collisions\CollisionWindow.h ###############
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "CollisionHitPolicy.h"
+
+#include "CollisionWindow.generated.h"
+
+
+/**
+ * FCollisionWindow
+ *
+ * This structure represents a collision window triggered by the weapon collision anim notify
+ */
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FCollisionWindow
+{
+	GENERATED_BODY();
+
+public:
+
+	/**
+	 * Constructor initializing the collision window with provided parameters.
+	 *
+	 * @param InPolicy The hit policy determining how collisions are processed.
+	 */
+	explicit FCollisionWindow( const ECollisionHitPolicy InPolicy = ECollisionHitPolicy::OneHitPerActor) : Policy(InPolicy)
+	{
+		// Reserve space for hit actors based on policy
+		if (Policy == ECollisionHitPolicy::OneHitOnly || Policy == ECollisionHitPolicy::OneHitPerSuccessiveActor)
+		{
+			HitActors.Reserve(1);
+		}
+	}
+
+public:
+
+	/** Hit policy determining how collisions are processed */
+	UPROPERTY(EditAnywhere)
+	ECollisionHitPolicy Policy = ECollisionHitPolicy::OneHitPerActor;
+	
+	/** Array of actors hit during collision detection */
+	UPROPERTY(EditAnywhere)
+	TArray<AActor*> HitActors = {};
+	
+	UPROPERTY()
+	FTimerHandle TimerHandle = FTimerHandle();
+};
+
+############## Public\Collisions\ShapeElementSet.h ###############
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "PhysicsEngine/BoxElem.h"
+#include "PhysicsEngine/ConvexElem.h"
+#include "PhysicsEngine/ShapeElem.h"
+#include "PhysicsEngine/SphereElem.h"
+#include "PhysicsEngine/SphylElem.h"
+
+#include "ShapeElementSet.generated.h"
+
+
+/**
+ * FAggregateGeomSet
+ */
+USTRUCT(BlueprintType)
+struct EQUIPMENTSYSTEMCORE_API FShapeElementSet
+{
+	GENERATED_BODY();
+
+public:
+
+	FShapeElementSet() = default;
+	FShapeElementSet(const TVariant<FKSphereElem, FKBoxElem, FKSphylElem, FKConvexElem>& InShapeElement, const FName& InBoneName, const FVector& InLocation = FVector::ZeroVector)
+		: ShapeElement(InShapeElement), BoneName(InBoneName), LastLocation(InLocation){}
+
+public:
+
+	TVariant<FKSphereElem, FKBoxElem, FKSphylElem, FKConvexElem> ShapeElement;
+	
+	UPROPERTY()
+	FName BoneName = NAME_None;
+	
+	UPROPERTY()
+	FVector LastLocation = FVector::ZeroVector;
+
+	UPROPERTY()
+	TEnumAsByte<ECollisionEnabled::Type> CollisionEnabled = ECollisionEnabled::NoCollision;
+	
+	// Handle for asynchronous tracing
+	FTraceHandle ForwardTraceHandle = FTraceHandle();
+	FTraceHandle ReverseTraceHandle = FTraceHandle();
+};
+
+############## Public\Components\EquipmentSystemComponent.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1589,6 +2513,7 @@ public:
 
 #include "EquipmentSystemComponent.generated.h"
 
+class AWeaponActor;
 class UItemInstance;
 class UEquipmentInstance;
 class UEquipmentDefinition;
@@ -1779,6 +2704,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
 	UEquipmentInstance* GetInstanceFromItem(UItemInstance* ItemInstance);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
+	AWeaponActor* FindWeaponActorAttachedToBone(const FName& BoneName) const;
+	
 protected:
 	/**
 	 * Called after equipment is successfully equipped
@@ -1867,7 +2795,8 @@ TArray<T*> UEquipmentSystemComponent::GetAllInstancesOfType() const
 	return Instances;
 }
 
---- EquipmentSystemCore\Public\Data\EquipmentActorSet.h ---
+
+############## Public\Data\EquipmentActorSet.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1884,9 +2813,6 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentActorSet
 	{
 	};
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment", Meta = (Categories = "Equipment.Slot"))
-	FGameplayTag SlotTag;
-
 	/** The class of actor to spawn and attach. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment")
 	TSubclassOf<AActor> ActorClass;
@@ -1900,7 +2826,8 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentActorSet
 	FTransform AttachTransform;
 };
 
---- EquipmentSystemCore\Public\Data\EquipmentCache.h ---
+
+############## Public\Data\EquipmentCache.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -1961,7 +2888,8 @@ private:
 	FCriticalSection CacheLock;
 };
 
---- EquipmentSystemCore\Public\Data\EquipmentChangeData.h ---
+
+############## Public\Data\EquipmentChangeData.h ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2043,7 +2971,8 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentChangeData
 	bool IsValid() const { return Index != INDEX_NONE; }
 };
 
---- EquipmentSystemCore\Public\Data\EquipmentEntry.h ---
+
+############## Public\Data\EquipmentEntry.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2095,13 +3024,14 @@ protected:
 
 	// Authority-only list of granted handles for ability sets
 	UPROPERTY(NotReplicated)
-	FAbilitySetHandles Handles;
+	FAbilitySetHandles Handles = {};
 
 	UPROPERTY(NotReplicated)
 	TWeakObjectPtr<UEquipmentInstance> LastInstance;
 };
 
---- EquipmentSystemCore\Public\Data\EquipmentList.h ---
+
+############## Public\Data\EquipmentList.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2123,10 +3053,9 @@ struct FReplicationFlags;
 USTRUCT(BlueprintType)
 struct FEquipmentResult
 {
-	GENERATED_BODY();
+	GENERATED_BODY()
+	;
 
-public:
-	
 	UPROPERTY(BlueprintReadOnly)
 	UEquipmentInstance* Instance = nullptr;
 
@@ -2160,7 +3089,11 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	void PostReplicatedChange(const TArrayView<int32> ChangedIndices, int32 FinalSize);
 
 	/** Implements network delta serialization for the equipment list. */
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms) { return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this); }
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
+	{
+		return FastArrayDeltaSerialize<FEquipmentEntry, FEquipmentList>(Entries, DeltaParms, *this);
+	}
+
 	// ~FFastArraySerializer
 
 	/** Add a new equipment instance to the list.
@@ -2178,7 +3111,6 @@ struct EQUIPMENTSYSTEMCORE_API FEquipmentList : public FFastArraySerializer
 	void Remove(UEquipmentInstance* Instance, FGameplayTag& OutFailureReason);
 
 protected:
-	
 	/**
 	 * Called when an entry is changed.
 	 * @param Index The index of the changed entry.
@@ -2201,8 +3133,6 @@ protected:
 	/** Get the ability system component of the owner. */
 	UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
-protected:
-	
 	/** Array of equipment entries */
 	UPROPERTY()
 	TArray<FEquipmentEntry> Entries;
@@ -2222,7 +3152,8 @@ struct TStructOpsTypeTraits<FEquipmentList> : TStructOpsTypeTraitsBase2<FEquipme
 	};
 };
 
---- EquipmentSystemCore\Public\Data\Slots\DynamicEquipmentSlot.h ---
+
+############## Public\Data\Slots\DynamicEquipmentSlot.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2251,7 +3182,8 @@ struct FDynamicEquipmentSlot
 	TObjectPtr<UEquipmentInstance> EquipmentInstance = nullptr;
 };
 
---- EquipmentSystemCore\Public\Data\Slots\EquipmentSlotMapData.h ---
+
+############## Public\Data\Slots\EquipmentSlotMapData.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2266,7 +3198,7 @@ struct FSlotDefinition;
 /**
  *
  */
-UCLASS(BlueprintType, Const)
+UCLASS(BlueprintType, Blueprintable)
 class EQUIPMENTSYSTEMCORE_API UEquipmentSlotMapData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
@@ -2278,7 +3210,8 @@ public:
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
 };
 
---- EquipmentSystemCore\Public\Data\Slots\SlotDefinition.h ---
+
+############## Public\Data\Slots\SlotDefinition.h ###############
 // Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2306,7 +3239,8 @@ struct EQUIPMENTSYSTEMCORE_API FSlotDefinition
 	int32 DisplayOrder = 0;
 };
 
---- EquipmentSystemCore\Public\Definitions\EquipmentDefinition.h ---
+
+############## Public\Definitions\EquipmentDefinition.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2373,6 +3307,7 @@ public:
 	FText GetDisplayName() const { return DisplayName; }
 
 protected:
+	
 	/** Instance class to spawn */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Definition")
 	TSubclassOf<UEquipmentInstance> InstanceClass;
@@ -2400,7 +3335,8 @@ protected:
 	TArray<TObjectPtr<UEquipmentFragment>> Fragments;
 };
 
---- EquipmentSystemCore\Public\Definitions\Fragments\EquipmentFragment.h ---
+
+############## Public\Definitions\Fragments\EquipmentFragment.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2430,7 +3366,8 @@ public:
 	virtual void OnInstanceCreated(UEquipmentInstance* Instance) const;
 };
 
---- EquipmentSystemCore\Public\Definitions\Fragments\ItemFragment_Equippable.h ---
+
+############## Public\Definitions\Fragments\ItemFragment_Equippable.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2464,7 +3401,8 @@ public:
 	TSubclassOf<UEquipmentDefinition> EquipmentDefinition;
 };
 
---- EquipmentSystemCore\Public\GameplayTags\EquipmentGameplayTags.h ---
+
+############## Public\GameplayTags\EquipmentGameplayTags.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2487,9 +3425,13 @@ namespace EquipmentSystemGameplayTags
 	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_NotAuthority);
 	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_DefinitionRefused);
 	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Failure_Internal);
+
+	EQUIPMENTSYSTEMCORE_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Equipment_Event_CollisionHit);
+	
 }
 
---- EquipmentSystemCore\Public\Instances\EquipmentInstance.h ---
+
+############## Public\Instances\EquipmentInstance.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2498,7 +3440,6 @@ namespace EquipmentSystemGameplayTags
 #include "Data/EquipmentActorSet.h"
 #include "Definitions/EquipmentDefinition.h"
 #include "Engine/World.h"
-#include "Instances/Components/ItemComponent.h"
 
 #include "EquipmentInstance.generated.h"
 
@@ -2646,7 +3587,8 @@ protected:
 	TObjectPtr<UObject> Instigator;
 };
 
---- EquipmentSystemCore\Public\Instances\Components\EquipmentComponent.h ---
+
+############## Public\Instances\Components\EquipmentComponent.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2672,7 +3614,10 @@ class EQUIPMENTSYSTEMCORE_API UEquipmentComponent : public UObject
 
 public:
 	// UObject
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override { Super::GetLifetimeReplicatedProps(OutLifetimeProps); };
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override
+	{
+		Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	};
 	// ~UObject
 
 	virtual void Initialize(UEquipmentInstance* InInstance);
@@ -2685,7 +3630,54 @@ public:
 	TObjectPtr<UEquipmentInstance> OwningInstance = nullptr;
 };
 
---- EquipmentSystemCore\Public\Log\EquipmentSystemLog.h ---
+
+############## Public\Interfaces\EquipmentSystemInterface.h ###############
+// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Interface.h"
+#include "EquipmentSystemInterface.generated.h"
+
+class UEquipmentSystemComponent;
+
+/**
+ * @class UEquipmentSystemInterface
+ * @see IEquipmentSystemInterface
+ * @brief Interface class for the Unreal Engine's interface system
+ * @details This is the UObject interface declaration required by Unreal Engine.
+ * Do not modify this class as it's only used for UObject system registration.
+ */
+UINTERFACE(MinimalAPI, BlueprintType, meta = (CannotImplementInterfaceInBlueprint))
+class UEquipmentSystemInterface : public UInterface
+{
+	GENERATED_BODY()
+};
+
+/**
+ * @class IEquipmentSystemInterface
+ * @see UEquipmentSystemComponent
+ * @brief Interface providing access to an actor's equipment system component
+ * @details This interface should be implemented by actors that need to expose
+ * their equipment system functionality. The component can be owned by the implementing
+ * actor or by another actor (e.g., PlayerState owning equipment for its Pawn).
+ */
+class EQUIPMENTSYSTEMCORE_API IEquipmentSystemInterface
+{
+	GENERATED_BODY()
+
+public:
+	/**
+	 * Retrieves the equipment system component associated with this actor
+	 * @return The equipment system component to use. May be located on another actor
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Equipment")
+	virtual UEquipmentSystemComponent* GetEquipmentSystemComponent() const = 0;
+};
+
+
+############## Public\Log\EquipmentSystemLog.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2694,7 +3686,8 @@ public:
 
 DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentSystem, Log, All);
 
---- EquipmentSystemCore\Public\Policies\SlotPolicy.h ---
+
+############## Public\Policies\SlotPolicy.h ###############
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
@@ -2706,7 +3699,9 @@ DECLARE_LOG_CATEGORY_EXTERN(LogEquipmentSystem, Log, All);
 
 class UItemInstance;
 /**
- * Politique de slot d’équipement - règle de validation métier.
+ * USlotPolicy
+ * 
+ * Equipment slot policy, business validation rule.
  */
 UCLASS(Abstract, Blueprintable, EditInlineNew, DefaultToInstanced)
 class EQUIPMENTSYSTEMCORE_API USlotPolicy : public UObject
@@ -2714,11 +3709,6 @@ class EQUIPMENTSYSTEMCORE_API USlotPolicy : public UObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category="Policy")
-	bool bBlocksAllOtherSlots = false;
-
-	UPROPERTY(EditDefaultsOnly, Category="Policy", Meta = (Categories = "Slot"))
-	FGameplayTagContainer BlockedSlotTags;
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Policy")
 	bool DoesBlockTag(const FGameplayTag& TargetSlot, const UItemInstance* Item = nullptr, const UObject* Context = nullptr) const;
@@ -2732,29 +3722,93 @@ public:
 	const FGameplayTagContainer& GetBlockedSlotTags() const;
 
 	void GetBlockedSlotTags(FGameplayTagContainer& TagContainer) const;
+
+public:
+	
+	UPROPERTY(EditDefaultsOnly, Category="Policy")
+	bool bBlocksAllOtherSlots = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Policy", Meta = (Categories = "Equipment.Slot"))
+	FGameplayTagContainer BlockedSlotTags;
 };
 
---- EquipmentSystemCore\Public\Settings\EquipmentSystemSettings.h ---
+
+############## Public\Settings\EquipmentSystemSettings.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Engine/DeveloperSettings.h"
+#include "Engine/DeveloperSettingsBackedByCVars.h"
 #include "EquipmentSystemSettings.generated.h"
 
 struct FGameplayTag;
 
+#define GET_EQUIPMENT_SETTINGS_VAR(a) (GetDefault<UEquipmentSystemSettings>()->a)
+
+namespace EquipmentSystemVariables
+{
+	static bool bDrawWeaponColliders = true;
+	inline FAutoConsoleVariableRef CVarDrawWeaponColliders{
+		TEXT("Gameplay.Collision.DrawWeaponColliders"),
+		bDrawWeaponColliders,
+		TEXT("True to enable weapon colliders drawing (default = false).")};
+
+	
+	static float SweepTraceTickRate = 1.0f / 30.0f;
+	inline FAutoConsoleVariableRef CVarSweepTraceTickRate{
+		TEXT("Gameplay.Collision.SweepTraceTickRate"),
+		SweepTraceTickRate,
+		TEXT("Tick rate of the sweep trace collision test (default = 1/30 sec).")};
+
+	
+	static bool bDrawSweepTraces = true;
+	inline FAutoConsoleVariableRef CVarDrawSweepTraces{
+		TEXT("Gameplay.Collision.DrawSweepTraces"),
+		bDrawSweepTraces,
+		TEXT("True to enable sweep shape trace drawing (default = false).")};
+	
+	static float SweepTracesDuration = 1.0f;
+	inline FAutoConsoleVariableRef CVarDrawSweepTracesDuration{
+		TEXT("Gameplay.Collision.SweepTracesDuration"),
+		SweepTracesDuration,
+		TEXT("Lifetime of the sweep shape trace drawing (default = 1.0 sec).")};
+	
+	static float SweepTracesLineThickness = 0.2f;
+	inline FAutoConsoleVariableRef CVarSweepTracesLineThickness{
+		TEXT("Gameplay.Collision.SweepTracesLineThickness"),
+		SweepTracesLineThickness,
+		TEXT("Collision debug trace line thickness (default = 0.2).")};
+
+	
+	static bool bDrawSweepTracesHitNormals = true;
+	inline FAutoConsoleVariableRef CVarDrawSweepTracesHitNormals{
+		TEXT("Gameplay.Collision.DrawSweepTracesHitNormals"),
+		bDrawSweepTraces,
+		TEXT("True to enable sweep hit normals trace drawing (default = false).")};
+	
+	static float SweepTracesHitNormalsDuration = 1.0f;
+	inline FAutoConsoleVariableRef CVarSweepTracesHitNormalsDuration{
+		TEXT("Gameplay.Collision.SweepTracesHitNormalsDuration"),
+		SweepTracesHitNormalsDuration,
+		TEXT("Lifetime of the weapon sweep hit trace drawing (default = 1.0 sec).")};
+	
+	
+} // namespace EquipmentSystemVariables
+
+
 /**
  *
  */
-UCLASS(config = "Game", defaultconfig, meta = (DisplayName = "Equipment System Settings"))
-class EQUIPMENTSYSTEMCORE_API UEquipmentSystemSettings : public UDeveloperSettings
+UCLASS(Config = "Game", defaultConfig, meta = (DisplayName = "Equipment System Settings"))
+class EQUIPMENTSYSTEMCORE_API UEquipmentSystemSettings : public UDeveloperSettingsBackedByCVars
 {
 	GENERATED_BODY()
 
 public:
 	// UDeveloperSettings
+	virtual void PostInitProperties() override;
 	virtual FName GetContainerName() const override;
 	virtual FName GetCategoryName() const override;
 	// ~UDeveloperSettings
@@ -2763,13 +3817,50 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Settings", meta=(DisplayName="Get Equipment System Settings"))
 	static UEquipmentSystemSettings* GetEquipmentSystemSettings();
 
+	
+public:
+	
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons|Sweep Collision", meta = (DisplayName = "Weapon sweep channel"))
+	TEnumAsByte<ECollisionChannel> SweepChannel = ECC_PhysicsBody;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.DrawWeaponColliders"))
+	bool bDrawWeaponColliders = true;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.SweepTraceTickRate"))
+	float SweepTraceTickRate = 1.0f / 30.0f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.DrawSweepTraces"))
+	bool bDrawSweepTraces = true;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.SweepTracesDuration"))
+	float SweepTracesDuration = 1.0f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.SweepTracesLineThickness"))
+	float SweepTracesLineThickness = 0.2f;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display")
+	FColor SweepTracesColor = FColor::Red;
+	
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.DrawSweepTracesHitNormals"))
+	bool bDrawSweepTracesHitNormals = true;
+
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display", meta = (ConsoleVariable = "Gameplay.Collision.SweepTracesHitNormalsDuration"))
+	float SweepTracesHitNormalsDuration = 1.0f;
+	
+	UPROPERTY(Config, EditAnywhere, Category = "Weapons|Debug display")
+	FColor SweepTracesHitNormalsColor = FColor::Green;
+	
 private:
 	// UObject
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	// ~UObject
+	
+	
 };
 
---- EquipmentSystemCore\Public\Stats\EquipmentSystemStats.h ---
+
+############## Public\Stats\EquipmentSystemStats.h ###############
 ﻿// Licensed under the MIT License. See the LICENSE file in the project root for full license information.
 
 #pragma once
@@ -2782,3 +3873,4 @@ DECLARE_STATS_GROUP(TEXT("EquipmentSystem"), STATGROUP_EquipmentSystem, STATCAT_
 DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_ProcessEquip"), STAT_Equipment_ProcessEquip, STATGROUP_EquipmentSystem,);
 DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_ProcessUnequip"), STAT_Equipment_ProcessUnequip, STATGROUP_EquipmentSystem,);
 DECLARE_CYCLE_STAT_EXTERN(TEXT("Equipment - Internal_EquipOnSlot"), STAT_Equipment_EquipOnSlot, STATGROUP_EquipmentSystem,);
+

@@ -15,10 +15,8 @@ public class EquipmentSystemCore : ModuleRules
 				"GameplayAbilities",
 				"InventorySystemCore",
 				"NetCore"
-				// ... add other public dependencies that you statically link with here ...
 			}
 		);
-
 
 		PrivateDependencyModuleNames.AddRange(
 			new[]
@@ -28,16 +26,8 @@ public class EquipmentSystemCore : ModuleRules
 				"Engine",
 				"GameplayAbilities",
 				"GameplayTags",
-				"InventorySystemCore"
-				// ... add private dependencies that you statically link with here ...	
-			}
-		);
-
-
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-				// ... add any modules that your module loads dynamically here ...
+				"InventorySystemCore", 
+				"GameplayCore"
 			}
 		);
 	}

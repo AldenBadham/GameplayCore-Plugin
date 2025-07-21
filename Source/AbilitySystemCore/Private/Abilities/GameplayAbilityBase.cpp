@@ -163,3 +163,30 @@ void UGameplayAbilityBase::TryActivateAbilityOnSpawn(const FGameplayAbilityActor
 		}
 	}
 }
+
+AActor* UGameplayAbilityBase::K2_TryGetAvatarFromActorInfoByClass(const TSubclassOf<AActor> AvatarClass) const
+{
+	if (AActor* AvatarActor = GetAvatarActorFromActorInfo(); IsValid(AvatarActor))
+	{
+		if (!IsValid(AvatarClass) || (IsValid(AvatarClass) && AvatarActor->IsA(AvatarClass)))
+		{
+			return Cast<APawn>(AvatarActor);
+		}
+	}
+	return nullptr;
+}
+
+UMovementComponent* UGameplayAbilityBase::K2_TryGetMovementComponentFromActorInfoByClass(const TSubclassOf<UMovementComponent> MovementComponentClass) const
+{
+	if (CurrentActorInfo)
+	{
+		if (UMovementComponent* MovementComponent = CurrentActorInfo->MovementComponent.Get(); IsValid(MovementComponent))
+		{
+			if (!IsValid(MovementComponentClass) || (IsValid(MovementComponentClass) && MovementComponent->IsA(MovementComponentClass)))
+			{
+				return MovementComponent;
+			}
+		}
+	}
+	return nullptr;
+}

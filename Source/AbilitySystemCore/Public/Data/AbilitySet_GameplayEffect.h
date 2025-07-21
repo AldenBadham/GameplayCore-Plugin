@@ -20,5 +20,5 @@ struct FAbilitySet_GameplayEffect
 
 	// Level of gameplay effect to grant.
 	UPROPERTY(EditDefaultsOnly)
-	float EffectLevel = 1.0f;
+	float Level = 1.0f;
 };

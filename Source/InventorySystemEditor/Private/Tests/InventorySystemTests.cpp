@@ -15,15 +15,20 @@
 
 #if WITH_DEV_AUTOMATION_TESTS
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_AddValidItemTest, "InventorySystem.Add.ValidItem", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_AddValidItemTest, "InventorySystem.Add.ValidItem",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_AddInvalidItemTest, "InventorySystem.Add.InvalidItem", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_AddInvalidItemTest, "InventorySystem.Add.InvalidItem",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_MoveItemBetweenContainersTest, "InventorySystem.Move.BetweenContainers", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_MoveItemBetweenContainersTest, "InventorySystem.Move.BetweenContainers",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_HandleValidationTest, "InventorySystem.Handle.IsValid", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_HandleValidationTest, "InventorySystem.Handle.IsValid",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_SetInjectionTest, "InventorySystem.Set.ApplyDefaultInventorySet", EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FInventory_SetInjectionTest, "InventorySystem.Set.ApplyDefaultInventorySet",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::ProductFilter)
 
 bool FInventory_AddValidItemTest::RunTest(const FString& Parameters)
 {
@@ -75,7 +80,8 @@ bool FInventory_AddValidItemTest::RunTest(const FString& Parameters)
 			const FInventoryResult Result = InventoryComponent->TryAddItemDefinition(TestItemDef, AddedCount);
 
 			// Check that items are correctly stacked
-			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<UItemFragment_Storable>();
+			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<
+				UItemFragment_Storable>();
 
 			TestNotNull(TEXT("Storable fragment should exist"), StorableFragment);
 			TestTrue(TEXT("Item should be stackable"), StorableFragment->CanStack());
@@ -101,7 +107,8 @@ bool FInventory_AddValidItemTest::RunTest(const FString& Parameters)
 			const FInventoryResult Result = InventoryComponent->TryAddItemDefinition(TestItemDef, AddedCount);
 
 			// Check that items are correctly stacked
-			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<UItemFragment_Storable>();
+			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<
+				UItemFragment_Storable>();
 
 			TestNotNull(TEXT("Storable fragment should exist"), StorableFragment);
 			TestTrue(TEXT("Item should be stackable"), StorableFragment->CanStack());
@@ -113,7 +120,8 @@ bool FInventory_AddValidItemTest::RunTest(const FString& Parameters)
 			TestEqual(TEXT("Total stack count should match requested amount"), NewStackCount, 3);
 
 			const int32 TotalCount = InventoryComponent->GetTotalCountByDefinition(TestItemDef);
-			AddInfo(FString::Printf(TEXT("Total quantity in inventory : %d in %d stacks"), TotalCount, AddedCount + PreviousCount));
+			AddInfo(FString::Printf(
+				TEXT("Total quantity in inventory : %d in %d stacks"), TotalCount, AddedCount + PreviousCount));
 		}
 		// Unique item additions
 		{
@@ -127,7 +135,8 @@ bool FInventory_AddValidItemTest::RunTest(const FString& Parameters)
 			const TSubclassOf<UItemDefinition> TestItemDef = UTestItemDefinition_Unique::StaticClass();
 
 			// Check that the Unique flag is set correctly
-			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<UItemFragment_Storable>();
+			const UItemFragment_Storable* StorableFragment = TestItemDef.GetDefaultObject()->FindFragmentByClass<
+				UItemFragment_Storable>();
 			TestTrue(TEXT("Item should be unique"), StorableFragment->IsUnique());
 
 			// First addition should be successful
@@ -178,7 +187,8 @@ bool FInventory_AddInvalidItemTest::RunTest(const FString& Parameters)
 			const FInventoryResult Result = InventoryComponent->TryAddItemDefinition(InvalidDef, 1);
 			if (!Result.Succeeded())
 			{
-				AddInfo(FString::Printf(TEXT("Tried add an invalid definition (%s)"), *Result.FailureReason.ToString()));
+				AddInfo(FString::Printf(
+					TEXT("Tried add an invalid definition (%s)"), *Result.FailureReason.ToString()));
 			}
 			TestEqual(TEXT("Should not add item with invalid definition"), Result.Instances.Num(), 0);
 		}
@@ -190,7 +200,8 @@ bool FInventory_AddInvalidItemTest::RunTest(const FString& Parameters)
 			const FInventoryResult Result = InventoryComponent->TryAddItemDefinition(TestItemDef, -1);
 			if (!Result.Succeeded())
 			{
-				AddInfo(FString::Printf(TEXT("Tried add with a negative count (%s)"), *Result.FailureReason.ToString()));
+				AddInfo(FString::Printf(
+					TEXT("Tried add with a negative count (%s)"), *Result.FailureReason.ToString()));
 			}
 			TestEqual(TEXT("Should not add item with negative count"), Result.Instances.Num(), 0);
 		}

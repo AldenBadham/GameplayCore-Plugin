@@ -5,6 +5,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "AbilityActivationPolicy.h"
 #include "CoreMinimal.h"
+#include "GameFramework/MovementComponent.h"
 
 #include "GameplayAbilityBase.generated.h"
 
@@ -30,7 +31,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	EAbilityActivationPolicy GetActivationPolicy() const { return ActivationPolicy; }
 
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	FText& GetDisplayName() { return DisplayName; }
+
 protected:
+	
 	// UGameplayAbility
 	virtual void OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
@@ -62,4 +67,83 @@ protected:
 
 	/** Tries to activate the ability when it spawns. */
 	void TryActivateAbilityOnSpawn(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) const;
+
+
+	template <class T>
+	T* TryGetAvatarActorFromActorInfo();
+	template <class T>
+	T* TryGetAvatarActorFromActorInfo() const;
+	template <class T>
+	T* TryGetMovementComponentFromActorInfo();
+	template <class T>
+	T* TryGetMovementComponentFromActorInfo() const;
+
+
+	/**
+	 * Try to get the Ability Avatar Actor of the specified class
+	 * @param AvatarClass Class of the Avatar Actor we want to get
+	 * @return Can be null
+	 */
+	UFUNCTION(BlueprintPure, meta = (ComponentClass = "/Script/Engine.AActor", DisplayName = "Get Avatar From Actor Info By Class", DeterminesOutputType = "AvatarClass"))
+	AActor* K2_TryGetAvatarFromActorInfoByClass(const TSubclassOf<AActor> AvatarClass) const;
+
+	/**
+	 * Try to get the Ability MovementComponent of the specified class
+	 * @param MovementComponentClass Class of the MovementComponent we want to get
+	 * @return Can be null
+	 */
+	UFUNCTION(BlueprintPure, meta = (ComponentClass = "/Script/Engine.MovementComponent", DisplayName = "Get Avatar Movement Component From Actor Info By Class", DeterminesOutputType = "MovementComponentClass"))
+	UMovementComponent* K2_TryGetMovementComponentFromActorInfoByClass(const TSubclassOf<UMovementComponent> MovementComponentClass) const;
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability")
+	FText DisplayName;
+	
 };
+
+template <class T>
+T* UGameplayAbilityBase::TryGetAvatarActorFromActorInfo()
+{
+	if (AActor* AvatarActor = GetAvatarActorFromActorInfo(); IsValid(AvatarActor))
+	{
+		return Cast<T>(AvatarActor);
+	}
+	return nullptr;
+}
+
+template <class T>
+T* UGameplayAbilityBase::TryGetAvatarActorFromActorInfo() const
+{
+	if (AActor* AvatarActor = GetAvatarActorFromActorInfo(); IsValid(AvatarActor))
+	{
+		return Cast<T>(AvatarActor);
+	}
+	return nullptr;
+}
+
+template <class T>
+T* UGameplayAbilityBase::TryGetMovementComponentFromActorInfo()
+{
+	if (CurrentActorInfo)
+	{
+		if (UMovementComponent* MovementComponent = CurrentActorInfo->MovementComponent.Get(); IsValid(MovementComponent))
+		{
+			return Cast<T>(MovementComponent);
+		}
+	}
+	return nullptr;
+}
+
+template <class T>
+T* UGameplayAbilityBase::TryGetMovementComponentFromActorInfo() const
+{
+	if (CurrentActorInfo)
+	{
+		if (UMovementComponent* MovementComponent = CurrentActorInfo->MovementComponent.Get(); IsValid(MovementComponent))
+		{
+			return Cast<T>(MovementComponent);
+		}
+	}
+	return nullptr;
+}

@@ -13,6 +13,7 @@
 
 #include "EquipmentSystemComponent.generated.h"
 
+class AWeaponActor;
 class UItemInstance;
 class UEquipmentInstance;
 class UEquipmentDefinition;
@@ -203,6 +204,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
 	UEquipmentInstance* GetInstanceFromItem(UItemInstance* ItemInstance);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Equipment")
+	AWeaponActor* FindWeaponActorAttachedToBone(const FName& BoneName) const;
+	
 protected:
 	/**
 	 * Called after equipment is successfully equipped

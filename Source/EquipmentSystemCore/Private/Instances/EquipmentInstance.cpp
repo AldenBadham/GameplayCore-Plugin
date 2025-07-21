@@ -129,7 +129,7 @@ void UEquipmentInstance::SpawnActors(const TArray<FEquipmentActorSet>& ActorsToS
 			AttachTarget = Character->GetMesh();
 		}
 
-		for (const auto& [SlotTag, ActorClass, AttachSocket, AttachTransform] : ActorsToSpawn)
+		for (const auto& [ActorClass, AttachSocket, AttachTransform] : ActorsToSpawn)
 		{
 			if (!IsValid(ActorClass))
 			{
